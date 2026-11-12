@@ -1,90 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794485580;
-	b=qMl0PnpPOPNLhn/qYrxFT4OhBbvuZ7fInhItAoMA7seN1xVkEFMPMhyRxkRH6mouBERW
-	 qPr2PSu6CS83zZI2l2/YLtyTTRslu2D63BOpVDZvaO4KBfrOLX/5lNuGdMH8e96C63AQX
-	 ois1RO/nkKRuLc+4Zwdh+9DnsgrsSpZ3msTCSF3e2mZXu8Du9KpWiWsC9xgE4DZKZXmEE
-	 y57ZnNiPiIca7eWXJ4SAQ1eLy1/j0N8RLumR+j/8LR0j6TrN6IZfV2AbFjxeARZQHfKN0
-	 GmbQdybMwdJc/yqfFDDhihXaI1KP0Qyss8z09hxV7dcIIKG15jiipzXtD0H005CsGlQ==
+	t=1794485645;
+	b=WJXXxzkOYk3tD1Pg1ggaAxWX3exKCW9vHgUNnZiSAh4YHGFCbX5bE4iFBy0WpsCa7j+1
+	 pAw7pQ7InZnVljF3OXRz6ij7mdNtQR07zRRcoeKH/HNuvwdaHIuV3b5ieyrjs0Kzjrpl4
+	 kG5hg1Amwz4FIDbWeo49GI3iO01fEu2WtZm8vrNmgCokNg0tF1IJf8HaAXs0Bndf1e5Wf
+	 xCaIwOO5MPyHFv1v2fCO9Ipi/OINWR9b2bxar6YOG0a8Wu+M52jXB26ZHS/p77Ud7gZIp
+	 /k9e0IUvrJ3VCC0yP0JAe6zccsNVL8baR+vZ3DK69FdTj2YJuGOM40xUHYZGaEeEOZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794485580;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=PTuhGE6Nm/Hn6HIsPMWsWJ4/ckfKaCtHn2EtdMsuJsI=;
-	b=qw9yWgEh9Qlt19187SWYxK2mnfr/3u0rT+xBu8Oc0sAaSORsDSDS+e5fezMWYNA04wsA
-	 FBq8Xu2Vrmig2bVVkwxfv5FEmdmjjJe6obhA9qVvqFTPgbMtotI0l0p5Um8/guNYNbHHi
-	 kijQk7Hbup/IURPMG5eJzZKAmuRlkSgimeqshV2dxbreYX/QvtLkiPXbfOFzyMOEyRdff
-	 FnL6cWofOGxa1D53UDC5ajLZaW6TY+yPqGKnmwUlVitXqzBfN+qYATqkc7UfzHl6vTSMT
-	 Q7hp98vjycBqqc1871xTnw/MCF06Ry3+aOGNP0oLc6nF6AKKCTn5iCNpPBp6qY+8kSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794485645;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Message-ID:
+	 Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version:
+	 X-Last-TLS-Session-Version;
+	bh=XnZv+Fvy9sZiITTaYH0t03PvvK3AeTuBITl0A3YU2qs=;
+	b=DZnUviTisla076iOU7EGPZKP3IsBlMbyDw+nZpNpY1xsXHqkLeAkKRi9+POxzOf8RVMs
+	 l8w11UtwWgKlMX2lRD3LZITAG5oS8AX0YKvv7SplUUoILFTp+sycgDsWj1sS7vvPhdQiw
+	 Z0BdG495/PAaKxb6L4qUqyLlzLPzOvRTcmF29hJmx29MM1GKLiu9qOIf/72GHwo9G/fuO
+	 vop6pcTW6AT0d2SDqoDxAdxZpvXrDTvoCSHYoCULG+FxK8Xm9H3yMgJ9Fd/6iGl1DcpCP
+	 ogXuUcrlZBQgVOBibdgKN7kNkzd/N93ThiMnN39IAS2YjlfHz5OPYv1wtVy8X5quYXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i3fFz+y8;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=DeyJN3T2;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A133606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 12:12:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A133606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D723606A321
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 12:14:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D723606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i3fFz+y8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794485580; x=1826021580;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jUEzBgnghcvibNTjFO0S5WBM3pHNMSH0GtLNmn73Fl4=;
-  b=i3fFz+y86X+vy51p9k4QkOqSK0AxYW55ie42xU6YBVDLCrXc1snSEE0h
-   3VJi6mYeKhBR7dHdtcOZjLmTjLfbcTjQPOJRK/1xpNbMylj9R/E77pCQM
-   yV4IKWaKRrgSby7W5LZkt3kcSkdIzTc1N2R+mj4rUNcmy3D1Zm9kHH8rj
-   +fG7bm1LvKlpZuBye5UExtznzAj4ipw+rnaX38Vy2sQDMpTYdykohWjZ/
-   s2g8RQxcU6LnfeFoDHnwrsDtwEZDVhoaNmhp5BxHeWw18sCyWJiLBTFIS
-   ysIW1LfiURJv28hMwuQtPIsKd5Ee8LN7ni8LuHbO7U/wYWy3TVPuJeQ1b
-   A==;
-X-CSE-ConnectionGUID: LzY/pyZPTgedNqWf+MnmVQ==
-X-CSE-MsgGUID: jCo64TskScKP5cS2BsgZUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3366517"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3366517"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 04:12:59 -0800
-X-CSE-ConnectionGUID: CVltBxJqR1af0Fr3Zx6Iyw==
-X-CSE-MsgGUID: +BZJ4MbYS4+JcdJtiUisaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="9081723"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Nov 2026 04:12:55 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xRTff-000000011GV-1MMO;
-	Thu, 12 Nov 2026 12:12:51 +0000
-Date: Thu, 12 Nov 2026 20:12:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <tchiu@tenstorrent.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Oleg Nesterov <oleg@redhat.com>, linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, andybnac@gmail.com,
-	daichengrong <daichengrong@iscas.ac.cn>, gdb@sourceware.org,
-	Andy Chiu <tchiu@tenstorrent.com>, dfustini@oss.tenstorrent.com,
-	greentime.hu@sifive.com, Yong-Xuan Wang <yongxuan.wang@sifive.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Anup Patel <anup@brainfault.org>,
-	Guobin Zhang <guobin.zhang@intel.com>,
-	Troy Mitchell <troy.mitchell@linux.dev>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>
-Subject: Re: [PATCH v7 3/6] riscv: clarify vector state semantics on syscall
- and context switch
-Message-ID: <202611122049.91BrkXTs-lkp@intel.com>
-References: <20261111184359.1239821-4-tchiu@tenstorrent.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=DeyJN3T2
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 701571A162A;
+	Thu, 12 Nov 2026 12:14:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A6A95FF85;
+	Thu, 12 Nov 2026 12:14:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C32D711BC09A8;
+	Thu, 12 Nov 2026 13:13:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794485640; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=XnZv+Fvy9sZiITTaYH0t03PvvK3AeTuBITl0A3YU2qs=;
+	b=DeyJN3T2zm4Qrq+XxdaBnaJFAaHiJ5I0SyHiGLGx87BboKMkXv94dr5S0aQTKSJHtxGCo7
+	O9K+YrlhERumzbn9NrlCptuCkqenyxQFcsotbAeYWho3Ok5cbdRaTzuoaokJf2OA11lWOX
+	KTfGbsG1vixNQEMrc/J1LOY2A/8G2TqqumxRaQodh6/yaHiPaLoR2pNJzb99KisccYcfP1
+	eHK6kpXaE6a9ddHJVdqM1sq0sSOn5BaOVayDJU4VrMpz5JFTlOoo8W7nbRIjylKGTEUzU1
+	BRAcypszK9fR0ytqroR5DDEUwBUF4DF7oG3slBF0MA/CjrBhiwqMT9CVzMJ4GA==
+Message-ID: <57c4547d2a763b4de6913d14118d90c67ccbbc0a.camel@bootlin.com>
+Subject: Re: [PATCH v2 6/6] spi: cadence-xspi: Add workaround for old
+ Marvell firmwares
+From: Paul Cercueil <paul.cercueil@bootlin.com>
+To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni
+	 <thomas.petazzoni@bootlin.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
+ Sunil Kovvuri Goutham
+	 <sgoutham@marvell.com>, Tanmay Jagdale <tanmay@marvell.com>, Jisheng Zhang
+	 <jszhang@kernel.org>
+Date: Thu, 12 Nov 2026 13:13:53 +0100
+In-Reply-To: <202611121914.Tdw8zp6W-lkp@intel.com>
+References: <20261111103541.100848-7-paul.cercueil@bootlin.com>
+	 <202611121914.Tdw8zp6W-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,84 +78,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111184359.1239821-4-tchiu@tenstorrent.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Andy,
+I had missed the big fat "#ifdef CONFIG_ACPI" in linux/acpi.h.
 
-kernel test robot noticed the following build errors:
+Looks like some structs aren't defined if !CONFIG_ACPI. Not great design IM=
+HO.
 
-[auto build test ERROR on d1a8d411533d6be16ac79796c02a9bfc7d7958f1]
+I guess I'll send a v3 with ifdef guards around the ACPI code...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-vector-refactor-vector-context-operations/20261111-124323
-base:   d1a8d411533d6be16ac79796c02a9bfc7d7958f1
-patch link:    https://lore.kernel.org/r/20261111184359.1239821-4-tchiu%40tenstorrent.com
-patch subject: [PATCH v7 3/6] riscv: clarify vector state semantics on syscall and context switch
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20261112/202611122049.91BrkXTs-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611122049.91BrkXTs-lkp@intel.com/reproduce)
+Cheers,
+-Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611122049.91BrkXTs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/riscv/kernel/signal.c: In function '__restore_v_state':
->> arch/riscv/kernel/signal.c:130:9: error: implicit declaration of function '__riscv_v_vstate_clean'; did you mean 'riscv_v_vstate_query'? [-Wimplicit-function-declaration]
-     130 |         __riscv_v_vstate_clean(regs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         riscv_v_vstate_query
-
-
-vim +130 arch/riscv/kernel/signal.c
-
-   107	
-   108	/*
-   109	 * Restore Vector extension context from the user's signal frame. This function
-   110	 * assumes a valid extension header. So magic and size checking must be done by
-   111	 * the caller.
-   112	 */
-   113	static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
-   114	{
-   115		long err;
-   116		struct __sc_riscv_v_state __user *state = sc_vec;
-   117		void __user *datap;
-   118	
-   119		/*
-   120		 * Mark the vstate as clean prior performing the actual copy,
-   121		 * to avoid getting the vstate incorrectly clobbered by the
-   122		 * discarded vector state.
-   123		 *
-   124		 * This also allows user to modify vregs through the signal
-   125		 * interface at a syscall stop. e.g. to support user space
-   126		 * context switching.
-   127		 */
-   128		preempt_disable();
-   129		riscv_v_vstate_set_restore(current, regs);
- > 130		__riscv_v_vstate_clean(regs);
-   131		preempt_enable();
-   132	
-   133		/* Copy everything of __sc_riscv_v_state except datap. */
-   134		err = __copy_from_user(&current->thread.vstate, &state->v_state,
-   135				       offsetof(struct __riscv_v_ext_state, datap));
-   136		if (unlikely(err))
-   137			return err;
-   138	
-   139		/* Copy the pointer datap itself. */
-   140		err = __get_user(datap, &state->v_state.datap);
-   141		if (unlikely(err))
-   142			return err;
-   143		/*
-   144		 * Copy the whole vector content from user space datap. Use
-   145		 * copy_from_user to prevent information leak.
-   146		 */
-   147		return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
-   148	}
-   149	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Le jeudi 12 novembre 2026 =C3=A0 20:02 +0800, kernel test robot a =C3=A9cri=
+t=C2=A0:
+> Hi Paul,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on broonie-spi/for-next]
+> [also build test ERROR on linus/master v7.4-rc2 next-20261110]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/spi-cadence-=
+xspi-Properly-handle-errors-in-transfer_one_message/20261111-113536
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/broonie=
+/spi.git=C2=A0for-
+> next
+> patch link:=C2=A0=C2=A0=C2=A0
+> https://lore.kernel.org/r/20261111103541.100848-7-paul.cercueil%40bootlin=
+.com
+> patch subject: [PATCH v2 6/6] spi: cadence-xspi: Add workaround for old
+> Marvell firmwares
+> config: sparc64-allmodconfig
+> (https://download.01.org/0day-ci/archive/20261112/202611121914.Tdw8zp6W-l=
+kp@in
+> tel.com/config)
+> compiler: clang version 20.1.8
+> (https://github.com/llvm/llvm-project=C2=A087f0227cb60147a26a1eeb4fb06e3b=
+505e9c7261
+> )
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20261112/202611121914.Tdw8zp6W-l=
+kp@in
+> tel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion
+> of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202611121914.Tdw8zp6W-lkp@intel.c=
+om/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> > > drivers/spi/spi-cadence-xspi.c:1234:58: error: array has incomplete
+> > > element type 'const struct acpi_platform_list'
+> =C2=A0=C2=A0=C2=A0 1234 | static const struct acpi_platform_list mrvl_pla=
+tform_list[] =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ^
+> =C2=A0=C2=A0 drivers/spi/spi-cadence-xspi.c:1234:21: note: forward declar=
+ation of
+> 'struct acpi_platform_list'
+> =C2=A0=C2=A0=C2=A0 1234 | static const struct acpi_platform_list mrvl_pla=
+tform_list[] =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > > drivers/spi/spi-cadence-xspi.c:1239:11: error: use of undeclared
+> > > identifier 'all_versions'
+> =C2=A0=C2=A0=C2=A0 1239 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pred =3D all_versions,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > > drivers/spi/spi-cadence-xspi.c:1249:10: error: call to undeclared fun=
+ction
+> > > 'acpi_match_platform_list'; ISO C99 and later do not support implicit
+> > > function declarations [-Wimplicit-function-declaration]
+> =C2=A0=C2=A0=C2=A0 1249 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return acpi_match_platform=
+_list(mrvl_platform_list)
+> >=3D 0;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> =C2=A0=C2=A0 3 errors generated.
+>=20
+>=20
+> vim +1234 drivers/spi/spi-cadence-xspi.c
+>=20
+> =C2=A0 1233=09
+> > 1234	static const struct acpi_platform_list mrvl_platform_list[] =3D {
+> =C2=A0 1235		{
+> =C2=A0 1236			.oem_id =3D "MRVL=C2=A0 ",
+> =C2=A0 1237			.oem_table_id =3D "CN10K",
+> =C2=A0 1238			.table =3D ACPI_SIG_DSDT,
+> > 1239			.pred =3D all_versions,
+> =C2=A0 1240		},
+> =C2=A0 1241		{ }
+> =C2=A0 1242	};
+> =C2=A0 1243=09
+> =C2=A0 1244	static inline bool cdns_is_marvell(struct device *dev)
+> =C2=A0 1245	{
+> =C2=A0 1246		const char *compatible;
+> =C2=A0 1247=09
+> =C2=A0 1248		if (has_acpi_companion(dev))
+> > 1249			return acpi_match_platform_list(mrvl_platform_list)
+> > >=3D 0;
+> =C2=A0 1250=09
+> =C2=A0 1251		if (of_machine_read_compatible(&compatible, 0) < 0)
+> =C2=A0 1252			return false; /* shouldn't actually happen */
+> =C2=A0 1253=09
+> =C2=A0 1254		return strstarts(compatible, "marvell,");
+> =C2=A0 1255	}
+> =C2=A0 1256=09
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
