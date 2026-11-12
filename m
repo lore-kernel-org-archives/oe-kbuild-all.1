@@ -1,58 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794460418;
-	b=oJt2ootcN3OeYbSyG7pJnMEdHToAX8Zb9/cxXGzoubsq+vyMimUs1ofoahfHHMVQxMWS
-	 YXWzZKtLQgV3A3JsF5ctw2pvKjivaAkswJws80567ajZT/kIH/Y4zSdp5BcF7FHT+qafO
-	 yxrlf6GiO5Kz3aROox5RecSRaLD/Hb2QsCb4glDMaxxCs3HjPYTcIZT5IxjYMOEEEpcws
-	 ndJ/a8bDfapgRJX8GyA2YI+iT1XHCae3Z03kz7SsbI+Z+PhYTebVJxRNW5AuqnEp5xHps
-	 MGAhxZdlNgGYg6FnylM1jg0HkRpjEV7f2TXj6X5LHGB13ZLJR03pefwq3fSqmR5CoyA==
+	t=1794460653;
+	b=moRyYY+OFAq6raLQTsFUaRUFk+Vy7G6ykwh1K5QYfe3H46cVMt1tnABSbrRsmgqaIL7N
+	 abkjvR0R8Q5ih+heG93ER3kxhO3GHbpUs6jZIVfefpMLtfYy02/IsypJlfpb+F+HoVS+o
+	 8Tr5FXA2ilS6MzlitkZN2ydAwN8uOO0zo++5S3TJm7iOm2sTIPyJyOg8iXh4rOlpkfk7B
+	 jwOxO6J/Ym6+FX2WsnpQj7596OTpM0Aj+0+Wig+MErmKkDwr12WK2PjI6hRiALVdo9+Ve
+	 35NerFQko7hY0EmTUjz5OxRRc5ELiCcBV5fnBFb8mR5gE62RrT91DoMptxEhHgkpu5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794460418;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=cRUDGnLfO0bI/ZKYLMo/IPOSFBGiK0gdMvTEjCrwYl8=;
-	b=VawNoU9ogTZt/9xn/+Pk+J5Hqi/T0oLWAKwlXA/5uFTgOvzSR6BWyUNdA9v2oSpbCChm
-	 guEoJt+KUgJNMNeDcIGIfhD5mfLrHu8zur5tNBVWLsAw2K0Pa884sBCZTS8fc7Aw3jkid
-	 LYMjKwP/JAj4RD5lOQCkujcK03e/nYizhR/BEo+qcNBq22owvxOx3W2leTqFMMaHUqgdG
-	 gYZmQPKo6F6hsLvPNFpifxxPKj0FvCntnouBg9TFaloFJvftuoYDhtjKb6deOMsh/mKn5
-	 NGEGA5aLegWvlKmv43bBjxmRSssyxLe9KXkkzVqMy9R1cCPJvXcj0VCMNNNijjs0fgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794460653;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=I1+4m1zHcJzmkL74wLSnO9h2zZaUNgWv+E1e/qmQ+yo=;
+	b=T7wwcl6P6ROOf+v0R2ukfiguuQG0OuTjQNCTzoMhhbY2oUxKxVRzh2GCS7KmHwwCIsjU
+	 iw+9ye2RxR/lG/GInuLHM6O0qQSKHozNnH7evlxNT1IBsXHGzMF1+zZ8wPMkak5zUNKTA
+	 9fS79eJOiWGzrskkh7jPYepAOVWFfBwiqBq1EOcJUvjm8ODpx/yFgQr0GaomlCcqg3nuE
+	 bxvXZUBWKRKDVonq7FBj6b5RP4IpsFIkIzhB+8dRgd8Y/u/5Mbtef4cYjvgK8UE/W09SP
+	 F0EDTnALKR3yPUzYW02JNc2u/Eebj0HCGszBlXufZaQ3N2y5oBVQDRNXVAQJglnOEIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="l+/b1U5t";
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C8606A323;
-	Thu, 12 Nov 2026 05:13:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A56C8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:5fdecb04-0666-42c4-9ebb-c02f989342c4,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:7db8b62,CLOUDID:68529bbf875d0f11b69a9fa443e77b28,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|52
-	|99,EDM:-3|-100,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
-X-User: luoxueqin@kylinos.cn
-Received: from [10.42.13.56] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <luoxueqin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 766716511; Thu, 12 Nov 2026 13:13:26 +0800
-Message-ID: <c6227bc2-beff-40f0-a76f-f2e296de5081@kylinos.cn>
-Date: Thu, 12 Nov 2026 13:11:43 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8830606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 05:17:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8830606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l+/b1U5t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794460653; x=1825996653;
+  h=date:from:to:cc:subject:message-id;
+  bh=tf+vUAyZTBdVLUQG4Kin2XQw6JbUhjwktB7tKrCZ+H0=;
+  b=l+/b1U5tcjouoKnloO6f9fiM0rNm8LJz5GPmdc4L4tjHQ04O3LaQVuwy
+   x5wp9XK5Ng014T5k4NBM4jDevJDi5rCJ+J31QSGu1k+SjRLfkFBF7sZyj
+   2I5UmPmPZqXfVaJNbNcAcKfVOInEc4a5RN1iiCTSSUqRWQGiDuecjrl7q
+   FYeWHy9OA2PHQjVLFdw3LE1ZVHJtxQ02xu6FKhjZKPL+rVVGBoYewngw7
+   jgopmQxe8R6v18tCMohXG6F79MxPcmUgO6C5mkCvAHUsDt0qcGCJ6OToL
+   re6g2CylHBmiB8ET0Q+mVcTcuzr+Z2BlO0NQ2EXmCdasEpv0Z/x+61ZPy
+   Q==;
+X-CSE-ConnectionGUID: ur4tfZcrSnSKUQdW/OfMLw==
+X-CSE-MsgGUID: iw6S/JGaQj+1D3lLv7ivVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3320473"
+X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
+   d="scan'208";a="3320473"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 21:17:33 -0800
+X-CSE-ConnectionGUID: aRO3dsghQu6Z213XTUv4Qg==
+X-CSE-MsgGUID: 5Yc7vHzAQXu7lt4i7w+lOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
+   d="scan'208";a="8657050"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2026 21:17:30 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xRNBg-000000000ol-3Rqn;
+	Thu, 12 Nov 2026 05:17:28 +0000
+Date: Thu, 12 Nov 2026 06:17:08 +0100
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.4-rc 54/154]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000
+ (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the
+ regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202611120651.lQwYn63v-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -61,74 +81,127 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity()
- for runtime updates
-To: kernel test robot <lkp@intel.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, sudeep.holla@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- zhanjie9@hisilicon.com, christian.loehle@arm.com, zhenglifeng1@huawei.com,
- sumitg@nvidia.com, lenb@kernel.org, maciej.wieczor-retman@intel.com,
- pawel.chmielewski@intel.com, gregkh@linuxfoundation.org, dakr@kernel.org,
- johan@kernel.org, ionela.voinescu@arm.com, pierre.gondois@arm.com,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
- driver-core@lists.linux.dev
-References: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
- <202611120358.5eM3xOiA-lkp@intel.com>
-Content-Language: en-US
-From: luoxueqin <luoxueqin@kylinos.cn>
-In-Reply-To: <202611120358.5eM3xOiA-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Thanks for the report. Fixed: the mutex is now defined inside the
-CONFIG_ACPI_CPPC_LIB block, next to its only user, so ACPI-less
-configs no longer warn. It will be folded into the next revision of
-the series.
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
+head:   674a64f97be4d25967f31216ffe7eaefdabf827f
+commit: c1a0368094ca73231f1a761d2314d399c788b840 [54/154] arm64: dts: add usxgmii pcs and link both pcs
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261112/202611120651.lQwYn63v-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120651.lQwYn63v-lkp@intel.com/reproduce)
 
-在 2026/11/12 03:30, kernel test robot 写道:
-> Hi Xueqin,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on driver-core/driver-core-testing]
-> [also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2]
-> [cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge next-20261110]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xueqin-Luo/cpufreq-cppc-Add-update_limits-support-for-Highest-Performance-changes/20261111-165020
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20261111085022.1229866-4-luoxueqin%40kylinos.cn
-> patch subject: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611120358.5eM3xOiA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/base/arch_topology.c:232:21: warning: unused variable 'raw_capacity_lock' [-Wunused-variable]
->       232 | static DEFINE_MUTEX(raw_capacity_lock);
->           |                     ^~~~~~~~~~~~~~~~~
->     1 warning generated.
-> 
-> 
-> vim +/raw_capacity_lock +232 drivers/base/arch_topology.c
-> 
->     230	
->     231	static u32 *raw_capacity;
->   > 232	static DEFINE_MUTEX(raw_capacity_lock);
->     233	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120651.lQwYn63v-lkp@intel.com/
 
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
