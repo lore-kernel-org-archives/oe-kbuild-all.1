@@ -1,76 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794523815;
-	b=hm6VJzTVUHLPw689LFq5RxX9Y7J4qdmwzaQrlJhGtLZbehD1ZSeW/jJ+DwafFO4mo9Bw
-	 QoX+1AZPI9F5xs2HLzrsRugYnvC804jv6FESDUk7RG4CMnFWXgsrODs+OktwVUg1Krr83
-	 Tho9zZOjA5v9TbJejDOUyiMpL2xwkhBdqlAO9/lXx2Ouy7KHyBdnX6BNuV7rtHDHJa8Nx
-	 qL8Jo9+SFBK8pOVd90uOwbpwfqZn4o20rcBTkCRDImU9CcQSzbEX1Byvhk+NKu4pkLNc2
-	 SjakKeSUiQQseCQsE+xsTSdZbpztVaQKgxhMbDmgzbbBqnXFbyHXFU9LHMHJXIrxUmg==
+	t=1794527062;
+	b=r5YAoc30IS2kbBAKQDbS+MGCmisy0PWtnrU5fm2rLVhkXPwbJdZw7unXQuHbYq0zze4B
+	 zVzvlg5hrkK/DTsiJB/j2hwf917noG7xRNQw6XqNiFpov0T/c2wtz33l7Knu5/fRzphcp
+	 pntxLbIbKQ1NDv4ExWfTzO1kj4r5aDv3eAZ080rKRF2Dth7fOe32QV/nTdIFEQv/mXccn
+	 lAzCBYzEajh2Irx89YPkNV2faaFeU2GSOmPmzVp7tk7bk8G1eMRY59FqweIBsW402LVT/
+	 YtismQ3cjTjPJJC+xyX5r/LUEposr7P7Gu4/dh0auqRdJtO550lR1Po+FmcJNeYvxew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794523815;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794527062;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=z7wbHaDndDGMfHyGo8VjQ/13TpMNqixuToNetb/Xy1E=;
-	b=Eb5ebpnGMDWZ/CizYAZSXis0tFImI8Olf5O9k5rC/AygEooZKeydeGsKqlmtPQxAWz1k
-	 gFsymhLei5/FNRuqd0S7LE5TtUJuzg0Jt+glNzfpfotdlU9nrZBsNdWoHH0PZqVX/c3yr
-	 nLutaZOEz9GsT0nPIwuQVq0udXX0R0tbrQGUTpOikMnfmBQGEPnuSDv+i0lAdphC7zoIl
-	 80bIHEgVDRQXwoj1YTpE7e5ZdQTjKeScA5f5vGua4ixLvwQtiILLK7c4kB/praQIjt03p
-	 DMXmtsV0neRXBmOomVTahCWxg0Wfq6FJvQZu6XC9TVe5cPoiJiHDMiqKoSYmEAaB8Ag==
+	bh=WQBWlxm2m3Z0HVEoNDC0kmJAsoemLXXFW9gm9GIPPMI=;
+	b=XsPY0/uLwzYUtAUb1qCXBuIo0gtZGmU732Ey/HQNcnVX8VD9t8pWZiuUO7H+li8GKCqo
+	 BKCkudQ64KMM+PbMf46taWHjx9I8ugRzUFwJ/zRorBbQYdbQuOHz/BoJZP7BZ0tW6ltec
+	 R/p2Bqgdbg043WRNAOgDU806MuhwECpHTABY5VzuZ4OPleCWE+HCESn0Kl8Aw8SvRG8X3
+	 pxQ4FZsSQ57ol+EgWHYUgo27vpzAZ3QC1Fh257zden5I7ube4cvH+npfpFXDk6dTCulgT
+	 OrE49oveLnONHgofb6A9sEecdlSAzaMeBSj1mFMkCNHxyFUlQb8ewbLENS5C2tJ+9Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dv3bwSIP;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZDVBzdu;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C47606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 22:50:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29C47606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B563606A321
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 23:44:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B563606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dv3bwSIP
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZDVBzdu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794523814; x=1826059814;
+  t=1794527056; x=1826063056;
   h=date:from:to:cc:subject:message-id;
-  bh=uoer2DZno8LPXo7yQ4pQSzPjlVzVFkt9/mz0JztTXFo=;
-  b=dv3bwSIPIIOtcXembUXIzGnitF/58Ym/6BUmCNjN4RNGLppOMVJagMcY
-   KqdOtcvBgdQi2RzPz7x4rZzmh9zDyxB+K/3l1z+eqgoYozPZ9KSXCIBOp
-   0xGiv66WUNfz9HWXl0ZWZF8ldWPnMPqwjEzhvycV8lGlvtXoXEc5pqlK9
-   /e/QUlCQdlx0F8LsP8qCOjZRN/wZD2OEbK2/XyOXO1QdgUribkC0YeTgE
-   XQskCpSGQ4qy+pcEBlT/ucLKLd0HXD7B0lNzdxRDSDTVfHraSoE9agqCj
-   1AjQxeUKhLcOSB2/adKNw8A0D2qdLg4q5Qd38Kxac/o+mXKJY2Fk52XcX
-   g==;
-X-CSE-ConnectionGUID: sny2QNg8RWuvwE+J3XT5iA==
-X-CSE-MsgGUID: nj8SOBrxTQ6SDWHs51GuGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3213630"
+  bh=Ch9c4qaaeoOd+I/PcGaIistAE994Ps2D639xkTo0Kxw=;
+  b=IZDVBzdumD4cb6DjRPmohxiuHmFfr4Jfbp5GosOsYFpOz4f1/+h1BVNO
+   XzNDI45Sz8O2fRzxr3ytOrlB3qUqspWboaMAbUphV61O9HDCLWYDE6Knq
+   UgEaUxU0LzAlL244nuXYI6LchP2mJG4rSU1bx+83ykwCHYQeUW8RZdGrK
+   mKv5JnK7KjJpE1uwv1XpUWM/J4S9HMEwjPheUF/aRq1jY5nUPH6QUg+s5
+   xUJ2/JJ0ZRbS3fNclWzG0pz7gZgCSI49uoME38dLoNwoGMXAjuzRDyiDZ
+   Xadnoja+wSuDqjohIhtTsKkVwWDzYPtquzEBfDmEihdk9a+W7lSZQrj4p
+   Q==;
+X-CSE-ConnectionGUID: latTBvjHQpm7Oezq2s72Ew==
+X-CSE-MsgGUID: mxZ3PdYvT3mB8NPouIHcTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3247541"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3213630"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:50:14 -0800
-X-CSE-ConnectionGUID: seaJUpNOQYGXWs8cdbYl1Q==
-X-CSE-MsgGUID: S8N4DioWSQmPH96rz/17aQ==
+   d="scan'208";a="3247541"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 15:44:15 -0800
+X-CSE-ConnectionGUID: Hile1Z2jSAuEtf1vCc+xtg==
+X-CSE-MsgGUID: 1CvBzMIpTbm5607dFE73Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="8664876"
+   d="scan'208";a="10686871"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Nov 2026 14:50:12 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 12 Nov 2026 15:44:13 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRdcP-0000000128Z-48jN;
-	Thu, 12 Nov 2026 22:50:09 +0000
-Date: Fri, 13 Nov 2026 06:49:18 +0800
+	id 1xReSg-0000000129f-3IAm;
+	Thu, 12 Nov 2026 23:44:10 +0000
+Date: Fri, 13 Nov 2026 07:43:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 2/2]
- include/trace/trace_events.h:27:23: warning:
- 'str__workqueue__trace_system_name' defined but not used
-Message-ID: <202611130616.HVCWxjJj-lkp@intel.com>
+To: Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Ray Wu <ray.wu@amd.com>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ _sub_I_00100_0+0x10 (section: .text.startup) -> .LVL3212 (section:
+ .init.text)
+Message-ID: <202611130748.TnRIrrjo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,239 +83,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Liujie,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   1fff066d713e51b675a78a9d50b68af5f108220d
-commit: 8f3f46d77c8133ccce52e055a8b4b577699acc5f [2/2] ANDROID: vendor_hooks: Add hooks to recognize special worker thread.
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20261113/202611130616.HVCWxjJj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130616.HVCWxjJj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d66f26fefacebfeed15de31c1123451a17ff119
+commit: 0412b1064a3bd4189eb88d7128ef65b3de9e11d7 drm/amd/display: Cover EDID CEA parsing helpers
+date:   9 weeks ago
+config: loongarch-randconfig-1001-20261112 (https://download.01.org/0day-ci/archive/20261113/202611130748.TnRIrrjo-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130748.TnRIrrjo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 0412b1064a3b ("drm/amd/display: Cover EDID CEA parsing helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611130616.HVCWxjJj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611130748.TnRIrrjo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/module.h:25,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/trace_events.h:27:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:34,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:33,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:32,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:17,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/workqueue.h:22,
-                    from drivers/android/vendor_hooks.c:43:
->> include/trace/trace_events.h:27:23: warning: 'str__workqueue__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:17,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:60,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:19,
-                    from drivers/android/vendor_hooks.c:40:
-   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:30,
-                    from drivers/android/vendor_hooks.c:39:
-   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:36,
-                    from drivers/android/vendor_hooks.c:38:
-   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__workqueue__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+ERROR: modpost: __ex_table+0x1d08 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d10 (section: __ex_table) -> .LASF8183 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d10 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d14 (section: __ex_table) -> .LASF8184 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d14 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d1c (section: __ex_table) -> .LASF4229 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d1c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d20 (section: __ex_table) -> .LASF4230 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d20 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d28 (section: __ex_table) -> .LASF4231 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d28 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d2c (section: __ex_table) -> .LASF4232 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d2c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d34 (section: __ex_table) -> .LASF4233 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d34 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d38 (section: __ex_table) -> .LASF4234 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d38 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d40 (section: __ex_table) -> .LASF4235 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d40 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d44 (section: __ex_table) -> .LASF4236 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d44 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d4c (section: __ex_table) -> .LASF4237 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d4c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d50 (section: __ex_table) -> .LASF4238 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d50 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d58 (section: __ex_table) -> .LASF4239 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d58 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d5c (section: __ex_table) -> .LASF4240 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1d5c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d64 (section: __ex_table) -> .LLST39 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1d64 references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1d68 (section: __ex_table) -> .LVUS39 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1d68 references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1dac (section: __ex_table) -> .LASF9238 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1dac references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1db0 (section: __ex_table) -> .LASF9237 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1db0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1dbc (section: __ex_table) -> .LLST40 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1dbc references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1dc4 (section: __ex_table) -> .LVUS40 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1dc4 references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1dc8 (section: __ex_table) -> .LLST41 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1dc8 references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1dd0 (section: __ex_table) -> .LVUS41 (section: .debug_loclists)
+ERROR: modpost: __ex_table+0x1dd0 references non-executable section '.debug_loclists'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1df4 (section: __ex_table) -> .LASF7333 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1df4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1df8 (section: __ex_table) -> .LASF7334 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1df8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e00 (section: __ex_table) -> .LASF7365 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e00 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e04 (section: __ex_table) -> .LASF7366 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e04 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e0c (section: __ex_table) -> .LASF7367 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e0c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e10 (section: __ex_table) -> .LASF7368 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e10 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e18 (section: __ex_table) -> .LASF7369 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e18 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e1c (section: __ex_table) -> .LASF7370 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e1c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e24 (section: __ex_table) -> .LASF7371 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e24 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e28 (section: __ex_table) -> .LASF7372 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e28 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e30 (section: __ex_table) -> .LASF6630 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e30 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e34 (section: __ex_table) -> .LASF6631 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e34 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e3c (section: __ex_table) -> .LASF6632 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e3c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e40 (section: __ex_table) -> .LASF6633 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e40 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e48 (section: __ex_table) -> .LASF6634 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e48 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e4c (section: __ex_table) -> .LASF6635 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e4c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e54 (section: __ex_table) -> .LASF6636 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e54 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e58 (section: __ex_table) -> .LASF6637 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e58 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e60 (section: __ex_table) -> .LASF6638 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e60 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e64 (section: __ex_table) -> .LASF6639 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e64 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e6c (section: __ex_table) -> .LASF7729 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e6c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e70 (section: __ex_table) -> .LASF7730 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e70 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e78 (section: __ex_table) -> .LASF7745 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e78 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e7c (section: __ex_table) -> .LASF7746 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e7c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e84 (section: __ex_table) -> .LASF7747 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e84 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x1e88 (section: __ex_table) -> .LASF7746 (section: .debug_str)
+ERROR: modpost: __ex_table+0x1e88 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: raid_exit+0x14 (section: .exit.text) -> __xbc_parse_value (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dw_i2c_exit_driver+0x14 (section: .exit.text) -> __setup_str_pnp_setup_reserve_mem (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: emc2103_driver_exit+0x14 (section: .exit.text) -> .LVL215 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: _sub_I_00100_0+0x10 (section: .text.startup) -> .LVL3212 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: _sub_I_00100_0+0x14 (section: .text.startup) -> .LVL3213 (section: .init.text)
 
 --
 0-DAY CI Kernel Test Service
