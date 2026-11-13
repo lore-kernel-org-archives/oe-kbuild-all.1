@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794582828;
-	b=Swx0ABqYQhs2wWO59sXFQDwgmuCkdPfCJYIoddVCuwI4KFaTHnFd0du5hudyYZtaaKz+
-	 7mvFG0Q5GJ/qrysuW8yBGlJ8caz5Kc6SooG6YIyQMq1Qo1sKBWCxi7miSuOu9RULCbkGG
-	 IhOfo5i9/1i0ZHUxc/58bUZvoPc3LVIOUiVda/cul6saVRf+T6uOkHDiHNu/dtVLPJVUK
-	 PZHovqLWZgOxiLGgsPCYBvRnJtZAFjIlAGzjQ0kcwH8UbkMmbmM87x0Tpr8A6f0575gxq
-	 /AlVRGAwt/+zlaY74VlTgy/fpKUiKVlO1h5R7CPfxJjVmr4b20dQXLegx6PciSffUdw==
+	t=1794583266;
+	b=EwOZOzqg4VW8154OCdph0pMfUK4yoUZj9IYKSR4D3Me0lM9+Muxgl9UrQoXnvGnnhZ9h
+	 /g+P4VCUDom+FafXAQhYISye668YDJJ2qK1ZTqXqjZ+9eqm0LbDP4XYQUtOjj0hZqmIUN
+	 ZwOpTmmbkdvHrUkwE43rjcvhENsqmsABEJvLBn1DZL3hPT4JR1cLW/znIRTVPXOEXVOg7
+	 oIkBJi5YNr36ROpVlM876z2KiKqJPvOQgzqCEsMFMHB9A4IRe5uyI2jEn7aNJmeOf2XvP
+	 +fnEmLP/6vlhHAMW3xVucHq4K8lqI8FbpLmlfxSkgsxMHWXA/Vz5rSqeQmfHF9GE0rQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794582828;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583266;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:Cc:
-	 Subject:Message-ID:User-Agent;
-	bh=ORA10z0A5rcNMVuBLaLTMamIf7t5aL++QT5nczvir5s=;
-	b=LjMfRashhsF/GQjPFpGGElN/ES9PemyoAnfWYTpZ4Opsp9Pj+sx9VQlZMQ0vqu0ZRn+F
-	 WMEFN28EI3FeD8yzBOgdOTsQZ4iXODVeqbBrw0GX725rrV1EJkAUxZY98W6UmcjcEWoaG
-	 pcT8RjDTyOfwlu/zNTzDJ57AlBX5zAwPHU9OIJ87KvjkwOFG+uWwZc4CtKTjWadqbcsm6
-	 WKkRzi1xjQJRS5DCwIUMe/kYnnJ36stAhxk4nalK7jxAHXvovGQHA7dbsJLEz7QtiV2Ei
-	 X29AErN2d/dSKKQSoBZVQ5rD5Km2FobCv1QKt0ILWziNI+3HvApWh66sIN6cEB0eUnQ==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=bU5DE/uhWdiN3flCELkoPLF66Si96iQIuQfP3K+4wkA=;
+	b=1AfDI3bkjm5yK7/wN5oRcBfuoBNmJyUyL4sH9fHla/oW97tcD+6S73S75b2PaPBYk3zj
+	 XMyL2HcnzVkOMlOH1gONPoJbgU++DeIUJcjEDI9RpkR+KB1xWYLD0echcXcF3jETsEaX+
+	 q61F1M3WqwWllFgxp7s2UCrcHxQ+HJcpOEV6xkMltEdW1saPH6596w6T+3WKFFYCbfBQt
+	 96a7oZ3b5j8DfneL7SIAzNq8Oxt+O+buvKmrwykgfdXUo8whxlfrOza3CDVanXd+Paiws
+	 uZi+gImh/wcFoVVtHebFpM+6oi+Qt8bULsgh6XRxX92cIhJZHIjDmsr8fbMlFUMvIPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="LHF7b5g/";
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuY4YJ0r;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40524606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 15:13:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40524606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C05606A333
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 15:21:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27C05606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LHF7b5g/
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuY4YJ0r
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794582827; x=1826118827;
-  h=date:from:cc:subject:message-id;
-  bh=kBIEUENtSH0kzb64ENzAWKHGbuRrlpwKL/HjwH3dObg=;
-  b=LHF7b5g/7VD3QNpYcZQqY7+fssvq8JKg7QhZhjpm+9ggzxNzbZCRX536
-   +MDW4YUuhosU+qJdlzPCEEgy3cu0GPcv9FITU7MhthPzTqgaCs4/b0g75
-   w++hAqIGF3r/ZDuRb16q1JPOvz3O6sDELSlWXUIkMsu99xo4xqVKH4coG
-   htG+QR9CkwkNCsKbhKidE2JjaMPKkDEtZTpl9G4QUs7xh41kdOpR0n9Nd
-   LtYlazIe378CHomddYfQCoXZ1LQjCIp/KWjxT8j5AUAKQUcaFfdwBllnI
-   7gqOVwIjxjOZK/E80ftjWwnKowc7r0YtMPHPiifqZpUYKSdMtn8B1Q94T
-   g==;
-X-CSE-ConnectionGUID: axyy37/lR2S8eUNim7MMWw==
-X-CSE-MsgGUID: 1pBEVPQOQdODCs3OW25/Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3265098"
+  t=1794583266; x=1826119266;
+  h=date:from:to:cc:subject:message-id;
+  bh=L6QYJH9KZ+SbJEA8B7OE4K6jcnlTKs2PVhoOR56VQKQ=;
+  b=WuY4YJ0rX/zw8W3XS5N3CDrMKgE6G72Z6zNqt/5/3kXaded3tqX+ptzM
+   C3OalVygAVb/AUWYU7MIpE44ee0mVWjBTkxokmb2vo5MTgDqj4dUbzzOL
+   qhZmLlay02rplbwciGampZxF1URc5SXshfFX0jfyj+nr4nm+ePRkPxcgw
+   ZUfDTFHg+9gUTppUKWB+K8RRgdgyI9NeWRPF+phyLOYUWmSfcqiTp5WWt
+   FJ5ZUu4XG2TGUgotUW8NSmipdO626GH9+4+/w1XziC4DP4ZODniqGnJOV
+   UnrgVgKtO0A+P2R3+sdJyFwnoU68+V35Q3YBn0Jhp59iY8rEscQBY0Fge
+   w==;
+X-CSE-ConnectionGUID: ReL/I4b1T6esguz+HPp7SA==
+X-CSE-MsgGUID: IFJLau6+QgSfvDz2V8zWDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3376603"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3265098"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 07:13:46 -0800
-X-CSE-ConnectionGUID: NnAzFCD3Snebr8kNNEt63A==
-X-CSE-MsgGUID: vTEzr6eMT9ip09K3NG9ztg==
+   d="scan'208";a="3376603"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 07:21:05 -0800
+X-CSE-ConnectionGUID: pC0dXxRSQHe7r7sUecj34Q==
+X-CSE-MsgGUID: v0XUbBShR3+ukcwWWO0PAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="9265418"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2026 07:13:44 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9217798"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 13 Nov 2026 07:21:03 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRsyE-0000000136n-0ORl;
-	Fri, 13 Nov 2026 15:13:42 +0000
-Date: Fri, 13 Nov 2026 23:12:11 +0800
+	id 1xRt5H-000000001IB-42Bs;
+	Fri, 13 Nov 2026 15:20:59 +0000
+Date: Fri, 13 Nov 2026 16:20:51 +0100
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
- "Theodore Ts'o" <tytso@mit.edu>
-Subject: [tytso-ext4:ext4-kunit-tests-merge 26/26]
- fs/ext4/xattr-test.c:1663:1: warning: the frame size of 2112 bytes is larger
- than 2048 bytes
-Message-ID: <202611132233.Y7jJpjlY-lkp@intel.com>
+To: Phillip Lougher <phillip@squashfs.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org
+Subject: [akpm-mm:mm-nonmm-unstable 130/151]
+ fs/squashfs/namei.c:141:21: sparse: sparse: unsigned value that used to be
+ signed checked against zero?
+Message-ID: <202611131605.L4Uvbf8p-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,161 +84,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git ext4-kunit-tests-merge
-head:   dcc7bd2c6faf98be5a218685b4b969e95df06143
-commit: dcc7bd2c6faf98be5a218685b4b969e95df06143 [26/26] Merge tag 'v7.4-rc2' into ext4-kunit-tests-merge
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20261113/202611132233.Y7jJpjlY-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611132233.Y7jJpjlY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   152f0559e66c079f717de375f133ff127afb1f58
+commit: 4dddf794b08bef04e5634dd4b52775a160d2cb6c [130/151] Squashfs: sanity check directory metadata block location
+config: sh-randconfig-r2307-20261113 (https://download.01.org/0day-ci/archive/20261113/202611131605.L4Uvbf8p-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611131605.L4Uvbf8p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611132233.Y7jJpjlY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611131605.L4Uvbf8p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/squashfs/namei.c:141:21: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/squashfs/namei.c: note: in included file:
+   fs/squashfs/squashfs_helpers.h:79:24: sparse: signed value source
 
-   fs/ext4/xattr-test.c: In function 'test_xattr_credits_usage_expand_and_delete':
->> fs/ext4/xattr-test.c:1663:1: warning: the frame size of 2112 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    1663 | }
-         | ^
+vim +141 fs/squashfs/namei.c
 
-
-vim +1663 fs/ext4/xattr-test.c
-
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1538  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1539  /*
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1540   * Test 10: ext4_get_inode_usage(), credit calculation, handle credit check,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1541   * ext4_expand_extra_isize_ea(), and ext4_xattr_delete_inode().
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1542   */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1543  static void test_xattr_credits_usage_expand_and_delete(struct kunit *test)
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1544  {
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1545  	struct xattr_test_ctx *ctx = test->priv;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1546  	struct inode *inode = &ctx->primary.ei.vfs_inode;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1547  	struct ext4_inode *raw = (struct ext4_inode *)ctx->primary.raw_buf;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1548  	journal_t fake_journal = {
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1549  		.j_revoke_records_per_block = 64,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1550  	};
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1551  	handle_t fake_handle = {
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1552  		.h_reserved = 1,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1553  		.h_journal = &fake_journal,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1554  		.h_total_credits = 1,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1555  	};
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1556  	const size_t large_len = 1000;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1557  	char *large_val;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1558  	char val28[28];
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1559  	char buf[64];
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1560  	qsize_t usage = 0;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1561  	int credits_create, credits_replace, credits_out = -1;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1562  	int ret;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1563  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1564  	large_val = kunit_kmalloc(test, large_len, GFP_KERNEL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1565  	KUNIT_ASSERT_NOT_NULL(test, large_val);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1566  	memset(large_val, 'L', large_len);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1567  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1568  	/*
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1569  	 * 1. Credit calculation and insufficient handle credits check
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1570  	 */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1571  	credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1572  						  100, true);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1573  	KUNIT_EXPECT_GT(test, credits_create, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1574  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1575  	ext4_set_feature_ea_inode(&ctx->sb);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1576  	credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1577  						  1500, true);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1578  	credits_replace = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1579  						   1500, false);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1580  	KUNIT_EXPECT_GT(test, credits_replace, credits_create);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1581  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1582  	/* Without a journal (s_journal == NULL), credits_out is 0 */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1583  	ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1584  	KUNIT_EXPECT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1585  	KUNIT_EXPECT_EQ(test, credits_out, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1586  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1587  	/* With s_journal set, ext4_xattr_set_credits() returns credits_create */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1588  	ctx->sbi.s_journal = &fake_journal;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1589  	ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1590  	ctx->sbi.s_journal = NULL;
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1591  	KUNIT_EXPECT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1592  	KUNIT_EXPECT_EQ(test, credits_out, credits_create);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1593  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1594  	/* Handle with only 1 buffer credit (< credits) fails with -ENOSPC */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1595  	ret = ext4_xattr_set_handle(&fake_handle, inode, EXT4_XATTR_INDEX_USER,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1596  				    "k", "v", 1, XATTR_CREATE);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1597  	KUNIT_EXPECT_EQ(test, ret, -ENOSPC);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1598  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1599  	/*
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1600  	 * 2. ext4_expand_extra_isize_ea():
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1601  	 * Put "keep" (4B -> 24B total) and "evict" (28B -> 52B total) in
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1602  	 * ibody (88B usable, leaving 12B free).
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1603  	 * First expand i_extra_isize from 32 -> 40 (8 bytes <= 12B free):
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1604  	 * shifts ibody entries in-place without allocating an external block.
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1605  	 * Then expand i_extra_isize from 40 -> 72 (32 bytes > 4B free):
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1606  	 * "keep" (24 + 4 = 28 < 32) is too small alone, so "evict" (52 + 4 >= 32)
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1607  	 * is moved to an external xattr block while "keep" stays in ibody!
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1608  	 */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1609  	ext4_clear_feature_ea_inode(&ctx->sb);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1610  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "keep",
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1611  			     "1234", 4, XATTR_CREATE);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1612  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1613  	memset(val28, 'E', sizeof(val28));
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1614  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "evict",
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1615  			     val28, sizeof(val28), XATTR_CREATE);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1616  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1617  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1618  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1619  	/* In-place ibody shift (32 -> 40) */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1620  	ret = ext4_expand_extra_isize_ea(inode, 40, raw, NULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1621  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1622  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)40);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1623  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1624  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1625  	/* Eviction of "evict" to external block (40 -> 72) */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1626  	ret = ext4_expand_extra_isize_ea(inode, 72, raw, NULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1627  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1628  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)72);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1629  	KUNIT_EXPECT_NE(test, EXT4_I(inode)->i_file_acl, 0ULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1630  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1631  	/* Both "keep" (in ibody) and "evict" (in external block) remain readable */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1632  	KUNIT_EXPECT_EQ(test,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1633  			ext4_xattr_ibody_get(inode, EXT4_XATTR_INDEX_USER,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1634  					     "keep", buf, sizeof(buf)),
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1635  			4);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1636  	KUNIT_EXPECT_EQ(test,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1637  			ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER,
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1638  				       "evict", buf, sizeof(buf)),
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1639  			28);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1640  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1641  	/*
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1642  	 * 3. ext4_get_inode_usage() and ext4_xattr_delete_inode():
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1643  	 * Add a 1000-byte EA inode attribute ("large_ea") and check that
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1644  	 * ext4_get_inode_usage() accounts for 1 (parent inode) + 1 (EA inode)
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1645  	 * = 2 inodes, and ext4_xattr_delete_inode() frees the external block
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1646  	 * and drops the EA inode reference to 0.
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1647  	 */
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1648  	ext4_set_feature_ea_inode(&ctx->sb);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1649  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "large_ea",
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1650  			     large_val, large_len, XATTR_CREATE);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1651  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1652  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1653  	down_read(&EXT4_I(inode)->xattr_sem);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1654  	ret = ext4_get_inode_usage(inode, &usage);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1655  	up_read(&EXT4_I(inode)->xattr_sem);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1656  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1657  	KUNIT_EXPECT_EQ(test, usage, (qsize_t)2);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1658  
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1659  	ret = ext4_xattr_delete_inode(NULL, inode, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1660  	KUNIT_ASSERT_EQ(test, ret, 0);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1661  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1662  	KUNIT_EXPECT_EQ(test, ctx->ea_inodes[0].ei.vfs_inode.i_nlink, 0U);
-64b5dfde9364204 Theodore Ts'o 2026-11-05 @1663  }
-64b5dfde9364204 Theodore Ts'o 2026-11-05  1664  
-
-:::::: The code at line 1663 was first introduced by commit
-:::::: 64b5dfde9364204d0284d8800174ba8bb23d963f ext4: add KUnit tests for fs/ext4/xattr.c
-
-:::::: TO: Theodore Ts'o <tytso@mit.edu>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+   123	
+   124	
+   125	static struct dentry *squashfs_lookup(struct inode *dir, struct dentry *dentry,
+   126					 unsigned int flags)
+   127	{
+   128		const unsigned char *name = dentry->d_name.name;
+   129		int len = dentry->d_name.len;
+   130		struct inode *inode = NULL;
+   131		struct squashfs_sb_info *msblk = dir->i_sb->s_fs_info;
+   132		struct squashfs_dir_header dirh;
+   133		struct squashfs_dir_entry *dire = NULL;
+   134		u64 block = squashfs_dir_start(squashfs_i(dir)->start, msblk);
+   135		int offset = squashfs_i(dir)->offset;
+   136		int err, length;
+   137		unsigned int dir_count, size;
+   138	
+   139		TRACE("Entered squashfs_lookup [%llx:%x]\n", squashfs_i(dir)->start, offset);
+   140	
+ > 141		if (block < 0)
+   142			goto data_error;
+   143	
+   144		dire = kmalloc(sizeof(*dire) + SQUASHFS_NAME_LEN + 1, GFP_KERNEL);
+   145		if (dire == NULL) {
+   146			ERROR("Failed to allocate squashfs_dir_entry\n");
+   147			return ERR_PTR(-ENOMEM);
+   148		}
+   149	
+   150		if (len > SQUASHFS_NAME_LEN) {
+   151			err = -ENAMETOOLONG;
+   152			goto failed;
+   153		}
+   154	
+   155		length = get_dir_index_using_name(dir->i_sb, &block, &offset,
+   156					squashfs_i(dir)->dir_idx_start,
+   157					squashfs_i(dir)->dir_idx_offset,
+   158					squashfs_i(dir)->dir_idx_cnt, name);
+   159	
+   160		while (length < i_size_read(dir)) {
+   161			/*
+   162			 * Read directory header.
+   163			 */
+   164			err = squashfs_read_metadata(dir->i_sb, &dirh, &block,
+   165					&offset, sizeof(dirh));
+   166			if (err < 0)
+   167				goto read_failure;
+   168	
+   169			length += sizeof(dirh);
+   170	
+   171			dir_count = le32_to_cpu(dirh.count) + 1;
+   172	
+   173			if (dir_count > SQUASHFS_DIR_COUNT)
+   174				goto data_error;
+   175	
+   176			while (dir_count--) {
+   177				/*
+   178				 * Read directory entry.
+   179				 */
+   180				err = squashfs_read_metadata(dir->i_sb, dire, &block,
+   181						&offset, sizeof(*dire));
+   182				if (err < 0)
+   183					goto read_failure;
+   184	
+   185				size = le16_to_cpu(dire->size) + 1;
+   186	
+   187				/* size should never be larger than SQUASHFS_NAME_LEN */
+   188				if (size > SQUASHFS_NAME_LEN)
+   189					goto data_error;
+   190	
+   191				err = squashfs_read_metadata(dir->i_sb, dire->name,
+   192						&block, &offset, size);
+   193				if (err < 0)
+   194					goto read_failure;
+   195	
+   196				length += sizeof(*dire) + size;
+   197	
+   198				if (name[0] < dire->name[0])
+   199					goto exit_lookup;
+   200	
+   201				if (len == size && !strncmp(name, dire->name, len)) {
+   202					unsigned int blk, off, ino_num;
+   203					long long ino;
+   204					blk = le32_to_cpu(dirh.start_block);
+   205					off = le16_to_cpu(dire->offset);
+   206					ino_num = le32_to_cpu(dirh.inode_number) +
+   207						(short) le16_to_cpu(dire->inode_number);
+   208					ino = squashfs_mkinode(blk, off);
+   209	
+   210					TRACE("calling squashfs_iget for directory "
+   211						"entry %s, inode  %x:%x, %d\n", name,
+   212						blk, off, ino_num);
+   213	
+   214					inode = squashfs_iget(dir->i_sb, ino, ino_num);
+   215					goto exit_lookup;
+   216				}
+   217			}
+   218		}
+   219	
+   220	exit_lookup:
+   221		kfree(dire);
+   222		return d_splice_alias(inode, dentry);
+   223	
+   224	data_error:
+   225		err = -EIO;
+   226	
+   227	read_failure:
+   228		ERROR("Unable to read directory block [%llx:%x]\n",
+   229			squashfs_i(dir)->start, squashfs_i(dir)->offset);
+   230	failed:
+   231		kfree(dire);
+   232		return ERR_PTR(err);
+   233	}
+   234	
 
 --
 0-DAY CI Kernel Test Service
