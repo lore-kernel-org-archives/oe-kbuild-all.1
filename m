@@ -1,81 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794576601;
-	b=EDJdeclkEB1Qn+a0NwdkavL3nlUVDLk5ZQlkBIASX8t7/pdYn1lf1z+vcw8DAuBcZPYL
-	 XslALbS0UOBVd0l0eye2qlaYrobQzKD9Qnk68aUtL1RRJ8hviY6l+mZ8gwAjcorJDWWVi
-	 4/THxMdx3otVk+/1MBFBnCgChlA1qlnGkDKi1xF8A1hA/V44x2vS66UUodSeHR5IpP1l3
-	 oLFmSZBKZLsFB/FG4sY3Apcg1ZBroseFTSv4wsEJtxAeHQE9Gk5ZCmyZwjS0Np1wg9hUz
-	 jjtVgDfHfEIAT0XSpQBob0YQ+tKPqm4mnpsdh76dmzUxvpat6LFJ8xxG4PwcHMM8OnQ==
+	t=1794582828;
+	b=Swx0ABqYQhs2wWO59sXFQDwgmuCkdPfCJYIoddVCuwI4KFaTHnFd0du5hudyYZtaaKz+
+	 7mvFG0Q5GJ/qrysuW8yBGlJ8caz5Kc6SooG6YIyQMq1Qo1sKBWCxi7miSuOu9RULCbkGG
+	 IhOfo5i9/1i0ZHUxc/58bUZvoPc3LVIOUiVda/cul6saVRf+T6uOkHDiHNu/dtVLPJVUK
+	 PZHovqLWZgOxiLGgsPCYBvRnJtZAFjIlAGzjQ0kcwH8UbkMmbmM87x0Tpr8A6f0575gxq
+	 /AlVRGAwt/+zlaY74VlTgy/fpKUiKVlO1h5R7CPfxJjVmr4b20dQXLegx6PciSffUdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794576601;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794582828;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=rG04TwV+aXkJ3tlNjFerWDM4B3GSxAC0ACNVgfYbO7k=;
-	b=4yZ6FD76j2BhUyh8mqxee24sYlnWHlQMxp6LpVXyoamyq+HJIXMTEXH/iNatPqyvEAK/
-	 oMWtkwu/j2+eNVcWzWM/CvPkQcKpih3u8AJp0LXb2NHuFfDVb6O9p0XuGrOY128pqLhwe
-	 tJZzewO2IwK+5OkFV1fNuLRNhG2zpOpR8InhMf9Td11wCt68H5hsGT1RwgaH+xqMjH/VM
-	 3dAJLo5gc1rp8LcRyimlZm/LdI/Q8iHepGnyZA6cT73RS73E6r0pNNyhXKmmxLR0ghq2n
-	 BTW17cLMnWMWmsia+kFzggU1zOeyLEHnlFtUtmbfX9Eg5WHQMKlJDtiZ1Jzdj/UJukA==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:Cc:
+	 Subject:Message-ID:User-Agent;
+	bh=ORA10z0A5rcNMVuBLaLTMamIf7t5aL++QT5nczvir5s=;
+	b=LjMfRashhsF/GQjPFpGGElN/ES9PemyoAnfWYTpZ4Opsp9Pj+sx9VQlZMQ0vqu0ZRn+F
+	 WMEFN28EI3FeD8yzBOgdOTsQZ4iXODVeqbBrw0GX725rrV1EJkAUxZY98W6UmcjcEWoaG
+	 pcT8RjDTyOfwlu/zNTzDJ57AlBX5zAwPHU9OIJ87KvjkwOFG+uWwZc4CtKTjWadqbcsm6
+	 WKkRzi1xjQJRS5DCwIUMe/kYnnJ36stAhxk4nalK7jxAHXvovGQHA7dbsJLEz7QtiV2Ei
+	 X29AErN2d/dSKKQSoBZVQ5rD5Km2FobCv1QKt0ILWziNI+3HvApWh66sIN6cEB0eUnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="ABDB/g7Y";
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="LHF7b5g/";
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB7A60706F3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 13:30:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EB7A60706F3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40524606A32D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 15:13:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40524606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ABDB/g7Y
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LHF7b5g/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794576601; x=1826112601;
-  h=date:from:to:cc:subject:message-id;
-  bh=l/tnBcaBNGJcgq4kYFCcHdlZTAOqbmLwHFmG/eNT78A=;
-  b=ABDB/g7YBiSa6cvdZCwgxV923I9Xcyg+/UfJw0NrSpx2PV7KHasUShD3
-   +6eq4hllmwsKZvJG5835WwbYRW+jg/0iBfjyuo0oPc1fp+0R5gGTFSA1K
-   odaE33Z/eg9Q2ZzoFvCZ7jMYeu1eYD5XYA/dhfBq/9Ckd3Aoo/uhooX08
-   5BgihPUbIIJtxND/ikx/J4SY9vfEaujSB6jjRijKt6VbTZifZZT7fgShw
-   GWqLJGpnlVhCeCnUGJxy2/wxswaTNJhKsedPS6dTxt4g4S9S+fj7YOSkc
-   5kIm9b8bIDHkOz4J+JqfdZBGHncOWkTe/MeG9XJQAc82tM1nVd6kM6jsA
+  t=1794582827; x=1826118827;
+  h=date:from:cc:subject:message-id;
+  bh=kBIEUENtSH0kzb64ENzAWKHGbuRrlpwKL/HjwH3dObg=;
+  b=LHF7b5g/7VD3QNpYcZQqY7+fssvq8JKg7QhZhjpm+9ggzxNzbZCRX536
+   +MDW4YUuhosU+qJdlzPCEEgy3cu0GPcv9FITU7MhthPzTqgaCs4/b0g75
+   w++hAqIGF3r/ZDuRb16q1JPOvz3O6sDELSlWXUIkMsu99xo4xqVKH4coG
+   htG+QR9CkwkNCsKbhKidE2JjaMPKkDEtZTpl9G4QUs7xh41kdOpR0n9Nd
+   LtYlazIe378CHomddYfQCoXZ1LQjCIp/KWjxT8j5AUAKQUcaFfdwBllnI
+   7gqOVwIjxjOZK/E80ftjWwnKowc7r0YtMPHPiifqZpUYKSdMtn8B1Q94T
    g==;
-X-CSE-ConnectionGUID: Xkq43mgqT6azuCxRxKRm4Q==
-X-CSE-MsgGUID: gEzMzZp4RiaEaLMbjh8xnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3285194"
+X-CSE-ConnectionGUID: axyy37/lR2S8eUNim7MMWw==
+X-CSE-MsgGUID: 1pBEVPQOQdODCs3OW25/Pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3265098"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3285194"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 05:30:00 -0800
-X-CSE-ConnectionGUID: dl4b/IjPSqyTM3G8ujv+Nw==
-X-CSE-MsgGUID: gEAAOc6NRYqsnqHSswrDbQ==
+   d="scan'208";a="3265098"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 07:13:46 -0800
+X-CSE-ConnectionGUID: NnAzFCD3Snebr8kNNEt63A==
+X-CSE-MsgGUID: vTEzr6eMT9ip09K3NG9ztg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="9103122"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 13 Nov 2026 05:29:58 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9265418"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2026 07:13:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRrLn-000000001HH-3HhY;
-	Fri, 13 Nov 2026 13:29:55 +0000
-Date: Fri, 13 Nov 2026 14:29:18 +0100
+	id 1xRsyE-0000000136n-0ORl;
+	Fri, 13 Nov 2026 15:13:42 +0000
+Date: Fri, 13 Nov 2026 23:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org,
- "Liam R. Howlett (Google)" <liam@infradead.org>,
- "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-Subject: [akpm-mm:mm-new 307/308] mm/cma.c:493 cma_find_free_range()
- warn: always true condition '(start < (4294967296)) => (0-u32max <
- 4294967296)'
-Message-ID: <202611131415.4Nn1yaIf-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+ "Theodore Ts'o" <tytso@mit.edu>
+Subject: [tytso-ext4:ext4-kunit-tests-merge 26/26]
+ fs/ext4/xattr-test.c:1663:1: warning: the frame size of 2112 bytes is larger
+ than 2048 bytes
+Message-ID: <202611132233.Y7jJpjlY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,57 +81,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   31a696f9c37defab0f28f774e00ac7f135889ec3
-commit: 4cbc68cde0e185ae7cefed74c1b56e61cfe13277 [307/308] mm/cma: simplify cma_declare_contiguous_multi()
-config: um-randconfig-2200-20261113 (https://download.01.org/0day-ci/archive/20261113/202611131415.4Nn1yaIf-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git ext4-kunit-tests-merge
+head:   dcc7bd2c6faf98be5a218685b4b969e95df06143
+commit: dcc7bd2c6faf98be5a218685b4b969e95df06143 [26/26] Merge tag 'v7.4-rc2' into ext4-kunit-tests-merge
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20261113/202611132233.Y7jJpjlY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611132233.Y7jJpjlY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611131415.4Nn1yaIf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611132233.Y7jJpjlY-lkp@intel.com/
 
-smatch warnings:
-mm/cma.c:493 cma_find_free_range() warn: always true condition '(start < (4294967296)) => (0-u32max < 4294967296)'
+All warnings (new ones prefixed by >>):
 
-vim +493 mm/cma.c
+   fs/ext4/xattr-test.c: In function 'test_xattr_credits_usage_expand_and_delete':
+>> fs/ext4/xattr-test.c:1663:1: warning: the frame size of 2112 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+    1663 | }
+         | ^
 
-   476	
-   477	/*
-   478	 * Find the largest free range above 4G that can hold a part of a multi-range
-   479	 * CMA area.
-   480	 */
-   481	static phys_addr_t __init cma_find_free_range(phys_addr_t align,
-   482			phys_addr_t size_align, int nid, phys_addr_t *basep)
-   483	{
-   484		phys_addr_t start, end, size;
-   485		phys_addr_t max = 0;
-   486		u64 i;
-   487	
-   488		/* no point searching if the system can't addres above 4G */
-   489		if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
-   490			return 0;
-   491	
-   492		for_each_free_mem_range(i, nid, MEMBLOCK_NONE, &start, &end, NULL) {
- > 493			if (start < SZ_4G)
-   494				continue;
-   495	
-   496			start = ALIGN(start, align);
-   497			if (start >= end)
-   498				continue;
-   499	
-   500			size = ALIGN_DOWN(end - start, size_align);
-   501			if (size > max) {
-   502				max = size;
-   503				*basep = start;
-   504			}
-   505		}
-   506	
-   507		return max;
-   508	}
-   509	
+
+vim +1663 fs/ext4/xattr-test.c
+
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1538  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1539  /*
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1540   * Test 10: ext4_get_inode_usage(), credit calculation, handle credit check,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1541   * ext4_expand_extra_isize_ea(), and ext4_xattr_delete_inode().
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1542   */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1543  static void test_xattr_credits_usage_expand_and_delete(struct kunit *test)
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1544  {
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1545  	struct xattr_test_ctx *ctx = test->priv;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1546  	struct inode *inode = &ctx->primary.ei.vfs_inode;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1547  	struct ext4_inode *raw = (struct ext4_inode *)ctx->primary.raw_buf;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1548  	journal_t fake_journal = {
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1549  		.j_revoke_records_per_block = 64,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1550  	};
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1551  	handle_t fake_handle = {
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1552  		.h_reserved = 1,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1553  		.h_journal = &fake_journal,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1554  		.h_total_credits = 1,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1555  	};
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1556  	const size_t large_len = 1000;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1557  	char *large_val;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1558  	char val28[28];
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1559  	char buf[64];
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1560  	qsize_t usage = 0;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1561  	int credits_create, credits_replace, credits_out = -1;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1562  	int ret;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1563  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1564  	large_val = kunit_kmalloc(test, large_len, GFP_KERNEL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1565  	KUNIT_ASSERT_NOT_NULL(test, large_val);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1566  	memset(large_val, 'L', large_len);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1567  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1568  	/*
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1569  	 * 1. Credit calculation and insufficient handle credits check
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1570  	 */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1571  	credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1572  						  100, true);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1573  	KUNIT_EXPECT_GT(test, credits_create, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1574  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1575  	ext4_set_feature_ea_inode(&ctx->sb);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1576  	credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1577  						  1500, true);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1578  	credits_replace = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1579  						   1500, false);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1580  	KUNIT_EXPECT_GT(test, credits_replace, credits_create);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1581  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1582  	/* Without a journal (s_journal == NULL), credits_out is 0 */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1583  	ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1584  	KUNIT_EXPECT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1585  	KUNIT_EXPECT_EQ(test, credits_out, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1586  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1587  	/* With s_journal set, ext4_xattr_set_credits() returns credits_create */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1588  	ctx->sbi.s_journal = &fake_journal;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1589  	ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1590  	ctx->sbi.s_journal = NULL;
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1591  	KUNIT_EXPECT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1592  	KUNIT_EXPECT_EQ(test, credits_out, credits_create);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1593  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1594  	/* Handle with only 1 buffer credit (< credits) fails with -ENOSPC */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1595  	ret = ext4_xattr_set_handle(&fake_handle, inode, EXT4_XATTR_INDEX_USER,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1596  				    "k", "v", 1, XATTR_CREATE);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1597  	KUNIT_EXPECT_EQ(test, ret, -ENOSPC);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1598  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1599  	/*
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1600  	 * 2. ext4_expand_extra_isize_ea():
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1601  	 * Put "keep" (4B -> 24B total) and "evict" (28B -> 52B total) in
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1602  	 * ibody (88B usable, leaving 12B free).
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1603  	 * First expand i_extra_isize from 32 -> 40 (8 bytes <= 12B free):
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1604  	 * shifts ibody entries in-place without allocating an external block.
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1605  	 * Then expand i_extra_isize from 40 -> 72 (32 bytes > 4B free):
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1606  	 * "keep" (24 + 4 = 28 < 32) is too small alone, so "evict" (52 + 4 >= 32)
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1607  	 * is moved to an external xattr block while "keep" stays in ibody!
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1608  	 */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1609  	ext4_clear_feature_ea_inode(&ctx->sb);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1610  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "keep",
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1611  			     "1234", 4, XATTR_CREATE);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1612  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1613  	memset(val28, 'E', sizeof(val28));
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1614  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "evict",
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1615  			     val28, sizeof(val28), XATTR_CREATE);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1616  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1617  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1618  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1619  	/* In-place ibody shift (32 -> 40) */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1620  	ret = ext4_expand_extra_isize_ea(inode, 40, raw, NULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1621  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1622  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)40);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1623  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1624  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1625  	/* Eviction of "evict" to external block (40 -> 72) */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1626  	ret = ext4_expand_extra_isize_ea(inode, 72, raw, NULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1627  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1628  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)72);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1629  	KUNIT_EXPECT_NE(test, EXT4_I(inode)->i_file_acl, 0ULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1630  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1631  	/* Both "keep" (in ibody) and "evict" (in external block) remain readable */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1632  	KUNIT_EXPECT_EQ(test,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1633  			ext4_xattr_ibody_get(inode, EXT4_XATTR_INDEX_USER,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1634  					     "keep", buf, sizeof(buf)),
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1635  			4);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1636  	KUNIT_EXPECT_EQ(test,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1637  			ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER,
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1638  				       "evict", buf, sizeof(buf)),
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1639  			28);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1640  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1641  	/*
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1642  	 * 3. ext4_get_inode_usage() and ext4_xattr_delete_inode():
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1643  	 * Add a 1000-byte EA inode attribute ("large_ea") and check that
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1644  	 * ext4_get_inode_usage() accounts for 1 (parent inode) + 1 (EA inode)
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1645  	 * = 2 inodes, and ext4_xattr_delete_inode() frees the external block
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1646  	 * and drops the EA inode reference to 0.
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1647  	 */
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1648  	ext4_set_feature_ea_inode(&ctx->sb);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1649  	ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "large_ea",
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1650  			     large_val, large_len, XATTR_CREATE);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1651  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1652  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1653  	down_read(&EXT4_I(inode)->xattr_sem);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1654  	ret = ext4_get_inode_usage(inode, &usage);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1655  	up_read(&EXT4_I(inode)->xattr_sem);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1656  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1657  	KUNIT_EXPECT_EQ(test, usage, (qsize_t)2);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1658  
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1659  	ret = ext4_xattr_delete_inode(NULL, inode, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1660  	KUNIT_ASSERT_EQ(test, ret, 0);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1661  	KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1662  	KUNIT_EXPECT_EQ(test, ctx->ea_inodes[0].ei.vfs_inode.i_nlink, 0U);
+64b5dfde9364204 Theodore Ts'o 2026-11-05 @1663  }
+64b5dfde9364204 Theodore Ts'o 2026-11-05  1664  
+
+:::::: The code at line 1663 was first introduced by commit
+:::::: 64b5dfde9364204d0284d8800174ba8bb23d963f ext4: add KUnit tests for fs/ext4/xattr.c
+
+:::::: TO: Theodore Ts'o <tytso@mit.edu>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 --
 0-DAY CI Kernel Test Service
