@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794527062;
-	b=r5YAoc30IS2kbBAKQDbS+MGCmisy0PWtnrU5fm2rLVhkXPwbJdZw7unXQuHbYq0zze4B
-	 zVzvlg5hrkK/DTsiJB/j2hwf917noG7xRNQw6XqNiFpov0T/c2wtz33l7Knu5/fRzphcp
-	 pntxLbIbKQ1NDv4ExWfTzO1kj4r5aDv3eAZ080rKRF2Dth7fOe32QV/nTdIFEQv/mXccn
-	 lAzCBYzEajh2Irx89YPkNV2faaFeU2GSOmPmzVp7tk7bk8G1eMRY59FqweIBsW402LVT/
-	 YtismQ3cjTjPJJC+xyX5r/LUEposr7P7Gu4/dh0auqRdJtO550lR1Po+FmcJNeYvxew==
+	t=1794528980;
+	b=0DOBz1BCjtyI3iw1CphXh8t5K9sGqJxK6HJKAskgR3++1WUDD7AZjHr55wD7PM8gtdhc
+	 cebPhoFgqq1yCP27vlnjbWvozLyNAQ/kzVKnV0p5sJdzdpGA/IFh7tyC0EfhIk9nWgI1u
+	 cMO5fujjZ1LRDWHjvaUZPj0YsZZPhgkHuK69XB0ti/yWqfQ/ZWh3oddDSXnlIWzhjEpDw
+	 w7V5U9DIPqGuDSue6QL5uFjBbbrINUHE+3g+PzZx3aCQg23+Iq/Ob+JKWQYW85qk6Dwe9
+	 ZCfXc0TOncQ2JkXrFiMeQJ9Ugz0l8f+d1mZ8bB0ivTlprkkvEhJXJ5q4A0AUzwmjt5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794527062;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794528980;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=WQBWlxm2m3Z0HVEoNDC0kmJAsoemLXXFW9gm9GIPPMI=;
-	b=XsPY0/uLwzYUtAUb1qCXBuIo0gtZGmU732Ey/HQNcnVX8VD9t8pWZiuUO7H+li8GKCqo
-	 BKCkudQ64KMM+PbMf46taWHjx9I8ugRzUFwJ/zRorBbQYdbQuOHz/BoJZP7BZ0tW6ltec
-	 R/p2Bqgdbg043WRNAOgDU806MuhwECpHTABY5VzuZ4OPleCWE+HCESn0Kl8Aw8SvRG8X3
-	 pxQ4FZsSQ57ol+EgWHYUgo27vpzAZ3QC1Fh257zden5I7ube4cvH+npfpFXDk6dTCulgT
-	 OrE49oveLnONHgofb6A9sEecdlSAzaMeBSj1mFMkCNHxyFUlQb8ewbLENS5C2tJ+9Jg==
+	bh=rbvLSrxfi4TPsrlLPmECmlk3N1ONwDWkQuRf81vDhNo=;
+	b=z7FvkeGX3R7jpCC+SAzwrP1MHBzC5S+hPlcE2Lz+5iqtP5Pt3rLXvQZ1c4YHy8b/7dnH
+	 qGX9ZQYmglgVadLy7cuSUCmLDB0DNgaN3YH/9JeNtJY/JckfdkF0nJcxUj2+IJ/0PS/zt
+	 jqJwl8+qCZOMeHiYel+fCGoN+2MlCjBc+6A1i0RjfFfsB+qoDXVAXxSjsmOfg38p23bU2
+	 5s8kXMkIzsCn5rlnr3/Ov3iDBeLVPL3u6AmGCv8HW1Ae0gfHcMRAp/NP8ryCHLSckkc8N
+	 amk8j8nrg6hN7CefeKOZzjLHL/1CPV0wC1o+cvGT4nfJ/+xs9tkJr6A8RJsPhJS6hrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZDVBzdu;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="R/gMN/Xh";
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B563606A321
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 23:44:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B563606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE53606A33E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 00:16:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCE53606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZDVBzdu
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R/gMN/Xh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794527056; x=1826063056;
+  t=1794528980; x=1826064980;
   h=date:from:to:cc:subject:message-id;
-  bh=Ch9c4qaaeoOd+I/PcGaIistAE994Ps2D639xkTo0Kxw=;
-  b=IZDVBzdumD4cb6DjRPmohxiuHmFfr4Jfbp5GosOsYFpOz4f1/+h1BVNO
-   XzNDI45Sz8O2fRzxr3ytOrlB3qUqspWboaMAbUphV61O9HDCLWYDE6Knq
-   UgEaUxU0LzAlL244nuXYI6LchP2mJG4rSU1bx+83ykwCHYQeUW8RZdGrK
-   mKv5JnK7KjJpE1uwv1XpUWM/J4S9HMEwjPheUF/aRq1jY5nUPH6QUg+s5
-   xUJ2/JJ0ZRbS3fNclWzG0pz7gZgCSI49uoME38dLoNwoGMXAjuzRDyiDZ
-   Xadnoja+wSuDqjohIhtTsKkVwWDzYPtquzEBfDmEihdk9a+W7lSZQrj4p
-   Q==;
-X-CSE-ConnectionGUID: latTBvjHQpm7Oezq2s72Ew==
-X-CSE-MsgGUID: mxZ3PdYvT3mB8NPouIHcTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3247541"
+  bh=GPtl0d81633vaCvcs/nNNgNMgYZGFFJspG1JKRTX5Ug=;
+  b=R/gMN/XhtiE3+K4KCDjb1zTlOIgD9NFhuW9wRkBcR2GcnlGBat4Udi1D
+   nHnqW3geySF/vxLLc5O0YyJXdh1h6dw/aOp2C3QoRPkO+mIctFLvnVm3M
+   EUO5PDfBT67YeiZ9ThpOWvPeTLpvKYPdbwpndoLlYI3WZkrygl9+2N+cw
+   bpefAEb5WzeUtjaE0OGgjPf6QSPyLGDT/udwUvjV6FOxS19WBKsnhWUAV
+   ipIu8JZwYj057aCI5B9HcpVuvFLVaCRujdMwWHcNibBFDH8Y53GbhUsb3
+   h7jl0bn2fbBrMunCKgjVUwLA5tuOcMYY7Y+ABnHEJ6ON1jNDdXKKrvbet
+   w==;
+X-CSE-ConnectionGUID: beO4xuD7Qzy8kkKMxMGbEA==
+X-CSE-MsgGUID: 9dswhszMSq25oNXTQTiOhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3203956"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3247541"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 15:44:15 -0800
-X-CSE-ConnectionGUID: Hile1Z2jSAuEtf1vCc+xtg==
-X-CSE-MsgGUID: 1CvBzMIpTbm5607dFE73Dg==
+   d="scan'208";a="3203956"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 16:16:20 -0800
+X-CSE-ConnectionGUID: E1l0M79JR02rwfsbEUQtDg==
+X-CSE-MsgGUID: MdjR5UJXQwSsMvyed2ikDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="10686871"
+   d="scan'208";a="10520325"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 12 Nov 2026 15:44:13 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 12 Nov 2026 16:16:18 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xReSg-0000000129f-3IAm;
-	Thu, 12 Nov 2026 23:44:10 +0000
-Date: Fri, 13 Nov 2026 07:43:36 +0800
+	id 1xRexj-000000012C1-3paK;
+	Fri, 13 Nov 2026 00:16:15 +0000
+Date: Fri, 13 Nov 2026 08:15:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
- Ray Wu <ray.wu@amd.com>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- _sub_I_00100_0+0x10 (section: .text.startup) -> .LVL3212 (section:
- .init.text)
-Message-ID: <202611130748.TnRIrrjo-lkp@intel.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thesofproject:topic/sof-dev 8438/8621] WARNING: modpost:
+ sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko: missing MODULE_DESCRIPTION()
+Message-ID: <202611130829.8EjabC7m-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,124 +80,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d66f26fefacebfeed15de31c1123451a17ff119
-commit: 0412b1064a3bd4189eb88d7128ef65b3de9e11d7 drm/amd/display: Cover EDID CEA parsing helpers
-date:   9 weeks ago
-config: loongarch-randconfig-1001-20261112 (https://download.01.org/0day-ci/archive/20261113/202611130748.TnRIrrjo-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130748.TnRIrrjo-lkp@intel.com/reproduce)
+Hi Bard,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/thesofproject/linux topic/sof-dev
+head:   12c4f99fb2450fd9162559ab2c43f12642dced17
+commit: 626c94ed7156ece970ce4c8a4c9cdd1055e44417 [8438/8621] Merge branch 'sound/upstream-20260903' into merge/sound-upstream-20260903
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261113/202611130829.8EjabC7m-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130829.8EjabC7m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0412b1064a3b ("drm/amd/display: Cover EDID CEA parsing helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611130748.TnRIrrjo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611130829.8EjabC7m-lkp@intel.com/
 
 All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-ERROR: modpost: __ex_table+0x1d08 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d10 (section: __ex_table) -> .LASF8183 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d10 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d14 (section: __ex_table) -> .LASF8184 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d14 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d1c (section: __ex_table) -> .LASF4229 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d1c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d20 (section: __ex_table) -> .LASF4230 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d20 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d28 (section: __ex_table) -> .LASF4231 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d28 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d2c (section: __ex_table) -> .LASF4232 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d2c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d34 (section: __ex_table) -> .LASF4233 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d34 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d38 (section: __ex_table) -> .LASF4234 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d38 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d40 (section: __ex_table) -> .LASF4235 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d40 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d44 (section: __ex_table) -> .LASF4236 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d44 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d4c (section: __ex_table) -> .LASF4237 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d4c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d50 (section: __ex_table) -> .LASF4238 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d50 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d58 (section: __ex_table) -> .LASF4239 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d58 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d5c (section: __ex_table) -> .LASF4240 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1d5c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d64 (section: __ex_table) -> .LLST39 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1d64 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1d68 (section: __ex_table) -> .LVUS39 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1d68 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1dac (section: __ex_table) -> .LASF9238 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1dac references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1db0 (section: __ex_table) -> .LASF9237 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1db0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1dbc (section: __ex_table) -> .LLST40 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1dbc references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1dc4 (section: __ex_table) -> .LVUS40 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1dc4 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1dc8 (section: __ex_table) -> .LLST41 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1dc8 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1dd0 (section: __ex_table) -> .LVUS41 (section: .debug_loclists)
-ERROR: modpost: __ex_table+0x1dd0 references non-executable section '.debug_loclists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1df4 (section: __ex_table) -> .LASF7333 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1df4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1df8 (section: __ex_table) -> .LASF7334 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1df8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e00 (section: __ex_table) -> .LASF7365 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e00 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e04 (section: __ex_table) -> .LASF7366 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e04 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e0c (section: __ex_table) -> .LASF7367 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e0c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e10 (section: __ex_table) -> .LASF7368 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e10 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e18 (section: __ex_table) -> .LASF7369 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e18 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e1c (section: __ex_table) -> .LASF7370 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e1c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e24 (section: __ex_table) -> .LASF7371 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e24 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e28 (section: __ex_table) -> .LASF7372 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e28 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e30 (section: __ex_table) -> .LASF6630 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e30 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e34 (section: __ex_table) -> .LASF6631 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e34 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e3c (section: __ex_table) -> .LASF6632 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e3c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e40 (section: __ex_table) -> .LASF6633 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e40 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e48 (section: __ex_table) -> .LASF6634 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e48 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e4c (section: __ex_table) -> .LASF6635 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e4c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e54 (section: __ex_table) -> .LASF6636 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e54 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e58 (section: __ex_table) -> .LASF6637 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e58 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e60 (section: __ex_table) -> .LASF6638 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e60 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e64 (section: __ex_table) -> .LASF6639 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e64 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e6c (section: __ex_table) -> .LASF7729 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e6c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e70 (section: __ex_table) -> .LASF7730 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e70 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e78 (section: __ex_table) -> .LASF7745 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e78 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e7c (section: __ex_table) -> .LASF7746 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e7c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e84 (section: __ex_table) -> .LASF7747 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e84 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1e88 (section: __ex_table) -> .LASF7746 (section: .debug_str)
-ERROR: modpost: __ex_table+0x1e88 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: raid_exit+0x14 (section: .exit.text) -> __xbc_parse_value (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dw_i2c_exit_driver+0x14 (section: .exit.text) -> __setup_str_pnp_setup_reserve_mem (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: emc2103_driver_exit+0x14 (section: .exit.text) -> .LVL215 (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: _sub_I_00100_0+0x10 (section: .text.startup) -> .LVL3212 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: _sub_I_00100_0+0x14 (section: .text.startup) -> .LVL3213 (section: .init.text)
+>> WARNING: modpost: sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko: missing MODULE_DESCRIPTION()
+ERROR: modpost: sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko: symbol 'sof_of_pm' undefined!
+ERROR: modpost: sound/soc/sof/snd-sof-fw-gdb.ko: symbol 'sof_client_ipc4_find_debug_slot_offset_by_type' undefined!
 
 --
 0-DAY CI Kernel Test Service
