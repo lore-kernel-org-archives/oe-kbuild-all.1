@@ -1,77 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794546031;
-	b=G2ulZgFNKWY2V7jna3rwGUEG8sO2zsfnQLYa1bTH7WMaTdgcpvlQDZXCaApG+EQ42ymF
-	 u4LCqkXHSeoLVCOSlHVRsdAmWCSNJhxUokxL8WI/8GoiIk0wXdWEja+YFDQG1S4AY755I
-	 4Nho+ve1mqXQGL375JjYiiBHTzxQZe5QetTIUom6jqVtXio8Yceezib3v7sHAfPpW+iGM
-	 7TTDV1AVryGcVDetJvCcu/i2AaOhwftNgOoyz6jiACkgA0/lEl7nbh52ZcjkFibgK5mrv
-	 305bn6UQiliJaAP/NfvJ4Onc2nxs4YtMIjf2EepdouYingJjog5LJE9SwiSBVy24I6A==
+	t=1794547919;
+	b=zXd3D/noBNPD5JtuUpeNJYJ4MNvDhX6CDlz/hZWu1VHSBXUTvhfRzeQ42zxjoMMyWqOU
+	 fvvMF0Re/nJLErV7kYJMKv8Tjblz6uSR9c3xNP6g+Aj2Egp+8eAN0Yy05jmh/mmRs5sp+
+	 H1T9OgtLfKA6xdHG19fh9oR3GyhiU/OxZV1TnS20Bp6qC+m7KzcwOa65KEGYF1xT3/yjD
+	 ZJ4jlaU+6pCfFGJkyV4z5CR39kqrwJgnDtAJtIODbqsyRn+Bg8nh+Q72zn7L8P3i0vjMK
+	 wKtTIeKnJzb6VAI7lJSA4daJjN4s7TDwzBTNZh0awqsjm5UmdCr13VprOu7C7ar9SEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794546031;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794547919;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=sg9q+uajc60o5hQnqJFfEnmzGaVhIaOWzATlEvGt9A0=;
-	b=GawH2P3HLeu2xAsX+gjeRCfKQ6jbkkzU6g8fqwJNSRxUPQUUquMJHmKVSLJLhm4h8vtQ
-	 feOzyl+NLhzWfdaeX/gkgHCJDBRh2n6y6iTxIQg1XUee4qMJZH73GpAyJ0RweThGIV446
-	 XdSv2SpITZGmWOThD824OQvALDDWUNtRwdrYQFA1O2mrNxBuFSwyco/4swZMa0t0snVNp
-	 kjhG5kw2Rk1tV2gJPqZ7lTyiN/d8Y0C6rA4GxkZ2pFsY4MCNfhi9rdEw43qREFIe3q8kd
-	 mN3443KwaMC1cz5nFsSgCMf6l9rpCIA1+/sqUXIT+tkefHjy0Pc8ltFH0V1PTnSdC/g==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ba6WMI+eH0A0XYWzYjkOrHuY+1qhzJ7ZLbDOBJrgo58=;
+	b=q31obQPi2Y9qHmltnDgIYEpQ0jIdh3bAXmYF/I3B+6z/FZ8Kz7pUX2KaK+0imDPBaGSc
+	 Tz8bDW0wutb78/HbNaOUGJGBst3ICbcHcAjhb/pmPbYZjDiZKQDHoOM04rszmRp7hmJ3P
+	 sVhX4JOpAjGhjuftiENAzJ+D9d3W7BF5JRUT2BfdStUAB55VcLCXwkZ7u+uJjXZWYPiXQ
+	 hTx6ZWc0qLBVk+Ee74xDPvpkyIo9q4iS9309MtarNh0674Xq7GGuekTS/PfQEfqUX/HPe
+	 Z6sCtSHGlNZLxLbekTKm6z3FBsEMyLSLR4WcstbQ8Em6klOaASQ12zxky1ITb2LkWCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lQ4fLMtJ;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="FE6P8j/0";
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536EE606A323
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 05:00:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 536EE606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105E1606A31C;
+	Fri, 13 Nov 2026 05:31:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 105E1606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lQ4fLMtJ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FE6P8j/0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794546031; x=1826082031;
-  h=date:from:to:cc:subject:message-id;
-  bh=CnPrNwvwJOf2TuwiCzc3e6z1MKhMrpNDtViYOtIO14A=;
-  b=lQ4fLMtJhVz48ZyhT0ys9vLYlr+9/9FAQ9WYNIT/DzbEoKuWBAZRmx+x
-   8ClQy8D2QfZ+Yz0wuU44tU69sjgDaO7xNGJ/xcYnL1Be1F9JzUXpzevec
-   +8qrYlWwkRjWa8TZKcIthysyoOTw26Iu1ym8/5j+PZCXNdDLQFJyD8elO
-   KqM7R1UUR/J72gdbStBMsKRajPsais8rlMGOsGjCBOdYM0Sq8VZ87/ikO
-   VMwWSkbHD3dc5tIVPJblI7zPsn2BlmXLrJRrJtfawvCjy8yB6AgzJQtvd
-   hN+HZThGb1DHIl2zImoQ/x+wpQngisXHuxqKYr8pEWp4UESalaTVzEYhj
-   Q==;
-X-CSE-ConnectionGUID: yG5+JPPERfa2cNOSpj6ElQ==
-X-CSE-MsgGUID: YzpdqygTSACu4spIunAPjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3441209"
+  t=1794547917; x=1826083917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wU1MQ3okr3j4hH5DB7t1ThuMNxBMz1z5jxvll2cwO8E=;
+  b=FE6P8j/0c+Np920CAIEf+t4AB5Mv/fr/koSl6q2XDdU6SA8gVXOHrskK
+   7SPKP2fiADk5QNqqeidk9cKY/pr35Zls3Fx/rVYIYMLXbsr8V4YpyI6JX
+   H38IVJ/pcbRI17ucjZfRP3/kXq2VqTQqanR98fEPkn5bSNNVfmDSZkd/e
+   M3zzNf7ddGhwgdRCiVw9VJSQiNz4w1ydoAiJXy6/8ycUxFKTUw3OlzhkV
+   jlcF3aNZF3oMUDRxTIcJ8uYgV/HegQPPrk3Gmpn2K1/jSP1OCMJb/N3fo
+   4nxGZa02HMoapubK3Fh+k765UnGRQ6eSqWNflC42+ZyxtTtG9DNiWF+QA
+   g==;
+X-CSE-ConnectionGUID: B9k9MuzhQQCHucogspBzYg==
+X-CSE-MsgGUID: Ijs8+SU8QUm+YezgRfX5Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3333636"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3441209"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 21:00:30 -0800
-X-CSE-ConnectionGUID: 4MMX04sqQJmZx10FUYTfOA==
-X-CSE-MsgGUID: 7bZzJJ39TT2h9wCskD6xrg==
+   d="scan'208";a="3333636"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 21:31:57 -0800
+X-CSE-ConnectionGUID: PJtJPZlQTpK0EHcF36dOgQ==
+X-CSE-MsgGUID: 6NTBylRbQt+nZaN19ITuWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="8682210"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 12 Nov 2026 21:00:28 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9179999"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 12 Nov 2026 21:31:52 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRjOk-0000000016V-0MKF;
-	Fri, 13 Nov 2026 05:00:26 +0000
-Date: Fri, 13 Nov 2026 06:00:06 +0100
+	id 1xRjt6-000000012QV-1CP8;
+	Fri, 13 Nov 2026 05:31:48 +0000
+Date: Fri, 13 Nov 2026 13:31:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android18-7.3 39/39]
- ./usr/include/linux/android_fuse.h:7:10: fatal error: stdint.h: No such file
- or directory
-Message-ID: <202611130549.2mdMyesJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
+	peterz@infradead.org, juri.lelli@redhat.com,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
+	linux-kernel@vger.kernel.org, lukasz.luba@arm.com,
+	rafael@kernel.org, linux-pm@vger.kernel.org, tj@kernel.org,
+	void@manifault.com, arighi@nvidia.com, changwoo@igalia.com,
+	sched-ext@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, qyousef@layalina.io,
+	christian.loehle@arm.com, pierre.gondois@arm.com,
+	sshegde@linux.ibm.com, kayracizmeci@gmail.com,
+	tim.c.chen@linux.intel.com,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Subject: Re: [PATCH 12/20 v3] sched/fair: Support not wakeup case in
+ select_idle_sibling
+Message-ID: <202611131321.iXTrhEmV-lkp@intel.com>
+References: <20261106151947.3991524-13-vincent.guittot@linaro.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,76 +92,40 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106151947.3991524-13-vincent.guittot@linaro.org>
 
-tree:   https://android.googlesource.com/kernel/common android18-7.3
-head:   4dd306a07b2f456fd70ddaa28f4f65640374f202
-commit: 03e893c277ca546cba219fa7f82b93abc0250a7c [39/39] ANDROID: fuse-bpf: Add uapi, BPF_PROG_TYPE_FUSE and CONFIG_FUSE_BPF
-config: arm-randconfig-r2108-20261113 (https://download.01.org/0day-ci/archive/20261113/202611130549.2mdMyesJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130549.2mdMyesJ-lkp@intel.com/reproduce)
+Hi Vincent,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/sched/core]
+[cannot apply to peterz-queue/sched/core amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2 next-20261111]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-eevdf-Reset-lag-at-wakeup-when-prev-CPU-has-been-idle/20261106-161929
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20261106151947.3991524-13-vincent.guittot%40linaro.org
+patch subject: [PATCH 12/20 v3] sched/fair: Support not wakeup case in select_idle_sibling
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20261113/202611131321.iXTrhEmV-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611131321.iXTrhEmV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611130549.2mdMyesJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611131321.iXTrhEmV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/android_fuse.h:7:10: fatal error: stdint.h: No such file or directory
-       7 | #include <stdint.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
+>> Warning: kernel/sched/fair.c:12994 function parameter 'rq' not described in 'idle_rq_without'
+>> Warning: kernel/sched/fair.c:12994 Excess function parameter 'cpu' description in 'idle_rq_without'
+>> Warning: kernel/sched/fair.c:12994 function parameter 'rq' not described in 'idle_rq_without'
+>> Warning: kernel/sched/fair.c:12994 Excess function parameter 'cpu' description in 'idle_rq_without'
 
 --
 0-DAY CI Kernel Test Service
