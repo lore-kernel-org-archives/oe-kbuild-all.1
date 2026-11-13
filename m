@@ -1,77 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794612183;
-	b=EheCE1bOyiww6MA2oefHimAINEmBk0XoCKyN47m/fwVghNPWDMubfsvyVjm5qknrLkBJ
-	 JpFstv0i5Do4GJPPXmPpZ26EOyQNtnB9jxKiJUiH04w9aSf6DqO1zsfd/sZbMe/rOPptK
-	 d2z4c5xfk5Z0+ZYBnvnV03+4UK6+rgUmbdl9v7d8EC6A+MIgpt7RlXucCt11oFixiLUy4
-	 MV0mPNeBHQJyeS4Y6C5u10PnboWvSsKDV/kyk5XYPKxTU6ikN+jF7hE3dvVfQlK5fgk1m
-	 hF1508Js7qujcznVPvw+Akt1+PLp6azEpKKxJZzj13EcZ1jpi261mbh/8SIXYXe3uYg==
+	t=1794612890;
+	b=NLCGANEuXyRVMeRZBeWLpL6/xK1rK1Ytbn41Sq3A4JRZ+wOFTmthUCijWU+b1rIPGuSs
+	 zGW0nLOSQ1btolYkB7Zb2AwiulKZw5k1gMmHP42/E5MlN0NDjl7grg5rJ64XKxSviOf2/
+	 gp+d2iNNFDErz6plZELQybuafL+tw/g9AW9bxXExfQp+bk1fX4KuHehTKf9rAG0Bt7cC4
+	 xWAGO+RyG2ns0Tn49FjHoKJXvvTuQafRpkyMM3KD1x1qT0aAnTbD2QcCTA79i7nVFL/lM
+	 JfDlp14hANOBiKas8teBuoon47J3m9H/h9v8ay8v7zD0TiBxOSeNX15FN++0Opg9moA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794612183;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794612890;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=KFJZRbysM2Gfa0R5nyYBklImeJdrgVaKDzZ7/AKskiA=;
-	b=p5EDOw0qRu7kbSURar4sSgD/piQRRJ+Tw0v2CTS2lZf3T2Mmg0IRlSIUX8qydWV4ZRFi
-	 BheMdxL6fyLG1PHftUYM+zo+sleUHJr3kf3mlyWwknqy5edcDcldGke9GGQkITfsp9mMO
-	 trLWOawbOKDuitlchpAhELbSqguxzsZGpJAFZG5DgLGGIDdWIAXWlc/VRil181GKplbP/
-	 0E9T/7HaKVyDIqYcg29xZS1QhK/nCuD6acdGh+X3wv0pc4VXTkPdRCakIg1aNbIuJfDpy
-	 kdcorH++h7QX0Oz9PNAXDVRUqxc1biXGOdHsbpXTS9dgxMoKOdmisaxWK6Gz2I5mArA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=iKPyD0fcQHjU+nZY9PhDSccu4A7Tiq9IV5sts7cPeIc=;
+	b=nCXJ0elKYr2iYf7ymkb50lDF+pJQFTqT/vhvENc9O/F0FvSEuvgZ8hMJIlpTlhPW3deA
+	 tTYA54cdRmCXWPOPl/R8u1eahgqmjXP5VDyJzKD6nAfcWReiFPREOF+LKk8mI3MzYV+zO
+	 YS1fEmQZnSEF4f6eaYlJK1m8pFGbt3hu2Toca9bT7E5HnkJdm3esqeUfFJa+R3ifmNueE
+	 D/LGr7KBrW038S6X5mcRrVi1OYkJ8ZV9RrU7iPlp61nkUITJkBKD8JKwjOOXkE4CdLi8z
+	 EO+g2Jf3D59gcxqiZSqvb0Urt2+RZskIC2TPAAzmNnPOBf9dpCR8dkdMxtZ3TFyDBsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nfSWtPRa;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I2ZgzY3t;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875C4606A8A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 23:22:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 875C4606A8A3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B6C606A898;
+	Fri, 13 Nov 2026 23:34:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37B6C606A898
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nfSWtPRa
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I2ZgzY3t
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794612179; x=1826148179;
-  h=date:from:to:cc:subject:message-id;
-  bh=xlCKOwbYVhzIKLXGaR/XlI7XUaluE2OGiocFl9Hf+eI=;
-  b=nfSWtPRaQszHsmrlFJQJkIKejHcR2+JZw9Hw8kfpqCAIdpU0xzM6osCG
-   D+uE01y4YQIhPx3v2tIAvclJnqMAXA+2iuHlVJc/4pL4sHtYpJf6bYUk8
-   32O3VqopJwoKNn07W9/t3VtUh51UVUVPSF/IZqXRjPFE79WCHG3w7hIyQ
-   K4oXQUb8satJRmJwgZ+MfYhw5eU+xr3aA2+zl+QVlkRdglag5q56n7CVl
-   msyleLjGBsDeDvGvoLDGtBbOoJGcxZ3kADaiXLVQ3qL3LpHMYiGpyvfrN
-   /zYddhNM+lnhXiW9B3L9QgWpOZmQiIcOOVamb+wLwWCZwMKrsnTFSwfzj
-   w==;
-X-CSE-ConnectionGUID: SWBwpm9ITjuNE7OrERvySQ==
-X-CSE-MsgGUID: BnCMy8VdQbyPGhJ2OvCFsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3324901"
+  t=1794612889; x=1826148889;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=oARI0lz8E8wlq5FlviYP9LbHzAMB8U71otiLJAe+IpQ=;
+  b=I2ZgzY3tFPhah1zvR6mWKt3nQMPowwdzDV3q9BSGzfTADVGs9foAWuHo
+   QobUBYCf3fs6gWGveWItOlHZ/eJkhm0Kfg9+NOxfaV9ynBzxaHwuubpxK
+   xXYHw06mnhrgqarpBN4JI4CljxJr4P43rWslc9zQr3OiA/E4kahbh7DY8
+   vApEUBq3ILzzSGRsq5iQaF4CJoShkqIZSuTHcRjjcxcVRua+6AFb8xcIR
+   Ch6ZHhzh7c8/Fajlh31O/HjvEnKguHNhU4SlxUp1qdrzqhHciheab29IE
+   eXkBrpWLFBbUfhjk4a15mrKzXQZWv8zwt21qX/S95oH4beeQE8srnxH5G
+   g==;
+X-CSE-ConnectionGUID: A9676raxSr+n/PRmz21s4w==
+X-CSE-MsgGUID: Oqv9FaAoSm+P7DKoJ3TgDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3323682"
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3324901"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 15:22:59 -0800
-X-CSE-ConnectionGUID: bVmcktVvRJKdnI/kYjbbYw==
-X-CSE-MsgGUID: +byfLKhmQ3SuHV65N6j/JA==
+   d="scan'208";a="3323682"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 15:34:48 -0800
+X-CSE-ConnectionGUID: inmdYYaIS2mHAFqRoc1IIQ==
+X-CSE-MsgGUID: mrkHf29aQmGNu8K7Q9mq4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="8872198"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 13 Nov 2026 15:22:58 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8925562"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 Nov 2026 15:34:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xS0bf-000000001P1-2wPw;
-	Fri, 13 Nov 2026 23:22:55 +0000
-Date: Sat, 14 Nov 2026 00:22:36 +0100
+	id 1xS0n5-000000014Qh-2ylI;
+	Fri, 13 Nov 2026 23:34:43 +0000
+Date: Sat, 14 Nov 2026 07:34:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fsnotify_group_type 20/26]
- fs/notify/fanotify/fanotify.c:1014:9: sparse: sparse: cast truncates bits
- from constant value (101000000 becomes 1000000)
-Message-ID: <202611140019.Jzk7MaNl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, hugo@hugovil.com,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] serial: sc16is7xx: Fix clock leak on invalid clock
+ frequency
+Message-ID: <202611140752.jrPC8oJ4-lkp@intel.com>
+References: <20261113103855.2144-1-laixiangwu@cmss.chinamobile.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,135 +84,138 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261113103855.2144-1-laixiangwu@cmss.chinamobile.com>
 
-tree:   https://github.com/amir73il/linux fsnotify_group_type
-head:   a9e647af5bf1c08af70a0c407ad1733c91c85ac4
-commit: d4051f4236095085215df08481d4c1f9920c3fbd [20/26] fanotify: define new FAN_NS_MNT_* constants
-config: openrisc-randconfig-r2305-20261113 (https://download.01.org/0day-ci/archive/20261114/202611140019.Jzk7MaNl-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140019.Jzk7MaNl-lkp@intel.com/reproduce)
+Hi Xiangwu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linux-review/laixiangwu/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261030-165507]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiangwu-Lai/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261113-183854
+base:   https://github.com/intel-lab-lkp/linux laixiangwu/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261030-165507
+patch link:    https://lore.kernel.org/r/20261113103855.2144-1-laixiangwu%40cmss.chinamobile.com
+patch subject: [PATCH v2] serial: sc16is7xx: Fix clock leak on invalid clock frequency
+config: powerpc-randconfig-1000-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140752.jrPC8oJ4-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140752.jrPC8oJ4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611140019.Jzk7MaNl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611140752.jrPC8oJ4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/notify/fanotify/fanotify.c:1170:27: sparse: sparse: symbol 'fanotify_fsnotify_ops' was not declared. Should it be static?
->> fs/notify/fanotify/fanotify.c:1014:9: sparse: sparse: cast truncates bits from constant value (101000000 becomes 1000000)
-   fs/notify/fanotify/fanotify.c:1015:9: sparse: sparse: cast truncates bits from constant value (102000000 becomes 2000000)
+All errors (new ones prefixed by >>):
 
-vim +1014 fs/notify/fanotify/fanotify.c
+>> drivers/tty/serial/sc16is7xx.c:1622:9: error: use of undeclared label 'out_clk'
+    1622 |                         goto out_clk;
+         |                              ^
+   1 error generated.
 
-   965	
-   966	#define ASSERT_FS_EVENT(fan_mask, fsn_mask) \
-   967		BUILD_BUG_ON((u32)(fan_mask) != (fsn_mask) || \
-   968			     FAN_EVENT_TYPE(fan_mask) != FSNOTIFY_GROUP_TYPE_FILESYSTEM)
-   969	#define ASSERT_NAMESPACE_EVENT(fan_mask, fsn_mask) \
-   970		BUILD_BUG_ON((u32)(fan_mask) != (fsn_mask) || \
-   971			     FAN_EVENT_TYPE(fan_mask) != FSNOTIFY_GROUP_TYPE_NAMESPACE)
-   972	
-   973	static int fanotify_handle_event(struct fsnotify_group *group, u32 mask,
-   974					 const void *data, int data_type,
-   975					 struct inode *dir,
-   976					 const struct qstr *file_name, u32 cookie,
-   977					 struct fsnotify_iter_info *iter_info)
-   978	{
-   979		int ret = 0;
-   980		struct fanotify_event *event;
-   981		struct fsnotify_event *fsn_event;
-   982		__kernel_fsid_t fsid = {};
-   983		u32 match_mask = 0;
-   984		bool is_perm_event = fsnotify_is_filesystem_watcher(group) &&
-   985				     (mask & FANOTIFY_PERM_EVENTS);
-   986	
-   987		/* Assert "strong typed" events for filesystem watcher */
-   988		ASSERT_FS_EVENT(FAN_ACCESS, FS_ACCESS);
-   989		ASSERT_FS_EVENT(FAN_MODIFY, FS_MODIFY);
-   990		ASSERT_FS_EVENT(FAN_ATTRIB, FS_ATTRIB);
-   991		ASSERT_FS_EVENT(FAN_CLOSE_NOWRITE, FS_CLOSE_NOWRITE);
-   992		ASSERT_FS_EVENT(FAN_CLOSE_WRITE, FS_CLOSE_WRITE);
-   993		ASSERT_FS_EVENT(FAN_OPEN, FS_OPEN);
-   994		ASSERT_FS_EVENT(FAN_MOVED_TO, FS_MOVED_TO);
-   995		ASSERT_FS_EVENT(FAN_MOVED_FROM, FS_MOVED_FROM);
-   996		ASSERT_FS_EVENT(FAN_CREATE, FS_CREATE);
-   997		ASSERT_FS_EVENT(FAN_DELETE, FS_DELETE);
-   998		ASSERT_FS_EVENT(FAN_DELETE_SELF, FS_DELETE_SELF);
-   999		ASSERT_FS_EVENT(FAN_MOVE_SELF, FS_MOVE_SELF);
-  1000		ASSERT_FS_EVENT(FAN_EVENT_ON_CHILD, FS_EVENT_ON_CHILD);
-  1001		ASSERT_FS_EVENT(FAN_Q_OVERFLOW, FS_Q_OVERFLOW);
-  1002		ASSERT_FS_EVENT(FAN_OPEN_PERM, FS_OPEN_PERM);
-  1003		ASSERT_FS_EVENT(FAN_ACCESS_PERM, FS_ACCESS_PERM);
-  1004		ASSERT_FS_EVENT(FAN_ONDIR, FS_ISDIR);
-  1005		ASSERT_FS_EVENT(FAN_OPEN_EXEC, FS_OPEN_EXEC);
-  1006		ASSERT_FS_EVENT(FAN_OPEN_EXEC_PERM, FS_OPEN_EXEC_PERM);
-  1007		ASSERT_FS_EVENT(FAN_FS_ERROR, FS_ERROR);
-  1008		ASSERT_FS_EVENT(FAN_RENAME, FS_RENAME);
-  1009		ASSERT_FS_EVENT(FAN_PRE_ACCESS, FS_PRE_ACCESS);
-  1010		/* Assert backward compat mount events */
-  1011		ASSERT_FS_EVENT(FAN_MNT_ATTACH, FSN_MNT_ATTACH);
-  1012		ASSERT_FS_EVENT(FAN_MNT_DETACH, FSN_MNT_DETACH);
-  1013		/* Assert "strong typed" events for namespace watcher */
-> 1014		ASSERT_NAMESPACE_EVENT(FAN_NS_MNT_ATTACH, FSN_MNT_ATTACH);
-  1015		ASSERT_NAMESPACE_EVENT(FAN_NS_MNT_DETACH, FSN_MNT_DETACH);
-  1016	
-  1017		BUILD_BUG_ON(HWEIGHT64(ALL_FANOTIFY_EVENT_BITS) != 25);
-  1018	
-  1019		mask = fanotify_group_event_mask(group, iter_info, &match_mask,
-  1020						 mask, data, data_type, dir);
-  1021		if (!mask)
-  1022			return 0;
-  1023	
-  1024		pr_debug("%s: group=%p type=%d mask=%x report_mask=%x\n", __func__,
-  1025			 group, group->type, mask, match_mask);
-  1026	
-  1027		if (is_perm_event) {
-  1028			/*
-  1029			 * fsnotify_prepare_user_wait() fails if we race with mark
-  1030			 * deletion.  Just let the operation pass in that case.
-  1031			 */
-  1032			if (!fsnotify_prepare_user_wait(iter_info))
-  1033				return 0;
-  1034		}
-  1035	
-  1036		if (FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS))
-  1037			fsid = fanotify_get_fsid(iter_info);
-  1038	
-  1039		event = fanotify_alloc_event(group, mask, data, data_type, dir,
-  1040					     file_name, &fsid, match_mask);
-  1041		ret = -ENOMEM;
-  1042		if (unlikely(!event)) {
-  1043			/*
-  1044			 * We don't queue overflow events for permission events as
-  1045			 * there the access is denied and so no event is in fact lost.
-  1046			 */
-  1047			if (!is_perm_event)
-  1048				fsnotify_queue_overflow(group);
-  1049			goto finish;
-  1050		}
-  1051	
-  1052		fsn_event = &event->fse;
-  1053		ret = fsnotify_insert_event(group, fsn_event, fanotify_merge,
-  1054					    fanotify_insert_event);
-  1055		if (ret) {
-  1056			/* Permission events shouldn't be merged */
-  1057			WARN_ON(ret == 1 && is_perm_event);
-  1058			/* Our event wasn't used in the end. Free it. */
-  1059			fsnotify_destroy_event(group, fsn_event);
-  1060	
-  1061			ret = 0;
-  1062		} else if (is_perm_event) {
-  1063			ret = fanotify_get_response(group, FANOTIFY_PERM(event),
-  1064						    iter_info);
-  1065		}
-  1066	finish:
-  1067		if (is_perm_event)
-  1068			fsnotify_finish_user_wait(iter_info);
-  1069	
-  1070		return ret;
-  1071	}
-  1072	
+
+vim +/out_clk +1622 drivers/tty/serial/sc16is7xx.c
+
+a5bb146502b22f Hugo Villeneuve     2025-10-27  1567  
+d49216438139bc Hugo Villeneuve     2024-04-09  1568  int sc16is7xx_probe(struct device *dev, const struct sc16is7xx_devtype *devtype,
+3837a0379533aa Hugo Villeneuve     2023-10-30  1569  		    struct regmap *regmaps[], int irq)
+dfeae619d781de Jon Ringle          2014-04-24  1570  {
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1571  	unsigned long freq = 0, *pfreq = dev_get_platdata(dev);
+2aa916e67db3e6 Daniel Mack         2020-05-21  1572  	unsigned int val;
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1573  	u32 uartclk = 0;
+dfeae619d781de Jon Ringle          2014-04-24  1574  	int i, ret;
+dfeae619d781de Jon Ringle          2014-04-24  1575  	struct sc16is7xx_port *s;
+cf9c37530fdabc Hugo Villeneuve     2024-04-09  1576  	bool port_registered[SC16IS7XX_MAX_PORTS];
+dfeae619d781de Jon Ringle          2014-04-24  1577  
+3837a0379533aa Hugo Villeneuve     2023-10-30  1578  	for (i = 0; i < devtype->nr_uart; i++)
+3837a0379533aa Hugo Villeneuve     2023-10-30  1579  		if (IS_ERR(regmaps[i]))
+3837a0379533aa Hugo Villeneuve     2023-10-30  1580  			return PTR_ERR(regmaps[i]);
+dfeae619d781de Jon Ringle          2014-04-24  1581  
+2aa916e67db3e6 Daniel Mack         2020-05-21  1582  	/*
+2aa916e67db3e6 Daniel Mack         2020-05-21  1583  	 * This device does not have an identification register that would
+2aa916e67db3e6 Daniel Mack         2020-05-21  1584  	 * tell us if we are really connected to the correct device.
+2aa916e67db3e6 Daniel Mack         2020-05-21  1585  	 * The best we can do is to check if communication is at all possible.
+f6959c5217bd79 Hugo Villeneuve     2023-12-11  1586  	 *
+f6959c5217bd79 Hugo Villeneuve     2023-12-11  1587  	 * Note: regmap[0] is used in the probe function to access registers
+f6959c5217bd79 Hugo Villeneuve     2023-12-11  1588  	 * common to all channels/ports, as it is guaranteed to be present on
+f6959c5217bd79 Hugo Villeneuve     2023-12-11  1589  	 * all variants.
+2aa916e67db3e6 Daniel Mack         2020-05-21  1590  	 */
+3837a0379533aa Hugo Villeneuve     2023-10-30  1591  	ret = regmap_read(regmaps[0], SC16IS7XX_LSR_REG, &val);
+2aa916e67db3e6 Daniel Mack         2020-05-21  1592  	if (ret < 0)
+158e800e0fde91 Annaliese McDermond 2021-03-29  1593  		return -EPROBE_DEFER;
+2aa916e67db3e6 Daniel Mack         2020-05-21  1594  
+dfeae619d781de Jon Ringle          2014-04-24  1595  	/* Alloc port structure */
+84f1c5c0174ace Gustavo A. R. Silva 2019-01-04  1596  	s = devm_kzalloc(dev, struct_size(s, p, devtype->nr_uart), GFP_KERNEL);
+e0925b4a0417d3 Hugo Villeneuve     2025-10-27  1597  	if (!s)
+dfeae619d781de Jon Ringle          2014-04-24  1598  		return -ENOMEM;
+dfeae619d781de Jon Ringle          2014-04-24  1599  
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1600  	/* Always ask for fixed clock rate from a property. */
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1601  	device_property_read_u32(dev, "clock-frequency", &uartclk);
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1602  
+e8ed246ded863e Andre Werner        2025-01-21  1603  	s->polling = (irq <= 0);
+104c1b9dde9d85 Andre Werner        2025-01-10  1604  	if (s->polling)
+104c1b9dde9d85 Andre Werner        2025-01-10  1605  		dev_dbg(dev,
+104c1b9dde9d85 Andre Werner        2025-01-10  1606  			"No interrupt pin definition, falling back to polling mode\n");
+104c1b9dde9d85 Andre Werner        2025-01-10  1607  
+dd515504148c43 Xiangwu Lai         2026-11-13  1608  	s->clk = devm_clk_get_optional_enabled(dev, NULL);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1609  	if (IS_ERR(s->clk))
+cb1b206cff461d Andy Shevchenko     2021-05-17  1610  		return PTR_ERR(s->clk);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1611  
+cb1b206cff461d Andy Shevchenko     2021-05-17  1612  	freq = clk_get_rate(s->clk);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1613  	if (freq == 0) {
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1614  		if (uartclk)
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1615  			freq = uartclk;
+dfeae619d781de Jon Ringle          2014-04-24  1616  		if (pfreq)
+dfeae619d781de Jon Ringle          2014-04-24  1617  			freq = *pfreq;
+a9226b472bbffe laixiangwu          2026-10-30  1618  		if (freq) {
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1619  			dev_dbg(dev, "Clock frequency: %luHz\n", freq);
+a9226b472bbffe laixiangwu          2026-10-30  1620  		} else {
+a9226b472bbffe laixiangwu          2026-10-30  1621  			ret = -EINVAL;
+a9226b472bbffe laixiangwu          2026-10-30 @1622  			goto out_clk;
+a9226b472bbffe laixiangwu          2026-10-30  1623  		}
+dfeae619d781de Jon Ringle          2014-04-24  1624  	}
+dfeae619d781de Jon Ringle          2014-04-24  1625  
+dfeae619d781de Jon Ringle          2014-04-24  1626  	s->devtype = devtype;
+dfeae619d781de Jon Ringle          2014-04-24  1627  	dev_set_drvdata(dev, s);
+dfeae619d781de Jon Ringle          2014-04-24  1628  
+3989144f863ac5 Petr Mladek         2016-10-11  1629  	kthread_init_worker(&s->kworker);
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1630  	s->kworker_task = kthread_run(kthread_worker_fn, &s->kworker,
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1631  				      "sc16is7xx");
+dd515504148c43 Xiangwu Lai         2026-11-13  1632  	if (IS_ERR(s->kworker_task))
+dd515504148c43 Xiangwu Lai         2026-11-13  1633  		return PTR_ERR(s->kworker_task);
+dd515504148c43 Xiangwu Lai         2026-11-13  1634  
+28d2f209cd1620 Peter Zijlstra      2020-04-21  1635  	sched_set_fifo(s->kworker_task);
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1636  
+4fb92bdb8e84e6 Hui Wang            2024-06-18  1637  	ret = sc16is7xx_reset(dev, regmaps[0]);
+4fb92bdb8e84e6 Hui Wang            2024-06-18  1638  	if (ret)
+4fb92bdb8e84e6 Hui Wang            2024-06-18  1639  		goto out_kthread;
+43c51bb573aab6 Florian Vallee      2016-07-19  1640  
+cf9c37530fdabc Hugo Villeneuve     2024-04-09  1641  	/* Mark each port line and status as uninitialised. */
+dfeae619d781de Jon Ringle          2014-04-24  1642  	for (i = 0; i < devtype->nr_uart; ++i) {
+cf9c37530fdabc Hugo Villeneuve     2024-04-09  1643  		s->p[i].port.line = SC16IS7XX_MAX_DEVS;
+cf9c37530fdabc Hugo Villeneuve     2024-04-09  1644  		port_registered[i] = false;
+8a1060ce974919 Hugo Villeneuve     2023-12-21  1645  	}
+8a1060ce974919 Hugo Villeneuve     2023-12-21  1646  
+cf9c37530fdabc Hugo Villeneuve     2024-04-09  1647  	for (i = 0; i < devtype->nr_uart; ++i) {
+dfeae619d781de Jon Ringle          2014-04-24  1648  		s->p[i].port.dev	= dev;
+dfeae619d781de Jon Ringle          2014-04-24  1649  		s->p[i].port.irq	= irq;
+dfeae619d781de Jon Ringle          2014-04-24  1650  		s->p[i].port.uartclk	= freq;
+3837a0379533aa Hugo Villeneuve     2023-10-30  1651  		s->p[i].regmap		= regmaps[i];
+21144bab4f1191 Tomasz Moń          2022-03-01  1652  
+a5bb146502b22f Hugo Villeneuve     2025-10-27  1653  		ret = sc16is7xx_setup_channel(&s->p[i], i, &port_registered[i]);
+b4a778303ea0fc Hugo Villeneuve     2023-08-07  1654  		if (ret)
+b4a778303ea0fc Hugo Villeneuve     2023-08-07  1655  			goto out_ports;
+dfeae619d781de Jon Ringle          2014-04-24  1656  	}
+dfeae619d781de Jon Ringle          2014-04-24  1657  
+1a0a2a1e57aa8d Hugo Villeneuve     2023-09-27  1658  	sc16is7xx_setup_irda_ports(s);
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1659  
+f6959c5217bd79 Hugo Villeneuve     2023-12-11  1660  	ret = sc16is7xx_setup_mctrl_ports(s, regmaps[0]);
+0499942928341d Hugo Villeneuve     2023-08-07  1661  	if (ret)
+0499942928341d Hugo Villeneuve     2023-08-07  1662  		goto out_ports;
+0499942928341d Hugo Villeneuve     2023-08-07  1663  
 
 --
 0-DAY CI Kernel Test Service
