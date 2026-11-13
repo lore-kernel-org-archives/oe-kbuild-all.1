@@ -1,79 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583266;
-	b=EwOZOzqg4VW8154OCdph0pMfUK4yoUZj9IYKSR4D3Me0lM9+Muxgl9UrQoXnvGnnhZ9h
-	 /g+P4VCUDom+FafXAQhYISye668YDJJ2qK1ZTqXqjZ+9eqm0LbDP4XYQUtOjj0hZqmIUN
-	 ZwOpTmmbkdvHrUkwE43rjcvhENsqmsABEJvLBn1DZL3hPT4JR1cLW/znIRTVPXOEXVOg7
-	 oIkBJi5YNr36ROpVlM876z2KiKqJPvOQgzqCEsMFMHB9A4IRe5uyI2jEn7aNJmeOf2XvP
-	 +fnEmLP/6vlhHAMW3xVucHq4K8lqI8FbpLmlfxSkgsxMHWXA/Vz5rSqeQmfHF9GE0rQ==
+	t=1794585786;
+	b=gkF5q0fZXSmc7ErS1TLzg2vZLjQ1ITWoJoDInXmqOBTcuZSqZxWhHDChUdAW15UU2AXg
+	 FgRQCHkI3iTXmW/+NSx/5ccNyWIHOfF+s9g1FTAeK49JXnRapo13D27b4L36YNn46Gv2l
+	 EKsqYOHT4WbCUvFW9QMEGZSTjs5P1XeZ4yijyb31+VL4Pb9EWUWIxIRoqHE8/XZwNTMAm
+	 V9MYNLZWCnHoQtEjtO/Mamqb7KRHNmy9Aus/Es4j9hvftCCLdUvcisRM3fBNwXGNs8Rlj
+	 4RIWDPlTsyx5lfYrOKwfVv+c/SB3LQgFERt7orrxuA5FC1FYQR5dFsteO/o0VGPpgbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583266;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794585786;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=bU5DE/uhWdiN3flCELkoPLF66Si96iQIuQfP3K+4wkA=;
-	b=1AfDI3bkjm5yK7/wN5oRcBfuoBNmJyUyL4sH9fHla/oW97tcD+6S73S75b2PaPBYk3zj
-	 XMyL2HcnzVkOMlOH1gONPoJbgU++DeIUJcjEDI9RpkR+KB1xWYLD0echcXcF3jETsEaX+
-	 q61F1M3WqwWllFgxp7s2UCrcHxQ+HJcpOEV6xkMltEdW1saPH6596w6T+3WKFFYCbfBQt
-	 96a7oZ3b5j8DfneL7SIAzNq8Oxt+O+buvKmrwykgfdXUo8whxlfrOza3CDVanXd+Paiws
-	 uZi+gImh/wcFoVVtHebFpM+6oi+Qt8bULsgh6XRxX92cIhJZHIjDmsr8fbMlFUMvIPA==
+	bh=lv8NvC7HZDwkKZVoXw+7O2h5gIlJbnwmSDVX+2upUUs=;
+	b=ErwaJ29HXGLsx9pHtBdECbcwy0RUzkQS3sEP9V4eGfBr3Qt78w0tFw1u7jCArfhG0cQu
+	 b3bmxCq9XdQoEuxdgIIDqBVV4wzK7PhX0CAHJ/FKvwncCszbQe0BEegePNkiaDJTtp4Fo
+	 3TNezwVUerlOGA4k6QRVGmZN2hNBcEpW3HdgZ50m8PhyQLzJqN9cyh1ocAyIMByzELKim
+	 Fj7lHbBrMWY6QLQ7M8tmC9qiuqoFD8bUOJH7zZqmTIEOPj4audN5ZZzkILgHKqlcYk78B
+	 rKY/m1Ov5gNKxOws6MbEyHcRcKuaFhVlMqq5u63FIWuFj/ohpbrm2rLb+WABRA57EWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuY4YJ0r;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MijHPcsQ;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C05606A333
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 15:21:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27C05606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E592606D472
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 16:03:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E592606D472
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuY4YJ0r
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MijHPcsQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794583266; x=1826119266;
+  t=1794585787; x=1826121787;
   h=date:from:to:cc:subject:message-id;
-  bh=L6QYJH9KZ+SbJEA8B7OE4K6jcnlTKs2PVhoOR56VQKQ=;
-  b=WuY4YJ0rX/zw8W3XS5N3CDrMKgE6G72Z6zNqt/5/3kXaded3tqX+ptzM
-   C3OalVygAVb/AUWYU7MIpE44ee0mVWjBTkxokmb2vo5MTgDqj4dUbzzOL
-   qhZmLlay02rplbwciGampZxF1URc5SXshfFX0jfyj+nr4nm+ePRkPxcgw
-   ZUfDTFHg+9gUTppUKWB+K8RRgdgyI9NeWRPF+phyLOYUWmSfcqiTp5WWt
-   FJ5ZUu4XG2TGUgotUW8NSmipdO626GH9+4+/w1XziC4DP4ZODniqGnJOV
-   UnrgVgKtO0A+P2R3+sdJyFwnoU68+V35Q3YBn0Jhp59iY8rEscQBY0Fge
+  bh=iTh6WixWUDEbiKZbg0v39EPO5GHw8FrjoVYrf52zqFs=;
+  b=MijHPcsQt5Yszq90yQvE70aeu7HVcRtAD5KCu9Gk24MUYScUxmMExqXC
+   oOZ4x6T9iEumQ1RWpOguwiplRnzzWYi4kuhocXykXNUCCMa7OURZGEWAL
+   5dt4WTmSUHJhirA4FwDrd7AP4hqzb7OCYgjDk1WDco1fNpQbzfTAcfOlX
+   VB965lL09GTi7TUlFrlFYL7wGmYJuM8IA54DU0Tel8hvMtIkP5XxRXcLK
+   UMlsWFZHnWtFXwPXlzWwSYM53GYtKNzc7V/QxU8z9nW87bX0VCQI0MmsG
+   aibjoJbKc4TuohOiw/1ni5JoYYlJyq64P39K1+YX0vlZg+Ztnlg8JIyCp
    w==;
-X-CSE-ConnectionGUID: ReL/I4b1T6esguz+HPp7SA==
-X-CSE-MsgGUID: IFJLau6+QgSfvDz2V8zWDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3376603"
+X-CSE-ConnectionGUID: 3tCbWKe+QKOkVFIMZMaGww==
+X-CSE-MsgGUID: 8c2HSb+uRNeZ3rvI04oPfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3387171"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3376603"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 07:21:05 -0800
-X-CSE-ConnectionGUID: pC0dXxRSQHe7r7sUecj34Q==
-X-CSE-MsgGUID: v0XUbBShR3+ukcwWWO0PAw==
+   d="scan'208";a="3387171"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:03:06 -0800
+X-CSE-ConnectionGUID: Jn5E5HN0Q2SBwu/Ed/juJg==
+X-CSE-MsgGUID: rMENWAhJSS+2U0SLEh4nqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="9217798"
+   d="scan'208";a="9118710"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Nov 2026 07:21:03 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2026 08:03:03 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRt5H-000000001IB-42Bs;
-	Fri, 13 Nov 2026 15:20:59 +0000
-Date: Fri, 13 Nov 2026 16:20:51 +0100
+	id 1xRtjx-000000001Id-0UlJ;
+	Fri, 13 Nov 2026 16:03:01 +0000
+Date: Fri, 13 Nov 2026 17:02:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: Phillip Lougher <phillip@squashfs.org.uk>
 Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  Linux Memory Management List <linux-mm@kvack.org>,
  mm-commits@vger.kernel.org
-Subject: [akpm-mm:mm-nonmm-unstable 130/151]
- fs/squashfs/namei.c:141:21: sparse: sparse: unsigned value that used to be
- signed checked against zero?
-Message-ID: <202611131605.L4Uvbf8p-lkp@intel.com>
+Subject: [akpm-mm:mm-nonmm-unstable 130/151] fs/squashfs/namei.c:141
+ squashfs_lookup() warn: unsigned 'block' is never less than zero.
+Message-ID: <202611131701.jmNjTw9l-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,22 +86,20 @@ Precedence: list
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
 head:   152f0559e66c079f717de375f133ff127afb1f58
 commit: 4dddf794b08bef04e5634dd4b52775a160d2cb6c [130/151] Squashfs: sanity check directory metadata block location
-config: sh-randconfig-r2307-20261113 (https://download.01.org/0day-ci/archive/20261113/202611131605.L4Uvbf8p-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611131605.L4Uvbf8p-lkp@intel.com/reproduce)
+config: um-randconfig-2200-20261113 (https://download.01.org/0day-ci/archive/20261113/202611131701.jmNjTw9l-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611131605.L4Uvbf8p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611131701.jmNjTw9l-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/squashfs/namei.c:141:21: sparse: sparse: unsigned value that used to be signed checked against zero?
-   fs/squashfs/namei.c: note: in included file:
-   fs/squashfs/squashfs_helpers.h:79:24: sparse: signed value source
+smatch warnings:
+fs/squashfs/namei.c:141 squashfs_lookup() warn: unsigned 'block' is never less than zero.
+fs/squashfs/namei.c:141 squashfs_lookup() warn: error code type promoted to positive: 'block'
 
-vim +141 fs/squashfs/namei.c
+vim +/block +141 fs/squashfs/namei.c
 
    123	
    124	
