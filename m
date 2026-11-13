@@ -1,77 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794534384;
-	b=18HXRJX4HPtoYXWG8L4C9N8yhQ8dycE1SUrPZ5wknywPoqmyiHoN64FbUfpMp9XvnL+G
-	 sEy7CHy7wKzTpxizTiLvPuOXSX7bTvMKxJVvzo3Ay2dPUL4Hi3hsLBi2ClHxofQOEN4py
-	 fmNPhj6B4w89IXqM0WKEysuozltWqkO4M28yXmjbYnps13ihOPu7B2M5HOZgk30/dCYrB
-	 7vf0QFNifbY0FTdrTLv3aozWfX4XbaEoefpoMTy1BzgNGFHNlLuJTO/RcPoc00m/DSYI7
-	 mzisAGbTV2CihXqn/t5w/thbztW9JbB+DktlAAvjDqaiA4JzZBuGJjByM9fGunT47iw==
+	t=1794538303;
+	b=DvfhLjoXz+RhWYK491zmw0b7Ttuz+LUlg4gTL0oYMvzz0kwxWohicKdQW8HjFKk70UwO
+	 LiW5Yetxs9eC3qp1KTP5V5VWMr4DX08yMl0KH49lW04sFJX+U1Vfhju9c0YwvHFibXjBW
+	 E3w1ixuXZA5dBk7MrSc5wunJrrgxWQ5yRYxB/ozkDOQ6WSMUOqIIi3cl4xu+Qc/eC9cQ2
+	 t6Ul6smA4IrWI2jMjSzmdiVj9hnr5TxeqqKx0Yoa4cv41dUn6yVw+64gErTVJf+QgpwtZ
+	 xDW203PnRYdUnT79FkbCeOdHBg+r+qq+Nolw21icsolbT7yMG0692qMV1p3E+wgauvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794534384;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794538303;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=gISKFZgrPgYjpdXhdgkjZ88SIU6lDLBMB+wC3wrVwpg=;
-	b=QDt1OosJLArpQaXFbqmQvYQALKrnJL9kZUZTd4mebuDCFhN1bxpgPAZ5EmcbEv1OJdSJ
-	 UPbkyalRKhIvNaC1clXnmWUtVaGVgD2iGaMPaa+4xVv7yM7gVFiy50QKP8L1YCDsIbI86
-	 FxFHauSbudCU4tRnoA9xnJxZ4/VK2KGheObWOeZs2t1pyAVRPIs7LMwICw7OpzoRpDTy3
-	 4aNoTbClXgtugN8DDhILLsROqSjI5sUKdr8fMSR+dVtryDo4hsr94zb08o2ceOu9YfR94
-	 SyDFplU/ZPBPPbNhcaGgk+jupUhJgYxMjqzIShSsLMfauN8Dcvi3lcmG+gWUDbJEkYQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9q3WecW58AVzVN8/3AXX3WSFjtoBFejU4UH87CoM6+E=;
+	b=ZBkPGihG7IwCzemVxQVc5vTB39YnoQkY7x9HI+cp2RYvmOgsmWhJ9d+eAsGpdlRlAeFH
+	 /94jHBnSu+KJWstVMnQmWVd8TiTH9w375BedED1id+9oXUjpDaN67NLGPmm6YxiEnAyJL
+	 RLnnJQlfykHdye4yZFSOZvH+zeOeLSQX0R6fCZamMuMNYzIAhga7uiYKf/3us6N/mguhw
+	 C2AW4rjJJmTNXLYzoNjZJPZs1Ko/e+27+l6Q7R4R4IZDql7ZiMe1Oy1c3rh5NQjbyOZ8a
+	 5SnZyyAoDcMbQzJC3pNK1K+HprjwcxoQFdPuIcjT81HsgSwm4tbpVyG4dgBXBZksZmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VPWhDbDN;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hmsndqWY;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93E3606A323;
-	Fri, 13 Nov 2026 01:46:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B93E3606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E2460A3816;
+	Fri, 13 Nov 2026 02:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97E2460A3816
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VPWhDbDN
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hmsndqWY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794534384; x=1826070384;
-  h=date:from:to:cc:subject:message-id;
-  bh=RUk3zXnJjj8KQt+Gx7cF1Jsyg851xFUNTW1+wCe00So=;
-  b=VPWhDbDN25qiEP7g2CzWfk3mWOL/Qe67mSU/Zr2IkwH6FZNFdB4O++A6
-   MhjOfw6aqpYX7CZap5DG9CWCyqWQ92X9OaT5xmsqHBQRRfEnfjDwiYXDn
-   fA/rT8NguppDv2jErrDfJYOXD+P6U/dja0QxA1pXGrjRXisihZPeMrhnU
-   b2FEAWzPiLOH9dUeLUQBVz8hgIjyjpXD8SIKu8Gwly6KyZaj2JSONK5e2
-   x/I4hQYM+hvB8DZn1e3Twa1ESaM+mOXAHFBSzwQsSAwlpmoxJLXjbo/cD
-   S3VBgV2qnAOwZtzf7k+hffhz0jAgM2K2TbJRC60yeosP86NdylVs2Lelh
-   w==;
-X-CSE-ConnectionGUID: 3sQQyZxIT9CbmPvkfpraVw==
-X-CSE-MsgGUID: 7TKFeiQ9RCeMaC17ZU5YTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3361732"
+  t=1794538303; x=1826074303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fxqpdnvOspyiKnPiU9wfiXKu4XCKOXuYAgetxr629AM=;
+  b=hmsndqWYvkivvkd5QAKKNdThBIEvxKZTBSj7IyB9f8MoQh47ZsDHIbuE
+   ZmMRjxDvbZbjmcuFm1pTtnHgD/Oicb742zMezAu4lz180Wr4ZxErgPnrT
+   QHL1NaUR+CCl5PPJK96dLKr3ZZrzKaFMHLyRO/WL4ixXg+oqB0rzwylf0
+   g5IG7E/JVELM5Xkh+kPfBqygWfwOJb2cxA7aBguCJYdnRuzuNab+bzWUn
+   QsM4nVb2rei1W9TOULScQrEIfEc0rnxh6mtzeyKlRHkv5c0iTQ79ARWkM
+   xVE7rrWaXbWB0WMPS8ec+93aqfUDUmdS04rXcxqHBQkH+O86WIQBfnYbO
+   A==;
+X-CSE-ConnectionGUID: vOonq1ErQyGMZlKpAkG8Pg==
+X-CSE-MsgGUID: mvmv6G4WSOujop1o3LB6ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3232620"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3361732"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 17:46:24 -0800
-X-CSE-ConnectionGUID: tmg4FqBeQBSi9NERwJN8Ag==
-X-CSE-MsgGUID: uqGqxfbXREqrRwJwzytz2g==
+   d="scan'208";a="3232620"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 18:51:43 -0800
+X-CSE-ConnectionGUID: yPq+HySaSR+ZKVdZDROT3g==
+X-CSE-MsgGUID: ajzsGcyWSYijWq20X5aymw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="8694046"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 12 Nov 2026 17:46:21 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8831933"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Nov 2026 18:51:39 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRgMt-0000000014d-3Pwi;
-	Fri, 13 Nov 2026 01:46:19 +0000
-Date: Fri, 13 Nov 2026 02:45:28 +0100
+	id 1xRhO5-000000012L5-1qoW;
+	Fri, 13 Nov 2026 02:51:37 +0000
+Date: Fri, 13 Nov 2026 10:50:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:b4/acpi_ffh_ffa 4/4]
- include/linux/arm_ffa.h:189:30: warning: declaration of 'struct
- arm_smccc_1_2_regs' will not be visible outside of this function
-Message-ID: <202611130207.5etShYWM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sudeep Holla <sudeep.holla@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Jamie Nguyen <jamien@nvidia.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Dat Mach <dmach@nvidia.com>
+Subject: Re: [PATCH v2 3/3] firmware: arm_ffa: Share FF-A version negotiation
+Message-ID: <202611131010.OMo0VbqM-lkp@intel.com>
+References: <20261112-acpi_ffh_ffa-v2-3-575a9dbed22b@kernel.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,18 +87,29 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-acpi_ffh_ffa-v2-3-575a9dbed22b@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_ffh_ffa
-head:   97703bfac03a9e3c2f351b14974457f8bd9f8775
-commit: 97703bfac03a9e3c2f351b14974457f8bd9f8775 [4/4] firmware: arm_ffa: Share FF-A version negotiation
-config: arm-randconfig-2002-20261112 (https://download.01.org/0day-ci/archive/20261113/202611130207.5etShYWM-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611130207.5etShYWM-lkp@intel.com/reproduce)
+Hi Sudeep,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7475ea8b58616b33c04afb976cf0fbaad9dd63fb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sudeep-Holla/firmware-arm_ffa-Share-FF-A-register-field-definitions/20261112-111406
+base:   7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+patch link:    https://lore.kernel.org/r/20261112-acpi_ffh_ffa-v2-3-575a9dbed22b%40kernel.org
+patch subject: [PATCH v2 3/3] firmware: arm_ffa: Share FF-A version negotiation
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261113/202611131010.OMo0VbqM-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1b1fed44d3dcca649a9877915d57c3357a98124e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611131010.OMo0VbqM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611130207.5etShYWM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611131010.OMo0VbqM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
