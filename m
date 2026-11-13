@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794585786;
-	b=gkF5q0fZXSmc7ErS1TLzg2vZLjQ1ITWoJoDInXmqOBTcuZSqZxWhHDChUdAW15UU2AXg
-	 FgRQCHkI3iTXmW/+NSx/5ccNyWIHOfF+s9g1FTAeK49JXnRapo13D27b4L36YNn46Gv2l
-	 EKsqYOHT4WbCUvFW9QMEGZSTjs5P1XeZ4yijyb31+VL4Pb9EWUWIxIRoqHE8/XZwNTMAm
-	 V9MYNLZWCnHoQtEjtO/Mamqb7KRHNmy9Aus/Es4j9hvftCCLdUvcisRM3fBNwXGNs8Rlj
-	 4RIWDPlTsyx5lfYrOKwfVv+c/SB3LQgFERt7orrxuA5FC1FYQR5dFsteO/o0VGPpgbQ==
+	t=1794586114;
+	b=DsU9zf0ifQ6iWV/OMqydSlxYA9USmq8A+N+9ifxu3mNnJtRpCNAI5te7XFBmmTQf9/G+
+	 zP4oCrEtMefXJoscp1ZK4lOSW4R0n7XpCwCUMrS0q7XafYYo9sR+2U6L0ThQZFuo2t/Ui
+	 S3W6VVjMJlZx5iK6+RhVYCYJduoyrEJFMxiHAlrrmAqkDPBfYpsas8R5IKvC075IZxRSB
+	 BYr+s6W8PKKyQTrP1UkYVOj5eEIaXo9YfHj4t5UU47HHoNJ/puFMq+a89VzngfWnzR52a
+	 ZZG1cnvrB6KNSTssX1p/4Xr0PhZiyqTFUMpNsorVT42IohWrUfvGBq8T9jtXORq/2jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585786;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586114;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=lv8NvC7HZDwkKZVoXw+7O2h5gIlJbnwmSDVX+2upUUs=;
-	b=ErwaJ29HXGLsx9pHtBdECbcwy0RUzkQS3sEP9V4eGfBr3Qt78w0tFw1u7jCArfhG0cQu
-	 b3bmxCq9XdQoEuxdgIIDqBVV4wzK7PhX0CAHJ/FKvwncCszbQe0BEegePNkiaDJTtp4Fo
-	 3TNezwVUerlOGA4k6QRVGmZN2hNBcEpW3HdgZ50m8PhyQLzJqN9cyh1ocAyIMByzELKim
-	 Fj7lHbBrMWY6QLQ7M8tmC9qiuqoFD8bUOJH7zZqmTIEOPj4audN5ZZzkILgHKqlcYk78B
-	 rKY/m1Ov5gNKxOws6MbEyHcRcKuaFhVlMqq5u63FIWuFj/ohpbrm2rLb+WABRA57EWg==
+	bh=EDdssnUz7cYEnU39VyJG+RI1tHJSlahm2aFijqeuv5k=;
+	b=BaOyPBkfy7d17HgRxSwCnh2bZ4FCK+sxywMePrdgwmkhHHGIqh546ZuUI3ww7IRXuYwJ
+	 2A9T3HeISO4QM89cF1vLWtXSWxj2P/hgT0mWXEJ0yfPglg0bhnAAhNYUBHm3GyRLmx9MB
+	 s1rHnKf6IvNjTa71Ew1+VljfQxae1nzGr66RDqXo+tpF4UMFvfXrAdSQEKki1SIKSsKJz
+	 LKy85YXqiKuhlzUJdpaVaf6SdFUWXxtD4AYZr9Ah1/R7FNawmpa4fENq43XxhOlLhRsR4
+	 j5KMYseM32bRnrCx/df+YiNjShBQa99NomP2xvuWMAML+bVtzvz0NHzIT1OqcYjeQwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MijHPcsQ;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TPcrau+h;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E592606D472
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 16:03:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E592606D472
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A6F606A330
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 16:08:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55A6F606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MijHPcsQ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TPcrau+h
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794585787; x=1826121787;
+  t=1794586114; x=1826122114;
   h=date:from:to:cc:subject:message-id;
-  bh=iTh6WixWUDEbiKZbg0v39EPO5GHw8FrjoVYrf52zqFs=;
-  b=MijHPcsQt5Yszq90yQvE70aeu7HVcRtAD5KCu9Gk24MUYScUxmMExqXC
-   oOZ4x6T9iEumQ1RWpOguwiplRnzzWYi4kuhocXykXNUCCMa7OURZGEWAL
-   5dt4WTmSUHJhirA4FwDrd7AP4hqzb7OCYgjDk1WDco1fNpQbzfTAcfOlX
-   VB965lL09GTi7TUlFrlFYL7wGmYJuM8IA54DU0Tel8hvMtIkP5XxRXcLK
-   UMlsWFZHnWtFXwPXlzWwSYM53GYtKNzc7V/QxU8z9nW87bX0VCQI0MmsG
-   aibjoJbKc4TuohOiw/1ni5JoYYlJyq64P39K1+YX0vlZg+Ztnlg8JIyCp
+  bh=VDWPkvypHirzwuQA0Zvwf0QkORxXF+OUttWZCuXcNwc=;
+  b=TPcrau+hCSgGK8Bpa6XsDMWf8l3SuCvuYvmJRHSkOLJiok9QAKdZvXH8
+   2sxHFfu6NEGWjTeM2uPC/mc9t/H/bJcwsZIzKYgIuGkl6N1JlfU5TekpY
+   882q6xTiu8PaasOqM0eMzr3hT72sB+xefESQpvXWKFl3mUosf5DFqjnsB
+   1X7r00YuRV8EMarfSbsgmP2qLAwW1xZix1QzhhLyBNSOsmn0ctYC7X02a
+   Qb2SEcoQsvER8qAr0RdCt9ETMXULTCnAq6syLxjpBETkMN5rBhJG1IS1U
+   fFMCwaRP/JVPvu7K8g8zVaIFx0IxhIZcKCwXLinys8xADklmVV+mrOp/4
    w==;
-X-CSE-ConnectionGUID: 3tCbWKe+QKOkVFIMZMaGww==
-X-CSE-MsgGUID: 8c2HSb+uRNeZ3rvI04oPfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3387171"
+X-CSE-ConnectionGUID: QDC8ogzoRn+raIsEa3NuwQ==
+X-CSE-MsgGUID: bhrJGjiQR2Se1bVa1BsGFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3426893"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3387171"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:03:06 -0800
-X-CSE-ConnectionGUID: Jn5E5HN0Q2SBwu/Ed/juJg==
-X-CSE-MsgGUID: rMENWAhJSS+2U0SLEh4nqA==
+   d="scan'208";a="3426893"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:08:33 -0800
+X-CSE-ConnectionGUID: k8XKgO0XS+yrfHdmmmI/yQ==
+X-CSE-MsgGUID: uZQFKuRKRzeqcasQhbniNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="9118710"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2026 08:03:03 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9117385"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Nov 2026 08:08:31 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRtjx-000000001Id-0UlJ;
-	Fri, 13 Nov 2026 16:03:01 +0000
-Date: Fri, 13 Nov 2026 17:02:14 +0100
+	id 1xRtpE-000000013Dt-3hK5;
+	Fri, 13 Nov 2026 16:08:28 +0000
+Date: Sat, 14 Nov 2026 00:07:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Phillip Lougher <phillip@squashfs.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org
-Subject: [akpm-mm:mm-nonmm-unstable 130/151] fs/squashfs/namei.c:141
- squashfs_lookup() warn: unsigned 'block' is never less than zero.
-Message-ID: <202611131701.jmNjTw9l-lkp@intel.com>
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org
+Subject: [tytso-ext4:pu 9/50] fs/ext4/fast_commit-test.c:1145:1:
+ warning: the frame size of 1476 bytes is larger than 1280 bytes
+Message-ID: <202611132301.FRexPvKk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,136 +80,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   152f0559e66c079f717de375f133ff127afb1f58
-commit: 4dddf794b08bef04e5634dd4b52775a160d2cb6c [130/151] Squashfs: sanity check directory metadata block location
-config: um-randconfig-2200-20261113 (https://download.01.org/0day-ci/archive/20261113/202611131701.jmNjTw9l-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
+head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
+commit: 781558b8eddee2d9384ea3f0ed4901b8b329cb24 [9/50] ext4: add KUnit tests for fs/ext4/fast_commit.c
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261113/202611132301.FRexPvKk-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611132301.FRexPvKk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611131701.jmNjTw9l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611132301.FRexPvKk-lkp@intel.com/
 
-smatch warnings:
-fs/squashfs/namei.c:141 squashfs_lookup() warn: unsigned 'block' is never less than zero.
-fs/squashfs/namei.c:141 squashfs_lookup() warn: error code type promoted to positive: 'block'
+All warnings (new ones prefixed by >>):
 
-vim +/block +141 fs/squashfs/namei.c
+   fs/ext4/fast_commit-test.c: In function 'test_fc_init_and_eligibility':
+>> fs/ext4/fast_commit-test.c:1145:1: warning: the frame size of 1476 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1145 | }
+         | ^
 
-   123	
-   124	
-   125	static struct dentry *squashfs_lookup(struct inode *dir, struct dentry *dentry,
-   126					 unsigned int flags)
-   127	{
-   128		const unsigned char *name = dentry->d_name.name;
-   129		int len = dentry->d_name.len;
-   130		struct inode *inode = NULL;
-   131		struct squashfs_sb_info *msblk = dir->i_sb->s_fs_info;
-   132		struct squashfs_dir_header dirh;
-   133		struct squashfs_dir_entry *dire = NULL;
-   134		u64 block = squashfs_dir_start(squashfs_i(dir)->start, msblk);
-   135		int offset = squashfs_i(dir)->offset;
-   136		int err, length;
-   137		unsigned int dir_count, size;
-   138	
-   139		TRACE("Entered squashfs_lookup [%llx:%x]\n", squashfs_i(dir)->start, offset);
-   140	
- > 141		if (block < 0)
-   142			goto data_error;
-   143	
-   144		dire = kmalloc(sizeof(*dire) + SQUASHFS_NAME_LEN + 1, GFP_KERNEL);
-   145		if (dire == NULL) {
-   146			ERROR("Failed to allocate squashfs_dir_entry\n");
-   147			return ERR_PTR(-ENOMEM);
-   148		}
-   149	
-   150		if (len > SQUASHFS_NAME_LEN) {
-   151			err = -ENAMETOOLONG;
-   152			goto failed;
-   153		}
-   154	
-   155		length = get_dir_index_using_name(dir->i_sb, &block, &offset,
-   156					squashfs_i(dir)->dir_idx_start,
-   157					squashfs_i(dir)->dir_idx_offset,
-   158					squashfs_i(dir)->dir_idx_cnt, name);
-   159	
-   160		while (length < i_size_read(dir)) {
-   161			/*
-   162			 * Read directory header.
-   163			 */
-   164			err = squashfs_read_metadata(dir->i_sb, &dirh, &block,
-   165					&offset, sizeof(dirh));
-   166			if (err < 0)
-   167				goto read_failure;
-   168	
-   169			length += sizeof(dirh);
-   170	
-   171			dir_count = le32_to_cpu(dirh.count) + 1;
-   172	
-   173			if (dir_count > SQUASHFS_DIR_COUNT)
-   174				goto data_error;
-   175	
-   176			while (dir_count--) {
-   177				/*
-   178				 * Read directory entry.
-   179				 */
-   180				err = squashfs_read_metadata(dir->i_sb, dire, &block,
-   181						&offset, sizeof(*dire));
-   182				if (err < 0)
-   183					goto read_failure;
-   184	
-   185				size = le16_to_cpu(dire->size) + 1;
-   186	
-   187				/* size should never be larger than SQUASHFS_NAME_LEN */
-   188				if (size > SQUASHFS_NAME_LEN)
-   189					goto data_error;
-   190	
-   191				err = squashfs_read_metadata(dir->i_sb, dire->name,
-   192						&block, &offset, size);
-   193				if (err < 0)
-   194					goto read_failure;
-   195	
-   196				length += sizeof(*dire) + size;
-   197	
-   198				if (name[0] < dire->name[0])
-   199					goto exit_lookup;
-   200	
-   201				if (len == size && !strncmp(name, dire->name, len)) {
-   202					unsigned int blk, off, ino_num;
-   203					long long ino;
-   204					blk = le32_to_cpu(dirh.start_block);
-   205					off = le16_to_cpu(dire->offset);
-   206					ino_num = le32_to_cpu(dirh.inode_number) +
-   207						(short) le16_to_cpu(dire->inode_number);
-   208					ino = squashfs_mkinode(blk, off);
-   209	
-   210					TRACE("calling squashfs_iget for directory "
-   211						"entry %s, inode  %x:%x, %d\n", name,
-   212						blk, off, ino_num);
-   213	
-   214					inode = squashfs_iget(dir->i_sb, ino, ino_num);
-   215					goto exit_lookup;
-   216				}
-   217			}
-   218		}
-   219	
-   220	exit_lookup:
-   221		kfree(dire);
-   222		return d_splice_alias(inode, dentry);
-   223	
-   224	data_error:
-   225		err = -EIO;
-   226	
-   227	read_failure:
-   228		ERROR("Unable to read directory block [%llx:%x]\n",
-   229			squashfs_i(dir)->start, squashfs_i(dir)->offset);
-   230	failed:
-   231		kfree(dire);
-   232		return ERR_PTR(err);
-   233	}
-   234	
+
+vim +1145 fs/ext4/fast_commit-test.c
+
+  1067	
+  1068	/* =========================================================================
+  1069	 * 1. Initialization, Eligibility, and Snapshot Stat Helpers
+  1070	 * =========================================================================
+  1071	 */
+  1072	
+  1073	static void test_fc_init_and_eligibility(struct kunit *test)
+  1074	{
+  1075		struct fc_test_ctx *ctx = test->priv;
+  1076		struct super_block *sb = ctx->sb;
+  1077		struct inode *inode = get_mock_inode(ctx, TEST_FILE1_INO);
+  1078		struct ext4_inode_info *ei = EXT4_I(inode);
+  1079		journal_t tmp_journal = {};
+  1080		atomic64_t max_stat = ATOMIC64_INIT(0);
+  1081		int snap_err = EXT4_FC_SNAP_ERR_NONE;
+  1082	
+  1083		/*
+  1084		 * 1) ext4_fc_init sets j_fc_replay_callback unconditionally, but sets
+  1085		 *    j_fc_cleanup_callback only when JOURNAL_FAST_COMMIT is enabled.
+  1086		 */
+  1087		clear_opt2(sb, JOURNAL_FAST_COMMIT);
+  1088		ext4_fc_init(sb, &tmp_journal);
+  1089		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_replay_callback);
+  1090		KUNIT_EXPECT_NULL(test, tmp_journal.j_fc_cleanup_callback);
+  1091	
+  1092		set_opt2(sb, JOURNAL_FAST_COMMIT);
+  1093		ext4_fc_init(sb, &tmp_journal);
+  1094		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_replay_callback);
+  1095		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_cleanup_callback);
+  1096	
+  1097		/* 2) ext4_fc_init_inode clears state and resets ranges */
+  1098		ei->i_fc_lblk_start = 42;
+  1099		ei->i_fc_lblk_len = 10;
+  1100		ext4_set_inode_state(inode, EXT4_STATE_FC_COMMITTING);
+  1101		ext4_set_inode_state(inode, EXT4_STATE_FC_REQUEUE);
+  1102		ext4_fc_init_inode(inode);
+  1103		KUNIT_EXPECT_EQ(test, ei->i_fc_lblk_start, 0U);
+  1104		KUNIT_EXPECT_EQ(test, ei->i_fc_lblk_len, 0U);
+  1105		KUNIT_EXPECT_FALSE(test,
+  1106				   ext4_test_inode_state(inode, EXT4_STATE_FC_COMMITTING));
+  1107		KUNIT_EXPECT_FALSE(test,
+  1108				   ext4_test_inode_state(inode, EXT4_STATE_FC_REQUEUE));
+  1109		KUNIT_EXPECT_TRUE(test, list_empty(&ei->i_fc_list));
+  1110		KUNIT_EXPECT_TRUE(test, list_empty(&ei->i_fc_dilist));
+  1111		KUNIT_EXPECT_NULL(test, ei->i_fc_snap);
+  1112	
+  1113		/* 3) ext4_fc_disabled and ext4_fc_eligible transitions */
+  1114		KUNIT_EXPECT_FALSE(test, ext4_fc_disabled_test(sb));
+  1115		KUNIT_EXPECT_TRUE(test, ext4_fc_eligible_test(sb));
+  1116	
+  1117		ctx->sbi->s_mount_state |= EXT4_FC_REPLAY;
+  1118		KUNIT_EXPECT_TRUE(test, ext4_fc_disabled_test(sb));
+  1119		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1120		ctx->sbi->s_mount_state &= ~EXT4_FC_REPLAY;
+  1121	
+  1122		ext4_set_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
+  1123		KUNIT_EXPECT_FALSE(test, ext4_fc_disabled_test(sb));
+  1124		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1125		ext4_clear_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
+  1126	
+  1127		clear_opt2(sb, JOURNAL_FAST_COMMIT);
+  1128		KUNIT_EXPECT_TRUE(test, ext4_fc_disabled_test(sb));
+  1129		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1130		set_opt2(sb, JOURNAL_FAST_COMMIT);
+  1131	
+  1132		/* 4) ext4_fc_set_snap_err preserves first error */
+  1133		ext4_fc_set_snap_err_test(&snap_err, EXT4_FC_SNAP_ERR_ES_MISS);
+  1134		KUNIT_EXPECT_EQ(test, snap_err, (int)EXT4_FC_SNAP_ERR_ES_MISS);
+  1135		ext4_fc_set_snap_err_test(&snap_err, EXT4_FC_SNAP_ERR_NOMEM);
+  1136		KUNIT_EXPECT_EQ(test, snap_err, (int)EXT4_FC_SNAP_ERR_ES_MISS);
+  1137	
+  1138		/* 5) ext4_fc_snap_stats_update_max monotonically updates max */
+  1139		ext4_fc_snap_stats_update_max_test(&max_stat, 100);
+  1140		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 100LL);
+  1141		ext4_fc_snap_stats_update_max_test(&max_stat, 50);
+  1142		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 100LL);
+  1143		ext4_fc_snap_stats_update_max_test(&max_stat, 250);
+  1144		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 250LL);
+> 1145	}
+  1146	
 
 --
 0-DAY CI Kernel Test Service
