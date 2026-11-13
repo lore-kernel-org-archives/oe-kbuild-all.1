@@ -1,80 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794597014;
-	b=sgMDUG1xglH/N1o/PE2XEr9Mlq+MuZSPEWHQaBaKEjBUyz5D8iNz6iobIBIj4le+TTfz
-	 GwJyfOP2XWPQaMNW1DovoqCTMovEp2NMW1iZgjkeeatNqSXfmHl9NnRLfCnZjCxqwQUO0
-	 R9CruW48cvob3ydM6Fbl05INl8oXML4icRvZaFtjbacBnWyQpv5v9SUyp1A7dg2BsGSlK
-	 zExXfEj41ik0bvgkyhl9o3OoBo/NFllO3yS352xLhRruMcsKzSd9s/aJZyJPrQHsJP1yi
-	 Wwd7IquDJtZD3i8AzAA623p9WgC88hyU1dptxlnif+flCL1I/FcDN4pej+RSdumNCXw==
+	t=1794597048;
+	b=rN4QTGY7G23WUX9XN5+lLimNAfva+t2HU4o/MslFpuSWeZX335XQAHgyVq+trhl4sbMD
+	 JRUOPNt0tzvKGNh2P/rWdd070ESs6bakn9bDPbdJJ9IUgpJsELrj4WB8YlYW5QT9uDN2W
+	 R7OCvcF/uSyHlgdQDxk/+i+I5M8cVHvHjSHpbI4uC33IiHe+OihUBchZHU0TPOpPWWaQZ
+	 k2T0AaZdYxa0eXCdI4GPqILq5dINQzaNUbeT9WKbILSwSxOwBFBEdqJg5g4pbDZvCy73f
+	 zLXhqelkCSqK8ijTryxBJz1BnzNQgmvh6jDEZN93gpXoLsCVzD+8fHAhPST8yRq34Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794597014;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=zeSc0Kmi4ulP+o8LuWHeCs5C4EMGcAlzHD8FkG+e35Q=;
-	b=tfMc3gzsiMcgVAti0EslhA7BkIrS5D08Mda0x3fFthVkDbQ/LSupCDq3Vr15A8pVZhTP
-	 7nq7GiqZwTq0BevzgcTuBbShe/CzVnhLe+z5sptdA8DQVVq3JpwgCY+mRL7srWCK32+LS
-	 yslcaHL5CzSGpgQtEBZLZrXzRLtEuGIqMXYVd3/7pegXhJzwPfnNd9c4bFUJ/L7bLfSjo
-	 2G3jpwkkWxMnRRRhp5HN/Y+u+ljl+zzjjDPTVoM1oT5ZfO+TmfRsi5c/djPgKz84UeTNS
-	 VF5TeMhgGX00XGAAsUL0bVdMgCE+0CWcGU9DvfmOvygCHstA2mpvaHO14kS2LEbsEdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794597048;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=WAEOzMDkQXHeFaVJ78vzghFDASGs+HMG8qMN8m4Kh+4=;
+	b=YOqwnJzDz20hMPt3mnuUr2OFtrdYx0tebDkvB/wewrMe5qV6Dzuz8iCGLonzwOnuoOtn
+	 AN6xrt9jg1mdeJzvJ1lLMl0ALSFWWqlIDZYu99iNocPNIluaVOET6oS6PgkjIAD9zhy+y
+	 6djotP962Ig80lqel8JwXElRB0JabcTdnERuZ4fms5zQS1u6jnAMkgQByb5MNQdmo1wqh
+	 +XMFaTxZTtCfS9kg5uhgc9mLzbAgiaU1oSfj9x8Q724iVkgi5k+M0l0KR1Xw6NezYdKOs
+	 +7rz8ZMKB3HEUne/iubtoYv20ZOhqGgkY6egiaUf7uKAmsr3ba9TDH1GTYmYSAAQ/mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BZ5XgBQn;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cenp1BxD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1625606F314;
-	Fri, 13 Nov 2026 19:10:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1625606F314
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08E2606A32D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 19:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BZ5XgBQn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794597014; x=1826133014;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AHpBbQRSEabbHUaavN2fFxopt7Q6u6OmKX3uFoHEXWU=;
-  b=BZ5XgBQnDglIyhdHBFeX47CGh6Dp9AAo5S63a3cqyvd4abaRQYc72qRY
-   hcL5dmCQBpfbcXifC3kOlHc9gjrRj1UdYeQiS7ZcnbHKGMjNTyM208jeD
-   J7mnO4qFtqJ8Zc58oAFSKBD0j5k9qPHByRzjnJoCxHexaZ2M9nKZiAXXB
-   mupKSGAK5nORzvIECLBFGSMHAv/wpreTA5zaNy4DgJHD4p1zWr+B9rNP1
-   nJYaNiz1VUt2vi2kaMyws14Ea7V7gKXAPC2hibSq8Fg9AxcKeQL1ICUUA
-   PoreLyhCBUiUHGi0E32Rr8VcNQjn964AxC8xZiijmmU40UfXqhnnXH1wv
-   w==;
-X-CSE-ConnectionGUID: ZKgyzML+S2GcVT8wYgEFHQ==
-X-CSE-MsgGUID: YxXyK0xZQyq6C9r9eRwhKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3444569"
-X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3444569"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 11:10:13 -0800
-X-CSE-ConnectionGUID: Ma3FVthRQ1GYT2wYe5gHOQ==
-X-CSE-MsgGUID: iCDfZ9/nQJWs5TGzoEiIpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="9158508"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Nov 2026 11:10:10 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xRwf1-000000013kL-3pZr;
-	Fri, 13 Nov 2026 19:10:07 +0000
-Date: Sat, 14 Nov 2026 03:09:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <f.fainelli@gmail.com>, linux-mips@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, macro@orcam.me.uk,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MIPS: SiByte: Fix missing function prototypes
-Message-ID: <202611140242.xhMf9lU3-lkp@intel.com>
-References: <20261112195824.298915-1-f.fainelli@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cenp1BxD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF58A1F000C9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 19:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794597047;
+	bh=WAEOzMDkQXHeFaVJ78vzghFDASGs+HMG8qMN8m4Kh+4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Cenp1BxDqSDwZTsEQ+jGLR+1OqBpZu6ZDupWEn3U3uR8YlKg8JMaRWuGQ4tMTC95d
+	 M22jJBPOZ1SZseNUVpQW/jxdXzJ1xbY9W2fvLLoC8TYPMOkMvpCJA/lDKD8JLRMbu6
+	 LZ2D3Dpig1mZPp8P2GmB9d4vNpeT6giO4+pqrEgK+cE4PZK4cWJ31A1veqbhhm15Es
+	 pij84dqsxnQDZxkdD9qI7OyHOPKDUjPVPrjGqhL2gEtXaL5RTxc6aS6GUYECURgETU
+	 zjAJKsnCR34T1kmSSdbOqxwqc1DxgWx50+b5qak8pq1gO3Gxe11saQKdcnCNpq1TLQ
+	 8FlONx5JLEA+A==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3ace304021eso17727101fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 11:10:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEdwXOMpKSD3MTRjAs6xiMnubdBjgvlQzWJVNfDJMZWqRtPTNN/kGUKvLb5F4WLvQWFTnah3yOvP7iNCQoi@lists.linux.dev
+X-Gm-Message-State: APuU4Z9YvVKtnMxO3+nj/CDe+KwSA5LbmrklspDebf186BLoPlcOD8dw
+	ySDqU1/Irnm5jVP5xDdawM4GZqDFB9sACFpWXL+piG0DJZug6o2I3gmq5fmTUJ4GHbPLg0Yu8Rr
+	Yk8HAwLgyDCEfwvULYSKFcQANTb1TAnk=
+X-Received: by 2002:a2e:ab0c:0:b0:3ae:90:b8a6 with SMTP id 38308e7fff4ca-3ae2b524882mr11616641fa.26.1794597046238;
+ Fri, 13 Nov 2026 11:10:46 -0800 (PST)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,70 +58,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112195824.298915-1-f.fainelli@gmail.com>
+References: <202611111143.CWKE7ewK-lkp@intel.com> <32021bd4-e144-4674-a5ed-ef8b38950b7a@oss.qualcomm.com>
+In-Reply-To: <32021bd4-e144-4674-a5ed-ef8b38950b7a@oss.qualcomm.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 13 Nov 2026 20:10:32 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0ga8+ULra1Fg2a9NOpV=b0uXb57S8=n2LsatLO72JA=PA@mail.gmail.com>
+X-Gm-Features: AclHuK_FISev9QdymkiDcQ8s-xIg_N8ybQmVcnLi7gT1LjucOJzp4oodMqBg0ns
+Message-ID: <CAJZ5v0ga8+ULra1Fg2a9NOpV=b0uXb57S8=n2LsatLO72JA=PA@mail.gmail.com>
+Subject: Re: [rafael-pm:bleeding-edge 9/22] drivers/platform/x86/hp/hp-wmi.c:1057:16:
+ error: implicit declaration of function 'devm_battery_hook_register'; did you
+ mean 'acpi_battery_hook_register'?
+To: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+Cc: kernel test robot <lkp@intel.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Florian,
+On Wed, Nov 11, 2026 at 12:18=E2=80=AFPM Zhongqiu Han
+<zhongqiu.han@oss.qualcomm.com> wrote:
+>
+> On 11/11/2026 6:46 PM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
+.git bleeding-edge
+> > head:   51bafe2e7302403a43ba45415bf9a268a7fcaa05
+> > commit: fafe4f5166bc3d43e28967efb9ea82b1f456b798 [9/22] Merge branch 'a=
+cpi-battery' into bleeding-edge
+> > config: x86_64-randconfig-2003-20261111 (https://download.01.org/0day-c=
+i/archive/20261111/202611111143.CWKE7ewK-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20261111/202611111143.CWKE7ewK-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202611111143.CWKE7ewK-l=
+kp@intel.com/
+> >
+>
+> Addressed the same issue on
+> https://lore.kernel.org/all/cbd2aee7-95ae-4d30-8458-b7da2910867f@oss.qual=
+comm.com/
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.4-rc2 next-20261112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/MIPS-SiByte-Fix-missing-function-prototypes/20261112-115739
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20261112195824.298915-1-f.fainelli%40gmail.com
-patch subject: [PATCH] MIPS: SiByte: Fix missing function prototypes
-config: mips-bcm63xx_defconfig (https://download.01.org/0day-ci/archive/20261114/202611140242.xhMf9lU3-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1b1fed44d3dcca649a9877915d57c3357a98124e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140242.xhMf9lU3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611140242.xhMf9lU3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/mips/mm/tlbex.c:40:
-   In file included from arch/mips/include/asm/sibyte/sb1250.h:28:
->> arch/mips/include/asm/sibyte/bcm1480_scd.h:261:9: warning: 'M_SPC_CFG_CLEAR' macro redefined [-Wmacro-redefined]
-     261 | #define M_SPC_CFG_CLEAR                 M_BCM1480_SPC_CFG_CLEAR
-         |         ^
-   arch/mips/include/asm/sibyte/sb1250_scd.h:392:9: note: previous definition is here
-     392 | #define M_SPC_CFG_CLEAR         _SB_MAKEMASK1(32)
-         |         ^
-   In file included from arch/mips/mm/tlbex.c:40:
-   In file included from arch/mips/include/asm/sibyte/sb1250.h:28:
->> arch/mips/include/asm/sibyte/bcm1480_scd.h:262:9: warning: 'M_SPC_CFG_ENABLE' macro redefined [-Wmacro-redefined]
-     262 | #define M_SPC_CFG_ENABLE                M_BCM1480_SPC_CFG_ENABLE
-         |         ^
-   arch/mips/include/asm/sibyte/sb1250_scd.h:393:9: note: previous definition is here
-     393 | #define M_SPC_CFG_ENABLE        _SB_MAKEMASK1(33)
-         |         ^
-   2 warnings generated.
-
-
-vim +/M_SPC_CFG_CLEAR +261 arch/mips/include/asm/sibyte/bcm1480_scd.h
-
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  252  
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  253  /*
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  254   * System Performance Counter Control Register (Table 32)
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  255   * Register: PERF_CNT_CFG_1
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  256   * BCM1480 specific
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  257   */
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  258  #define M_BCM1480_SPC_CFG_CLEAR	    _SB_MAKEMASK1(0)
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  259  #define M_BCM1480_SPC_CFG_ENABLE    _SB_MAKEMASK1(1)
-8deab1144b5535 include/asm-mips/sibyte/bcm1480_scd.h Mark Mason      2007-03-28  260  #if SIBYTE_HDR_FEATURE_CHIP(1480)
-8deab1144b5535 include/asm-mips/sibyte/bcm1480_scd.h Mark Mason      2007-03-28 @261  #define M_SPC_CFG_CLEAR			M_BCM1480_SPC_CFG_CLEAR
-8deab1144b5535 include/asm-mips/sibyte/bcm1480_scd.h Mark Mason      2007-03-28 @262  #define M_SPC_CFG_ENABLE		M_BCM1480_SPC_CFG_ENABLE
-8deab1144b5535 include/asm-mips/sibyte/bcm1480_scd.h Mark Mason      2007-03-28  263  #endif
-4cbf2beac2265b include/asm-mips/sibyte/bcm1480_scd.h Andrew Isaacson 2005-10-19  264  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks, it should be fixed now.
