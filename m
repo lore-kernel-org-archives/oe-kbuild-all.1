@@ -1,81 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794609149;
-	b=1Rt78KluAGvgDkBpVM6N9KxrvuGLM58FyHYJeEuW8bvht+2r48Cm63VWNjX5m7Ohio85
-	 DfPRusLtN+qGra1QUgEhj/8/Plm6vZkU8QxUKWRCgOuImEyifMn3ZCMtrV8OTiN9iB5+O
-	 tI6CxJebpTrUo7PkZb5qeXDAJeBlGTSAbmdHAI65xAQQW4Da2+YFsBc/1kBSqxXwHNfK1
-	 Xi5FSWLXNI1X1Sp8bojTtadhAAn0ZYv2gmlbyfJOrUtoNw3Ca8uFpDGsPojoXgaVXj3ZT
-	 W6O1spB14jQxL/tFNJ23cJcXmD3+KJuYfZlIA0aD5KWYyGc/Cw/4ODRpeyq1TlH+Uwg==
+	t=1794609716;
+	b=r8beE7vdU6ZoSu0XejXvZa24Wpc25L/utMN+mOkq4STK8G7E/6Tv57z59Fz8x3PV1DIM
+	 F5ZETwXU5s0V9Xb82gZApFYoMMZDua91MmQbAwoZ/oPpGj082FQwWJc6PKesI4l/3H1dD
+	 Ovu39Bx+bRrqNxYaNfou1scwmkS4LeQn0ipLQgxGNOoDjaJvgVdkYU3PRzKAQe2PslDtS
+	 PSo3WhpZZsjv2/QZ0CexMcykQH79/AOvBAa84lQ/ethQfx8t5JcMcfQwOTiOV/1/L9YnX
+	 8F1vDqDfdB1HETCFFYUqrLIS3TejWlzpL8YZ15jmUP3SN3Qz/8psqZCo4352pAlH3aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794609149;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794609716;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=Dt6IluudlqKqBAuqjRgns7HN5p7KH03wW2/s28IH9nY=;
-	b=LwhqY1THVJlP/w6NbL7QT5raKAUFPTxMw3D5ppa58xUMPluImOOkMFybjUDi3x+Y7HxC
-	 y6+ac8UjzPsjKXYCBlKJrQOjwWN/i5w+jlyw/+lyA5JLJfgNc6jr25y2QpHx4u2huQzNS
-	 VdnrOdl6E2vaJCa/Gud57kIqIG/bVIaVkPb+paYHoL08QD+THJLkfII7x2AKhnh2MfshA
-	 OdyhCxSqSIWaO7I4oOeAeW1c0VclSyn5YNPCor9RM4mrb4euAzXonITnb3vo7sE0mP3/9
-	 AQG3LNQh/Te13784q4RWkZOtjs9x7QGDSVUVvLjPn6kqed/CUGz6NOU0EvHuSjO5sfg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=diWraMKDSzghTMuGWucz72tjXzsxXYIj+pgA3X58JZk=;
+	b=Cs/ZGN1OSj3drY81LM112OF33CaG5da5S8a8tDCEIV/Oq08ajlKFkNjSW35mtANYYGnq
+	 sRJZ+7Rc9YGkps9ZO/OvlwXehNM9wajtV1FtoINdFaKQbZRTnV9lM9OdnhQTe/GzZjFWp
+	 YHocnM6QRmKxyY/ixLfPRH1NLc+SnH2iDvYJRNHvj83BAYKoyrQOcFhBXCyFAk6pnHNbP
+	 0IERe+EnOkXZhsJd2e0Q+L8wXL6wRVM1uM1BNsxI2BuyIyHJan52c6QsshMByfXyQvx7j
+	 a5AwlHInT6ElHnaSNayvxxa0WQYZODNVzbMB/95JsLIcMawtUh8iduEHRCqDbTtKTpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JphA+3S9;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsoYIRcw;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11B3606A89C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 22:32:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F11B3606A89C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEEF606A333
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Nov 2026 22:41:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AEEF606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JphA+3S9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsoYIRcw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794609149; x=1826145149;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=bQUy94zhvayAXEwrPY5g4435/3CAAeKUdx9UbpF/HFw=;
-  b=JphA+3S9K+yneUTdroCNv5V1Ioix8Eexj7sGIzDZdW/7JwieFnqeSiKN
-   cbugOXVBgA65NepfZrHFvkR052QJY6VERoDbqIq6zBPxPYpgu1pU0ZBHU
-   XJQ/NLriNcdlwUEaTBrnvkUlwq/xdGOuD6EpZhCoU610TnslgTpECLxDH
-   Nr/yr1MeQxJEmVWLpk6YZ7d/CRjvlcPHgc+VP6ZNKUUVVvv6h0C6g+UXr
-   xadU+Va2sQbh8z40DnJAhExg3TD+DoI8+XzIIahCfMIipow9gPq37IVU6
-   +DHUNkpZg9IFXSjBw5HpP6rQv5SmOymwqHqaHgtjQkJSaYi4ZhL5s0/4s
+  t=1794609715; x=1826145715;
+  h=date:from:to:cc:subject:message-id;
+  bh=NQvvrluQ8hFX65MSndACavsbJe4zdGcTIrGJsLFIkvg=;
+  b=GsoYIRcwR+4Cy7i+dSNtq9UQKRJbq2QKb7YkKWLzcbU6V6Ly/wH09NE6
+   FaShGYxOHFtFjTj/hpMOoTdGkpGVIJHIt72gPNsRtZYNEO4vEKIjT+IB4
+   eB7Ib/yxdFcuDUFbs0Bh1absxEd1pA5QVrgxxzCIDClcFs0E0cld6NZss
+   Nz+0CLcho5+Rwd8M3BmLaGBRJ718HDW6dMEovJ3z7v++VBOgR1RaGsRFf
+   Uvw/qnEDzvT5Bs13mAAgP0H/rZK1Z6pVs8c4UvlvmOM5qjPKmN2drhw+n
+   FBiVhqhZa800afkWuCMJDAF6629R9GuehuMD+4yErIif58C42QzSY5RDX
    g==;
-X-CSE-ConnectionGUID: cx70ZCgiTqSGwaQH/HLzog==
-X-CSE-MsgGUID: qB8MWZo3RuyMJszjmfpwNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3290094"
+X-CSE-ConnectionGUID: Be/1ctcGQ1SwYWXuUJc7pg==
+X-CSE-MsgGUID: wnbhPWmjQVqpAqaL8aMtQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3530893"
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="3290094"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 14:32:28 -0800
-X-CSE-ConnectionGUID: B8cwilBeSiSeFBhKOop3IA==
-X-CSE-MsgGUID: HiipO5A9RYGO4jA595Nv0Q==
+   d="scan'208";a="3530893"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 14:41:55 -0800
+X-CSE-ConnectionGUID: PcRJA7gHRQidZ5g3EdSWsA==
+X-CSE-MsgGUID: 7VMObbnnQvm7Wxbq5AYlqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,212,1787036400"; 
-   d="scan'208";a="9046931"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2026 14:32:26 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9191005"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Nov 2026 14:41:53 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRzol-000000014F7-3shs;
-	Fri, 13 Nov 2026 22:32:23 +0000
-Date: Sat, 14 Nov 2026 06:31:48 +0800
+	id 1xRzxv-000000001Lv-177T;
+	Fri, 13 Nov 2026 22:41:51 +0000
+Date: Fri, 13 Nov 2026 23:41:38 +0100
 From: kernel test robot <lkp@intel.com>
-To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hugo@hugovil.com,
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-Subject: Re: [PATCH v2] serial: sc16is7xx: Fix clock leak on invalid clock
- frequency
-Message-ID: <202611140631.LIs6CWKM-lkp@intel.com>
-References: <20261113103855.2144-1-laixiangwu@cmss.chinamobile.com>
+To: Jiri Pirko <jiri@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpirko-mlxsw:wip_attestation_all_2 31/68]
+ security/integrity/ima/ima_attestation.c:366:48: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202611132302.hXUschnD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,138 +80,92 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261113103855.2144-1-laixiangwu@cmss.chinamobile.com>
 
-Hi Xiangwu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linux-review/laixiangwu/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261030-165507]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiangwu-Lai/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261113-183854
-base:   https://github.com/intel-lab-lkp/linux laixiangwu/serial-sc16is7xx-Fix-clock-leak-on-invalid-clock-frequency/20261030-165507
-patch link:    https://lore.kernel.org/r/20261113103855.2144-1-laixiangwu%40cmss.chinamobile.com
-patch subject: [PATCH v2] serial: sc16is7xx: Fix clock leak on invalid clock frequency
-config: nios2-randconfig-1000-20261114 (https://download.01.org/0day-ci/archive/20261114/202611140631.LIs6CWKM-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140631.LIs6CWKM-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw wip_attestation_all_2
+head:   7ff5e548abbc2312431d4eea9ad283347963a6e2
+commit: 838a230dec9f155e7e064b2afb98e487f70fda7a [31/68] ima: Project the attestation journal through securityfs
+config: s390-randconfig-r2301-20261113 (https://download.01.org/0day-ci/archive/20261113/202611132302.hXUschnD-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261113/202611132302.hXUschnD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611140631.LIs6CWKM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611132302.hXUschnD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/integrity/ima/ima_attestation.c:366:48: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] encoded_length @@     got restricted __le32 [usertype] @@
+   security/integrity/ima/ima_attestation.c:366:48: sparse:     expected unsigned int [usertype] encoded_length
+   security/integrity/ima/ima_attestation.c:366:48: sparse:     got restricted __le32 [usertype]
 
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_probe':
->> drivers/tty/serial/sc16is7xx.c:1622:25: error: label 'out_clk' used but not defined
-    1622 |                         goto out_clk;
-         |                         ^~~~
+vim +366 security/integrity/ima/ima_attestation.c
 
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  319  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  320  static int
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  321  ima_attestation_template_copy(const struct ima_template_entry *entry,
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  322  			      u8 **data, size_t *data_length)
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  323  {
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  324  	const struct ima_template_desc *desc = entry->template_desc;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  325  	bool legacy = !strcmp(desc->name, IMA_TEMPLATE_IMA_NAME);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  326  	size_t length = 0;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  327  	size_t offset = 0;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  328  	int index;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  329  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  330  	for (index = 0; index < desc->num_fields; index++) {
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  331  		const struct ima_template_field *field = desc->fields[index];
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  332  		const struct ima_field_data *field_data =
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  333  			&entry->template_data[index];
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  334  		size_t field_length = field_data->len;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  335  		bool length_prefix = true;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  336  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  337  		if (legacy && !strcmp(field->field_id, "d"))
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  338  			length_prefix = false;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  339  		else if (legacy && !strcmp(field->field_id, "n"))
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  340  			field_length = strlen((char *)field_data->data);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  341  		if ((length_prefix &&
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  342  		     check_add_overflow(length, sizeof(u32), &length)) ||
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  343  		    check_add_overflow(length, field_length, &length) ||
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  344  		    length > 65536)
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  345  			return -EINVAL;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  346  	}
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  347  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  348  	*data = length ? kmalloc(length, GFP_NOFS) : NULL;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  349  	if (length && !*data)
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  350  		return -ENOMEM;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  351  	for (index = 0; index < desc->num_fields; index++) {
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  352  		const struct ima_template_field *field = desc->fields[index];
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  353  		const struct ima_field_data *field_data =
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  354  			&entry->template_data[index];
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  355  		size_t field_length = field_data->len;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  356  		bool length_prefix = true;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  357  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  358  		if (legacy && !strcmp(field->field_id, "d"))
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  359  			length_prefix = false;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  360  		else if (legacy && !strcmp(field->field_id, "n"))
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  361  			field_length = strlen((char *)field_data->data);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  362  		if (length_prefix) {
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  363  			u32 encoded_length = (u32)field_length;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  364  
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  365  			if (ima_canonical_fmt)
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30 @366  				encoded_length = cpu_to_le32(encoded_length);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  367  			memcpy(*data + offset, &encoded_length,
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  368  			       sizeof(encoded_length));
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  369  			offset += sizeof(encoded_length);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  370  		}
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  371  		memcpy(*data + offset, field_data->data, field_length);
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  372  		offset += field_length;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  373  	}
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  374  	*data_length = length;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  375  	return 0;
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  376  }
+8d1b3ed1db2e379 Jiri Pirko 2026-09-30  377  
 
-vim +/out_clk +1622 drivers/tty/serial/sc16is7xx.c
+:::::: The code at line 366 was first introduced by commit
+:::::: 8d1b3ed1db2e379ad99f0104f505e7724c92f8f4 ima: Route measurements through attestation
 
-a5bb146502b22f Hugo Villeneuve     2025-10-27  1567  
-d49216438139bc Hugo Villeneuve     2024-04-09  1568  int sc16is7xx_probe(struct device *dev, const struct sc16is7xx_devtype *devtype,
-3837a0379533aa Hugo Villeneuve     2023-10-30  1569  		    struct regmap *regmaps[], int irq)
-dfeae619d781de Jon Ringle          2014-04-24  1570  {
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1571  	unsigned long freq = 0, *pfreq = dev_get_platdata(dev);
-2aa916e67db3e6 Daniel Mack         2020-05-21  1572  	unsigned int val;
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1573  	u32 uartclk = 0;
-dfeae619d781de Jon Ringle          2014-04-24  1574  	int i, ret;
-dfeae619d781de Jon Ringle          2014-04-24  1575  	struct sc16is7xx_port *s;
-cf9c37530fdabc Hugo Villeneuve     2024-04-09  1576  	bool port_registered[SC16IS7XX_MAX_PORTS];
-dfeae619d781de Jon Ringle          2014-04-24  1577  
-3837a0379533aa Hugo Villeneuve     2023-10-30  1578  	for (i = 0; i < devtype->nr_uart; i++)
-3837a0379533aa Hugo Villeneuve     2023-10-30  1579  		if (IS_ERR(regmaps[i]))
-3837a0379533aa Hugo Villeneuve     2023-10-30  1580  			return PTR_ERR(regmaps[i]);
-dfeae619d781de Jon Ringle          2014-04-24  1581  
-2aa916e67db3e6 Daniel Mack         2020-05-21  1582  	/*
-2aa916e67db3e6 Daniel Mack         2020-05-21  1583  	 * This device does not have an identification register that would
-2aa916e67db3e6 Daniel Mack         2020-05-21  1584  	 * tell us if we are really connected to the correct device.
-2aa916e67db3e6 Daniel Mack         2020-05-21  1585  	 * The best we can do is to check if communication is at all possible.
-f6959c5217bd79 Hugo Villeneuve     2023-12-11  1586  	 *
-f6959c5217bd79 Hugo Villeneuve     2023-12-11  1587  	 * Note: regmap[0] is used in the probe function to access registers
-f6959c5217bd79 Hugo Villeneuve     2023-12-11  1588  	 * common to all channels/ports, as it is guaranteed to be present on
-f6959c5217bd79 Hugo Villeneuve     2023-12-11  1589  	 * all variants.
-2aa916e67db3e6 Daniel Mack         2020-05-21  1590  	 */
-3837a0379533aa Hugo Villeneuve     2023-10-30  1591  	ret = regmap_read(regmaps[0], SC16IS7XX_LSR_REG, &val);
-2aa916e67db3e6 Daniel Mack         2020-05-21  1592  	if (ret < 0)
-158e800e0fde91 Annaliese McDermond 2021-03-29  1593  		return -EPROBE_DEFER;
-2aa916e67db3e6 Daniel Mack         2020-05-21  1594  
-dfeae619d781de Jon Ringle          2014-04-24  1595  	/* Alloc port structure */
-84f1c5c0174ace Gustavo A. R. Silva 2019-01-04  1596  	s = devm_kzalloc(dev, struct_size(s, p, devtype->nr_uart), GFP_KERNEL);
-e0925b4a0417d3 Hugo Villeneuve     2025-10-27  1597  	if (!s)
-dfeae619d781de Jon Ringle          2014-04-24  1598  		return -ENOMEM;
-dfeae619d781de Jon Ringle          2014-04-24  1599  
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1600  	/* Always ask for fixed clock rate from a property. */
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1601  	device_property_read_u32(dev, "clock-frequency", &uartclk);
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1602  
-e8ed246ded863e Andre Werner        2025-01-21  1603  	s->polling = (irq <= 0);
-104c1b9dde9d85 Andre Werner        2025-01-10  1604  	if (s->polling)
-104c1b9dde9d85 Andre Werner        2025-01-10  1605  		dev_dbg(dev,
-104c1b9dde9d85 Andre Werner        2025-01-10  1606  			"No interrupt pin definition, falling back to polling mode\n");
-104c1b9dde9d85 Andre Werner        2025-01-10  1607  
-dd515504148c43 Xiangwu Lai         2026-11-13  1608  	s->clk = devm_clk_get_optional_enabled(dev, NULL);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1609  	if (IS_ERR(s->clk))
-cb1b206cff461d Andy Shevchenko     2021-05-17  1610  		return PTR_ERR(s->clk);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1611  
-cb1b206cff461d Andy Shevchenko     2021-05-17  1612  	freq = clk_get_rate(s->clk);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1613  	if (freq == 0) {
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1614  		if (uartclk)
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1615  			freq = uartclk;
-dfeae619d781de Jon Ringle          2014-04-24  1616  		if (pfreq)
-dfeae619d781de Jon Ringle          2014-04-24  1617  			freq = *pfreq;
-a9226b472bbffe laixiangwu          2026-10-30  1618  		if (freq) {
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1619  			dev_dbg(dev, "Clock frequency: %luHz\n", freq);
-a9226b472bbffe laixiangwu          2026-10-30  1620  		} else {
-a9226b472bbffe laixiangwu          2026-10-30  1621  			ret = -EINVAL;
-a9226b472bbffe laixiangwu          2026-10-30 @1622  			goto out_clk;
-a9226b472bbffe laixiangwu          2026-10-30  1623  		}
-dfeae619d781de Jon Ringle          2014-04-24  1624  	}
-dfeae619d781de Jon Ringle          2014-04-24  1625  
-dfeae619d781de Jon Ringle          2014-04-24  1626  	s->devtype = devtype;
-dfeae619d781de Jon Ringle          2014-04-24  1627  	dev_set_drvdata(dev, s);
-dfeae619d781de Jon Ringle          2014-04-24  1628  
-3989144f863ac5 Petr Mladek         2016-10-11  1629  	kthread_init_worker(&s->kworker);
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1630  	s->kworker_task = kthread_run(kthread_worker_fn, &s->kworker,
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1631  				      "sc16is7xx");
-dd515504148c43 Xiangwu Lai         2026-11-13  1632  	if (IS_ERR(s->kworker_task))
-dd515504148c43 Xiangwu Lai         2026-11-13  1633  		return PTR_ERR(s->kworker_task);
-dd515504148c43 Xiangwu Lai         2026-11-13  1634  
-28d2f209cd1620 Peter Zijlstra      2020-04-21  1635  	sched_set_fifo(s->kworker_task);
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1636  
-4fb92bdb8e84e6 Hui Wang            2024-06-18  1637  	ret = sc16is7xx_reset(dev, regmaps[0]);
-4fb92bdb8e84e6 Hui Wang            2024-06-18  1638  	if (ret)
-4fb92bdb8e84e6 Hui Wang            2024-06-18  1639  		goto out_kthread;
-43c51bb573aab6 Florian Vallee      2016-07-19  1640  
-cf9c37530fdabc Hugo Villeneuve     2024-04-09  1641  	/* Mark each port line and status as uninitialised. */
-dfeae619d781de Jon Ringle          2014-04-24  1642  	for (i = 0; i < devtype->nr_uart; ++i) {
-cf9c37530fdabc Hugo Villeneuve     2024-04-09  1643  		s->p[i].port.line = SC16IS7XX_MAX_DEVS;
-cf9c37530fdabc Hugo Villeneuve     2024-04-09  1644  		port_registered[i] = false;
-8a1060ce974919 Hugo Villeneuve     2023-12-21  1645  	}
-8a1060ce974919 Hugo Villeneuve     2023-12-21  1646  
-cf9c37530fdabc Hugo Villeneuve     2024-04-09  1647  	for (i = 0; i < devtype->nr_uart; ++i) {
-dfeae619d781de Jon Ringle          2014-04-24  1648  		s->p[i].port.dev	= dev;
-dfeae619d781de Jon Ringle          2014-04-24  1649  		s->p[i].port.irq	= irq;
-dfeae619d781de Jon Ringle          2014-04-24  1650  		s->p[i].port.uartclk	= freq;
-3837a0379533aa Hugo Villeneuve     2023-10-30  1651  		s->p[i].regmap		= regmaps[i];
-21144bab4f1191 Tomasz Moń          2022-03-01  1652  
-a5bb146502b22f Hugo Villeneuve     2025-10-27  1653  		ret = sc16is7xx_setup_channel(&s->p[i], i, &port_registered[i]);
-b4a778303ea0fc Hugo Villeneuve     2023-08-07  1654  		if (ret)
-b4a778303ea0fc Hugo Villeneuve     2023-08-07  1655  			goto out_ports;
-dfeae619d781de Jon Ringle          2014-04-24  1656  	}
-dfeae619d781de Jon Ringle          2014-04-24  1657  
-1a0a2a1e57aa8d Hugo Villeneuve     2023-09-27  1658  	sc16is7xx_setup_irda_ports(s);
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1659  
-f6959c5217bd79 Hugo Villeneuve     2023-12-11  1660  	ret = sc16is7xx_setup_mctrl_ports(s, regmaps[0]);
-0499942928341d Hugo Villeneuve     2023-08-07  1661  	if (ret)
-0499942928341d Hugo Villeneuve     2023-08-07  1662  		goto out_ports;
-0499942928341d Hugo Villeneuve     2023-08-07  1663  
+:::::: TO: Jiri Pirko <jiri@nvidia.com>
+:::::: CC: Jiri Pirko <jiri@nvidia.com>
 
 --
 0-DAY CI Kernel Test Service
