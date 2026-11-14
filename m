@@ -1,76 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794662456;
-	b=sFrB8yS9nFwpdAenvmBLRL2Kd/JlvWq58zo+q6GoOv1yFGccCQRYG+SiHBRqUrDcQp0k
-	 GMJo73CkPME7Fbm6goO0AQOVKMFn+RVJJ3ccstpl+da50BBFv1nnWQmniWNNKw+egVZFg
-	 vZR3UXRIBtXdoooWUSZQIeJc92Iyqn4otd0aXgoOXDJ3HmtD70GUMzbwTXXLwAE1jyt3W
-	 M9tCBkuWqUWfmkimmapteRUDAGvga9I3HZjBu1p7v8tbHwgJyY3E4nPGJxujR8oG1i407
-	 UrHaG1h8zzTUKvcggTFE6GFP0Rt2dXU78LEsSgFC5eWSt6SMnwsra5XHjgXA64sQi5g==
+	t=1794662457;
+	b=QR8zYjATxPfCbvFgSHGrwlppiUuAiPtPQICikj5Js/hgYVIZXfhWP7kUotF+0jetN1cC
+	 dI/Lq95vXPe9aCDzm/YefFWW4c+s1Jb/9e2Wbxas0OlJ0iRkjjaHdgr7sYKoCUqP+y+lj
+	 ZX15lbg8gs1OoWDA80Sa9ITUZGbtEnE5FeqsAx4mQlua8y07MaUCl6Kf49VPvxGxQkTkf
+	 dnE/cX+sO+OnvJ4H8aiT86N7GdVRZF9HgMFhkYzb4B6kgOmMDb7AY7spBGJpmfYWNi6ae
+	 zx7BEYk3oCrRiZQ36rUJMLuJEcnqSiEEDg6ghV9w1H3rwOP4D0+Sr5Ji6pwjverBXog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794662456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794662457;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=SKrGM/f0CNbMh6I2+ccSzhiirySyiyABiGX3064dddo=;
-	b=0DbQDuo2OpzOEJZopCegWGl6Y0CbN/jjbMaVAnAJdLUetxqOtz7Bu6k8uxTRG9Mk/fgq
-	 zzVq9ClASwmIDBaiXFbFXK8OjhPIbHUnACyeGGWyIFsti/1cViMy7KyHynxde1VJCUN73
-	 Red/AqMY8WC6SNyg+az5oAeZfJasWEagNnbwZsHnLtGmstGqvQevz+x/dHsdSEayWiTQo
-	 HIavnOW8Gr3xnDN9iotJBqWZ2+1EvJUNkh/NWZZs8Qh35yR+1RLSag7kZuzMHW+DmjH+A
-	 I2vHlSJ3mtTY8dMClPhMDDegAMHEXca54MR2J8gltf0EY5tf1oS0+Ri36o+IMgd06fg==
+	bh=+pZ4YfTNMI9oxmfKnoD/Kl/BOyuGLp2G7Id7302N7+4=;
+	b=X0baqFukem/iPtZKfqD+w3D1aU/7DGBzGrQvDWaplXtljsfZcSRVgivI0Tb3gDrae6Kw
+	 x46X9/3bGb+uvN9H6cJJZCa3lDA8dDYC3vJ25DMemDMMsQJ5dDMpy3BWyOU9Wid5w4lWv
+	 quHZZQLr+Qbjke9lTIR5N2K3ag2PNukH+faNC2YYmJ72azPq9JG9rikQNn7sl3YAograS
+	 +h5cU0aRkUkgdwbmzTb1v4qB3UDGuXiZHFbdjvr7X60tJrNvoU9Ank5lFm7GHkIV4KZj0
+	 APXgiEfMblWNiRt8WeTZVL7yAkMyP/HnzTYSHjrk3hPypnecANCpx8WUKDJXVU7eUiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iS886KWF;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OHQY9oWq;
 	arc=none smtp.remote-ip=192.198.163.9
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14FE606A323
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 13:20:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C14FE606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE428606A330
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 13:20:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE428606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iS886KWF
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OHQY9oWq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794662456; x=1826198456;
+  t=1794662457; x=1826198457;
   h=date:from:to:cc:subject:message-id;
-  bh=lZ1/6t4ui36C1FEqYvxchYU0cyCdhT8edsWwYBJ8fPA=;
-  b=iS886KWFj0XBisgZxErAiQFE7vP3hrvi/ubqkj8q4GuZCmh9cgGrMiTF
-   UlsJANmfUidKdqCiFo0jUB4rLLb2NoCaM5I6bpAH28lP3XaiK0tq1K+JA
-   4hmMD9zrmP2mmLW+iZn3rwSAWQTt0QSaT0inuGnEF2rd5TjaJF7z2Dnu1
-   8wyngDgzX6a2zPFQmoJS69Jiaxwd0MZ7lA6/TsUR/0ZvTOaALH1maFdyE
-   Tas58duNb8XGYJFVQuli1Z0zXqhKDyg+pxTEuhJKuhkwlvRuW3WHL67MB
-   Zex0cHcdBxtHKWgKnAjKxf869NS7eoj26eLdr/G+RrqXy7yOux542pVQc
-   w==;
-X-CSE-ConnectionGUID: lB8jyjzPRoGMOehhktlPdA==
-X-CSE-MsgGUID: BJADvI4WQeSLqWLsGjFYJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3332668"
+  bh=nJLsM+VRoWCjp80qyjxpNA86GRdJJf51J/1GqmNPYXU=;
+  b=OHQY9oWqtjejckCFXToWys1KSg7eiwbw5PLZFtF4trP5ljCh6oXFoMqH
+   AIrSsaOcw3nasSrdrR8c6HNfERJSQzK89PJYTScc+dn396IRx5vOZosHl
+   yIh4xmsb0PyRG+Mde2zmObdlTl8moeLUemF7+yT9q2fFjxvsJN11Z9W0o
+   TaHD7JMrRdL1H7/ZP6+BOjcRlN9WXhwqBJ6atul1zvuXIwDeRPluW0Oux
+   ozXwxBP320Hf7b7F+yvD4GcTZ1kO8AJcvIolM5C2ligZBRik2Ek0Bt4LK
+   vDz+c8Be7oLCZRkhy/uO4V3TzclzsO0rhsxQlBdLrXCFQlRczUYpLQgUr
+   A==;
+X-CSE-ConnectionGUID: EorH6XuIRMe75+t7zxAmGw==
+X-CSE-MsgGUID: KGtO+oQIS7iWske0z+MfMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3332669"
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="3332668"
+   d="scan'208";a="3332669"
 Received: from fmviesa012.fm.intel.com ([10.60.135.152])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 05:20:56 -0800
-X-CSE-ConnectionGUID: IFXdFZXUT6Ci8wW3JZrsWw==
-X-CSE-MsgGUID: 9qRGmlOFTjmm7zgGdjOoBw==
+X-CSE-ConnectionGUID: crIz0af/R7mf5Bwpmt7RgA==
+X-CSE-MsgGUID: ie4M3afdR3Km5EWjVmRmWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="10868157"
+   d="scan'208";a="10868159"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
   by fmviesa012.fm.intel.com with ESMTP; 14 Nov 2026 05:20:54 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSDgZ-000000001bv-31o5;
+	id 1xSDgZ-000000001bx-3JZx;
 	Sat, 14 Nov 2026 13:20:51 +0000
-Date: Sat, 14 Nov 2026 14:20:44 +0100
+Date: Sat, 14 Nov 2026 14:20:43 +0100
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:wip-aes-kunit 34/39]
- lib/crypto/tests/skcipher-test-template.h:121 skcipher_is_data_len_valid()
- warn: always true condition '(data_len >= 0) => (0-u64max >= 0)'
-Message-ID: <202611141418.PyrWxUFQ-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:7.4-rc 53/154]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000
+ (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202611141446.c6shth8F-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,39 +82,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes-kunit
-head:   8b11b8571c3449ea78d09edcf244ea4ecbd7edc0
-commit: 4ef260f71574dd5b7e19797ea983f4971fb9cf86 [34/39] lib/crypto: tests: Add KUnit test suite for AES-ECB
-config: powerpc64-randconfig-2200-20261114 (https://download.01.org/0day-ci/archive/20261114/202611141418.PyrWxUFQ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
+head:   674a64f97be4d25967f31216ffe7eaefdabf827f
+commit: 27f001efb4287e35dee43fa0982c4dde508a35dd [53/154] arm64: dts: mt7988: re-add sgmiisys
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261114/202611141446.c6shth8F-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev6+ged91b647c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611141446.c6shth8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611141418.PyrWxUFQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611141446.c6shth8F-lkp@intel.com/
 
-smatch warnings:
-lib/crypto/tests/skcipher-test-template.h:121 skcipher_is_data_len_valid() warn: always true condition '(data_len >= 0) => (0-u64max >= 0)'
-lib/crypto/tests/skcipher-test-template.h:401 skcipher_crypt_incrementally() warn: always true condition '(len - pos >= 2 * 0) => (0-u64max >= 0)'
-lib/crypto/tests/skcipher-test-template.h:401 skcipher_crypt_incrementally() warn: always true condition '(len - pos >= 2 * 0) => (0-u64max >= 0)'
-
-vim +121 lib/crypto/tests/skcipher-test-template.h
-
-9128ac982a3045 Eric Biggers 2026-11-13  117  
-9128ac982a3045 Eric Biggers 2026-11-13  118  /* Return true if data_len is a valid data length. */
-9128ac982a3045 Eric Biggers 2026-11-13  119  static bool skcipher_is_data_len_valid(size_t data_len)
-9128ac982a3045 Eric Biggers 2026-11-13  120  {
-9128ac982a3045 Eric Biggers 2026-11-13 @121  	return data_len >= SKCIPHER_MIN_DATA_LEN &&
-9128ac982a3045 Eric Biggers 2026-11-13  122  	       data_len % SKCIPHER_DATA_LEN_ALIGN == 0;
-9128ac982a3045 Eric Biggers 2026-11-13  123  }
-9128ac982a3045 Eric Biggers 2026-11-13  124  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 9128ac982a304590b728e4b77c1e5d118417021b lib/crypto: tests: Add skcipher-test-template.h and gen-skcipher-testvecs.py
-
-:::::: TO: Eric Biggers <ebiggers@kernel.org>
-:::::: CC: Eric Biggers <ebiggers@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
+   	'input' is a required property
+   	'output-high' is a required property
+   	'output-low' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
+   	'input' is a required property
+   	'output-high' is a required property
+   	'output-low' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
+   	'input' is a required property
+   	'output-high' is a required property
+   	'output-low' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
+   	'input' is a required property
+   	'output-high' is a required property
+   	'output-low' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
 
 -- 
 0-DAY CI Kernel Test Service
