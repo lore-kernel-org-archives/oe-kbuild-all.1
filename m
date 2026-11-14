@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794666825;
-	b=JVK1rLzkfaOqGMAva5cpeSYhG9d91ykJOB9JryorZyMkGw5qEQklaVlj1FRlWX0JrMGZ
-	 FAZ2ur+dgfEtmgYrtFPst8JfL0+iyjEDvsRYMAcHujdoNR7jmClHFmlP0VLko9jfElwpz
-	 /uxpTEIjjzKitXNoLXpfTPQLb+JI4176WJfEU/KRLYB2PkkFQq3WjG6a2Pi7tZd3uVgWB
-	 QHEmSi3KKTibsd0NOCTEZJPWjZl2kE8z+eqi4IW37PcorT9JqcwF2PoVma5accOvCtpdJ
-	 i3cFiy221+PL5+eFkN80VMjdtVzskd/Ii7fZtptozkuHxVlpqQurs2YEt69S87YR/kQ==
+	t=1794667188;
+	b=5pflfJ1aok0otdzDH+f3/7UxrA14mzvylqWMmtD3yq5Ii5SzRoUfLoZ7suxyWKs2J7rZ
+	 z+jjwQ2BJrMGhjkfBZ+ATQSk/BMkYCfP93jtmMi2QgfBu5Q9OZLCnpx4Be3hKgaDvvWSZ
+	 ZqaTpOcz2dbqxj3eAXAxFfkP3mBdOFMTB5G5/bpv8U7FRLlgoX+6YBDMItXhtonTqg1Yw
+	 D5LnisBFfpXr5H85fl55eH3Gjs29LaGTwkC/Nj9SKrudFRFFn/P28cD3a1V20ciASqVBO
+	 z5tgv9NpF37Pm+JR8UcJKHvlea0/VUGIFfoWKJroEs28HdKC0VaPvA4e6FgjzBEREyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794666825;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794667188;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=99YOryFgd3WUa6Yjl/B2YyhTcVY4QI0DANzKejNnKHQ=;
-	b=MdiCYMlY+5y9DssKiZZLpGTI+slpW+4HPmSbdYHocmNME967Sdvwzs7DYfQOfx6lgZae
-	 fXeHzrKnozDyew3Zu0hqUofXblp0ql/+0q+COWh02I++SIrUSZJ2ddJmSYjsSzybbZ8DU
-	 FxbjyZlRJdf0KXCfj+99FxhArDJAP94x6ovpWn8bhl8JjKrh07wbJr43w5++ig5mMmtjh
-	 PC6+NQXjIEpT1ganbjKOCtIxkzSLPG7mT7DPNHewO5tdbe8H+DZuZ55E5zzpgCY2a+gN+
-	 QnaZM6Pr31vU0eAjoV2B2Pa/P4tM/+UIRZBjZ76PRG5ELb/Nv/4dNP4PHsmvZx0Bzqw==
+	bh=OEDNm07ugT4ID4OWE380u6/q+LgL5uCempfN3oBJ1E4=;
+	b=BQiI8ee9lR/FcnIxVanuJojsOd58JMNNsjDW2MCWV8nt23n4hTDq9kiOQ2gVRmY5+0dw
+	 Wy6sELW+JYnJZIfGdflAZ1BvKH66orR3PGpeS82bg3s5kzp461nWsq/TDO6qzqBZ2JbDc
+	 QAUxlw+Cz1NMDgHwRBMARCCbYGRM8pB9kkXS8eH5ydziFHUBPcgvfkJxq5qU8rAUcJ83z
+	 Sg9gY7z/FLGZRGghzTbEc96DNOj13xQ0tNQr7nPAOAhBDqqFLsCmwP61iJu7Slr0g74tP
+	 L4/zroJOpHxG56pS+mtUVFdkV+TrMik4TZSGQswKm9qvByw920fB5BYUFjNHznO2FOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZUKcNFoK;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=juvt6IYN;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BD8606A323
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 14:33:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23BD8606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2096B606A323
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 14:39:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2096B606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZUKcNFoK
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=juvt6IYN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794666824; x=1826202824;
+  t=1794667188; x=1826203188;
   h=date:from:to:cc:subject:message-id;
-  bh=dRgMAo/vrlLl4VZYnut2zSSx2g/x+IAx/W26i1U3cmQ=;
-  b=ZUKcNFoKOG2pjIQ/Q8zBwgEdAx+CNMBaC7phrSkzBQsfZV6NcjMefNGY
-   uk/e05CxDdPKQNSwavs1PPH99NWwVyYvCY+71O0RqFoo2cA59f8bHOtB9
-   T2bnt00GbsuPQLrbN7WMIGErlGdvHOTNnaPtehpL863qbN5q6qIW0UKcd
-   Go7o4Po+K7wqKkeQVayaiubJqHQergR/cBU22miHdZSN9bvgcRu5V9maq
-   k0ShOLXX6VnzfvrF1iedQtVXnfOeKp5BAYk7flwjx4qGpSKRobrrj71hA
-   cutirWeJB6tCE2pD0LvnlJEmQV+8yVnXmHNXcmKbHg8bqrxsolSKSKBwR
-   g==;
-X-CSE-ConnectionGUID: f7Jr0oLTS3WoN5uVKXLoag==
-X-CSE-MsgGUID: JZ4/Vy4MRjmOx33hHj3Cyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3457652"
+  bh=y7F6PhBPt2WkwT86VwFa4JIX7k0wJklngolUJ74MN7Q=;
+  b=juvt6IYNwD0wHd/TQv5vWrnWUoNaUmcgJLj8iWKH0IeCvc0lnej4vwDC
+   K/FWFwDKKr3A5muLwkMHG/WScfB5nvPa94OETh3ekiNZvMPIzid4xbjed
+   jSD9l6osY6ElPO8rksgNxz12qSUpD1wMyuzqxv8JGPMl+jDjKotn+E+pQ
+   f/+FOjWhWRGSeiC538dlu611CD2RCihaKLEmA0hodtqgIXxV0bExp48Wu
+   vPxqhww4KnoBCj9bVTaQZcsK9iHdr1WhHkbGnkfU39FE38ZAztgJpEOJa
+   jhdeVuGES5GUXirJd81JVo+BQTMa0B/ZGRYR0S4rHYAeD6Jr2V7fcotoD
+   A==;
+X-CSE-ConnectionGUID: HN/iIWgwTEStH9a5scRIug==
+X-CSE-MsgGUID: 9Ayf76mNQLGiCaPiheXGLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3495738"
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="3457652"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 06:33:43 -0800
-X-CSE-ConnectionGUID: kQhCKi7aTnac1a0blRUi1A==
-X-CSE-MsgGUID: S6ZyqE+TRhagGZHdC4+bNg==
+   d="scan'208";a="3495738"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 06:39:48 -0800
+X-CSE-ConnectionGUID: m3+IkQr7RxGLJdtrBF3WDw==
+X-CSE-MsgGUID: bX8G9Gp/SwyAAvLI1EZCcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="9243363"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 14 Nov 2026 06:33:42 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8968884"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 14 Nov 2026 06:39:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSEp2-000000001fD-1U2w;
-	Sat, 14 Nov 2026 14:33:40 +0000
-Date: Sat, 14 Nov 2026 15:33:06 +0100
+	id 1xSEut-000000015c2-44FJ;
+	Sat, 14 Nov 2026 14:39:43 +0000
+Date: Sat, 14 Nov 2026 22:39:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 0/6] ERROR: modpost:
- "asoc_sdw_get_codec_info_list_count"
- [sound/soc/sof/intel/snd-sof-intel-hda-generic.ko] undefined!
-Message-ID: <202611141536.z6TPFkNb-lkp@intel.com>
+Subject: [android-common:android13-5.10-lts 6/6]
+ drivers/usb/host/xhci-ring.c:2900:5: warning: no previous prototype for
+ 'xhci_handle_event'
+Message-ID: <202611142241.Br2IjupM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,28 +81,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Bard,
+Hi Howard,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   7c083a341351db9ca54c7d972208de38a5a62488
-commit: dcf066e2640127f5a26ff2394968a8fe39220475 [0/6] UPSTREAM: ASoC: SOF: Intel: use sof_sdw as default SDW machine driver
-config: i386-randconfig-2105-20261114 (https://download.01.org/0day-ci/archive/20261114/202611141536.z6TPFkNb-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611141536.z6TPFkNb-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10-lts
+head:   c73351b2e985e893999227194b401cb06613cd81
+commit: 26afe6712de0fad3a5de2b372286d029f8ff3231 [6/6] FROMLIST: usb: host: export symbols for xhci hooks usage
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261114/202611142241.Br2IjupM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611142241.Br2IjupM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611141536.z6TPFkNb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611142241.Br2IjupM-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
->> ERROR: modpost: "asoc_sdw_get_codec_info_list_count" [sound/soc/sof/intel/snd-sof-intel-hda-generic.ko] undefined!
->> ERROR: modpost: "codec_info_list" [sound/soc/sof/intel/snd-sof-intel-hda-generic.ko] undefined!
+>> drivers/usb/host/xhci-ring.c:2900:5: warning: no previous prototype for 'xhci_handle_event' [-Wmissing-prototypes]
+    2900 | int xhci_handle_event(struct xhci_hcd *xhci)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/usb/host/xhci-ring.c:2976:6: warning: no previous prototype for 'xhci_update_erst_dequeue' [-Wmissing-prototypes]
+    2976 | void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
--- 
+
+vim +/xhci_handle_event +2900 drivers/usb/host/xhci-ring.c
+
+  2893	
+  2894	/*
+  2895	 * This function handles all OS-owned events on the event ring.  It may drop
+  2896	 * xhci->lock between event processing (e.g. to pass up port status changes).
+  2897	 * Returns >0 for "possibly more events to process" (caller should call again),
+  2898	 * otherwise 0 if done.  In future, <0 returns should indicate error code.
+  2899	 */
+> 2900	int xhci_handle_event(struct xhci_hcd *xhci)
+  2901	{
+  2902		union xhci_trb *event;
+  2903		int update_ptrs = 1;
+  2904		u32 trb_type;
+  2905		int ret;
+  2906	
+  2907		/* Event ring hasn't been allocated yet. */
+  2908		if (!xhci->event_ring || !xhci->event_ring->dequeue) {
+  2909			xhci_err(xhci, "ERROR event ring not ready\n");
+  2910			return -ENOMEM;
+  2911		}
+  2912	
+  2913		event = xhci->event_ring->dequeue;
+  2914		/* Does the HC or OS own the TRB? */
+  2915		if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=
+  2916		    xhci->event_ring->cycle_state)
+  2917			return 0;
+  2918	
+  2919		trace_xhci_handle_event(xhci->event_ring, &event->generic);
+  2920	
+  2921		/*
+  2922		 * Barrier between reading the TRB_CYCLE (valid) flag above and any
+  2923		 * speculative reads of the event's flags/data below.
+  2924		 */
+  2925		rmb();
+  2926		trb_type = TRB_FIELD_TO_TYPE(le32_to_cpu(event->event_cmd.flags));
+  2927		/* FIXME: Handle more event types. */
+  2928	
+  2929		switch (trb_type) {
+  2930		case TRB_COMPLETION:
+  2931			handle_cmd_completion(xhci, &event->event_cmd);
+  2932			break;
+  2933		case TRB_PORT_STATUS:
+  2934			handle_port_status(xhci, event);
+  2935			update_ptrs = 0;
+  2936			break;
+  2937		case TRB_TRANSFER:
+  2938			ret = handle_tx_event(xhci, &event->trans_event);
+  2939			if (ret >= 0)
+  2940				update_ptrs = 0;
+  2941			break;
+  2942		case TRB_DEV_NOTE:
+  2943			handle_device_notification(xhci, event);
+  2944			break;
+  2945		default:
+  2946			if (trb_type >= TRB_VENDOR_DEFINED_LOW)
+  2947				handle_vendor_event(xhci, event, trb_type);
+  2948			else
+  2949				xhci_warn(xhci, "ERROR unknown event type %d\n", trb_type);
+  2950		}
+  2951		/* Any of the above functions may drop and re-acquire the lock, so check
+  2952		 * to make sure a watchdog timer didn't mark the host as non-responsive.
+  2953		 */
+  2954		if (xhci->xhc_state & XHCI_STATE_DYING) {
+  2955			xhci_dbg(xhci, "xHCI host dying, returning from "
+  2956					"event handler.\n");
+  2957			return 0;
+  2958		}
+  2959	
+  2960		if (update_ptrs)
+  2961			/* Update SW event ring dequeue pointer */
+  2962			inc_deq(xhci, xhci->event_ring);
+  2963	
+  2964		/* Are there more items on the event ring?  Caller will call us again to
+  2965		 * check.
+  2966		 */
+  2967		return 1;
+  2968	}
+  2969	EXPORT_SYMBOL_GPL(xhci_handle_event);
+  2970	
+  2971	/*
+  2972	 * Update Event Ring Dequeue Pointer:
+  2973	 * - When all events have finished
+  2974	 * - To avoid "Event Ring Full Error" condition
+  2975	 */
+> 2976	void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+  2977			union xhci_trb *event_ring_deq)
+  2978	{
+  2979		u64 temp_64;
+  2980		dma_addr_t deq;
+  2981	
+  2982		temp_64 = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
+  2983		/* If necessary, update the HW's version of the event ring deq ptr. */
+  2984		if (event_ring_deq != xhci->event_ring->dequeue) {
+  2985			deq = xhci_trb_virt_to_dma(xhci->event_ring->deq_seg,
+  2986					xhci->event_ring->dequeue);
+  2987			if (deq == 0)
+  2988				xhci_warn(xhci, "WARN something wrong with SW event ring dequeue ptr\n");
+  2989			/*
+  2990			 * Per 4.9.4, Software writes to the ERDP register shall
+  2991			 * always advance the Event Ring Dequeue Pointer value.
+  2992			 */
+  2993			if ((temp_64 & (u64) ~ERST_PTR_MASK) ==
+  2994					((u64) deq & (u64) ~ERST_PTR_MASK))
+  2995				return;
+  2996	
+  2997			/* Update HC event ring dequeue pointer */
+  2998			temp_64 &= ERST_PTR_MASK;
+  2999			temp_64 |= ((u64) deq & (u64) ~ERST_PTR_MASK);
+  3000		}
+  3001	
+  3002		/* Clear the event handler busy flag (RW1C) */
+  3003		temp_64 |= ERST_EHB;
+  3004		xhci_write_64(xhci, temp_64, &xhci->ir_set->erst_dequeue);
+  3005	}
+  3006	EXPORT_SYMBOL_GPL(xhci_update_erst_dequeue);
+  3007	
+
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
