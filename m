@@ -1,101 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794667515;
-	b=q5HDjySQpMTvWC2jkgDBJo6pYTA/V/KYwvWdrvqhQOMkgVMJKDQJSb8t0g2RrVLLnv94
-	 5n4sg1u16XFEz7ewyhdQFgByccZ6n4gy122UO+w1qmJ0lRKmCuyvXOwX0ACRUOjwSFSfL
-	 rhFsn1KLvRXqdb4srKaFfu0Yxj9Qaq6NGUZwDi+EIKHYnjctyMigad8XHlt96y0uc285+
-	 ZECWx5eBgn+G79+F0WhyHb7LaAbUSi8uhxxoaxRgN7y/FzKH6ey8ZviduVsD8rUnyG6ij
-	 Si3NQDnXrVea4fRWNPQcUYIRIIxzvaOkeUMOAKZ1DPhrrjzRpdD16NTAEffBBNEma7A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794667515;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=mpGxYuoYKOxkEJjh9D2Ng2/n10DyVBs0agON6KJxSRQ=;
-	b=ZYiMVSg3IbTzQkSUN7sB95ebhcem/W2NP1gWttKjH9/YbSr2GdjmhaLwe2WS51DiESSr
-	 ZJsTw2lFdOvOsCQc7WND/GD0CjFDvrMzMi+qwytY6iXJEuDjIR12QIgBEz4kuE9JrXJgj
-	 LYY2edlSo5/MGhJiowGVnHNbV2AHjKb1FbiyDJyxmOebfrNuAdtdezpPkKAj30/1xGC/3
-	 jeJzRplQ2N7DrONg7OC24GQUhxZo33Y9jEcrdNSVmy2lq3o1ltFP4Jb87lcf+2A6SgBey
-	 UcR4HTBi+cxZcdBni94XbB7hByoS5v3Dr0y5jvASaZNkSdI/EOMW9hOQyDboLMSkcnw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=va9T2o08;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794667855;
+	b=qTiB8QgtN7OwssvinTEha8Nxq4NNxiWfctiitsXd/d1y47sZb/RyFt0LJPAnQun2R83E
+	 bq5UUUMjpRepZHJVR/0E7md/VyY8SW0Wae70Uk97XjiaNFtTq5G8zvn4SVqC+2KAqRhG9
+	 b5Ahivi9zlZz7u5rWvPwsZWUWZV0et2MkQawZCiK42YuR+QkayOf+08LV1CFymR9pjPVq
+	 WykVTa1VYh42RNL2h6JoIXTfNdbirgha3rMQhpLWWIMbJjmFJiluFF13ftKIdOZCrCQAG
+	 DPuAX9XgOk8sEGeL0+gEwBll3aL85+JvYcSJnMnsrHjZq1pEtPGQio42eug3NdDurEg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794667855;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=IWB0UASjsW7G8RxuPodnDnfnf95ZQ/rwz8c9sMUFiBk=;
+	b=RTfU+VgX2nDpCEki49amy7acZrjPa5Suz03ETc001utOUWpQIdnTVubP7Kgr8Kz+00PJ
+	 kO58XMXa/NBoXqvaxC7KQf5bwBzAn08wUS2YyWfJu7fYzvEWRI+5rHhNq/y++rKrQlCyj
+	 r2I3/mPj/qUI5YALPLUgfXB6Hjs+z8j5mtH4HkrVAlXhJrVXZ9NQ9EttlOgVyJrtCEP0/
+	 kiO6GX59gsvifVbV0HahHUm3BfpLAnt+taerwf1nss5RT/xFNSGyPch8l5YW2oBpKYdg5
+	 JybyvJOuOvAQg7picDhh3ZG8dZE9r3VdLbQ54Vczbop6lBXrEQgVRFaIQz/+ApvMkCQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E4qdlJT4;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2A6606A334
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 14:45:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A2A6606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948F7606A329
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 14:50:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 948F7606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=va9T2o08
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-37198ed3727so3419679eec.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 06:45:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794667514; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZdDzl8pZAbq6MueDmqXG81iToNeaQjhLzAWLEs6dMuqDOh6EnZFTZAKZnBwbPlFKlj
-         kVCWAzGWan47a6T+l6iPmhkHhWYc5LUBhifigrvCZd702WMsh0pkWgXb5PblwPSRiKNE
-         rguDi2T5LlSITPxHHutIrVcVQjYUZ5tvErIuM7Aq5boQJkErepd/U5IaMCuu6CB+U4z4
-         4D9j39CSr+XUmZ3LwJCs0jUeCRrREEvbwL61HAu1D0CIulwBRkItELimXAgVCr8RsGl9
-         u7CNkhOVWvcnJD+4EMdXKWLlaUFbNxLCWK0JpZoRt7VHXZ+Q4tgWyp0VVCQ7N0us1aMq
-         XivQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mpGxYuoYKOxkEJjh9D2Ng2/n10DyVBs0agON6KJxSRQ=;
-        fh=NKkb8uJ5tJsN615kyQHhOcA0Bh1R2CSbRIMCVrou2hk=;
-        b=Q80xD98jvaCfSc1+/0CMCuNzf+bGHtdY97YYlHQqaZU6vNM9Vmtos6/hJ43v2vFYoo
-         Qd7APM9qbGh7AFgJ1SLM0OnBHdVUPdLHJ+q3oYsZAT6PjJfknNvbOgTiUy3I/O5gucAW
-         3WNrL6L17iGgXZm6CGVK9vjf7wmzZwkcufFb28jU63yxOIZ2oSjN5vKdqXiP1eyTN6Rf
-         ab1KxZLH7HKw0kOUBd46POzG9nlcJyelJubvKYZHFBvIzz+BM9nJaK14iNS0L6i8dhqB
-         oYmuZUoMyOXKiIPGqESUUuunhE6Y3xHkyyTHG0CrGeV9NrgCWinOWWHUY6ujCLXxrR2G
-         br5A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794667514; x=1795272314; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mpGxYuoYKOxkEJjh9D2Ng2/n10DyVBs0agON6KJxSRQ=;
-        b=va9T2o08+GDgwGVFU2w/u/xT/nlOHNa4VQj1jJ7/rHfLjgzd56G6+5W+rC9xBPF5xE
-         +bx/NXQMIjqk1eUUyEA1OfgyTCRvClHpc99zdDVZiqYbCgDyS+fCD2oBu+SNqq9BV3CI
-         rcKAKActhSckRQwWq6ZLaAZ7RlOUnU8q+k1oMp6aztlAt19+M5yhACsd/HbUf5HHwexn
-         UXJcgqatiQZ/F8GHJimJv45Hl3NzgCD7h8XeYRq5RC5a9B4l+NPgoaDsCn5gLlIUs3yg
-         jWkpTzAKXadjpp8f8QX7G/vW+bPnlb+iPRRkTzCpCUFeCVPrzG5uaafhBDW/Qow7c1zK
-         KNPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794667514; x=1795272314;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mpGxYuoYKOxkEJjh9D2Ng2/n10DyVBs0agON6KJxSRQ=;
-        b=vvJNti5D+0MdaVjn2p53z2Jb2Mt6R6llosOyWMftWG4kO1ZBGyxGiNuprxQRFwgqCb
-         64034TbsYn/qq6XjqywvlQTlGqx5K9LJKBexeEl1T9nZA+2I2q438UnJ4p2RXzIhhGjW
-         iw9OcSuL1BEv/O7ndP0T3UbcKAWJypTvWaw+29kgUcfZjDwneZGf+UTSAkgOMOMwkFRR
-         oB5/jAGNJDwTtEesm6//TnKgAtNOkjRzWI72T5IOSF/IT7Sp930j3Nj2VHJtWIr+gnHV
-         8daJeIthQJeqHK19qNR6jKnXiC9/AIRqQQDoFtbWzMpVQ1t9g7P4qxvsMbwwLjeQ648G
-         RwnA==
-X-Forwarded-Encrypted: i=1; AL+hErGohUQD8UGuhu4L0J7tmJ5GwgUAYKQI9hyPZPQIlI952FM/s4ZhKfviLgCOW2wWgsm9JV1aLTgLvtVWeFEW@lists.linux.dev
-X-Gm-Message-State: APuU4Z+cx0YI0AQcvcFypmH7vAztlGoBWEPUaJuBlYxyt9u182nOKtxX
-	3ja/S/KJ/RORJDMEGILnMf60BHty+Eua5EFUKqguyQF/CanVHkuK1/KBOGXzczkkHtDbBXvspb0
-	AQ7V2uW1tXJ5n60vskC6wR70loAUXU6E=
-X-Gm-Gg: AYBFou0Fi/phMaCkW5Vz4krjog82duzTGwO0XhEl7GRzIjxE8nWgLIr2tBXwb6eT0/L
-	h4/MybxpGnr0SC0VS39ArotCDHApJ8Pa5s/qdhepJitkArzF6zVYzNMTe6H3vA+q/AZfx77A96I
-	ok7IbE2Z1unILtesAprDnyhmuvzH7nQk/Dl6wmOU1l/r/q5AtKsTrcWgj0CL6UJ/+jIFiQ6/QLX
-	BqaGmENUiB3aKmXsNjF7gmOZ2kt3vrhj9s/zMHUsUa6nAparOYIxFsSQIF8Xrtw1cq+kY7QZbhZ
-	lKS4Ga7v/L3hIuWLioRXB1IxIS4UjYW+tpEDS4Cr3gap/Wttr4wGZhgFyxDWEBSt5ed7Pyr4QGW
-	RWHQfUr2BaHLs/66Tr7d3brCVhdGcECSHwaGIoyON9OyJQ9bRW3o/LddOgLiKRLA0vGN+3U6CCY
-	ccGlJk5w5g8oLDqRYRm8r5NssNzliBGQ==
-X-Received: by 2002:a05:693c:8115:b0:36d:bcd7:2347 with SMTP id
- 5a478bee46e88-377e093db88mr8125743eec.4.1794667514069; Sat, 14 Nov 2026
- 06:45:14 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E4qdlJT4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794667855; x=1826203855;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xfSb5R7QVeGowcxt6acIHVsFPIN1UpvT8ACebsp3uZs=;
+  b=E4qdlJT4UzjHtJQjflayjr+ildmt6kSXIpoRdU0TISCmsI1Iy/yiSO/f
+   DNGIilGhwwFwy+bYXA813eQ9CtJCu+9+DklZ680+5nfEJbb7ZOz/iD0Js
+   3o+S+DgaRPH71JYKIoYZP2la9khtO386NKjakOU8+IhyLidh7K73953Qo
+   N/yX1l7w35VmPrsnP1mQbRJk2/2R2JcK3rbK1cdXnMD0xBc9/pDXM3GDZ
+   CGbp9PoOVFL+1vbcB+owYs472jqODcYauS0QrtEqaAL7Uu032RPnqERZp
+   HJwqnLAYxlbwtaG//TQpIQjDlnt44gT0AaZLjxfVS5ENUhTO3kCQPnDG2
+   A==;
+X-CSE-ConnectionGUID: YEX5F8/QSAqi3vHWoUuu0Q==
+X-CSE-MsgGUID: z8GYCZFeRUuAusez/XP3Vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3491730"
+X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
+   d="scan'208";a="3491730"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 06:50:54 -0800
+X-CSE-ConnectionGUID: WDUILf8cSCuARF2hXQQ1Ig==
+X-CSE-MsgGUID: wIArbPdDQ7Wlmv3HV+HTsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
+   d="scan'208";a="9160945"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 14 Nov 2026 06:50:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSF5Y-000000015cW-0yZg;
+	Sat, 14 Nov 2026 14:50:44 +0000
+Date: Sat, 14 Nov 2026 22:49:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Alex Elder <elder@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	netdev@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
+	Sean Paul <sean@poorly.run>,
+	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/9] remoteproc: qcom_wcnss: migrate to
+ qcom_mdt_pas_load() and qcom_pas_prepare_and_auth_reset()
+Message-ID: <202611142207.UkqcyoQJ-lkp@intel.com>
+References: <20261113185009.157893-3-mukesh.ojha@oss.qualcomm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -105,65 +106,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261108094253.83899-5-clamor95@gmail.com> <202611090518.mm6yt2nO-lkp@intel.com>
- <avInQ08dVrsc-Rbo@ashevche-desk.local> <CAPVz0n1FqXV-XXyBJpnp1ivd+uk6+zGvngobQZfUXMNBBPyORA@mail.gmail.com>
-In-Reply-To: <CAPVz0n1FqXV-XXyBJpnp1ivd+uk6+zGvngobQZfUXMNBBPyORA@mail.gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Sat, 14 Nov 2026 16:45:02 +0200
-X-Gm-Features: AclHuK9Q2MT7WzTqFgmyb8uGWfov9bVv3FDtVPr7EAhs0HUduJChL9YtHwu65_c
-Message-ID: <CAPVz0n1UG6L8divtcXgg7mfS7C3bO9tKv9d-Xh6VbyayG7p8-w@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
- LTR-659PS-01 proximity sensor
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, Jonathan Cameron <jic23@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Esben Haabendal <esben@geanix.com>, 
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
-	Pan Chuang <panchuang@vivo.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
-	Antoniu Miclaus <antoniu.miclaus@analog.com>, Nikita Travkin <nikita@trvn.ru>, 
-	oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113185009.157893-3-mukesh.ojha@oss.qualcomm.com>
 
-=D0=BF=D0=BD, 9 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 22:07=
- Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> =D0=BF=D0=BD, 9 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 22:=
-04 Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Mon, Nov 09, 2026 at 05:48:09AM +0800, kernel test robot wrote:
-> > >
-> > > kernel test robot noticed the following build errors:
-> >
-> > ...
-> >
-> > > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > >
-> > > WARNING: modpost: vmlinux: section mismatch in reference: trace_initc=
-all_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: =
-.init.data)
-> > > WARNING: modpost: vmlinux: section mismatch in reference: __arch_xpro=
-d_64+0xac (section: .text.unlikely) -> initcall_level_names (section: .init=
-.data)
-> > > >> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_chan=
-nel_from_si' undefined!
-> >
-> > Forgot to import namespace?
-> >
->
-> It is not exported in the core
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/=
-drivers/iio/industrialio-core.c?h=3Dnext-20261109#n319
->
+Hi Mukesh,
 
-Should I export it? Do you have any suggestions?
+kernel test robot noticed the following build errors:
 
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-> >
-> >
+[auto build test ERROR on remoteproc/rproc-next]
+[also build test ERROR on drm-misc/drm-misc-next ath/ath-next linus/master v7.4-rc2 next-20261113]
+[cannot apply to linux-review/Mukesh-Ojha/remoteproc-qcom_wcnss-migrate-to-qcom_mdt_pas_load-and-qcom_pas_prepare_and_auth_reset/20260925-212730]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/firmware-qcom-pas-add-qcom_pas_context_init-for-pre-allocated-context/20261114-002001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20261113185009.157893-3-mukesh.ojha%40oss.qualcomm.com
+patch subject: [PATCH v2 2/9] remoteproc: qcom_wcnss: migrate to qcom_mdt_pas_load() and qcom_pas_prepare_and_auth_reset()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20261114/202611142207.UkqcyoQJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611142207.UkqcyoQJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611142207.UkqcyoQJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/remoteproc/qcom_wcnss.c: In function 'wcnss_load':
+>> drivers/remoteproc/qcom_wcnss.c:161:75: error: passing argument 4 of 'qcom_mdt_pas_load' makes pointer from integer without a cast [-Wint-conversion]
+     161 |         ret = qcom_mdt_pas_load(wcnss->pas_ctx, fw, rproc->firmware, wcnss->mem_reloc);
+         |                                                                      ~~~~~^~~~~~~~~~~
+         |                                                                           |
+         |                                                                           phys_addr_t {aka long long unsigned int}
+   drivers/remoteproc/qcom_wcnss.c:161:75: note: possible fix: take the address with '&'
+     161 |         ret = qcom_mdt_pas_load(wcnss->pas_ctx, fw, rproc->firmware, wcnss->mem_reloc);
+         |                                                                      ~~~~~^~~~~~~~~~~
+         |                                                                      &
+   In file included from drivers/remoteproc/qcom_wcnss.c:25:
+   include/linux/soc/qcom/mdt_loader.h:24:58: note: expected 'phys_addr_t *' {aka 'long long unsigned int *'} but argument is of type 'phys_addr_t' {aka 'long long unsigned int'}
+      24 |                       const char *firmware, phys_addr_t *reloc_base);
+         |                                             ~~~~~~~~~~~~~^~~~~~~~~~
+
+
+vim +/qcom_mdt_pas_load +161 drivers/remoteproc/qcom_wcnss.c
+
+   155	
+   156	static int wcnss_load(struct rproc *rproc, const struct firmware *fw)
+   157	{
+   158		struct qcom_wcnss *wcnss = rproc->priv;
+   159		int ret;
+   160	
+ > 161		ret = qcom_mdt_pas_load(wcnss->pas_ctx, fw, rproc->firmware, wcnss->mem_reloc);
+   162		if (ret)
+   163			return ret;
+   164	
+   165		qcom_pil_info_store("wcnss", wcnss->mem_phys, wcnss->mem_size);
+   166	
+   167		return 0;
+   168	}
+   169	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
