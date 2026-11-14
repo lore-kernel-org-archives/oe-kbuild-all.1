@@ -1,76 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794686529;
-	b=aQ1ZEng1QdkbYLSgDlsfOaNHTM8POSpMRqUt5AcOxlxVrBrq/lWVx7Al0YwnlHizh2QF
-	 n+NLgnYairKHh7kkADNOZ3LUbE06nq7WtqW6nbeDY7wAhRjmnKuWDpMG1Q6OWYPzU/q+u
-	 M8LDYyFXoVOg5xJBE9MZounR6fmuTC+zgaiojbxmp1XQDaqifForIh/SzFXeXO2MRYyPP
-	 n0UAz0XmtX9BLGC91BZYSlaRAa3E4CRnPuy/DUp4dce0ZHSol8H1n9LicLUg3VxHyp1PC
-	 3LwMR+Tga/vbgRRviC0Fat8EzMgV1NSha27H1IfoNStJefYqugAYIAe1mzimLgF6nKw==
+	t=1794697184;
+	b=3ZPR8xIH/6W+3BI/7IjCOW3uWzgj7qj3UiDdk4YZ+UCnHwhC+Cg0pQNFtucM3VXfjl9f
+	 AtOSEct+k8iO+oOJNFlQXaOcXJJfde+M4733jdsD5hhTEDow//deitwxUV2ot5H9BS/j2
+	 GwVtIoT0Z5QN5obq9gEU0QzzIyJpJcAkYo/+9SkiS1Hjf2rbf3nNvlNh4ZnTd8XgZ6AAP
+	 JruaYGyU40pcE5AwgiA8nMZpzgQcQFaWGF5k9nW1070VNOsR8qMy1I/U4avU3tpynpG1c
+	 THR+0Hx05J2iVRS2W9IloDTQXiORZZL6xS0k0rMtLVBMBTSesFcwgMBke2Kxv3qyJnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794686529;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:Cc:
-	 Subject:Message-ID:User-Agent;
-	bh=G0b6hUrjVUEULSXA1tfsqWWoIEzucl6sxNuoLO2y2fM=;
-	b=qkMSdnm9/N1j4XycogyE/85ftBvQBTtQPpm7UITWKEzxm0k58riOX7sfIQ6rlhnR1sGh
-	 NY6APInpHtyJYgVqX9tcfV000p7yCJECusgZWARK77XsZlxbrVbUwiY5ZqS3UleCdcKZ+
-	 QdhPPRM78MkOwXHGxoKC7fKA2wwA3gMIOyD2AjowXMPpJ8y9Fe+Dcx+XM0ND0zRySWrW4
-	 h0HWSo29gfPEy2LgeNu1lghO2bd+WnW+T3jgqzeyHnPIXbhpMZetQNV5JZk8d09gLxer6
-	 85b90xQ1U7xDryDoBGDcSsVDqvPqbOHCEYQmz9Ekvgl/NlGdI3GslnpKYdIveDxRPcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794697184;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=1RjSw3udwOeS4kl1fq7ydLZRlJKs8s+Pg2HK9HfkKlc=;
+	b=bGjPKmKzueMVSn+Yi7Va+zR9zdfOzDt7I184mh42pm2Ha7XG9Lg4rntOAYdME09M2MBz
+	 9VzkBIaIcPu2nBegCdBm+U1/PkKJUpOlUX9dNmszrkHKnZzGkeFvB9x0bC+o/GPFH0KO2
+	 EEWY0RtYapdZ02Q00wTKjCps+ERabVHR8RHaU+umnB7E5oh31BgJki2fEkoX9Lq2Wc/Ts
+	 dc8hsgSwLjxVcksu86UAeeyCadqdzgyBlJWRqsrOTlkRtLMl2ioIfPkUXO1DJ5FC/I0cB
+	 PJt7leEj1JWGWX01f6BEfA3opsWIo9Q9lOY0Zz0gsz0n/TGm6mV/1A7I16YuIE51q4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MfFKAdws;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VlbqojKC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A99606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 20:02:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90A99606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474D1606A323;
+	Sat, 14 Nov 2026 22:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MfFKAdws
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794686528; x=1826222528;
-  h=date:from:cc:subject:message-id;
-  bh=2RgJg+1+eEs9HwOulX1kWRjXjvJrgRQZFPepsPHyJ8s=;
-  b=MfFKAdwsvcJ0ZjqjxhFItdLBL/l2P0R27JXeiG2AK/J2DoPJxTHCDMZr
-   Grz6B4iK64BMdNymtgR24vVGO66quEVznS0tyrvBOwJzgELYhkGCg9nuW
-   lE2ahQ9NVmSymkK6RjC0tnqbjFgKRs6zSiDjBISjT+CBu8S1ntla/2f3I
-   gDM0H6ft5RNVzwM4p/XqzVWJ6d0+qBbPN7GZMVw8cw/oH6q0GR/Vc1I9y
-   f6hPgokMGAWgCUqyOfEiGjO96h8e2OMF00984DzFo3q5cfGGmefZ3Wlk2
-   spIWfaNybJlKd0l6BXVf1NmLj//7gYBOyyzBUQ+lTvq3TtWpbG65zHzrt
-   w==;
-X-CSE-ConnectionGUID: sPWb0hwCR+OwWZSTx4XW6g==
-X-CSE-MsgGUID: loT/jcwISw+/XmY81g1p3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11966"; a="3572235"
-X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="3572235"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 12:02:07 -0800
-X-CSE-ConnectionGUID: dG6MaIruQV66MdswIZ403A==
-X-CSE-MsgGUID: oN8brTwYRxS0w7dwtcMh7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="9271016"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2026 12:02:05 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xSJwp-000000015vg-1oLI;
-	Sat, 14 Nov 2026 20:02:03 +0000
-Date: Sun, 15 Nov 2026 04:01:50 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [fyu1:hlim.rfc.v1 16/26] Warning:
- drivers/resctrl/mpam_resctrl.c:1726 function parameter 'cpus' not described
- in 'mpam_resctrl_offline_domain_hdr_mask'
-Message-ID: <202611150303.jJjjjHRx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VlbqojKC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65F91F000C4;
+	Sat, 14 Nov 2026 22:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794697183;
+	bh=1RjSw3udwOeS4kl1fq7ydLZRlJKs8s+Pg2HK9HfkKlc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=VlbqojKCq4unXRlhspCIOKhbgHOEd32Kg9g8Wtkh5qqzDw7ZrQ+P1RN5/sGnTWY69
+	 9GhV3SUTmOio6dz7cvltBdz2MDXK1BrLK/QZcycgBg+XRJwXtkwwfDM832GFpY5TjN
+	 2YOpjNsmr9sTFjJgiNSl7WgRzjWFMPlZIibZGteSqqw8b9Qk8qp4LnEQce/lu40loF
+	 H4ukeEMd0d+DOYu1WvAAZX8pebPdN9KQNw8v8HoHoYgrde6t+xH0L16Rfyhs2sAC+v
+	 DdqddnwOiM0+Cfpn0uYdkiadvTKT2w+EJIlXV9YF9G+GUXNfeTisLLMtRZ0/88G7Sr
+	 OUguS3/FYiZuQ==
+Date: Sat, 14 Nov 2026 22:59:34 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, kernel test robot
+ <lkp@intel.com>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Esben Haabendal <esben@geanix.com>,
+ Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ "Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
+ <u.kleine-koenig@baylibre.com>, Pan Chuang <panchuang@vivo.com>, Hemanth
+ Selam <hemanth.selam@gmail.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Nikita Travkin <nikita@trvn.ru>,
+ oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
+ LTR-659PS-01 proximity sensor
+Message-ID: <20261114225934.396da0ae@jic23-hlaptop>
+In-Reply-To: <CAPVz0n1UG6L8divtcXgg7mfS7C3bO9tKv9d-Xh6VbyayG7p8-w@mail.gmail.com>
+References: <20261108094253.83899-5-clamor95@gmail.com>
+	<202611090518.mm6yt2nO-lkp@intel.com>
+	<avInQ08dVrsc-Rbo@ashevche-desk.local>
+	<CAPVz0n1FqXV-XXyBJpnp1ivd+uk6+zGvngobQZfUXMNBBPyORA@mail.gmail.com>
+	<CAPVz0n1UG6L8divtcXgg7mfS7C3bO9tKv9d-Xh6VbyayG7p8-w@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,24 +73,56 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/fyu1/linux.git hlim.rfc.v1
-head:   83634d5bc1946bf1e8f7d8267da39263bd301f7f
-commit: e29343ddaf3d45892f7fc1d9df8b84ca6a758ea0 [16/26] arm_mpam: resctrl: Add NUMA node notifier for domain online/offline
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261115/202611150303.jJjjjHRx-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1b1fed44d3dcca649a9877915d57c3357a98124e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611150303.jJjjjHRx-lkp@intel.com/reproduce)
+On Sat, 14 Nov 2026 16:45:02 +0200
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611150303.jJjjjHRx-lkp@intel.com/
+> =D0=BF=D0=BD, 9 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 22:=
+07 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > =D0=BF=D0=BD, 9 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 2=
+2:04 Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5=
+: =20
+> > >
+> > > On Mon, Nov 09, 2026 at 05:48:09AM +0800, kernel test robot wrote: =20
+> > > >
+> > > > kernel test robot noticed the following build errors: =20
+> > >
+> > > ...
+> > > =20
+> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > > >
+> > > > WARNING: modpost: vmlinux: section mismatch in reference: trace_ini=
+tcall_level+0x28 (section: .text.unlikely) -> initcall_level_names (section=
+: .init.data)
+> > > > WARNING: modpost: vmlinux: section mismatch in reference: __arch_xp=
+rod_64+0xac (section: .text.unlikely) -> initcall_level_names (section: .in=
+it.data) =20
+> > > > >> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_ch=
+annel_from_si' undefined! =20
+> > >
+> > > Forgot to import namespace?
+> > > =20
+> >
+> > It is not exported in the core
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
+e/drivers/iio/industrialio-core.c?h=3Dnext-20261109#n319
+> > =20
+>=20
+> Should I export it? Do you have any suggestions?
 
-All warnings (new ones prefixed by >>):
+Sure. Export this one.  It is a very simple helper so I have no concerns
+about it being used in drivers rather than opencoding the same loop
+(which I suspect some are doing!)
 
->> Warning: drivers/resctrl/mpam_resctrl.c:1726 function parameter 'cpus' not described in 'mpam_resctrl_offline_domain_hdr_mask'
->> Warning: drivers/resctrl/mpam_resctrl.c:1726 expecting prototype for mpam_resctrl_offline_domain_hdr(). Prototype was for mpam_resctrl_offline_domain_hdr_mask() instead
+>=20
+> > > --
+> > > With Best Regards,
+> > > Andy Shevchenko
+> > >
+> > > =20
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
