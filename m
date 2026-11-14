@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794634827;
-	b=GzPIAlmNzC6g/DE4wz2gBHsSOZtVr3xu2mBRwMm6Q9bXFkg1QwSZbOS3fdvnTPSSqVON
-	 je7B2hjrppjLyxrVJF72PiZ/JPOo0lownF+QgEcWJTargz49sAex3K4J7XUUfgy4c3K09
-	 FV3XSCGdDRExEaZT89zRSBz7GldRqfLxmVQAbG8eqbutHXuIKX//R3E13qDIsdWpCCHse
-	 2VB17pW21ZIE7ebE+dUCxXSVe5Gg+xd8SPrzkX+yHm6uGlmrO+BLNz1QI/4uBbAi96b16
-	 g1hJ50m4cerE3oI0/olAV2dW+2cjKdcNXm/a3HXu5OTnJ420SuCG/0SMbwvwAQwIEKg==
+	t=1794635028;
+	b=rE4BDCwhNAu54ySvz2T7px+5T41TtGo/NAV80z5CpAQOOw31NxoU9aq5/J9YWZGjUXvd
+	 H3dlyVwZ+TQBgSYKtbwp9MNO5ygmtSg8RUNidXMv8dL5WqBiZ3enxknYoaLfkxa4ZtmK0
+	 qIt/rJZwWml6rrtDWGW5MLE3uTSmYw3aYxrsVcdp0CycEUz2K491Bz32uQ8I8qzsfwQH/
+	 Ow3tFVA8a3DCXnbqaJ+rxR6+bWQQZH7KRjNfOyuwF/1Emrb2wgfH4GP68jk06VIeSmuhk
+	 9pBJntagbgWReJLNhlZucbQVa69RmEXVsQYFGorcXprwXAXMxrXvangeEO91gjXAU0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794634827;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794635028;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=SeNeb6oYj5oGoonb9MGZ+Sk4LsaSO6fMvFrmMttvsDI=;
-	b=sMqZ8WtBjYmLzRWXPYFIMQVFjpCarocJXv69FlmPDZyGD4TSqn58exL/WBshG9yxoKZ6
-	 oTPXFgwfvKkgK8Nw0ZzU9QYwOkmEf9r8zRbkdvH951UhB0NUGDy5nk/BpXJ0IsaWJSuxh
-	 JZ09PDkqfSr+nuFXDXXKTDcER1SPBd9TxyRWbs8IEPx5FkJI2fRkSfEAusJ+MTjt3+x48
-	 qo7r8UHmuWsvHQYwp5Y6Z071cHl2As4+L7Pd/RJJZZni/FWuGb+VXAea74kMUScpIIGfB
-	 WvTSmpUTK0aw3RBkQMAE5R1wKJkWl5Em7HwLAiqa24UgE1UgMZ5CkaCn0CG4Aj4ilGg==
+	bh=iEk0s7zmk1MaEaqjFZTaI0zzn/KIGV3kPTgLpNVYEt8=;
+	b=SMfjhpagNuLRbUeu4GAaRrTSnnuSWn18FsCe//eqRaSbZ589EsrqeZ8oKlfC58cZv4Hr
+	 s7y6zm46+Ihra6agM8BqgWUHmXCawbC23jMstQdcF7xligsKt2MqHAXVCj5FFTRBzrwLP
+	 D+N6jHE2TRaHGjRS+eTU1MAy4zgpvjah/m5cD1lO47pxV041PLw1a6pcKrvnTNbdvOJwT
+	 ZX85KXF0sTRa0Z81sZooAX+1+HNSGRbCLiTY5T9LQb1tiju2yb6WeeVgVTMhsWUqKxncg
+	 uXHSqsdXw7fyb+4KVIUlVS2TZm1x7RpS8G4eTMXI695xrw/BqoAAEyE97r/s00pK7Yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bIQqjm3c;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Rc4M918E;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2205B606A327
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 05:40:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2205B606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE42606A327
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Nov 2026 05:43:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FE42606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bIQqjm3c
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Rc4M918E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794634827; x=1826170827;
+  t=1794635028; x=1826171028;
   h=date:from:to:cc:subject:message-id;
-  bh=1+VA0oZJ1MlbOFl4iLs3s1djNxwsEg4Q5pEcdAPQXjE=;
-  b=bIQqjm3cwmJSKVjGLEbs5zxBYzqSaFEtptgX2JY5LJUEXZlDOSiAOTKZ
-   RFi0P8nzTsKwKByjst9jvvi9Hz4Wzif4lY1u5jBRRCj9wJAB6o0IVpA4O
-   Wp0RUH/oO+FOpSXlQCSucx/pxb3VXCgNs2kDkIRogvCKfWfI9bXMJSuZB
-   xxGpAKL6NmzQG6I8h2YeJk0GeJu2CZq7wLAe3Ttd/8IcVYL63EwwSeQWd
-   hiWtxCyZestEO9bwxChjUC4Rj43OqiXv5xjCTJh0j6+R+vGWuNn0e6GfY
-   4VRc5VkWTFaWcxwjifXNawwI6Z9Ue3roFsVHTaNXZ0y4KOuYOlR5HNaL0
-   w==;
-X-CSE-ConnectionGUID: sSjDlUPeSJuU6HZ3RYzFBw==
-X-CSE-MsgGUID: R7Be4je8SEq0D/H1Bh9hFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3459371"
+  bh=z3oBxPuPUUMrH51C9JtQGWyT8uKMmcI01vGUaT4F9Kk=;
+  b=Rc4M918ErqOM+FmZ7EvTkaRcHxnTNry8kuTDxHunZLQRZcvopB76FlWD
+   FCgKqUvEkkjRp04qSD2ZybfFFmRZEIW4mfxmO/Ye3SBWQXRXup69y7ybb
+   z9s1wHCM/ef1TgwArQ3dDiCydNYC01f17OTakKjHDKx8aq9uGSsT+UCJl
+   Q7FLYbbaJj8PUGJip1fxOInohJWPCedL8rTKi7YIrzwvIrKEvxsltVL0T
+   dx9zpi/9QfxbjWlrZgAy2MXNgoWBtbrJ65gTrBAPE05p/ggXNjD+YW4ob
+   ocQoMX7XLC/IniRyQETF5NFPPvgyGfbZ+WtzaZNm63cu6sXKYQDSCB1kt
+   Q==;
+X-CSE-ConnectionGUID: +v192/h6T4Oc0WI9VghqZg==
+X-CSE-MsgGUID: CT1fFoVZRZqTBJ97BrXPmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3485920"
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="3459371"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 21:40:26 -0800
-X-CSE-ConnectionGUID: lVXOwViyQz+fLSC4PVUVvA==
-X-CSE-MsgGUID: thfTVkHGQ16oM7CYech6BA==
+   d="scan'208";a="3485920"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 21:43:47 -0800
+X-CSE-ConnectionGUID: 2yDowpf3T3+9MmPe6ydp6w==
+X-CSE-MsgGUID: 7ZlXR/IsSJaf02JAGNpr5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,213,1787036400"; 
-   d="scan'208";a="10872587"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 13 Nov 2026 21:40:25 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9349677"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 13 Nov 2026 21:43:46 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xS6Uw-000000001Up-42Uh;
-	Sat, 14 Nov 2026 05:40:22 +0000
-Date: Sat, 14 Nov 2026 06:39:48 +0100
+	id 1xS6YB-000000014xF-0sKl;
+	Sat, 14 Nov 2026 05:43:43 +0000
+Date: Sat, 14 Nov 2026 13:43:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:wip-linger-ping-lat 7/7]
- net/ceph/debugfs.c:269:42: warning: unsequenced accesses to volatile
- qualified 'jiffies'
-Message-ID: <202611140615.C6i3Z4Ih-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 416/438]
+ arch/x86/include/asm/tlbflush.h:497:46: warning: right shift count >= width
+ of type
+Message-ID: <202611141319.1yu2bpvN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,51 +81,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/ceph/ceph-client.git wip-linger-ping-lat
-head:   1428966bcb1a1e537f406812f7d91f81a127431a
-commit: 1428966bcb1a1e537f406812f7d91f81a127431a [7/7] libceph: include current latency in debugfs osdc dump
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20261114/202611140615.C6i3Z4Ih-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611140615.C6i3Z4Ih-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   8ea0e62cf4d68a895e3152c92a5f6ead6d5c9554
+commit: 0efee98d1b3338e5fb967e0805d802cdb7953d42 [416/438] fs: Annotate kill_sb() callbacks with __releases(&sb->s_umount)
+config: x86_64-randconfig-1008-20261114 (https://download.01.org/0day-ci/archive/20261114/202611141319.1yu2bpvN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261114/202611141319.1yu2bpvN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611140615.C6i3Z4Ih-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611141319.1yu2bpvN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/ceph/debugfs.c:269:42: warning: unsequenced accesses to volatile qualified 'jiffies' [-Wunsequenced]
-     267 |                    req ? jiffies_to_msecs(jiffies - req->r_start_stamp) : 0,
-         |                                           ~~~~~~~
-     268 |                    lreq->is_watch && lreq->committed && !lreq->last_error ?
-     269 |                         jiffies_to_msecs(jiffies - lreq->watch_valid_thru) : 0,
-         |                                          ^
-   1 warning generated.
+   In file included from arch/x86/include/asm/current.h:11,
+                    from arch/x86/include/asm/processor.h:17,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from arch/x86/entry/vdso/vdso32/../common/vclock_gettime.c:11,
+                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:1:
+   arch/x86/include/asm/tlbflush.h: In function 'cpu_tlbstate_update_lam':
+>> arch/x86/include/asm/tlbflush.h:497:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:140:69: note: in definition of macro '__raw_cpu_write'
+     140 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:364:25: note: in expansion of macro 'this_cpu_write_1'
+     364 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:495:41: note: in expansion of macro '__pcpu_size_call'
+     495 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:497:9: note: in expansion of macro 'this_cpu_write'
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+>> arch/x86/include/asm/tlbflush.h:497:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:140:69: note: in definition of macro '__raw_cpu_write'
+     140 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:365:25: note: in expansion of macro 'this_cpu_write_2'
+     365 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:495:41: note: in expansion of macro '__pcpu_size_call'
+     495 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:497:9: note: in expansion of macro 'this_cpu_write'
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+>> arch/x86/include/asm/tlbflush.h:497:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:140:69: note: in definition of macro '__raw_cpu_write'
+     140 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:366:25: note: in expansion of macro 'this_cpu_write_4'
+     366 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:495:41: note: in expansion of macro '__pcpu_size_call'
+     495 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:497:9: note: in expansion of macro 'this_cpu_write'
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/percpu.h:593:
+>> arch/x86/include/asm/tlbflush.h:497:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   include/asm-generic/percpu.h:87:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      87 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:412:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     412 | #define this_cpu_write_8(pcp, val)      this_cpu_generic_to_op(pcp, val, =)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:367:25: note: in expansion of macro 'this_cpu_write_8'
+     367 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:495:41: note: in expansion of macro '__pcpu_size_call'
+     495 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:497:9: note: in expansion of macro 'this_cpu_write'
+     497 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
 
 
-vim +/jiffies +269 net/ceph/debugfs.c
+vim +497 arch/x86/include/asm/tlbflush.h
 
-   255	
-   256	static void dump_linger_request(struct seq_file *s,
-   257					struct ceph_osd_linger_request *lreq)
-   258	{
-   259		struct ceph_osd_request *req =
-   260		    list_first_entry_or_null(&lreq->osd_reqs, struct ceph_osd_request,
-   261					     r_private_item);
-   262	
-   263		seq_printf(s, "%llu\t", lreq->linger_id);
-   264		dump_target(s, &lreq->t);
-   265	
-   266		seq_printf(s, "\t%u\t%u\t%u\t%s%s/%d\n", lreq->register_gen,
-   267			   req ? jiffies_to_msecs(jiffies - req->r_start_stamp) : 0,
-   268			   lreq->is_watch && lreq->committed && !lreq->last_error ?
- > 269	                        jiffies_to_msecs(jiffies - lreq->watch_valid_thru) : 0,
-   270			   lreq->is_watch ? "W" : "N", lreq->committed ? "C" : "",
-   271			   lreq->last_error);
-   272	}
-   273	
+82721d8b25d76c5 Kiryl Shutsemau 2023-03-12  494  
+ec225f8c255fd0f Yosry Ahmed     2024-07-02  495  static inline void cpu_tlbstate_update_lam(unsigned long lam, u64 untag_mask)
+82721d8b25d76c5 Kiryl Shutsemau 2023-03-12  496  {
+ec225f8c255fd0f Yosry Ahmed     2024-07-02 @497  	this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+ec225f8c255fd0f Yosry Ahmed     2024-07-02  498  	this_cpu_write(tlbstate_untag_mask, untag_mask);
+82721d8b25d76c5 Kiryl Shutsemau 2023-03-12  499  }
+82721d8b25d76c5 Kiryl Shutsemau 2023-03-12  500  
 
--- 
+:::::: The code at line 497 was first introduced by commit
+:::::: ec225f8c255fd0f256c282cc73d211550cb08b34 x86/mm: Fix LAM inconsistency during context switch
+
+:::::: TO: Yosry Ahmed <yosryahmed@google.com>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
+
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
