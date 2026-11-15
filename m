@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794785151;
-	b=dqaUAifCxjxL/Y+lSzhP8a0IwcrXVskRn8OUEGMgcgfbUIAKzpUBzMekUosW95Ii0e39
-	 GcWeLAq2TyK6vGxusddSONyMMGMDFYRoKCWMGCFe80wDObOuE/I20jHLjozytfBtnweOL
-	 +OtCMoqf/1ujjg1yifzyXrS03f7Ps9lowxe4GoTzDNjTQEsD1y1ZaPcElzN1req8uo2vl
-	 M2+tokdctnNBRFgcyKDJXsI+mno4ouG3QLTrVTocvBgwkO9fEVqP+LckUHdpxX+tdM4Sr
-	 Hcul/DJEZVfLDcKb7VxdxZGcQimbueIOYSzkrMFQdXLu5BhCgnhK+vwFPSYFbEB6CAg==
+	t=1794785811;
+	b=2DYrmYZZN9Mb+OK8ImG/QdFk6DzxYeWt9eYjqYDmXzkTLJvGp3PF9lcCVx+/Zc17HcaK
+	 +fHP5DWi6r9CqQ+zK46PWxMYN5V1XaQXQ7KvfP0SpVJi9/5TNqxAdRTSAT623PXvtCINl
+	 a+8rEtFCccpaEdN94F4e05zeXyiOGuJbMcEbEZxbVIO401WEnB0j2IU1i+YHo7Q/YgtBP
+	 W3QyWS3bk/jtWMxd4z07B0oezOVhewtduGISd6q1cmpfXYf5bthAzq6ea6AMVizcJiFB0
+	 5Vf7PLaODuQiED7Zb+SJiFqOnRjtnV9KmuX7V5/gAUoo5doxGQqE9/AFquqk+FbBJaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794785151;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794785811;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=r24Xqgu9RWWryNmSiGrv+qVupcxRhuFE8DU2Th+22Cs=;
-	b=j7suZrWOQ73pwQBkAPEjBbMh3WT6wLwNukUY06CCxVhBI2J+jiKrwjfNP3KxOsXYHGSY
-	 c16REDaE6UtQZlpTTbV323h9s7tf/woaZrDlRezKjOU9UO6k4RDZDq5Sz52VCnEIAecVR
-	 hDr3wBK+HRsCIBfZ74fPAG6WR+9e0THzSZrCfx6Np3KdcIS/FTraCakYToYAIPnAtGRHh
-	 WzMgjGlmIv+1TreTL4CfXWND9OPe3YSVhH3A11HerTDubsSS6Y6zdD5ZtdUamEEnmFdt2
-	 yL5HUByBpg+IZldgB3qU3TZxqU+ZgQpDv2yR1CeTYO1HttawaSSMaDVOOVmXajGbkCg==
+	bh=SWx2pFUcaAQyAI8KiqxAqFQTx8S1//HfQdOifWGthik=;
+	b=FCmCJVY/jedRQ/Rq5cc3O0/Xxtx/Uz4QHnfE3RhKhCkD8C3+waZCruZ44/4i12mKKoJM
+	 9TPjMyuMN1hE48NewmE/hqTF3xGWC3TtK0ZqsSENYTc88zZwGYuo3nAHbwoF9aYsaIADX
+	 FMnIKyPtffc4ANpuVE2D6sdZBI3OsobGRQOUd6NU2S3Vc1rejbIrCyIP2KzTQBxtzJrLV
+	 RIvv+ScuIcpo3yyd/vYQv9dOGDOWk3QUsRHoGpDNo5MzEGjq7R/OLfC3HmpxzZFdoj3vI
+	 kndClDDAn3F8s3XWieyTdMjGts1MZqw4ffaFlvMOhv2q7B/leU4A6WnCZc18Es7fHOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c80inWVf;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TwE+EIoW;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02546606A31F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 23:25:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02546606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5106C606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 23:36:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5106C606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c80inWVf
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TwE+EIoW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794785150; x=1826321150;
+  t=1794785810; x=1826321810;
   h=date:from:to:cc:subject:message-id;
-  bh=G09ocJtTQaqtivdiatWtCWVjOj0U39513rpW41hvw2c=;
-  b=c80inWVfICoclXSK0QIe6SC2kMUcfAR12VO6ZafWxx5q18tG4y/+0gEH
-   00MzqQ7isidLd1UF4vYs1sbzaTTRBBa+txq5XoDNoBsuEj2L8P9rAHgic
-   Kyq1HsX489pFolfIU0+UnBBfTjHt9yqfsOqCnYXz/CuTvkl5TqCXoAsrn
-   dMI9KhfDqUftzRzDEx3D8USbB1slwuffGDqRKk7TpjEWS0qaq0FGI/5eN
-   ZqEmzsWHCwAo9AIe6G1X+qsqWmz1mxKdO8OuZ4nEjy64x1xfm/COzemUj
-   P6N1Ex7ehNt8+46XWcQjFfKh44l9m+zMOrJgY+1C726QdHKQ4y/BCvVIO
+  bh=+9iytjyiKVzQunjGK5JXdzru7BKFTHNN8c76pPUDxzw=;
+  b=TwE+EIoWBc2IkG8HKwf0q5xbr1zFtftJ5E8De7i72zgPOCKRZpv5/NSJ
+   JXAMt7BOyIVoG8D/BNnfX0Jaa37+RuUMtBlmEUGTpXrZSH0wJP7526jWX
+   C+ivNSfJb6BRaVcDp+1DPe+EjaUQvyUWMBqyyR77YyGdLM0i3R6svYVho
+   OObbEDWKCsIg+m5OnUucB7tjy/7s4otl7mH/8a0VWS0t+4DdyeYVq6pnb
+   kqHEeaLJpKxiaS17DZVFfxkitpvh6T3S8xncLNvGm8BZg8Pqyea6oKpz2
+   0NgHKE2vJHCbQGqk7SQ8DHTOU9Zb8ItmIjhTJWC1/E4v0lLADc9RAZfr9
    Q==;
-X-CSE-ConnectionGUID: fiGuNjmbQl2j7Kjr9CyNgg==
-X-CSE-MsgGUID: PtDHxbn0SUmKc9oIHFo3Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3370951"
+X-CSE-ConnectionGUID: FeOECQyZQlabUUUsrVtH6g==
+X-CSE-MsgGUID: pbYHNH05TK+IYENCuLJZgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3409987"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3370951"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:25:50 -0800
-X-CSE-ConnectionGUID: GW0kx3mxRgaH/cBSvpOOIA==
-X-CSE-MsgGUID: AxPYUnTITXSLmc0xWa10Bw==
+   d="scan'208";a="3409987"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:36:50 -0800
+X-CSE-ConnectionGUID: oROO5Ic9To+FHrsjaCEYlQ==
+X-CSE-MsgGUID: vx9k7ZS2SvKl1VAGMu6z8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9655778"
+   d="scan'208";a="11185137"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Nov 2026 15:25:48 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 15 Nov 2026 15:36:49 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSjbV-000000002VL-2NwC;
-	Sun, 15 Nov 2026 23:25:45 +0000
-Date: Mon, 16 Nov 2026 00:24:46 +0100
+	id 1xSjmA-000000002VT-1h2R;
+	Sun, 15 Nov 2026 23:36:46 +0000
+Date: Mon, 16 Nov 2026 00:36:02 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sander Speetjens <sander.speetjens@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: [broadcom-stblinux:drivers/next 5/22]
- drivers/firmware/raspberrypi.c:221 rpi_register_hwmon_driver() warn:
- inconsistent indenting
-Message-ID: <202611160006.Lgyh7ZuO-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 96/458] net/core/devmem.o:
+ warning: objtool: __net_devmem_dmabuf_binding_free+0x60: stack state
+ mismatch: reg1[24]=-1+0 reg2[24]=-2-24
+Message-ID: <202611160006.FkP5JnAq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,92 +81,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/Broadcom/stblinux drivers/next
-head:   0cab822bca7a59667774725b83e948b71462290f
-commit: c518d43026b6ca7d08fd9d3b23016b9f5d09f47c [5/22] firmware: raspberrypi: Store child devices in struct rpi_firmware
-config: arm64-randconfig-2200-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160006.Lgyh7ZuO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   0e6b6b4005f8a398c95e4d8bdf0bdbb9aed73729
+commit: 520f4c12528973cfc7626b2a67602121e757e8ff [96/458] net: devmem: Check the dma_resv_lock() return value
+config: loongarch-randconfig-2000-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160006.FkP5JnAq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160006.FkP5JnAq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160006.Lgyh7ZuO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611160006.FkP5JnAq-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/raspberrypi.c:221 rpi_register_hwmon_driver() warn: inconsistent indenting
-drivers/firmware/raspberrypi.c:247 rpi_register_clk_driver() warn: inconsistent indenting
-drivers/firmware/raspberrypi.c:267 rpi_register_rtc_driver() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +221 drivers/firmware/raspberrypi.c
-
-   203	
-   204	static void
-   205	rpi_register_hwmon_driver(struct device *dev, struct rpi_firmware *fw)
-   206	{
-   207		struct platform_device *pdev;
-   208		u32 packet;
-   209		int ret = rpi_firmware_property(fw, RPI_FIRMWARE_GET_THROTTLED,
-   210						&packet, sizeof(packet));
-   211	
-   212		if (ret)
-   213			return;
-   214	
-   215		pdev = platform_device_register_data(dev, "raspberrypi-hwmon",
-   216						     -1, NULL, 0);
-   217	
-   218		if (IS_ERR(pdev))
-   219			return;
-   220	
- > 221		 fw->hwmon_dev = pdev;
-   222	}
-   223	
-   224	static void rpi_register_clk_driver(struct device *dev, struct rpi_firmware *fw)
-   225	{
-   226		struct device_node *firmware;
-   227		struct platform_device *pdev;
-   228	
-   229		/*
-   230		 * Earlier DTs don't have a node for the firmware clocks but
-   231		 * rely on us creating a platform device by hand. If we do
-   232		 * have a node for the firmware clocks, just bail out here.
-   233		 */
-   234		firmware = of_get_compatible_child(dev->of_node,
-   235						   "raspberrypi,firmware-clocks");
-   236		if (firmware) {
-   237			of_node_put(firmware);
-   238			return;
-   239		}
-   240	
-   241		pdev = platform_device_register_data(dev, "raspberrypi-clk",
-   242						     -1, NULL, 0);
-   243	
-   244		if (IS_ERR(pdev))
-   245			return;
-   246	
- > 247		 fw->clk_dev = pdev;
-   248	}
-   249	
-   250	static void rpi_register_rtc_driver(struct device *dev, struct rpi_firmware *fw)
-   251	{
-   252		struct platform_device *pdev;
-   253	
-   254		/*
-   255		 * Check if our model of Raspberry Pi board is from the 5th gen
-   256		 * as the RTC is only present on that model.
-   257		 */
-   258		if (!of_machine_is_compatible("brcm,bcm2712"))
-   259			return;
-   260	
-   261		pdev = platform_device_register_data(dev, "raspberrypi-rtc",
-   262						     -1, NULL, 0);
-   263	
-   264		if (IS_ERR(pdev))
-   265			return;
-   266	
- > 267		 fw->rtc_dev = pdev;
-   268	}
-   269	
+>> net/core/devmem.o: warning: objtool: __net_devmem_dmabuf_binding_free+0x60: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
 
 -- 
 0-DAY CI Kernel Test Service
