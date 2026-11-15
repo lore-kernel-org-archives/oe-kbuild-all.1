@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794763344;
-	b=5CnnputLaft+xj4gQ+tqMO4XopFq0t16bApZdBHv3u6bAfA/nA6bx7kG/Ii/Z908dbeF
-	 PFzaV7tCrFPxk5L5hMjTPc+dAI3xKauLxVOwHjQSI6pMIaRO/Gu059QMMnFdKGSug6LAx
-	 OjDsR8AlcMD4TpJdyaF+U/jj0og9FKfL8iEJtUOa442ItAox6UY7VffpPvLo/9rXsjrGx
-	 XP9XhnV++6u/q2ove7YcvbPpq0Zs8m2AIMpEK/5L62DPr0lZcTnHeYnudzha9HZ3JSc9v
-	 e8vxzfsaBPlWvKdtx1LAtM/WpGAK1ir51yg+I5i78AM+7zjrAPGPsu+G1wye55I2ZYA==
+	b=P92uWLWJ2UX6n0ZW0lZHwLlVJQPsxmSuZM2DG4SZrl/HYrj/LEHLIIxo0yYUFqT4i4eZ
+	 +QVKaC8M9hfSlefnttCRHW8Eub5ThZXJeqNvPk72jf/t1PvGue6ivrUNvXMIskhO2mSCI
+	 lHnzvc4M9HbwfONv62X9sf9vGtt3BwHa2olX5dXhviDDskVPMJz8LVw8/tW6+i4TK1qfT
+	 pOr6wTZEMvCCz0A4i2eAYw6u1D5mevCs14TXxuqmahiTMB8SDOUXk0s0n5m5IWITvRLY8
+	 HHT/JIadfZmtPlhELznQtC9v5m3OE1r4lSPLz85UiMF/fRpT05yCA8w9CfV4PmdTYsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794763344;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ofJr28WF+Vf2b0/TRpG3Don4gNklf5WTENU1aqjz8u0=;
-	b=qnV51izOhKB1neERh1vZshABcT5+Wv70+uI4MY1TBy9+xqxbwccNRtuqIAk9ifxbni0N
-	 T7JQPqByd1G5HMR1JqMUxjIWRfwW5a/XFz1+1lNVyERCZjQKHgRCl2KYNrTdLad56iU5Z
-	 0RPAhITajXWeR32ow9tSWWNHQHQ5m6mfebzecPFnorSlHFW5TtczPvZklorM0R+M6VNje
-	 kpL5794wUEcKuIZhEfwxyWEnPIks2yqIc4QDkmS4Rq1VecOIOs64OpZWMS0GhUybw2A2/
-	 pYxbSqcrL0riSgKyAoex1624DoIk3qq06AmpOVMrs7vqKF72L4ZuWMepV8kwx0M1WEg==
+	bh=xJDZzVumY0PfNh2oH9f9zVpF+Pr02Pz+NAVtM1VUL+M=;
+	b=ALLftU2uYtPpUDLa2tUrlUjt8FHLCiOtfamSgSbAe7hqh8+KphHwzBZPazbeO6YXf3ap
+	 Ghcv0GgXGgBNWTtvK2fvrInbtwnEuToz/zXjm06ml1CxpTKL5836QvYAcJ729DgPx/Slm
+	 rlUoUKJ5QGfR2kabImFb25Hsuudp5fOHAKlK0v6uqgx1Dph9vo4I+kOJg/9tfj1FZrFX1
+	 S9bC/p6aKeXsfIZqVeqqNT4LQN1a3lhARVJ0XENzDojcMwgDgmBowct89NAesN02mRw/h
+	 1Th1rVb6UjC8MjvI5pJ5mojH+RM6lJqvtdP8I/zejPXSIcVZJbBf3ngNl9gFujoobQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eeBKV9J+;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1ZlzE29;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088DE606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 17:22:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 088DE606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6433D606A323
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 17:22:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6433D606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eeBKV9J+
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1ZlzE29
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794763345; x=1826299345;
+  t=1794763343; x=1826299343;
   h=date:from:to:cc:subject:message-id;
-  bh=UAS++/KkiOg3ZgitnvVL/hXXejP4gWmFjCxcljpKCJE=;
-  b=eeBKV9J+UWBjzbrhh1hY5egq+oBTBOu1vy33gl6jleNB9gJDCIl+R5Nu
-   XmVnT+GtEn92VxNc8qXPFpTHdJvjIhuFi37udcb3/Y4ihuFeM9Qikxjs8
-   PQtsjL3o2a3r0IwK7nTQ1pR2qzyBVoVUQvITOg/R/4b0IVHjy2ad4SB9v
-   Gn/5f++NVlsl4LAPP9um8ZH2w9s3Z/VQxfnNGfO4Glz1AdKZdHo/ISFmw
-   YrpwEnz5z8gqHJsF4gehtQK+Zq4j6iy0KXyH3MW292UoR4borss6Kn1BG
-   C6YYQGhivSQUip432XXLYKB5M/mF9NK4jXHFWqQQKb2oh0Vj0NeDz4rB2
-   g==;
-X-CSE-ConnectionGUID: KAZQlO3JTNieqHI907187g==
-X-CSE-MsgGUID: flpAc4cOTxar0RXkSTgc/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3583246"
+  bh=8hKjyWU7lXfB7AKL97A69jN3ZwssJuI8IJsH2c6y6yA=;
+  b=f1ZlzE29IZD4Ix/DnqYi/i3XC7HvsrcpAO+V1WIjUMGkOoDkYoYorM6t
+   JU2Toubw+aTunolydf8aIW4UnfCOYxbXk/bc2mM+W5PBfkgAXvHeAi0pD
+   vkmG2AE2pBp5PXnLCrVp3xx4H2HgdeT45oqkDOWwfIiZTMOqV5ha1z/di
+   tm3McDSqdK+MMSeH2eoItFV/QkK6B0AfoCD64Lilkt/iwsylCW5UpSY5v
+   Ex92I3Ga9RX9JK0KfD9LgDj066m2YpLDOoTokpSn/XpP2uVF9PGnqO8oZ
+   a1pxLi2p0MK7m2B3Embuwl0n9+Ok0aurGoSuQodItDsYk2LWdtgNeINPC
+   Q==;
+X-CSE-ConnectionGUID: W6AUkJnzSzaQrITVnJIgNw==
+X-CSE-MsgGUID: TyLlXEknSOCltBFZNlDUvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3380707"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3583246"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 09:22:23 -0800
-X-CSE-ConnectionGUID: RdzIxoGjQtSUOfnQ2DPTAg==
-X-CSE-MsgGUID: +5tuMuMVSX6gkqM1zE49Rw==
+   d="scan'208";a="3380707"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 09:22:23 -0800
+X-CSE-ConnectionGUID: UVA+krQpQ3KDagkC/4JuZw==
+X-CSE-MsgGUID: WPCQ+VX4RbKoL2eICAXMLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9611869"
+   d="scan'208";a="9517260"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Nov 2026 09:22:22 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2026 09:22:22 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSdvn-000000002Kx-1QGx;
+	id 1xSdvn-000000002Kz-1aMV;
 	Sun, 15 Nov 2026 17:22:19 +0000
-Date: Sun, 15 Nov 2026 18:21:57 +0100
+Date: Sun, 15 Nov 2026 18:21:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 86/458]
- drivers/gpu/drm/ttm/ttm_bo.o: warning: objtool: ttm_bo_delayed_delete+0x60:
- stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
-Message-ID: <202611151801.FRgaNlW5-lkp@intel.com>
+To: Romain TISSERAND <romain.tisserand@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Chen-Yu Tsai" <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [sunxi:sunxi/clk-for-7.5 2/16]
+ drivers/clk/sunxi-ng/ccu_nkm.c:50:1-7: WARNING: do_div() does a 64-by-32
+ division, please consider using div64_ul instead.
+Message-ID: <202611151822.QXTOs54d-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,21 +82,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   0e6b6b4005f8a398c95e4d8bdf0bdbb9aed73729
-commit: 77c741294743ebef7b1a36b4c526cb5a00d7b472 [86/458] drm/ttm: Check the dma_resv_lock() return value
-config: loongarch-randconfig-2000-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151801.FRgaNlW5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151801.FRgaNlW5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/clk-for-7.5
+head:   63a29fbb4ecdadbaccd2693864616918698e1e58
+commit: e9d9dae0d248cb9a102ba90adbef2cfe198d832c [2/16] clk: sunxi-ng: nkm: avoid 32-bit overflow in rate calculations
+config: xtensa-randconfig-r2101-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151822.QXTOs54d-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611151801.FRgaNlW5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611151822.QXTOs54d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/sunxi-ng/ccu_nkm.c:50:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+   drivers/clk/sunxi-ng/ccu_nkm.c:40:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
 
->> drivers/gpu/drm/ttm/ttm_bo.o: warning: objtool: ttm_bo_delayed_delete+0x60: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
+vim +50 drivers/clk/sunxi-ng/ccu_nkm.c
+
+    43	
+    44	static unsigned long ccu_nkm_calc_parent_rate(unsigned long rate,
+    45						      unsigned long n, unsigned long k,
+    46						      unsigned long m)
+    47	{
+    48		u64 parent = (u64)rate * m;
+    49	
+  > 50		do_div(parent, n * k);
+    51		return min_t(u64, parent, ULONG_MAX);
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
