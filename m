@@ -1,84 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794784061;
-	b=BSmyXIml7FmORpHy3gM0Z2xtSZhI4Xtl6eq7jKaF9UYxDRgKl+DboJhMcvYIjmcRoj6X
-	 3eR6G/5dst2bTQJWNzR+hsPmNwOBsQ0OIKwdpGh5s6B6/Bf+LcwPSe8bVN+x2XepCjr0L
-	 IbrrfxAdOnJXOv+1qgaALhOG/moYyDizuv+8KPCEQRBnpMnEGfDJJdaiZllURgZtVe/pg
-	 ip6kbPllDW111U50rvqbXjyaLwcICz3/6JZIURw8+mkisFkj8XGoFq6xXKCr++79pgAUN
-	 xc74Fo9Sxu5ydo4lvf4uAFgjl6TfQpAj07CVlzfSZGUkm4drRbv8DQysOhW+atuwj1A==
+	t=1794785151;
+	b=dqaUAifCxjxL/Y+lSzhP8a0IwcrXVskRn8OUEGMgcgfbUIAKzpUBzMekUosW95Ii0e39
+	 GcWeLAq2TyK6vGxusddSONyMMGMDFYRoKCWMGCFe80wDObOuE/I20jHLjozytfBtnweOL
+	 +OtCMoqf/1ujjg1yifzyXrS03f7Ps9lowxe4GoTzDNjTQEsD1y1ZaPcElzN1req8uo2vl
+	 M2+tokdctnNBRFgcyKDJXsI+mno4ouG3QLTrVTocvBgwkO9fEVqP+LckUHdpxX+tdM4Sr
+	 Hcul/DJEZVfLDcKb7VxdxZGcQimbueIOYSzkrMFQdXLu5BhCgnhK+vwFPSYFbEB6CAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794784061;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794785151;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=8971y8BjMAyggDW8ETCObk6ax7fbcDcj/Mtdeb9FC5k=;
-	b=PkbVo3yG48iDJlTlmmD5aMyJGofhOBScUsw1vo69BtwahR+KIVKLmTRTsOV++KHJkDZF
-	 0nyjy1xU5ZZzduQImKnW8sgl60oxRZgB4E82kxRX1/CoASMjtwFwxe/5VFbbLGUOAcLoJ
-	 IwNexzFr9OrTjP0H0UXtyLyJgkBWCSiyVFcc9y/xVg0jdVGCylmhCu4IEof+LrijYgUnV
-	 sOYR1WTyd2m7ByVctAJvpa3HGYQ4uICFaeEmBsaqI7HZgxgB4rUCXR2WPMj81m0DNcKnO
-	 jwrefS6b1Uh4qvosa64apXOu9+2l/4GKVIgYdVZYGJe5lZv6BSkKU19V2PkdEs2FfXA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=r24Xqgu9RWWryNmSiGrv+qVupcxRhuFE8DU2Th+22Cs=;
+	b=j7suZrWOQ73pwQBkAPEjBbMh3WT6wLwNukUY06CCxVhBI2J+jiKrwjfNP3KxOsXYHGSY
+	 c16REDaE6UtQZlpTTbV323h9s7tf/woaZrDlRezKjOU9UO6k4RDZDq5Sz52VCnEIAecVR
+	 hDr3wBK+HRsCIBfZ74fPAG6WR+9e0THzSZrCfx6Np3KdcIS/FTraCakYToYAIPnAtGRHh
+	 WzMgjGlmIv+1TreTL4CfXWND9OPe3YSVhH3A11HerTDubsSS6Y6zdD5ZtdUamEEnmFdt2
+	 yL5HUByBpg+IZldgB3qU3TZxqU+ZgQpDv2yR1CeTYO1HttawaSSMaDVOOVmXajGbkCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GKPa0Nw5;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c80inWVf;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695F3606A32C;
-	Sun, 15 Nov 2026 23:07:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 695F3606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02546606A31F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 23:25:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02546606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GKPa0Nw5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c80inWVf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794784061; x=1826320061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vBsIBFjd51c+RtM9uJ3edtPSSE5WdmPMwKgKgqr5zaI=;
-  b=GKPa0Nw5jc4RE23sFO0EzH7zRvFJGIkoA3BQZ+ZVapFKRkk/5+KGxqDD
-   moPuofS5PFudx6ZGA03Xq/MwYjv7ChA9hOof85xb+pRKgxJI/GZXbUweY
-   gStnsZ9XYr1cUWmKRYyPI5GtD+l4wSCLwIje+aFdOzy4sbHK9YAx+oN+e
-   jcmQVwA0MjowdoIq1MMrMi7B+gb93feJs/4mu7qQEZ3TO7TMtPxes/hJu
-   x/dMtp/AH6npKmUeKxDYjv6s+VUEm0HZwy5afR9LzL4OQQlbOF8gTCF82
-   PZ/vlFpMp2xehYMntcvwvX3VxGd0m3Q/dk/Be0/Q+Xm3qxOUfsF28+ovO
-   A==;
-X-CSE-ConnectionGUID: wV1ojNqQSQ+Ta7c1aFXMTw==
-X-CSE-MsgGUID: MsiHZMe2Qmi6cZgFirDuSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3507854"
+  t=1794785150; x=1826321150;
+  h=date:from:to:cc:subject:message-id;
+  bh=G09ocJtTQaqtivdiatWtCWVjOj0U39513rpW41hvw2c=;
+  b=c80inWVfICoclXSK0QIe6SC2kMUcfAR12VO6ZafWxx5q18tG4y/+0gEH
+   00MzqQ7isidLd1UF4vYs1sbzaTTRBBa+txq5XoDNoBsuEj2L8P9rAHgic
+   Kyq1HsX489pFolfIU0+UnBBfTjHt9yqfsOqCnYXz/CuTvkl5TqCXoAsrn
+   dMI9KhfDqUftzRzDEx3D8USbB1slwuffGDqRKk7TpjEWS0qaq0FGI/5eN
+   ZqEmzsWHCwAo9AIe6G1X+qsqWmz1mxKdO8OuZ4nEjy64x1xfm/COzemUj
+   P6N1Ex7ehNt8+46XWcQjFfKh44l9m+zMOrJgY+1C726QdHKQ4y/BCvVIO
+   Q==;
+X-CSE-ConnectionGUID: fiGuNjmbQl2j7Kjr9CyNgg==
+X-CSE-MsgGUID: PtDHxbn0SUmKc9oIHFo3Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3370951"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3507854"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:07:40 -0800
-X-CSE-ConnectionGUID: T0clSzB4Q+qj2I5XBNZXdA==
-X-CSE-MsgGUID: oOzTsgjDSVa3mPwyHThFlQ==
+   d="scan'208";a="3370951"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:25:50 -0800
+X-CSE-ConnectionGUID: GW0kx3mxRgaH/cBSvpOOIA==
+X-CSE-MsgGUID: AxPYUnTITXSLmc0xWa10Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9481327"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Nov 2026 15:07:36 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9655778"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 15 Nov 2026 15:25:48 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSjJt-000000017Qg-0RDt;
-	Sun, 15 Nov 2026 23:07:33 +0000
-Date: Mon, 16 Nov 2026 07:07:09 +0800
+	id 1xSjbV-000000002VL-2NwC;
+	Sun, 15 Nov 2026 23:25:45 +0000
+Date: Mon, 16 Nov 2026 00:24:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, dakr@kernel.org,
-	aliceryhl@google.com, daniel.almeida@collabora.com,
-	airlied@gmail.com, simona@ffwll.ch, ojeda@kernel.org,
-	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
-	work@onurozkan.dev, boris.brezillon@collabora.com
-Subject: Re: [PATCH v8 2/3] drm/tyr: add GPU reset infrastructure
-Message-ID: <202611160607.TNmf1CMV-lkp@intel.com>
-References: <20261113-tyr-reset-impl-v8-2-2ee298ac9808@onurozkan.dev>
+To: Sander Speetjens <sander.speetjens@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: [broadcom-stblinux:drivers/next 5/22]
+ drivers/firmware/raspberrypi.c:221 rpi_register_hwmon_driver() warn:
+ inconsistent indenting
+Message-ID: <202611160006.Lgyh7ZuO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,54 +81,94 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-tyr-reset-impl-v8-2-2ee298ac9808@onurozkan.dev>
 
-Hi Onur,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.4-rc2 next-20261113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/drm-tyr-add-GPU-reset-infrastructure/20261113-173227
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20261113-tyr-reset-impl-v8-2-2ee298ac9808%40onurozkan.dev
-patch subject: [PATCH v8 2/3] drm/tyr: add GPU reset infrastructure
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611160607.TNmf1CMV-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160607.TNmf1CMV-lkp@intel.com/reproduce)
+tree:   https://github.com/Broadcom/stblinux drivers/next
+head:   0cab822bca7a59667774725b83e948b71462290f
+commit: c518d43026b6ca7d08fd9d3b23016b9f5d09f47c [5/22] firmware: raspberrypi: Store child devices in struct rpi_firmware
+config: arm64-randconfig-2200-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160006.Lgyh7ZuO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.3.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160607.TNmf1CMV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611160006.Lgyh7ZuO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/firmware/raspberrypi.c:221 rpi_register_hwmon_driver() warn: inconsistent indenting
+drivers/firmware/raspberrypi.c:247 rpi_register_clk_driver() warn: inconsistent indenting
+drivers/firmware/raspberrypi.c:267 rpi_register_rtc_driver() warn: inconsistent indenting
 
->> error[E0432]: unresolved imports `kernel::workqueue::OwnedQueue`, `kernel::workqueue::ScopedWork`, `kernel::workqueue::ScopedWorkItem`
-   --> drivers/gpu/drm/tyr/reset.rs:49:9
-   |
-   49 |         OwnedQueue,
-   |         ^^^^^^^^^^ no `OwnedQueue` in `workqueue`
-   50 |         Queue,
-   51 |         ScopedWork,
-   |         ^^^^^^^^^^ no `ScopedWork` in `workqueue`
-   52 |         ScopedWorkItem, //
-   |         ^^^^^^^^^^^^^^ no `ScopedWorkItem` in `workqueue`
---
->> error[E0433]: cannot find `new_scoped_work` in `kernel`
-   --> drivers/gpu/drm/tyr/reset.rs:185:25
-   |
-   185 |                 kernel::new_scoped_work!("tyr::reset", Controller::new(pdev, iomem))
-   |                         ^^^^^^^^^^^^^^^ could not find `new_scoped_work` in `kernel`
+vim +221 drivers/firmware/raspberrypi.c
 
---
+   203	
+   204	static void
+   205	rpi_register_hwmon_driver(struct device *dev, struct rpi_firmware *fw)
+   206	{
+   207		struct platform_device *pdev;
+   208		u32 packet;
+   209		int ret = rpi_firmware_property(fw, RPI_FIRMWARE_GET_THROTTLED,
+   210						&packet, sizeof(packet));
+   211	
+   212		if (ret)
+   213			return;
+   214	
+   215		pdev = platform_device_register_data(dev, "raspberrypi-hwmon",
+   216						     -1, NULL, 0);
+   217	
+   218		if (IS_ERR(pdev))
+   219			return;
+   220	
+ > 221		 fw->hwmon_dev = pdev;
+   222	}
+   223	
+   224	static void rpi_register_clk_driver(struct device *dev, struct rpi_firmware *fw)
+   225	{
+   226		struct device_node *firmware;
+   227		struct platform_device *pdev;
+   228	
+   229		/*
+   230		 * Earlier DTs don't have a node for the firmware clocks but
+   231		 * rely on us creating a platform device by hand. If we do
+   232		 * have a node for the firmware clocks, just bail out here.
+   233		 */
+   234		firmware = of_get_compatible_child(dev->of_node,
+   235						   "raspberrypi,firmware-clocks");
+   236		if (firmware) {
+   237			of_node_put(firmware);
+   238			return;
+   239		}
+   240	
+   241		pdev = platform_device_register_data(dev, "raspberrypi-clk",
+   242						     -1, NULL, 0);
+   243	
+   244		if (IS_ERR(pdev))
+   245			return;
+   246	
+ > 247		 fw->clk_dev = pdev;
+   248	}
+   249	
+   250	static void rpi_register_rtc_driver(struct device *dev, struct rpi_firmware *fw)
+   251	{
+   252		struct platform_device *pdev;
+   253	
+   254		/*
+   255		 * Check if our model of Raspberry Pi board is from the 5th gen
+   256		 * as the RTC is only present on that model.
+   257		 */
+   258		if (!of_machine_is_compatible("brcm,bcm2712"))
+   259			return;
+   260	
+   261		pdev = platform_device_register_data(dev, "raspberrypi-rtc",
+   262						     -1, NULL, 0);
+   263	
+   264		if (IS_ERR(pdev))
+   265			return;
+   266	
+ > 267		 fw->rtc_dev = pdev;
+   268	}
+   269	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
