@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794760137;
-	b=gWPODRksM0r+rW7PpOcndUqUpt16YFAU1ect+C08rTDkr27kPg6xuSbo798y6EuPK54g
-	 hVPuEqcDFazBdqboIjGxXPUND+bIkMdxFkWcyu0gYyVRV4u8XqcrWhzTj5qRXC9iyTtXy
-	 gyVxM2AlNpBbAa7VNgPhEPfyhA3QATd0WAHdEjHTy5oK3K351/7yvXGRyzq4hBK9VsXti
-	 xbFYPO4/AD7eSya0EETbc2EE1DLwnD7hU+0jphebT7ciJ9IIuZ94lIJZbPCWE4hChqz6N
-	 kMnIpqD6WWLTUL3vx27vU2k8jzh26NVATe92XTZYQ0CBFNkMCL52GOtb8N1G1Tgbb1Q==
+	t=1794760827;
+	b=pNNP2tHKrGfsdFVF8wlH+s/2G+WYYNLtjINxd5lWKL1+7SC8B5MFQAlbXLtB71JC+tGm
+	 Ef7x3ukfWAt1sTrxDREwgRZMJQMqcrCgL2fLXHiU34frr+K1qh5p2e+WEzlckYUOwgO+e
+	 bjfQF7D0JLQ6x8hEWcp+YL6jO8jpUd6AZeKSBx81DgJgJWhCdcSPtXKqXVZdtK3/+hK6M
+	 ncPtuc2+irT3u9CwORaxcawsqvW/s2T7ilpkXTgKBh+gVobcyG3F3lw2tZFGWiWZ5Ub5b
+	 YBji5KWg6xje7ucTbIXmGCFgAtgUgByJLo2OGEamgESuwZD8CYvw7ko4HZ1uHgF2DNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794760137;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794760827;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=K4tqPHQ2TGxmxB2s84Ytr8HIVLoVGZcqE0JXAR5BO/8=;
-	b=VEOh26t7eLArkP+fQm0fL4Ogz2pIS8R26EDyi4zZT1jQIS/BtM2OrH0iJr0zTMM+lU0M
-	 fMb69rXBpjeq25ufsj4NnGVHwdjl/0/840Tr4xCHws8omw+ZdK61LCeBeVd+RF5j6pCDV
-	 lK/RzEg628hrLIsuDNPMQy7HXwhx7BoNg8cw7NWiVAMPrfF5zMHUD1acLo2hMzT1d4Ocg
-	 UnI8USex9vffyDlVfHotT5zgPSuKUawitIXO2t5z7vkYP4lMKWYg+5P/v1k8sbe2WLLE8
-	 c20BJY3TnBjlZnpSC2o55q+Vs1lu1rADl2xE0fgvTpZiRR8shLEZfYf5NjLVv9i7zJQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=0d4XqzNLLUUIQ084977tKLwF0WmR1GX60WGzKIrcLY8=;
+	b=IUt0MkKhdiidi2PAYaDJAyddyd7jsf0rs605wMsjZZnvQTb06//KmPmLZ4rQ30/Ib1nH
+	 3jhEU4DZtbbwM/aqZGPlWL8bLRq/A3ZQBPJaGQ2DjesUhMzj3JLYsmigwedUYKKqjKPZA
+	 GV1vnJfGvDOUCT3pfVWmgIU8u/ozgzrh2WvIB/vl7mRr4WJeDRowrbzmeDIwTQnEJREsa
+	 OE5ndoUQBWRfmpxZvkPLeGbUCWAjUvxBXTtL/jXdaHnFp+sFPFcJXd/02LASWy5u7QE8E
+	 WclcCeVrvCPvuroeF/XlBHHWFCxdV2RGUc+aQ3JxpKRAVgKT7bFJlKHaQpUO35X7xGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=luknuyNZ;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ep9KJOiw;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B27606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 16:28:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87B27606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF1E606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 16:40:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBF1E606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=luknuyNZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ep9KJOiw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794760136; x=1826296136;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mGqceJuqxNxltkPLs29w2Zuuud7BMNwlebSNpiX3d4g=;
-  b=luknuyNZ230CY1mKn0WOJJ+GNQ80C2UJ+jj1npQ/enxZC6Vw5wbkrwLR
-   JJnQ0IbjPM6wS49PLO/Z+j5+8YLLbtAMqCbY4cDCi09wbiHv9ydof6KM2
-   520aHwC7uikLPwiJVBXR3vBtlGqrj+9TXzlUwico+pf9TsQv/CkQoq/oM
-   Jtm+Q3Vwmf8JAIWuBzFSQY2suux0eMCCnFjj/5S46/UlZOvhaKJ478n4T
-   FGZRU0maEDRA691bncxQ+Z4a/TyipQyMn3J/bgCuzy8kovq2cc8Jq7V9b
-   b/yk5N9ITQfyTljLsPIMI1+NP7MljRdKQ3E9XSOdrbMD8R7QyRN8999dx
-   Q==;
-X-CSE-ConnectionGUID: RjMAsclZTzCvJlyw0ZA/Lw==
-X-CSE-MsgGUID: sXHwI496Qrqqfguj3avXiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3494213"
+  t=1794760825; x=1826296825;
+  h=date:from:to:cc:subject:message-id;
+  bh=S7ElG9RSD1Cx59gpBo4rjwN7idGSf+xT5xf7LwDbMjU=;
+  b=Ep9KJOiwmGX0cSJmmIBaf/j7enibbupS8N94gTrudXhfsdOOKkUj56+g
+   jMqT83M5QtT4/lPjGACLTbCJMxEgDp7k6OcJPoeO1MPVVFNRTAApgiB/A
+   ZiYgAyiiCDadndA6ju7PO9+W4r9NjdnXBbzKss3SkCSLj4d9HGWzsokNJ
+   kcrtE2NpHukJ85hO29wF6/z3J3fgFxXSSlfwDbcjmV+6wsjrvlvo0NkbW
+   uHwQ3lLblOBnwxRGC1WoGTf7SrtTtU2vJ2BMPiICdcfRCdtOcez63S6Xm
+   BwxSQFxKebhLFfRECp7RXHI1qXiSl33LyQhbS/xJOwqshjfcPMyq4hmRH
+   w==;
+X-CSE-ConnectionGUID: 3rglYJfNQ2WqT54gNr5GIw==
+X-CSE-MsgGUID: ptUy8TANSn+dufa378tbUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3359141"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3494213"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 08:28:56 -0800
-X-CSE-ConnectionGUID: sNze3bm4QE6lyf7pN4kNlg==
-X-CSE-MsgGUID: HiHMIc9bR8KtT45EdEFtEA==
+   d="scan'208";a="3359141"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 08:40:25 -0800
+X-CSE-ConnectionGUID: wvkH1dnhS1iY9HE0WBnREA==
+X-CSE-MsgGUID: ipVvug9SQTSyBuCeQnh89Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="11075420"
+   d="scan'208";a="9196001"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 15 Nov 2026 08:28:54 -0800
+  by orviesa005.jf.intel.com with ESMTP; 15 Nov 2026 08:40:14 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSd64-000000002Iu-0tAs;
-	Sun, 15 Nov 2026 16:28:52 +0000
-Date: Sun, 15 Nov 2026 17:28:44 +0100
+	id 1xSdH0-000000002K0-1UeO;
+	Sun, 15 Nov 2026 16:40:10 +0000
+Date: Sun, 15 Nov 2026 17:39:27 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dinh Nguyen <dinguyen@kernel.org>
-Subject: ERROR: modpost: lib/lz4/lz4_compress.ko: symbol
- '__divsi3_table' undefined!
-Message-ID: <202611151706.g0q1YGnb-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 3/3] kismet: WARNING: unmet
+ direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PCI
+Message-ID: <202611151759.kkKylTwp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,31 +79,24 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-Hi Thomas,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   23c62304dde29abe92013d85910d03a77dada35d
-commit: 2180d11e06fb56fd13643ae59964f144896870be nios2: ksyms: Declare __mulsi3 export
-date:   4 weeks ago
-config: nios2-randconfig-r2302-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151706.g0q1YGnb-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151706.g0q1YGnb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   dc68b182b9f87e42548fb6ce886be612535b2116
+commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [3/3] anolis: spi: add support for Phytium SPI
+config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PCI-0-0 (https://download.01.org/0day-ci/archive/20261115/202611151759.kkKylTwp-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20261115/202611151759.kkKylTwp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2180d11e06fb ("nios2: ksyms: Declare __mulsi3 export")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611151706.g0q1YGnb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611151759.kkKylTwp-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: lib/lz4/lz4_compress.ko: symbol '__divsi3_table' undefined!
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PCI
+   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
+     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SPI_PHYTIUM_PCI [=y] && SPI [=y] && SPI_MASTER [=y] && PCI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
