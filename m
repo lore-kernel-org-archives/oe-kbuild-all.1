@@ -1,78 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794763344;
-	b=P92uWLWJ2UX6n0ZW0lZHwLlVJQPsxmSuZM2DG4SZrl/HYrj/LEHLIIxo0yYUFqT4i4eZ
-	 +QVKaC8M9hfSlefnttCRHW8Eub5ThZXJeqNvPk72jf/t1PvGue6ivrUNvXMIskhO2mSCI
-	 lHnzvc4M9HbwfONv62X9sf9vGtt3BwHa2olX5dXhviDDskVPMJz8LVw8/tW6+i4TK1qfT
-	 pOr6wTZEMvCCz0A4i2eAYw6u1D5mevCs14TXxuqmahiTMB8SDOUXk0s0n5m5IWITvRLY8
-	 HHT/JIadfZmtPlhELznQtC9v5m3OE1r4lSPLz85UiMF/fRpT05yCA8w9CfV4PmdTYsg==
+	t=1794763773;
+	b=HuF0XbxWFLPHjsKuXlpFmCzOMKr/N8CUxM45u7HWknclJN8aWvbyZb6A16hHt9In5Fx/
+	 dK2keobh2VGsSg4cpJmE6oQMqSoho6BSRBor7/QLRoOmuwTjPmy3e6iim9NiiubNAt9RE
+	 +V5r3u4twqV83zWKBO+juMUrXrHQpAbM12CQvZJbe+ZUfJZXcWoyDw6Ylt/BXQnckrtv0
+	 k5+I0aFL4MzeST2lV7B7SAGcZimrP6+4ghUDU9C5iGqf4Jpo8vuF4ZOnHls1G9GSf2zkE
+	 Zw9VqnMvv6HYkNFM83Vv2c7XwCcfEJYFF0BliGKnoEsYyAKvH6hElP3LaKY1Uqu3W9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794763344;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=xJDZzVumY0PfNh2oH9f9zVpF+Pr02Pz+NAVtM1VUL+M=;
-	b=ALLftU2uYtPpUDLa2tUrlUjt8FHLCiOtfamSgSbAe7hqh8+KphHwzBZPazbeO6YXf3ap
-	 Ghcv0GgXGgBNWTtvK2fvrInbtwnEuToz/zXjm06ml1CxpTKL5836QvYAcJ729DgPx/Slm
-	 rlUoUKJ5QGfR2kabImFb25Hsuudp5fOHAKlK0v6uqgx1Dph9vo4I+kOJg/9tfj1FZrFX1
-	 S9bC/p6aKeXsfIZqVeqqNT4LQN1a3lhARVJ0XENzDojcMwgDgmBowct89NAesN02mRw/h
-	 1Th1rVb6UjC8MjvI5pJ5mojH+RM6lJqvtdP8I/zejPXSIcVZJbBf3ngNl9gFujoobQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794763773;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=UzsPgLIU+sooLMnPzcYi0muGH1V9TV21ckVkYTTSwiA=;
+	b=KKzz1hzVdJ6OtimjKBSS33WT+YFAfEAfmWy6cqAdXcG3/4Wj80eADwsDCozuMdUbVUJ4
+	 652MXr0w9mgsdBE6qUSvIefTO12MEb4Fjya3EteCIVkEV3TrhLCoHndEg6min4H/hfJOd
+	 ri57ZoMfu6ywIMMlWG6ZMgSKU/ZL3dha7h261qhzT5im2n5wFX9vJZxPtZY4Z23UmZFjj
+	 nTU0JrYg+KWzvQ3MmPJIidLwzE9mRYktxFnHufd/Koip/vj5Hw+T+489X4NV8kGeHvwgn
+	 n/g72Gf9PIU+wqJF4T4iC5WbadfwERU6IiV/TXH+OVc9sILjsi/ujreXT1mJVXFHQQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1ZlzE29;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlfaPaI8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6433D606A323
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 17:22:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6433D606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC10C606A31A;
+	Sun, 15 Nov 2026 17:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f1ZlzE29
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794763343; x=1826299343;
-  h=date:from:to:cc:subject:message-id;
-  bh=8hKjyWU7lXfB7AKL97A69jN3ZwssJuI8IJsH2c6y6yA=;
-  b=f1ZlzE29IZD4Ix/DnqYi/i3XC7HvsrcpAO+V1WIjUMGkOoDkYoYorM6t
-   JU2Toubw+aTunolydf8aIW4UnfCOYxbXk/bc2mM+W5PBfkgAXvHeAi0pD
-   vkmG2AE2pBp5PXnLCrVp3xx4H2HgdeT45oqkDOWwfIiZTMOqV5ha1z/di
-   tm3McDSqdK+MMSeH2eoItFV/QkK6B0AfoCD64Lilkt/iwsylCW5UpSY5v
-   Ex92I3Ga9RX9JK0KfD9LgDj066m2YpLDOoTokpSn/XpP2uVF9PGnqO8oZ
-   a1pxLi2p0MK7m2B3Embuwl0n9+Ok0aurGoSuQodItDsYk2LWdtgNeINPC
-   Q==;
-X-CSE-ConnectionGUID: W6AUkJnzSzaQrITVnJIgNw==
-X-CSE-MsgGUID: TyLlXEknSOCltBFZNlDUvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3380707"
-X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3380707"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 09:22:23 -0800
-X-CSE-ConnectionGUID: UVA+krQpQ3KDagkC/4JuZw==
-X-CSE-MsgGUID: WPCQ+VX4RbKoL2eICAXMLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9517260"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2026 09:22:22 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xSdvn-000000002Kz-1aMV;
-	Sun, 15 Nov 2026 17:22:19 +0000
-Date: Sun, 15 Nov 2026 18:21:54 +0100
-From: kernel test robot <lkp@intel.com>
-To: Romain TISSERAND <romain.tisserand@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Chen-Yu Tsai" <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [sunxi:sunxi/clk-for-7.5 2/16]
- drivers/clk/sunxi-ng/ccu_nkm.c:50:1-7: WARNING: do_div() does a 64-by-32
- division, please consider using div64_ul instead.
-Message-ID: <202611151822.QXTOs54d-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlfaPaI8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FE61F000C9;
+	Sun, 15 Nov 2026 17:29:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794763773;
+	bh=UzsPgLIU+sooLMnPzcYi0muGH1V9TV21ckVkYTTSwiA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=FlfaPaI844FEyQ6iJqQxw2r+UmOq0LMzlE8A9OLF6pgGmr6zxbw7u6Db70bL0EOVV
+	 aZh3dl6uvOKHP4jO1yT9uEKnAptf6Y0wM/DFtg2US2QtsI8skondznfIuu3YgbJwKk
+	 HKGqk/QJmpSTKgCmE2tyADtXmKzWcpIsbbAmDX4BeC4ERSTa6gr/fjlhHmxdiZelGw
+	 Y09NMzzHRTBhR82lyomTZ+CbbfNWx9syvzQx0sgZ3f5k32PGbELdiW1euUSCQV7/D3
+	 Y9O1BDNs/pf47qL/EJuwpowFryKn4qAayBfkxw2OWeB4l4bO8z7ggrEkiba6YyG7S5
+	 LxwB/6ThbzyLg==
+From: SJ Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SJ Park <sj@kernel.org>,
+	oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 37/125] mm/damon/core.c:1839:2: warning: unannotated fall-through between switch labels
+Date: Sun, 15 Nov 2026 09:29:25 -0800
+Message-ID: <20261115172926.82234-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202611150922.CN5lOX66-lkp@intel.com>
+References: 
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,36 +58,39 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/clk-for-7.5
-head:   63a29fbb4ecdadbaccd2693864616918698e1e58
-commit: e9d9dae0d248cb9a102ba90adbef2cfe198d832c [2/16] clk: sunxi-ng: nkm: avoid 32-bit overflow in rate calculations
-config: xtensa-randconfig-r2101-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151822.QXTOs54d-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
+On Sun, 15 Nov 2026 09:33:12 +0100 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611151822.QXTOs54d-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   c6e08f98976018ef8823a44dfabbfa444fdc39da
+> commit: 0e9dffb2f36016e675b02bf66467ef5b4fc8ed63 [37/125] mm/damon/core: introduce DAMON_FILTER_TYPE_REPORT_MADE
+> config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261115/202611150922.CN5lOX66-lkp@intel.com/config)
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611150922.CN5lOX66-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611150922.CN5lOX66-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/damon/core.c:1839:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+>     1839 |         default:
+>          |         ^
+>    mm/damon/core.c:1839:2: note: insert 'break;' to avoid fall-through
+>     1839 |         default:
+>          |         ^
+>          |         break; 
+>    1 warning generated.
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/sunxi-ng/ccu_nkm.c:50:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
-   drivers/clk/sunxi-ng/ccu_nkm.c:40:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+Thank you for this report!  I pushed a fix to damon/next.
 
-vim +50 drivers/clk/sunxi-ng/ccu_nkm.c
 
-    43	
-    44	static unsigned long ccu_nkm_calc_parent_rate(unsigned long rate,
-    45						      unsigned long n, unsigned long k,
-    46						      unsigned long m)
-    47	{
-    48		u64 parent = (u64)rate * m;
-    49	
-  > 50		do_div(parent, n * k);
-    51		return min_t(u64, parent, ULONG_MAX);
-    52	}
-    53	
+Thanks,
+SJ
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
