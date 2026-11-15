@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794751552;
-	b=ONNvNQR497seO5FVG63aD8SuPK2LQ2DQ3T+GJHrGY8BFfXpCZJuTB//guJODTER4T3RP
-	 6t/FOEZ4CLHQZZjVAJX1tzJWHhCj7KI2p8fRmObjD7cNFezVdhEf3ei+40f/WvvRQriyd
-	 HvtOUngxj+tx+NRPy4LZ5CWgiSaqviGfbtyd9Tb8QpFGoHKjMOhGszUFFc2fZiLPVEHLw
-	 8P1aJ74WqzgV1JTqmq+s31A5xvWAfDajIsURTWrQqI1889bt8hTykVsKy0nul5b8BXJzK
-	 dQG7E4/gbYd61+zyeuWKLmnEOh2XUwzd8glj+zyeh242dqH8fB3bCR9hmljWDfQLXmA==
+	t=1794752152;
+	b=PJGNXA8JP2W+39jB6ycA8dXsx2aGtHmvNEwMiyk1YO8TYanem5sIxc2SBExvIYSBYJSY
+	 oIDOrWlS6NvQKQhT0WM/CF6HazPMgZhGZqwGNN4b0pgsNTLpJ6n3tdqAyTQXGKhrPElOG
+	 W9QUJ1QcRxUwLkm5+OJZjyWwf/OG2KhBAecsdqPVZtp9PfI9n6z2OBz07fR+K2Fscx9+L
+	 DylEXkSyFhK7IoWhpB6mf3x59KcZYpktnc4ogZSFh5LunBnwbxArGoTV/AYzJj14ynEAq
+	 v3AEGvYsODSuglVsTBlFgtj3F+6ZtmenOjhsradE+oWT57x01tOzU9uz/5aIjbEY2Fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794751552;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794752152;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=64HFNOkcfs3fA5g4vhaZU/CpEODlIeiSKyKWPsUs0Cs=;
-	b=N9BVRA8LdelkBwkBI8rhtr/zTTWOSzvTAKCnFHhBkkDNvJbyk1kR7908oiCYFkeybsBc
-	 E8k8+oOitzSiwKZJ9Eq0YiNdWjpZ1aV4GU5/N9XiTtzkwWIiE+hOEVshzNmjh27gLG6Ag
-	 LTIHsfsuJIsYH+89cx3/+aZxVP/lPhoUYDXAMPIyZ4BXovUHWUzZJJxccU39MT+9mxwGV
-	 uZ1k/pa5sfluZBuSfxN6luJxQ5gpQvsmP3IQ3dShW6PTFM6aN1GSY5ZdOjD/gE2ChRHAY
-	 VSzO6TZyvt0l9CKCmov5wBVPql5i0z3aqWx/iy/F13JpolpG+GYOVERJ+uc0H+utABw==
+	bh=tOL+0JoDanUkltOj2+1nw7gvD9RhxSJN4tEUQ5kfXls=;
+	b=rnV5fhE8St4y3mA9Px6ezHdr+29SYAFvgKDU7QIgILxCOkyjtnij8KGDsNP80xaUbl+D
+	 XDEt/dmuDIDrfc2paNRg+qJYLlV8Bp+CC3+tE4EbmRF8ShElnIKDm7Y1jt4YF4t32adFO
+	 7tWNPf7UYYlnUohrnAG19qRVRR0CFZ2AjBzfPII1rDRjjXKFiwZGeauqEumnwDpvl5jEy
+	 KlMzQ095O8Zg95HAlDjTDvmCnBDgkWabhSXsO3e6WxiuLfXLL4sHXiLApzc0yNgKHtpvU
+	 2Zcx+vrhfDpF4mYMQAzgr8oTJ8yqmc7/3gu11DydDk+gA8oaGq/suC24ojI1rmBM17g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dc0EA0CZ;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QnazKjH7;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5303606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 14:05:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5303606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7FD606A329
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 14:15:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B7FD606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dc0EA0CZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QnazKjH7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794751551; x=1826287551;
+  t=1794752151; x=1826288151;
   h=date:from:to:cc:subject:message-id;
-  bh=K8VnEGhFhATSfS2Bb5K3lG0dh04lGUM2qIqopRD4uwA=;
-  b=Dc0EA0CZhDV18bOfi+4ru7tQB+19cXnzHTLRk9VL5ZjlFWR4i9PXDqo4
-   Ho6nTX9U39uRvhIIu3l4BH/NZKJeSmvv2e8zu7cUO855WSxpoYL4yizQd
-   ULPRUFdKT7DH3lYXov2hx4AhIWahZxGVNwnx3VSZDJP9zSL4dRm6u83Z/
-   fiDu8RH692d/hR6th4xz7ARvle0sV1GMq+6ixs/fDu7BQwrCYdGHxPVkR
-   O2i6A+PU7BgQgiVhnhE6w0okBuEB9VviddqsYrB7yjSFrpPDJM/lc2g5O
-   GRt53S+9CHQZyTMHzbF4NVrPx+2lf3YeQg/hEQMDMwzZhYtnzQfUtlmAP
-   w==;
-X-CSE-ConnectionGUID: +5BU4YRoRnufCoYV5HxsaQ==
-X-CSE-MsgGUID: J4psIyoaTcm7VSFHcigGaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3373246"
+  bh=S7y64ItCaxmQN2FJlZ76/Ygl61K6tNTYLFQbr4k8AI8=;
+  b=QnazKjH7fFKG5NxrHaZdGUvvrmJACtMjyVsOPy6TFGpZGCzgCcpJbYI2
+   UfDh5V/SIV0wU76O+6MiROfSo5pPVCG/DrSyL1UDmqJcQqjfOWIHMpBRm
+   ZxwEAWYlxPz10b8AEOn9BCfCgWqXT+YsXUeEoGbQQRYbNTrIUR9Pb2FD6
+   BIsZ/V2tVySyzSdsBUJeIvHf/coxFbFB7hMUDLFmH7/q00twZuLOOoYLx
+   WMnExFuX/YmogjTqit+3LhXsZ2Sb/O8RC8ER2RFenGcac56us2/bJyBK0
+   FakShiJGMgvQ1CoKT71DgiReTHpXdOLctjhHPG2xtv81g7DNtzyA78MYp
+   A==;
+X-CSE-ConnectionGUID: x6RlRj/vTx2FhINXqOUrSQ==
+X-CSE-MsgGUID: c/1+bhnGQkC8icqeME4R8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3534692"
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="3373246"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 06:05:50 -0800
-X-CSE-ConnectionGUID: pPnFnw6oRrChwcvSVQfrpw==
-X-CSE-MsgGUID: NTp4kJhfR5KXBzWXDnDexw==
+   d="scan'208";a="3534692"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 06:15:50 -0800
+X-CSE-ConnectionGUID: Ff+P/uF8RVCG4aqmCpUFzw==
+X-CSE-MsgGUID: 1e8vUvomT6Kwu8Fxr1mTJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,214,1787036400"; 
-   d="scan'208";a="9175018"
+   d="scan'208";a="11239261"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 15 Nov 2026 06:05:50 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 15 Nov 2026 06:15:49 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSarb-000000002Do-0GH7;
-	Sun, 15 Nov 2026 14:05:47 +0000
-Date: Sun, 15 Nov 2026 15:04:52 +0100
+	id 1xSb1H-000000002Dw-3D7q;
+	Sun, 15 Nov 2026 14:15:47 +0000
+Date: Sun, 15 Nov 2026 15:15:25 +0100
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 3/3] kismet: WARNING: unmet
- direct dependencies detected for RESCTRL_FS when selected by X86_CPU_RESCTRL
-Message-ID: <202611151401.ZwlNKRel-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/181] htmldocs: Warning:
+ anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't
+ exist: Documentation/amd-pstate
+Message-ID: <202611151508.h31PDZkz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,28 +81,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   dc68b182b9f87e42548fb6ce886be612535b2116
-commit: 6a17ffc470497d45d1824185813aecdb8fcf9062 [3/3] fs/resctrl: Add boiler plate for external resctrl code
-config: x86_64-kismet-CONFIG_RESCTRL_FS-CONFIG_X86_CPU_RESCTRL-0-0 (https://download.01.org/0day-ci/archive/20261115/202611151401.ZwlNKRel-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20261115/202611151401.ZwlNKRel-lkp@intel.com/reproduce)
+Hi Tianchen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   4f2db664ee044fbea206f4d976d61e47d4cf2158
+commit: aea0cbffc6323957c930eb6c90c41d12df29fe7d [0/181] anolis: changelog: Add changelog for 6.6.102-7
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261115/202611151508.h31PDZkz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611151401.ZwlNKRel-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611151508.h31PDZkz-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS when selected by X86_CPU_RESCTRL
-   WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK
-     Depends on [n]: MISC_FILESYSTEMS [=n]
-     Selected by [y]:
-     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
-   
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-     Selected by [y]:
-     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
+All warnings (new ones prefixed by >>):
+
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86/64
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/hw-vuln
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/kernel-parameters
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86/amd/hsmp
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
+   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
+   Warning: include/net/netns/ipv4.h references a file that doesn't exist: Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+--
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86/64
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/hw-vuln
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/kernel-parameters
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86
+   Warning: anolis/changelog/006-changelog.6.6.102-6 references a file that doesn't exist: Documentation/x86/amd/hsmp
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+>> Warning: anolis/changelog/007-changelog.6.6.102-7 references a file that doesn't exist: Documentation/amd-pstate
+   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
+   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
+   Warning: include/net/netns/ipv4.h references a file that doesn't exist: Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
 
 -- 
 0-DAY CI Kernel Test Service
