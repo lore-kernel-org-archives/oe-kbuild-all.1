@@ -1,88 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794767928;
-	b=2fnrwUyrtJweypEQdwvG5F5Nyl1y7Ei5kdfH3OR04VcTJxzkDHDJFETxjif0AJJYLDHh
-	 a6h5vFmov2BGa8hanU58KIyD3f3OW8bzvFIRgVX3QTGKaL33zxkDHZa0Aaai1xhughLjo
-	 QwgsF+kAs/TuAeln4cofUMi/eabYYtbIvMgwh1AinwvUT3TUgmuVZcmFbWYMvoCos27ml
-	 +1ErU7S41GNZbTQtPk2cL6qOYyw68vpN0tqtYyFn5rf9lvsYWRVfOhbW80rYyn2qptjHM
-	 OERDs6OhuPB2RbNyYFDeyjquPfC7UQy/E7l2d6pb6hxiKVRcbHbMoqLtjFDugG92QpA==
+	t=1794768275;
+	b=2Qu92GDLEABdJ7CWbh0F0BCymXDZXAUTFYkcHrJKz27stME1ArQV9ZIyctcDnANpdItu
+	 G6WwtC8jJa1QSOu8jXCosgjGhXizCYDtBi2LLCHKMgkSFxT0p+Jv7fhvY73GVHEB8jto3
+	 CM/eDLcu3gRJx4CvGY++lZu9cdgD/KQqiKKwsL8IRNGSPeGTun05ckMpE8W9C5Qvvp5NU
+	 1IIkV8IHWJSOxVph/Q01mxpYqQhuyweB800sDrMPtT+Pq3REiaNKCD5GOpRDns6X0seWD
+	 ssU2i1DJo79AmMdLCio8ybzxMe6yehNJ4AcOSyglP92mQ4KZO0Bmoqcxk5BOj6vAYAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794767928;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794768275;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=n38R8THVBERh6YX8fumxgq2SeV93NHDPiTWFfSKg6qw=;
-	b=bqph7EDaR5TrAL4j+0kL3veHBvdmOcH8zKd8nvUh8NvR4k6e+Ghxph5BFAmL+ko9aT6z
-	 1SurrVzieVWUsIV4AcOVvacmjZCk6Lmdj5b7a6i0zA8A77oFPY4uRTVAkd9QfMqKCzSQQ
-	 bke3qm2r8KG9QhDSIxNO2MXcOUaiy+TyHZh9zoQ4YmDhEzPjUIAiXmJYVSlEIro0eCkO8
-	 mw2GSTRot9aK/ybJJ84q8YiDARJqCh8Zx9B6GetjRT/5XeiOBEEANSQitGWfwwS/eFNPs
-	 s5X6SJ/m0cqKTfMxJUHZX9eqpgpulKNCUnsNd6HZsT4TK7ePY1Bwo5NGisuVFq4gBdQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=vDvd/D0WBehz+Uc0sz34uFpqBJ93+oPgE4DemO3XkH8=;
+	b=l0QZ2FDrkwgsjpyXXVKy4+128F929QtU6PhyRkxW3WRSWmQS335EIJYFosLV0W462mXH
+	 2AGZQB2PEjQxH5Tx+rppn84JRHeZx/6T6CLXzR7pq+uHsv95H12b9+6geZmEpIS2Uqw+9
+	 c9+3Hcq6ymrEw2hUbZUWVnbgHXP65vTWu7DyY5LHrLdkpkEQtnA8Q+mqnqPYiiBPxJAwS
+	 NKzJUkIJiq5uNyY1ObuPQZWV/n1cFgI5sIMsS9nFKhW7XJfiq8Y/dLAjMBwLExZEI6DII
+	 Axl6eIJixPOI76JwANMjCyKn18t9dtWdY7sgh3X51ovasOkY8JH3LBgzKtwIoXoc5rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PWPpc8v9;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B+S0WnkQ;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E71606A32E;
-	Sun, 15 Nov 2026 18:38:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93E71606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CF4606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 18:44:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12CF4606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PWPpc8v9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B+S0WnkQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794767928; x=1826303928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ho9p6bSo8pi1QrenazGvesf4HhUNwYmhTsTzMNwIz5w=;
-  b=PWPpc8v9wuWuUQd/mGlRblIC6Z39upTInKfSshMXSibsdCxMwFctkljF
-   new8rJp0SjLEghvOHrv81o2O6Od4d7BVTOWWyqGS/L9w4yOvLokopvCoP
-   +s19EHL9IEiVu7vNfOukaFfJMvt8f3Ai1lmFShkJP+ZE3rfcovL+Qk4Lu
-   8cBEVQNruP7OfJEiz2a9imx4VB5x6mailoRjgG7es8lwNtAqxb7bWmJNn
-   Gr6elVwdu8icibNdjzjqYvdWv4uc7sknbRYIy0zypFje6vWyLF1g1FiLd
-   2WsL57KLKb0mWpRGBonidsJlrMe8LU1NN5hUYSqv/WCdy29RVmPUb8A9R
-   g==;
-X-CSE-ConnectionGUID: t3SrRrdKRquFjqv2QbY02A==
-X-CSE-MsgGUID: IupdkW33QCGV2XZMj+XaEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3498587"
+  t=1794768275; x=1826304275;
+  h=date:from:to:cc:subject:message-id;
+  bh=wRTgthEbYYPayNNrAPP4nQ704BH6QsgHS8GeubA6B9E=;
+  b=B+S0WnkQADjePV/4h7qdxvadoUN7qoSQQ82T56wZc7nzreaOWG6wGuTf
+   SJL4FVeUy1NpJvcr/fc+WrCwhWG/RP9Zb9hYdgoxYv21hMh7cWgQplH/V
+   4rAFhPNJlb+FSG1oQpa2iHF2SmIixTxWMSnMRP3ULA5VsVXGw6quBnY7T
+   LrSmkdhAI0mp9P3zaI+Olzd7S2bOY1CoSXS49Y8zafLonpi+zsITQJWwR
+   ab8MqZ5g2JPLnh8MlGjqvqaYBwzXh2NZP4Nx44lvX8b4cEz6KzFpMvCoy
+   Ky4O5MJyNy5ODRKb9LDlBup+qFbA0YIzcwMqe+YnLx7//zGwPSOi/r5IJ
+   Q==;
+X-CSE-ConnectionGUID: lyyTG+qWTM+x/5Cc42LGqg==
+X-CSE-MsgGUID: kM6CLAQDR/68218uY5y+vA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3403609"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3498587"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 10:38:47 -0800
-X-CSE-ConnectionGUID: xgioXYEnTiuMMwCr8er90g==
-X-CSE-MsgGUID: i+uioB1WQR2VnUR4b4a0wQ==
+   d="scan'208";a="3403609"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 10:44:35 -0800
+X-CSE-ConnectionGUID: N+H3zN8aTGqFM3+bKwiBwQ==
+X-CSE-MsgGUID: 50dDAKVVSWqWtfk2hqObMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9372476"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Nov 2026 10:38:44 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9560589"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 15 Nov 2026 10:44:33 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSf7g-000000017C8-1yn4;
-	Sun, 15 Nov 2026 18:38:40 +0000
-Date: Mon, 16 Nov 2026 02:37:57 +0800
+	id 1xSfDK-000000002Lh-3Fwp;
+	Sun, 15 Nov 2026 18:44:30 +0000
+Date: Sun, 15 Nov 2026 19:44:16 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>, Guo Ren <guoren@kernel.org>,
-	Pekka Enberg <penberg@kernel.org>,
-	Patrick =?iso-8859-1?Q?St=E4hlin?= <me@packi.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Subject: Re: [PATCH v4 2/3] riscv: probes: reject probes inside an LR/SC
- sequence
-Message-ID: <202611160252.d58noD11-lkp@intel.com>
-References: <20261115-probes-in-lrsc-v4-2-48b9b036bd1d@mobileye.com>
+To: Florian Fuchs <fuchsfl@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: arch/sh/include/asm/uaccess_32.h:204:1: error: impossible
+ constraint in 'asm'
+Message-ID: <202611151925.SgXid5Fj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -91,88 +80,147 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261115-probes-in-lrsc-v4-2-48b9b036bd1d@mobileye.com>
 
-Hi Vladimir,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c03c1a14507dfaf8b856c2608f9ac216021fc222]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Kondratiev/riscv-kprobes-fix-out-of-bounds-read-in-riscv_probe_decode_insn/20261115-143733
-base:   c03c1a14507dfaf8b856c2608f9ac216021fc222
-patch link:    https://lore.kernel.org/r/20261115-probes-in-lrsc-v4-2-48b9b036bd1d%40mobileye.com
-patch subject: [PATCH v4 2/3] riscv: probes: reject probes inside an LR/SC sequence
-config: riscv-randconfig-1000-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160252.d58noD11-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ca14e3d05c4e63d6e8103945c86b958ed2f55d5f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160252.d58noD11-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   23c62304dde29abe92013d85910d03a77dada35d
+commit: 8b5dba9ea4a3f5ed994f03d6ca7686c49491b426 sh: uaccess: Require offsettable operands for 64-bit user access
+date:   6 weeks ago
+config: sh-randconfig-r2311-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151925.SgXid5Fj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151925.SgXid5Fj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 8b5dba9ea4a3 ("sh: uaccess: Require offsettable operands for 64-bit user access")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160252.d58noD11-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611151925.SgXid5Fj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/probes/kprobes.c:5:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:148:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> arch/riscv/kernel/probes/kprobes.c:75:4: warning: add explicit braces to avoid dangling else [-Wdangling-else]
-      75 |                         else
-         |                         ^
-   2 warnings generated.
+   In file included from include/linux/export.h:5,
+                    from drivers/gpu/drm/drm_property.c:23:
+   drivers/gpu/drm/drm_property.c: In function 'drm_mode_getproperty_ioctl':
+>> arch/sh/include/asm/uaccess_32.h:204:1: error: impossible constraint in 'asm'
+     203 | ({ \
+         | ~~~~
+     204 | __asm__ __volatile__( \
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+     205 |  "1:\n\t" \
+         |  ~~~~~~~~~~
+     206 |  "mov.l %S1,%2\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~~
+     207 |  "mov.l %R1,%T2\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~~~
+     208 |  "2:\n" \
+         |  ~~~~~~~~
+     209 |  ".section .fixup,\"ax\"\n" \
+         |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     210 |  "3:\n\t" \
+         |  ~~~~~~~~~~
+     211 |  "mov.l 4f,%0\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~
+     212 |  "jmp @%0\n\t" \
+         |  ~~~~~~~~~~~~~~~
+     213 |  " mov %3,%0\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~
+     214 |  ".balign 4\n" \
+         |  ~~~~~~~~~~~~~~~
+     215 |  "4: .long 2b\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~
+     216 |  ".previous\n" \
+         |  ~~~~~~~~~~~~~~~
+     217 |  ".section __ex_table,\"a\"\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     218 |  ".long 1b, 3b\n\t" \
+         |  ~~~~~~~~~~~~~~~~~~~~
+     219 |  ".previous" \
+         |  ~~~~~~~~~~~~~
+     220 |  : "=r" (retval) \
+         |  ~~~~~~~~~~~~~~~~~
+     221 |  : "r" (val), "o" (__m(addr)), "i" (-EFAULT), "0" (retval) \
+         |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     222 |         : "memory"); })
+         |         ~~~~~~~~~~~~~~~
+   include/linux/compiler.h:68:3: note: in definition of macro '__trace_if_value'
+      68 |  (cond) ?     \
+         |   ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_property.c:484:3: note: in expansion of macro 'if'
+     484 |   if (i < out_resp->count_values &&
+         |   ^~
+   arch/sh/include/asm/uaccess_32.h:136:3: note: in expansion of macro '__put_user_u64'
+     136 |   __put_user_u64(x, ptr, retval);  \
+         |   ^~~~~~~~~~~~~~
+   arch/sh/include/asm/uaccess.h:72:3: note: in expansion of macro '__put_user_size'
+      72 |   __put_user_size(__pu_val, __pu_addr, (size), \
+         |   ^~~~~~~~~~~~~~~
+   arch/sh/include/asm/uaccess.h:20:26: note: in expansion of macro '__put_user_check'
+      20 | #define put_user(x,ptr)  __put_user_check((x), (ptr), sizeof(*(ptr)))
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_property.c:485:7: note: in expansion of macro 'put_user'
+     485 |       put_user(property->values[i], values_ptr + i)) {
+         |       ^~~~~~~~
 
 
-vim +75 arch/riscv/kernel/probes/kprobes.c
+vim +/asm +204 arch/sh/include/asm/uaccess_32.h
 
-    51	
-    52	/*
-    53	 * Walk the instructions from the enclosing symbol up to addr to check that
-    54	 * addr is an instruction boundary. Then reject a probe inside an LR/SC
-    55	 * sequence: the breakpoint trap drops the reservation, so the SC would fail
-    56	 * and the loop would hit the probe again on every retry. The sequence is
-    57	 * recognised by a forward scan with the constrained-sequence rules, as for
-    58	 * uprobes, so an lr that is not followed by an sc (as in __cmpwait()) does
-    59	 * not taint the rest of the function.
-    60	 */
-    61	static int __kprobes arch_check_kprobe(unsigned long addr)
-    62	{
-    63		unsigned long tmp, offset;
-    64	
-    65		/* start iterating at the closest preceding symbol */
-    66		if (!kallsyms_lookup_size_offset(addr, NULL, &offset))
-    67			return -EILSEQ;
-    68	
-    69		tmp = addr - offset;
-    70	
-    71		while (tmp <= addr) {
-    72			if (tmp == addr)
-    73				if (riscv_probe_in_lrsc_body((u16 *)addr, RISCV_LRSC_SCAN_BYTES))
-    74					return -EINVAL;
-  > 75				else
-    76					return 0;
-    77	
-    78			tmp += GET_INSN_LENGTH(*(u16 *)tmp);
-    79		}
-    80	
-    81		return -EILSEQ;
-    82	}
-    83	
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  178  
+0fb19dcb64ec4b include/asm-sh/uaccess_32.h      Stuart Menefy 2007-11-30  179  #if defined(CONFIG_CPU_LITTLE_ENDIAN)
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  180  #define __put_user_u64(val,addr,retval) \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  181  ({ \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  182  __asm__ __volatile__( \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  183  	"1:\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  184  	"mov.l	%R1,%2\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  185  	"mov.l	%S1,%T2\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  186  	"2:\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  187  	".section	.fixup,\"ax\"\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  188  	"3:\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  189  	"mov.l	4f,%0\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  190  	"jmp	@%0\n\t" \
+0fb19dcb64ec4b include/asm-sh/uaccess_32.h      Stuart Menefy 2007-11-30  191  	" mov	%3,%0\n\t" \
+0fb19dcb64ec4b include/asm-sh/uaccess_32.h      Stuart Menefy 2007-11-30  192  	".balign	4\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  193  	"4:	.long	2b\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  194  	".previous\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  195  	".section	__ex_table,\"a\"\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  196  	".long	1b, 3b\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  197  	".previous" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  198  	: "=r" (retval) \
+8b5dba9ea4a3f5 arch/sh/include/asm/uaccess_32.h Florian Fuchs 2026-07-16  199  	: "r" (val), "o" (__m(addr)), "i" (-EFAULT), "0" (retval) \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  200          : "memory"); })
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  201  #else
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  202  #define __put_user_u64(val,addr,retval) \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  203  ({ \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10 @204  __asm__ __volatile__( \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  205  	"1:\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  206  	"mov.l	%S1,%2\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  207  	"mov.l	%R1,%T2\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  208  	"2:\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  209  	".section	.fixup,\"ax\"\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  210  	"3:\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  211  	"mov.l	4f,%0\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  212  	"jmp	@%0\n\t" \
+0fb19dcb64ec4b include/asm-sh/uaccess_32.h      Stuart Menefy 2007-11-30  213  	" mov	%3,%0\n\t" \
+0fb19dcb64ec4b include/asm-sh/uaccess_32.h      Stuart Menefy 2007-11-30  214  	".balign	4\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  215  	"4:	.long	2b\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  216  	".previous\n" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  217  	".section	__ex_table,\"a\"\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  218  	".long	1b, 3b\n\t" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  219  	".previous" \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  220  	: "=r" (retval) \
+8b5dba9ea4a3f5 arch/sh/include/asm/uaccess_32.h Florian Fuchs 2026-07-16  221  	: "r" (val), "o" (__m(addr)), "i" (-EFAULT), "0" (retval) \
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  222          : "memory"); })
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  223  #endif
+9b01bd9ee64088 include/asm-sh/uaccess_32.h      Paul Mundt    2007-11-10  224  
 
---
+:::::: The code at line 204 was first introduced by commit
+:::::: 9b01bd9ee6408846c0553c03fb4b864353a845c9 sh: Split out uaccess.h in to _32 and _64 variants.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
