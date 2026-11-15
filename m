@@ -1,58 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794756874;
-	b=0x7+tbb8Q2C0Bxsb0kK+4qv8c0EJBVnS3DfKSm2i0FvvpBaz7i7G1FErVHmi0pOZI1re
-	 SS4XdRiBWXkJIkCV2u1ygyao3oQa+xbeOTiyN+DKU+Osrosvltgjw7vJj4NvQj+lZALPH
-	 hBPPsEtmFH+yCCsDz7r94Jm9EhmEbvkPZjsMEIidFaQMDScFNPKRnBVYMdm8A3NLF99lS
-	 LeRsCpHc7V30KvLTBtlgG9O7rUvCK147SJtpQFe1ikmByX2VjptXdwkzg5AX8T3KF8FiU
-	 pAm0k5NLj+ZKmmrip19U9UOdfDbhnkJtSHbxlTjWJ2eYbRPzteko58Mg/eXNS2lR/TQ==
+	t=1794760137;
+	b=gWPODRksM0r+rW7PpOcndUqUpt16YFAU1ect+C08rTDkr27kPg6xuSbo798y6EuPK54g
+	 hVPuEqcDFazBdqboIjGxXPUND+bIkMdxFkWcyu0gYyVRV4u8XqcrWhzTj5qRXC9iyTtXy
+	 gyVxM2AlNpBbAa7VNgPhEPfyhA3QATd0WAHdEjHTy5oK3K351/7yvXGRyzq4hBK9VsXti
+	 xbFYPO4/AD7eSya0EETbc2EE1DLwnD7hU+0jphebT7ciJ9IIuZ94lIJZbPCWE4hChqz6N
+	 kMnIpqD6WWLTUL3vx27vU2k8jzh26NVATe92XTZYQ0CBFNkMCL52GOtb8N1G1Tgbb1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794756874;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=fgl4RblzZJ8So9KBu3tfGKhQR2hNoBDCy44F1/CLS0c=;
-	b=Y2g5MWS9zwax/sv2F4LE2PDFvXusp7ZFEP1MELYcAd0AT4tLTo2cdq4PqMJFAl7JOgcD
-	 vX9QpA5WLJ4Lokf6n55KqprJRuGUZ7jrXUz0cw/C1+MX+YNHQILZo9tR3em6vnxHI04Dv
-	 g5IZMPwoALZVMHPLVATKdlkPKQwftsPTIU3l6Z7uw0n7xTNEMKmHpqC1KADnN1qD0Huz8
-	 +5ToU5jLdibcxb5HFIa32LknS9oGG9YmN8QAqdCTTfe3Vaj4FpsbuoCILbTUJUAmY0sNL
-	 mjsfd855pmXwx47rfbQQ9HmgWaAMdQ1NKF/04KTCWlj/wuTjFUMhMY2nzlC31DsNTyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794760137;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=K4tqPHQ2TGxmxB2s84Ytr8HIVLoVGZcqE0JXAR5BO/8=;
+	b=VEOh26t7eLArkP+fQm0fL4Ogz2pIS8R26EDyi4zZT1jQIS/BtM2OrH0iJr0zTMM+lU0M
+	 fMb69rXBpjeq25ufsj4NnGVHwdjl/0/840Tr4xCHws8omw+ZdK61LCeBeVd+RF5j6pCDV
+	 lK/RzEg628hrLIsuDNPMQy7HXwhx7BoNg8cw7NWiVAMPrfF5zMHUD1acLo2hMzT1d4Ocg
+	 UnI8USex9vffyDlVfHotT5zgPSuKUawitIXO2t5z7vkYP4lMKWYg+5P/v1k8sbe2WLLE8
+	 c20BJY3TnBjlZnpSC2o55q+Vs1lu1rADl2xE0fgvTpZiRR8shLEZfYf5NjLVv9i7zJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WFV324J/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=luknuyNZ;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D7F606A334;
-	Sun, 15 Nov 2026 15:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B27606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 16:28:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87B27606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFV324J/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BC71F000C4;
-	Sun, 15 Nov 2026 15:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794756874;
-	bh=fgl4RblzZJ8So9KBu3tfGKhQR2hNoBDCy44F1/CLS0c=;
-	h=From:To:Cc:Subject:Date;
-	b=WFV324J/Xjc7fwLn1nE30tsmFLUDWySOdzGUwijIhPBX52FjhkrGnzvUS4x7W8dW9
-	 LrBxap8M9GhwHvWB3LwoZbcWQcAwB8BI7stIIzBVdwCOmvN3O0Mq3KB04v93E2sDfW
-	 F6BekJwAm1s4CrMxJ+a9xmp9AK86l8LUSlcn/q/gVcdpUbwvNFRpfFvibNbq3Pl6yI
-	 v524esditEE9EKkgWxOzz0zZkZiOikAI8PsaLfPoNtUTfezSd8kohpOa8vEzxNeisZ
-	 3KXwFFBHmJLDJQMZkhAGMVTktxdHbsgj8APn4xhlArnha4gb2mbuMi5M/V4Sr7o+hS
-	 wXsQfRBEQKuug==
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-hardening@vger.kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] seq_buf: always inline seq_buf_terminate()
-Date: Sun, 15 Nov 2026 10:34:29 -0500
-Message-ID: <20261115153430.1607764-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=luknuyNZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794760136; x=1826296136;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mGqceJuqxNxltkPLs29w2Zuuud7BMNwlebSNpiX3d4g=;
+  b=luknuyNZ230CY1mKn0WOJJ+GNQ80C2UJ+jj1npQ/enxZC6Vw5wbkrwLR
+   JJnQ0IbjPM6wS49PLO/Z+j5+8YLLbtAMqCbY4cDCi09wbiHv9ydof6KM2
+   520aHwC7uikLPwiJVBXR3vBtlGqrj+9TXzlUwico+pf9TsQv/CkQoq/oM
+   Jtm+Q3Vwmf8JAIWuBzFSQY2suux0eMCCnFjj/5S46/UlZOvhaKJ478n4T
+   FGZRU0maEDRA691bncxQ+Z4a/TyipQyMn3J/bgCuzy8kovq2cc8Jq7V9b
+   b/yk5N9ITQfyTljLsPIMI1+NP7MljRdKQ3E9XSOdrbMD8R7QyRN8999dx
+   Q==;
+X-CSE-ConnectionGUID: RjMAsclZTzCvJlyw0ZA/Lw==
+X-CSE-MsgGUID: sXHwI496Qrqqfguj3avXiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3494213"
+X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
+   d="scan'208";a="3494213"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 08:28:56 -0800
+X-CSE-ConnectionGUID: sNze3bm4QE6lyf7pN4kNlg==
+X-CSE-MsgGUID: HiHMIc9bR8KtT45EdEFtEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
+   d="scan'208";a="11075420"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 15 Nov 2026 08:28:54 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSd64-000000002Iu-0tAs;
+	Sun, 15 Nov 2026 16:28:52 +0000
+Date: Sun, 15 Nov 2026 17:28:44 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dinh Nguyen <dinguyen@kernel.org>
+Subject: ERROR: modpost: lib/lz4/lz4_compress.ko: symbol
+ '__divsi3_table' undefined!
+Message-ID: <202611151706.g0q1YGnb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -62,62 +81,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 
-Commit 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating it
-loses a byte") made __seq_buf_terminate() bigger, and clang no longer inlines
-seq_buf_terminate() into its two callers in kernel/trace/trace_events.c. Both
-pass bootup_event_seq, which is __initdata, so the out-of-line copy sits in
-.text with that address in it and modpost warns:
+Hi Thomas,
 
-  WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_terminate+0x12 (section: .text) -> bootup_event_seq (section: .init.data)
+First bad commit (maybe != root cause):
 
-Both callers are __init, so nothing uses the buffer after it is freed.  But the
-warning shows up in allmodconfig builds, and it is an error with
-CONFIG_SECTION_MISMATCH_WARN_ONLY=n.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   23c62304dde29abe92013d85910d03a77dada35d
+commit: 2180d11e06fb56fd13643ae59964f144896870be nios2: ksyms: Declare __mulsi3 export
+date:   4 weeks ago
+config: nios2-randconfig-r2302-20261115 (https://download.01.org/0day-ci/archive/20261115/202611151706.g0q1YGnb-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261115/202611151706.g0q1YGnb-lkp@intel.com/reproduce)
 
-Mark seq_buf_terminate() and __seq_buf_terminate() __always_inline.  Marking
-only seq_buf_terminate() is not enough, as the same thing then happens to
-__seq_buf_terminate().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 2180d11e06fb ("nios2: ksyms: Declare __mulsi3 export")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611151706.g0q1YGnb-lkp@intel.com/
 
-Fixes: 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating it loses a byte")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202611110802.zPIiPSnJ-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611120138.Fwm5Ljmj-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611122226.vTBpAmtr-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611122323.IvGv8FYK-lkp@intel.com/
-Suggested-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-7b8cd26b6aab8 is on both for-next/kspp and for-linus/hardening.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
- include/linux/seq_buf.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>> ERROR: modpost: lib/lz4/lz4_compress.ko: symbol '__divsi3_table' undefined!
 
-diff --git a/include/linux/seq_buf.h b/include/linux/seq_buf.h
-index 6b915c67d2358..f72dd258206fb 100644
---- a/include/linux/seq_buf.h
-+++ b/include/linux/seq_buf.h
-@@ -134,7 +134,7 @@ static inline unsigned int seq_buf_used(struct seq_buf *s)
-  *
-  * Returns: the offset of the NUL.
-  */
--static inline size_t __seq_buf_terminate(struct seq_buf *s)
-+static __always_inline size_t __seq_buf_terminate(struct seq_buf *s)
- {
- 	size_t end;
- 
-@@ -240,7 +240,7 @@ static inline size_t seq_buf_strlen(struct seq_buf *s)
-  * After this function is called, s->buffer is safe to use
-  * in string operations.
-  */
--static inline void seq_buf_terminate(struct seq_buf *s)
-+static __always_inline void seq_buf_terminate(struct seq_buf *s)
- {
- 	if (s->size == 0)
- 		return;
-
-base-commit: 7b8cd26b6aab8cf147165610d13964f79200a5a7
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
