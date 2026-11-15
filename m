@@ -1,81 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794777599;
-	b=EqaR0sp/aiBez0cSLGhL1TXMbGZGobV/PvhPiXs/+hnGb76PhgRJy8aTbPncHU2Jq69w
-	 cQ+Fp0lD5UwZQySwtgXheOdxfixTVJwl41+KHDm6BCuHBRjjvm0X0kQhwYAeOT8NCctcn
-	 Vr87MicfyYgFKkAS6cs4lwiGb0cza1+FfbagusMqFWP4aZZU8oN4rivMEFYdqGtMdv4+l
-	 Xl/xZma85MdVan9hetDfI8FOCTP1pcrmgEAY0veFHX/gYtEnlHrFuvUJqhGUoD8T65oan
-	 BGMfWbt5RcYlYxk2vS4qgJLxJmZRM3uuWkD41NUoHs+09ObdS8e7LlxhWIYrCPCLb4g==
+	t=1794778264;
+	b=f2baCH4zQWKV+3Ux1fPHgsBkGCVmt/G2Q4iiVKS/z6xvom0E66NCISreHWPTGRU+XctP
+	 VxdRTJI4QZ/xoZkldiL8QI6byP8v9TuZC/IFeVtXGX28Yy4DPy0kIy14HNH4xKQp5NLL3
+	 gHjkPx9mGpnYfgbJezIEQoOWJFbMJrQ8wmxBj07VN69q5hu6axWdMWdOjlUIdC2BoEvjN
+	 FguxfZlOKGi7e5POzC9tvYra3T9JRqWbu3a0xohQ0Boo5B1nN8oTaAzvtkJIzu2VvxDy8
+	 TaoOn+4mOZnD1N5ifrDHw3/U/ucS0Quo54BIC/UE3adHuS3Jx4KMsDKT7RX1hXDBwng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794777599;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794778264;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=/4uby6K+dvhEKI9jlVOohhHd2SunK9ZcoGm5SRjDqP0=;
-	b=wiC1MuCaLVKCBtbYc5UStcZqP8BEQKD0hXzI8c6CKFAVEbE4XISXVcvU3+JVjVWt1qvj
-	 QCxdWCj924M6/yy5l+eipdfT+Lojk7pOiq/q2rAVP83ShnJ0/J7BNom9pWwRdKrCKhkAN
-	 jMLGLrtSU6oGXRRu7rvgPqsHYubPmz20OEDQl/kqTpKx1Hx80bFCg82vTOf3dr9Gt79rg
-	 VxMZz4RGWlCTwF46Z3lETXA2WrQPHN2Dlrq8qu6tSHTiuDqHd6jYBlVdtjI4VuURO/gOU
-	 acwxuvyQBsRDlMINeFyuDa1FRdc/JJfZjO97CQ5ME7LM2MDDdf+M+Xo9ZA3WU4m0OFQ==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=gI3pT+vyemFy2bR8tG+tuc3UaQlX4B8AkgTSVPpKmCY=;
+	b=Aio0vmsd2BM+gluJ0xd90Gh0DMsEOWiIQQx/XlwikTAELSqLpFVbfdfXPjWXjyVVPF87
+	 ZLMYI7GPV/IisQ21mef9KIKycBTrwgAsRvRsZna6YHPddN8Wlay+u8YFS9faM6+Tqkvhk
+	 KBc4iMhsT1U1/agp1rl+3qvb7dLnIF1tCuwLir+alfabY5fJkz7Kno+ThGzd3ewdtiyug
+	 cht315NuQ+XRdmgKg5uizZ5QXt1SQeCaO3unrT8ZmOJURHeTRkgxu5C8mi/RqfvARy4/9
+	 +ESpdkyEWXpc3BqCMrvgI4VHjGB7xGJlR/NTE5qjRWzawTzBA7TDaQ4kdo4LH8vXsHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ia2iY8lu;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TD+YLUMO;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F8E606A323
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 21:19:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3F8E606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014CE606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 21:31:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 014CE606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ia2iY8lu
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TD+YLUMO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794777599; x=1826313599;
+  t=1794778264; x=1826314264;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MoUWYmdXOVPS3N4vpeXkJku4pGrtk8drmvbX/dNJtPY=;
-  b=ia2iY8luIMv1xMGTsZt3RYGozMTiTUZlRHtZpvyzLEsftfKJ8UT6CFOY
-   aKAfOHUfLaQ0vwRVuM4nEu0nflGwB4xhFT10tKbkPjmEh+52kxEguTA1W
-   mUG0+2aVG4FqKDpHUq8ztz0+OJ5jF4NBwUSyjISo3gMtrJ8lbxa/msPrD
-   3ifs9ZvUaANWuOprWBOA/gLQmf3429RMJUhwlqhcQQCysVKDMyc/WdmFX
-   paz/65sl18uN+Qyba0TfVDhRAv+/Jk4egkH5YXO4yWBBH7NUCJg5QCEzT
-   +GEUXOJpHE2U2UnOqKA22iKCEP4xw68bC9leF+rTzoVMLfUMaTh9oNaUK
-   w==;
-X-CSE-ConnectionGUID: Sj5YMxNcSyqEjeNRqPqu3A==
-X-CSE-MsgGUID: LmR/MiuZT3ePZz/OmI7/xA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3590505"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jCKBvtDwsyaFaVJiupvEpl5700EKZdPVw5dmNxMVuSs=;
+  b=TD+YLUMOnp++488g7wSsWJ0ThD7ZUhZZrt2FwQ+vCNbhKFmazb6zjQwj
+   giAAeJfrUpPTe8uJ8T6nGUYqT1lQxhNSDBUAxI5fPK4346GSjFx4WCfZH
+   dozPqUdWuonnecNfEevhuPj+GOx+wIKkBxcFHnO0egL19PbZreeW8+Cr3
+   IPI4RUERSSiqA8zExqSvJMYeSE3Wor45n0C2hJhrjX/vuY3b+Ry+R/JDl
+   5XCb6By/JKONm/unI4zzmiONb6Y4gGl+5/4gM0/f0FrymXOnggUv+Efb6
+   tnfYhJkVYTpFkvJ+dpK7i+csrkc823lI95zhlpRWg2+vMAtmBAMSA9wup
+   g==;
+X-CSE-ConnectionGUID: 3MotCZJdQlmXUtg+/O1SrQ==
+X-CSE-MsgGUID: oksqU+5LR3eAyhduG2WSgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3403310"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3590505"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 13:19:59 -0800
-X-CSE-ConnectionGUID: K/x7qEOiTNW0RCeCPiu0XQ==
-X-CSE-MsgGUID: B/XzAGmCREqNcfhvpwAexg==
+   d="scan'208";a="3403310"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 13:31:03 -0800
+X-CSE-ConnectionGUID: bfSLt/uHSn+iE3PZ81FKKw==
+X-CSE-MsgGUID: EdM1X6NaTzWv3nFMBfQyZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9812155"
+   d="scan'208";a="9722593"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Nov 2026 13:19:56 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2026 13:31:00 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xShdg-000000017Ki-2C5w;
-	Sun, 15 Nov 2026 21:19:52 +0000
-Date: Mon, 16 Nov 2026 05:19:03 +0800
+	id 1xShoP-000000017LS-0Ahq;
+	Sun, 15 Nov 2026 21:30:57 +0000
+Date: Mon, 16 Nov 2026 05:30:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akshat Chandra <notmissinge@gmail.com>, linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, andy@kernel.org,
-	Lukasz Kulga <lukasz.kulga@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iio: chemical: Add support for Sensirion SGP41
-Message-ID: <202611160427.m6uyOPMn-lkp@intel.com>
-References: <20261115055941.362185-3-notmissinge@gmail.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Waiman Long <longman@redhat.com>,
+	Ryan Houdek <Sonicadvance1@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	kernel-dev@igalia.com,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v8 06/10] futex: Wire up set_robust_list2 syscall
+Message-ID: <202611160554.MGBENVam-lkp@intel.com>
+References: <20261115-tonyk-robust_futex-v8-6-a4fe47333a28@igalia.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,44 +92,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261115055941.362185-3-notmissinge@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261115-tonyk-robust_futex-v8-6-a4fe47333a28@igalia.com>
 
-Hi Akshat,
+Hi André,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on robh/for-next linus/master v7.4-rc2 next-20261113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 9f74092fda91ef93c2b07585785c1dc83cd7971f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akshat-Chandra/iio-chemical-Add-support-for-Sensirion-SGP41/20261115-112940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20261115055941.362185-3-notmissinge%40gmail.com
-patch subject: [PATCH v2 2/2] iio: chemical: Add support for Sensirion SGP41
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261116/202611160427.m6uyOPMn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160427.m6uyOPMn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Skip-test_futex_robust_unlock-if-not-supported/20261115-143110
+base:   9f74092fda91ef93c2b07585785c1dc83cd7971f
+patch link:    https://lore.kernel.org/r/20261115-tonyk-robust_futex-v8-6-a4fe47333a28%40igalia.com
+patch subject: [PATCH v8 06/10] futex: Wire up set_robust_list2 syscall
+config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20261116/202611160554.MGBENVam-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160554.MGBENVam-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160427.m6uyOPMn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611160554.MGBENVam-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/chemical/sgp41.c:478:12: warning: 'sgp41_probe' defined but not used [-Wunused-function]
-478 | static int sgp41_probe(struct i2c_client *client)
-|            ^~~~~~~~~~~
->> drivers/iio/chemical/sgp41.c:459:13: warning: 'sgp41_remove' defined but not used [-Wunused-function]
-459 | static void sgp41_remove(struct i2c_client *client)
-|             ^~~~~~~~~~~~
---
->> ERROR: modpost: drivers/iio/chemical/sgp41.ko: missing MODULE_LICENSE()
->> WARNING: modpost: drivers/iio/chemical/sgp41.ko: missing MODULE_DESCRIPTION()
+>> ./arch/xtensa/include/generated/asm/syscall_table.h:474:16: error: 'sys_set_robust_list2' undeclared here (not in a function); did you mean 'sys_set_robust_list'?
+     474 | __SYSCALL(473, sys_set_robust_list2)
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/xtensa/kernel/syscall.c:31:44: note: in definition of macro '__SYSCALL'
+      31 | #define __SYSCALL(nr, entry)    (syscall_t)entry,
+         |                                            ^~~~~
 
 --
 0-DAY CI Kernel Test Service
