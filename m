@@ -1,77 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794765208;
-	b=bHYVMf2oCGPUYUe7CxEWTBeF1PUVAgpgbm051EjYJYlnbJJaQU5btWpCLlRWcgkNtAzj
-	 dC3vsq2iveXNgWlIjBGtZR0rOy8dfpGavDG3pOhnM2INyE8jeQl0GvbXfwrEwfRusSs66
-	 Eyv6QqtnacplBtMrE6k9pyyOD/CxA9qfDLv7QcE7aLlQuTK5As9ocI+xoAhViZIIN28VF
-	 Qp7i5nSj0GjVzfBUpUUbDVAotxAen1CKznFQrenF8Nea6bBdqEctJemhj96YttgtWxX1A
-	 PvDZY67f5qQP8TW5GG3FyOIZE3iY0qe+p6Ux2F0CQeLbnaXtPsrGfpL8KgX6xylzoKA==
+	t=1794767928;
+	b=2fnrwUyrtJweypEQdwvG5F5Nyl1y7Ei5kdfH3OR04VcTJxzkDHDJFETxjif0AJJYLDHh
+	 a6h5vFmov2BGa8hanU58KIyD3f3OW8bzvFIRgVX3QTGKaL33zxkDHZa0Aaai1xhughLjo
+	 QwgsF+kAs/TuAeln4cofUMi/eabYYtbIvMgwh1AinwvUT3TUgmuVZcmFbWYMvoCos27ml
+	 +1ErU7S41GNZbTQtPk2cL6qOYyw68vpN0tqtYyFn5rf9lvsYWRVfOhbW80rYyn2qptjHM
+	 OERDs6OhuPB2RbNyYFDeyjquPfC7UQy/E7l2d6pb6hxiKVRcbHbMoqLtjFDugG92QpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794765208;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794767928;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=q46SORLl5ejCI3na4o1Gz2SbfTIhcU3eDi5Kshx7/gI=;
-	b=qKhXPQJsMZZqplKkeYB9g64dD4JRv1FeOf827KqSoAVKEymwK+JeYNIRUCtTV/A5Fzvl
-	 GaNDQAewfFuw4un1ODyAVV9FBsU4sL26m0iQhhjOEvB7NfINt/XLgsxkA4fhYsVX0fB4B
-	 00Sy2q/iNTLtSN0P1YClQ7UMrAUogKqP5v5RVVzi6Ur4ZGOdJXvgWIxtfhFd+sgAhWcbv
-	 GNvOqMnHYbqBSiDdt2JvaITxaCYwyhMWuL6pqzvu7pf/zsbuVnW6fUayQLFA2EXrvKKPV
-	 lpPIk4LREHBuq6xHoi7eqTUkHqTG6wBL3GDTuujqptxGULLILaTSvme8HB4KjIw4uwg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=n38R8THVBERh6YX8fumxgq2SeV93NHDPiTWFfSKg6qw=;
+	b=bqph7EDaR5TrAL4j+0kL3veHBvdmOcH8zKd8nvUh8NvR4k6e+Ghxph5BFAmL+ko9aT6z
+	 1SurrVzieVWUsIV4AcOVvacmjZCk6Lmdj5b7a6i0zA8A77oFPY4uRTVAkd9QfMqKCzSQQ
+	 bke3qm2r8KG9QhDSIxNO2MXcOUaiy+TyHZh9zoQ4YmDhEzPjUIAiXmJYVSlEIro0eCkO8
+	 mw2GSTRot9aK/ybJJ84q8YiDARJqCh8Zx9B6GetjRT/5XeiOBEEANSQitGWfwwS/eFNPs
+	 s5X6SJ/m0cqKTfMxJUHZX9eqpgpulKNCUnsNd6HZsT4TK7ePY1Bwo5NGisuVFq4gBdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c3IwGJg2;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PWPpc8v9;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F756606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 17:53:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F756606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E71606A32E;
+	Sun, 15 Nov 2026 18:38:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93E71606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c3IwGJg2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PWPpc8v9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794765208; x=1826301208;
-  h=date:from:to:cc:subject:message-id;
-  bh=XelxfjOQWNd2sOD5uPGjFATX8rSTgPrliozaxU83Gvo=;
-  b=c3IwGJg2o/5u4+2dR9cg/Q42wkb00QeZKfv1WqF4/sTeny602pnrEddV
-   rkc3TuqeOo1JtIlGwLM6XEoCm5oxnsYqcUo81hEGPCgYbHb7BNgbg90Qb
-   3rXzwfU+U7UnEf2aeHliyNAWLig2WX+Pj47m3klsnlQSrZjDc6n4ft1P/
-   erN/nibIvqpbIgwIk/1nuoqFEaABwKe51qJlk5MTgZJabxgnP/9mGsndK
-   gmUeFO4xMUhHQQFHufthC8JD+hSjekf9lj9wGXrOEQqNPgNFj5CrVHYhT
-   yApj0ojnS38zOy5xY5EWoPwvVTK9BId+7nEm2SrJKaxuRzB+DAaGqMxAQ
+  t=1794767928; x=1826303928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ho9p6bSo8pi1QrenazGvesf4HhUNwYmhTsTzMNwIz5w=;
+  b=PWPpc8v9wuWuUQd/mGlRblIC6Z39upTInKfSshMXSibsdCxMwFctkljF
+   new8rJp0SjLEghvOHrv81o2O6Od4d7BVTOWWyqGS/L9w4yOvLokopvCoP
+   +s19EHL9IEiVu7vNfOukaFfJMvt8f3Ai1lmFShkJP+ZE3rfcovL+Qk4Lu
+   8cBEVQNruP7OfJEiz2a9imx4VB5x6mailoRjgG7es8lwNtAqxb7bWmJNn
+   Gr6elVwdu8icibNdjzjqYvdWv4uc7sknbRYIy0zypFje6vWyLF1g1FiLd
+   2WsL57KLKb0mWpRGBonidsJlrMe8LU1NN5hUYSqv/WCdy29RVmPUb8A9R
    g==;
-X-CSE-ConnectionGUID: PVXHiYtnTtSaN7IRjmMOOQ==
-X-CSE-MsgGUID: mNj4DPMPSFK5ZLOLCgtJFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3584208"
+X-CSE-ConnectionGUID: t3SrRrdKRquFjqv2QbY02A==
+X-CSE-MsgGUID: IupdkW33QCGV2XZMj+XaEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3498587"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3584208"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 09:53:27 -0800
-X-CSE-ConnectionGUID: h4UkWkorR9WQpAAfckQI3g==
-X-CSE-MsgGUID: EgWvtRbyQiOFRNtJfMA5bw==
+   d="scan'208";a="3498587"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 10:38:47 -0800
+X-CSE-ConnectionGUID: xgioXYEnTiuMMwCr8er90g==
+X-CSE-MsgGUID: i+uioB1WQR2VnUR4b4a0wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9194493"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 15 Nov 2026 09:53:25 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9372476"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 15 Nov 2026 10:38:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSePr-000000002LL-282x;
-	Sun, 15 Nov 2026 17:53:23 +0000
-Date: Sun, 15 Nov 2026 18:52:46 +0100
+	id 1xSf7g-000000017C8-1yn4;
+	Sun, 15 Nov 2026 18:38:40 +0000
+Date: Mon, 16 Nov 2026 02:37:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 3/3] kismet: WARNING: unmet
- direct dependencies detected for SPI_PHYTIUM when selected by
- SPI_PHYTIUM_PLAT
-Message-ID: <202611151857.m7tse5j1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, Guo Ren <guoren@kernel.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	Patrick =?iso-8859-1?Q?St=E4hlin?= <me@packi.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Subject: Re: [PATCH v4 2/3] riscv: probes: reject probes inside an LR/SC
+ sequence
+Message-ID: <202611160252.d58noD11-lkp@intel.com>
+References: <20261115-probes-in-lrsc-v4-2-48b9b036bd1d@mobileye.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,25 +91,88 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261115-probes-in-lrsc-v4-2-48b9b036bd1d@mobileye.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   dc68b182b9f87e42548fb6ce886be612535b2116
-commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [3/3] anolis: spi: add support for Phytium SPI
-config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PLAT-0-0 (https://download.01.org/0day-ci/archive/20261115/202611151857.m7tse5j1-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20261115/202611151857.m7tse5j1-lkp@intel.com/reproduce)
+Hi Vladimir,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c03c1a14507dfaf8b856c2608f9ac216021fc222]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Kondratiev/riscv-kprobes-fix-out-of-bounds-read-in-riscv_probe_decode_insn/20261115-143733
+base:   c03c1a14507dfaf8b856c2608f9ac216021fc222
+patch link:    https://lore.kernel.org/r/20261115-probes-in-lrsc-v4-2-48b9b036bd1d%40mobileye.com
+patch subject: [PATCH v4 2/3] riscv: probes: reject probes inside an LR/SC sequence
+config: riscv-randconfig-1000-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160252.d58noD11-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ca14e3d05c4e63d6e8103945c86b958ed2f55d5f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160252.d58noD11-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611151857.m7tse5j1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611160252.d58noD11-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PLAT
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SPI_PHYTIUM_PLAT [=y] && SPI [=y] && SPI_MASTER [=y]
+All warnings (new ones prefixed by >>):
 
--- 
+   In file included from arch/riscv/kernel/probes/kprobes.c:5:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> arch/riscv/kernel/probes/kprobes.c:75:4: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+      75 |                         else
+         |                         ^
+   2 warnings generated.
+
+
+vim +75 arch/riscv/kernel/probes/kprobes.c
+
+    51	
+    52	/*
+    53	 * Walk the instructions from the enclosing symbol up to addr to check that
+    54	 * addr is an instruction boundary. Then reject a probe inside an LR/SC
+    55	 * sequence: the breakpoint trap drops the reservation, so the SC would fail
+    56	 * and the loop would hit the probe again on every retry. The sequence is
+    57	 * recognised by a forward scan with the constrained-sequence rules, as for
+    58	 * uprobes, so an lr that is not followed by an sc (as in __cmpwait()) does
+    59	 * not taint the rest of the function.
+    60	 */
+    61	static int __kprobes arch_check_kprobe(unsigned long addr)
+    62	{
+    63		unsigned long tmp, offset;
+    64	
+    65		/* start iterating at the closest preceding symbol */
+    66		if (!kallsyms_lookup_size_offset(addr, NULL, &offset))
+    67			return -EILSEQ;
+    68	
+    69		tmp = addr - offset;
+    70	
+    71		while (tmp <= addr) {
+    72			if (tmp == addr)
+    73				if (riscv_probe_in_lrsc_body((u16 *)addr, RISCV_LRSC_SCAN_BYTES))
+    74					return -EINVAL;
+  > 75				else
+    76					return 0;
+    77	
+    78			tmp += GET_INSN_LENGTH(*(u16 *)tmp);
+    79		}
+    80	
+    81		return -EILSEQ;
+    82	}
+    83	
+
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
