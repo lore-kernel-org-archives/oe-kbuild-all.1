@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794851018;
-	b=LJYt2/AkdUlbanKVF5bPUR9qcgk7QfctIRoFIn7C/UHYWlzpWZcd3bjqYtdGdH+a56gX
-	 XNw4vVi9/FUBmfsaUmea605GVKBWrijF3yi5Jrg01DPqC80CmFgpEPlMf3uc9e8EK7/40
-	 jdo27TTWFBRf4hLtFOYMtTrPsK3RfsoTKeOptMRBXKJZEzOl3m9y5wpSyssUyuDLaXkVo
-	 y708HUHiZj9w9DEMsWIE3mCec9FH59UbtkV23/gKxQVR7ck6RHfBztG6deyCyqvpk0IW7
-	 P25tDAn9s8wBxGnjr935KTr1oNRdAhsaKyOOKuB7OgyWNi4XzZKlNV3Btt2A9fmOlbQ==
+	t=1794851023;
+	b=V5Uh7+JOewcWKLLwJyhGzk64PIB876bL5ov75Y0r/fpvBXqBEnXuhbrBBp95FPR6IRi4
+	 DHm1W7yAjkwicHeQ3aGR5NgxpCPGEKISpZvBcz0++Gzbb4ehgo+UT67+PDmyO9mI+Utr+
+	 6sPCku7vu1QWseNQic4+BosL2V2woCz31HqaLeTbNrIctw+lf+grC5D4yH5kr6+GGIXwY
+	 9IbdVOzQcFy3O4gaq1ct93EdE5X4fqtUVmt7X1/Z9IOc4AQeGI1ozubAKgISLyWV5nipq
+	 ozAvpzfR5Qd78LPK5Io4fwy/NrTbLlXsK6//nWCDZTutwTVqEFh5SoGPa13wbccFufA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794851018;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794851023;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AyXJz5KzLX8NxtxNIuRixyqlfoKA/5zlt12jvJtPtx8=;
-	b=tY2i7gwuazWgUMBUU2UdV7krxYpocQASxk8eZsA3B95BmNsWeusAdwlNNcAvRgsJ2g2D
-	 qHGEaGpDBbCdklbr3opEktvbCVjgkJEQmPYTdik8DS6eNMfq9MCFmwrxYqz1diVAKMkHk
-	 UVkCDYT2Xr5ZxwbT6bEDaqfcfJgpPsmvo9YFpFg1+kjXH0ybUBhf0g84UerCZ3PQUm1D+
-	 XYaVI72DZh24gZtGwzYVy6Ozchun8RFSdjf2rwKBVl4k5GWisudnf/WWVzq8yu1fie/0M
-	 zW70qThQld9hECcfDU65lmTcC2YZvG2Kf0xbzJUyown+VWyMJG3rMng/hx/47dxOU4g==
+	bh=icoFFkHWbeiPY2bMMC/IL18p/ddSAOluxAGjp0oI7sA=;
+	b=MV3QyKoT++AoYa6ya1yIZvDrjYY3AuxqMo/2811TX1UfzgDkrkf4X95m8+iPUa6MUQZK
+	 6oGEafpWNXDbxS6OV3m9lX5JBCG9rJ58kBoLM0q7qD/Fpy/e64dXRQbrZXkdobIFR/8C/
+	 fBD2ES0252bPR42LQXwsW5L6hJtGJc4HQdYAfLas0Mw9zlOQelR1h59LV5YZdHnAiVRHj
+	 VzdEqp65oMfTSkPvJzVGekL4At1D207Vyrhd37O9ZS428wS9qdNvdYYyN2Ib7j4l1aKEU
+	 uMRyNAZUYCH1ozf6gaePfv7wwO+gSgaRf1bXSJ8ApJKFropwGtOQll/EkU6rwiqQ6cA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YgUo3+KM;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lWi9pRz7;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F18606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 17:43:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07F18606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCCD606A323
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 17:43:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FCCD606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YgUo3+KM
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lWi9pRz7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794851017; x=1826387017;
+  t=1794851023; x=1826387023;
   h=date:from:to:cc:subject:message-id;
-  bh=qceMnYf8ADuE32ks7OlVmZNi6oD1lZOsPqC3xWI2I0U=;
-  b=YgUo3+KME7GSCNE0Br6CqjwoHyHYFUq9h5gm5bYR8pb7X2Z7dqWxZCV7
-   keNQS1PJ634m3snDoRhbwaDQXa7QolkIUbCwG7sPuMvdl59NIuXKrZuUB
-   TdVEUh9tmaXXJLzWcvEE2sCZ9QImVwWHqhlGrkbx5D3udCKSEYo9zGLqi
-   Q1AssnU8FBBtSVonqU0i59meoNNWYJeR+10vkJLNTWeTSpYN7io74+lPM
-   7p5QH0OmxEU3c60g3KPQavg7MAoUNfjryAquC2X5iICwiTgJAtZNyrDmA
-   PbgoooL3kRrTT/6WKDD3J3d7j5MYAvXt2QDk4Oz6OilrFAT4tWyWmSykI
-   g==;
-X-CSE-ConnectionGUID: f22IZpDSSfOsLK6UadJimQ==
-X-CSE-MsgGUID: gmegU0GISRyX6Xhyw4//qA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3703475"
+  bh=aFJMHOhkMy/t7f1BhVK9CYE8g5brfYQbVWxJfQP/6gI=;
+  b=lWi9pRz7poP3liumL763yoomu5//HsGwH1Es8/nFOpk7DhfZkDnLvy1Z
+   kU+KQD0PAQ4kU3UxDc9dGQPSr5ibxv+dVHaNqEDccLM7hGEKaFHn4LULF
+   GqF+q8zzVwuGVmYQbVUGfLy+FRUE2vQ4k4N/iwWj7By4Gf5rnFmA80L6E
+   +y0w9Nsy8QkX+yHc3WPf+tNRAcUTcnymEV+VZZAYUV3ynslY63cswu1c2
+   Aoqb5I1nDm22sA2aRVj3JRxaziaTOi/j4Pncg7s6aBELZTO26EBCMNIBJ
+   qU0NWKPQx33ZUABIIc3GKFnZ87NQ5298NAY93hUwcWaNwIE8lqPkHHA6F
+   Q==;
+X-CSE-ConnectionGUID: rAJ3pyyiQa+W149g7N694A==
+X-CSE-MsgGUID: zJapPwlTR0iFr0fpotlAuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3612890"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3703475"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 09:43:37 -0800
-X-CSE-ConnectionGUID: cnZK2mKfQOexFLS9SSmbPw==
-X-CSE-MsgGUID: b0E7y2TKSU+idOfPpXhkYQ==
+   d="scan'208";a="3612890"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 09:43:42 -0800
+X-CSE-ConnectionGUID: ZJ4qfSMUTn6XyfV5jCsskw==
+X-CSE-MsgGUID: CoLoGwnETwa3K5rr7zdyqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="11395589"
+   d="scan'208";a="9676622"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 16 Nov 2026 09:43:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Nov 2026 09:43:41 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT0jr-000000002lC-3pTT;
-	Mon, 16 Nov 2026 17:43:31 +0000
-Date: Mon, 16 Nov 2026 18:42:58 +0100
+	id 1xT0jy-000000002lJ-2KmW;
+	Mon, 16 Nov 2026 17:43:38 +0000
+Date: Mon, 16 Nov 2026 18:43:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 152/152] clang diag:
- include/linux/page_size_compat.h:136:16: warning: division by zero is
- undefined
-Message-ID: <202611161825.tGeFio00-lkp@intel.com>
+Subject: [kkdwivedi:rqspinlock-owner 3/6]
+ kernel/bpf/rqspinlock.c:100:17: sparse: sparse: incorrect type in initializer
+ (different address spaces)
+Message-ID: <202611161854.1jL5IjB7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,87 +81,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Kalesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
-commit: d44ff7a3ed2e6df22bedad55abc1ac1c192095cc [152/152] ANDROID: 16K: Introduce rust __page_*() helpers
-config: arm64-randconfig-2001-20261116 (https://download.01.org/0day-ci/archive/20261116/202611161825.tGeFio00-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161825.tGeFio00-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux rqspinlock-owner
+head:   787c48e2339e09a361f608825a3512d489674602
+commit: 32788ba923e3c67f77297e9db5968d6171b5b2c5 [3/6] rqspinlock: Track the owner while retaining byte release
+config: i386-randconfig-2302-20261116 (https://download.01.org/0day-ci/archive/20261116/202611161854.1jL5IjB7-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161854.1jL5IjB7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611161825.tGeFio00-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161854.1jL5IjB7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/rqspinlock.c:100:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned int * @@
+   kernel/bpf/rqspinlock.c:100:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/bpf/rqspinlock.c:100:17: sparse:     got unsigned int *
+   kernel/bpf/rqspinlock.c:115:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
+   kernel/bpf/rqspinlock.c:115:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/bpf/rqspinlock.c:115:39: sparse:     got struct rqspinlock_held *
+   kernel/bpf/rqspinlock.c:136:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
+   kernel/bpf/rqspinlock.c:136:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/bpf/rqspinlock.c:136:39: sparse:     got struct rqspinlock_held *
+   kernel/bpf/rqspinlock.c:147:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
+   kernel/bpf/rqspinlock.c:147:51: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/bpf/rqspinlock.c:147:51: sparse:     got struct rqspinlock_held *
+   kernel/bpf/rqspinlock.c:662:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
+   kernel/bpf/rqspinlock.c:662:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/bpf/rqspinlock.c:662:39: sparse:     got struct rqspinlock_held *
+   kernel/bpf/rqspinlock.c:681:17: sparse: sparse: symbol 'bpf_res_spin_lock' was not declared. Should it be static?
+   kernel/bpf/rqspinlock.c:697:18: sparse: sparse: symbol 'bpf_res_spin_unlock' was not declared. Should it be static?
+   kernel/bpf/rqspinlock.c:703:17: sparse: sparse: symbol 'bpf_res_spin_lock_irqsave' was not declared. Should it be static?
+   kernel/bpf/rqspinlock.c:722:18: sparse: sparse: symbol 'bpf_res_spin_unlock_irqrestore' was not declared. Should it be static?
 
-   make[3]: *** [rust/Makefile:332: rust/bindings/bindings_helpers_generated.rs] Error 1 shuffle=1536126295
-   make[3]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   include/linux/blkdev.h:1705:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1705:9: note: forward declaration of 'struct rq_list'
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
-   include/linux/page_size_compat.h:136:16: warning: division by zero is undefined [-Wdivision-by-zero]
-   clang diag: include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-   clang diag: include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
->> clang diag: include/linux/page_size_compat.h:136:16: warning: division by zero is undefined [-Wdivision-by-zero]
-   Unable to generate bindings: clang diagnosed error: include/linux/blkdev.h:1705:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
+vim +100 kernel/bpf/rqspinlock.c
+
+    86	
+    87	#if RQ_OWNER_BITS
+    88	/*
+    89	 * Fill in each CPU's owner value for the lock word. Per-CPU memory for every
+    90	 * possible CPU exists from setup_per_cpu_areas() on, and an early initcall
+    91	 * runs before secondary CPUs are brought up and before regular initcalls,
+    92	 * including the BPF and locktorture users. Initialize the cache before use:
+    93	 * the static initializer supplies CPU0's complete acquisition value.
+    94	 */
+    95	static int __init rqspinlock_init_owner(void)
+    96	{
+    97		int cpu;
+    98	
+    99		for_each_possible_cpu(cpu)
+ > 100			per_cpu(rqspinlock_held_locks.owner, cpu) = (cpu << RQ_OWNER_OFFSET) | RQ_LOCKED_VAL;
+   101		return 0;
+   102	}
+   103	early_initcall(rqspinlock_init_owner);
+   104	#endif
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
