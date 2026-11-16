@@ -1,87 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794870357;
-	b=c/JN/+egB/ch1YuObsH9T4DjS0AkS0dC6jjoVLIOLZlYeLM1c+T+LpfDvJDRXUoUDmrq
-	 4pDVsD5HETv71V6OfpSlhZ28kGLOJz0+lUQ3C/HH6PZUuk2EqjxLo3SFRcTuH2ZkW10Ex
-	 YYYpZqip8TsaJtuBDrEYm0VCAYet/UbD3qtjo3SErqR8xhzziXElvjj9iE733+pwwtZ6I
-	 digCbVFsgvjn4+oYT6pfT+G1FJpGPi75VJKN8O+lJD+Ohb5OQpJ1rUpRWeGZiLIBNmuS1
-	 DkrafTbbmy2SMMl9WsShcKW7PuNBrzDszoJtWlCkXjfgrlH0WcPPjGu5Dh0mkK8E1cg==
+	t=1794872306;
+	b=XEaD4m6qsAyxLCeoWZarea3KY60vkDqiPe3KSU4yWocauM8gzkYoM1hPI0UxzjRqPSRv
+	 GP7lJx4Sl4WBbnlUWe+ea/R2WOIF5ZVJ20BMQKvX0azYyXlrArJxiu2/gyyJ2wtiy9Zpu
+	 MrJVzezlEBbw9zQovoyZ6YNfyRotR9piklp9MyVaLFDgvTHufpzi8ecWAgNR5t0q102Xg
+	 c11sK1RcNbz/DQdAGlJ0XR3O5ej3yjL7eGbc2fpMoOINs8fuShZxG031LYSkT8AG1GbxK
+	 7lAL3tAD2FSj1hQjcbEi40OC0g3wUeC9vRF+273ngt4ONwX4OBDY3d+b+WmzqnGTavQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794870357;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794872306;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=v70xg3MePw1WT/rOwZRR83ryL3zUGhDPNSfpeolVv4E=;
-	b=bvGnTFp2ZQGI1CdLGW16LQKFggp6bGv4W1NxgPMKckm2dQT79sYtK0iLOAOED6jXlxd6
-	 xUlsbz3DcLMUENNckKEGz7VI/GnpLyTNTeIeN+I9hcOhXBKZtUc6QW3i06y6OzufWdmmn
-	 Li2mVFqliHCKpSgdo+HGVf5UF9djL6sxWM6iomR+PcJQZwekQB6HVBOI9p+5aHdgps8ra
-	 wzS36oHYOmwrbiErW+GsqUuU8hU4chEbMxJ0MN9jmbDSVJ2jvJl5N1V1fdDJIQe6gzc7w
-	 CI1owcjggPLFRVcKquHlKf2VEL2appW21faJb5EEzBOIfharfR3ZvvSpJwgnbZAeHVQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=W1FQtgmymLvxVE7FZ+HdgA7AGGyc4eiuF4A0N6g8+Cg=;
+	b=emmCSExRR1r9eMWLfm0gyPU72O58g8I1mDuuuliKT27b7clbPFiZZm7jh5FquCpYIENQ
+	 2RHIiw0B2Iy0AV2hj7YwDVYwCvI7DGRU4VNyo1ced2NjGaU5rQUNieFj2VwBUdSg+1W4J
+	 TdbteT4MdHcQ3F/3AqmHKKH/KiY7PwGzybKp088FkMXkDzzgN0JrnQHHgBHrB/u5N9IIE
+	 bPN4sl7FVoNX7TWdku5sfgurCi/lvzJgEiloUOhrnecDQ7Wzzz+rAMCO7bkYe/BJrQG1m
+	 +MGcnHtB9Kx2joWuOazK7UR/gXrYTGyh3T4IW9I7LAPBPNfc2xIW1DcCQrS6knHP23w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QG59by4f;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MgMWsDqQ;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2DB606A323;
-	Mon, 16 Nov 2026 23:05:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E2DB606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EED606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 23:38:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39EED606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QG59by4f
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MgMWsDqQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794870357; x=1826406357;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kcQFXxnGkJ9oNAgHJPO9N2b/lV43VH+GcFEhMBJGoUI=;
-  b=QG59by4fU9ZZRbwF3tZ+qnwPKFZIoVJdsuuANFhmhIiN4XHvMaY+ZfEL
-   sw9Svk2940qDS+iSFVQgCXfEc51vFaDEnla1Jdwr+1xCLrpP+WnJGY5Hy
-   kcCbENfH/otUQlFwGtO4aGdOd8XM6j/Gagj7BNoDP5tThTNTZsQF/kMnP
-   iusFsq+3MJORHCNcXR9rYwGUvNUMiu8DVSEm6EOYsnn1Rx/kKgVu3oPbj
-   VnGnXFWtzO1httI+7HXESV9Gs8UZtuA5XQO7eoeWJ9Hju5jB59xDfNsJi
-   JRFSCaJg8I9aCqhrjAZCAgQDHBaBXAOKU+OoOxyHIJ7m1kS1ztzQvtTdL
-   g==;
-X-CSE-ConnectionGUID: t0txgg/aQa6h2d6Y0bX7gw==
-X-CSE-MsgGUID: fmS+vI/JS7SriNM4KKm6qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3702944"
+  t=1794872305; x=1826408305;
+  h=date:from:to:cc:subject:message-id;
+  bh=g95tvOLb6490pWMX4vXhEiwNZ7saT5CG/DRk+mO7ZPI=;
+  b=MgMWsDqQbeKsOVO4CX0iaHkgmdhCpNrmWLZHooQJtGNBtT0o1iJbFSuh
+   yma5tfJzcwv+dOWhB4fZ+g5lDdheJi+jufLrHH4pma0teqRijvMDvjqX4
+   OUg7VDNtAS2blwoXUht/CYvl+I+ICCiXaER1e9nhIIMnMtZHjMkAnsl/g
+   3+WsiQoIcF3xl1WaMfGivkbu3MTpCWkAwdX/uh7c1uZCCRRhNK6/DBpcb
+   c72URB56FK0K34yAIIocvkrPr1Ipb9eZvQ1Vcr8m9/zM+0SEMf8M3r/5d
+   9njdpCDHPnQocEam7Rsaa2oejPlAvpOc4LP1Y2VqoZ2KeIORm1aWHEtZK
+   A==;
+X-CSE-ConnectionGUID: MLVQqOdzSuqXh6bvLlOZ1Q==
+X-CSE-MsgGUID: TTfrbgLOR/Ghji2R6zQRZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3660116"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3702944"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 15:05:55 -0800
-X-CSE-ConnectionGUID: JOk2BLxRQkyDqAWtagEa9w==
-X-CSE-MsgGUID: VefEQxsBRLOpbzW0P4yJ1w==
+   d="scan'208";a="3660116"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 15:38:21 -0800
+X-CSE-ConnectionGUID: 7rrW+iOhR+2tHLpfb4aI0A==
+X-CSE-MsgGUID: OFD3Z9jXTXSr5P/suwkebQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9843600"
+   d="scan'208";a="9523187"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2026 15:05:52 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Nov 2026 15:38:13 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT5lk-000000019aF-3rOx;
-	Mon, 16 Nov 2026 23:05:48 +0000
-Date: Tue, 17 Nov 2026 07:05:19 +0800
+	id 1xT6H5-000000019ci-0YsX;
+	Mon, 16 Nov 2026 23:38:11 +0000
+Date: Tue, 17 Nov 2026 07:37:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie via B4 Relay <devnull+airlied.redhat.com@kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>,
-	Kenneth Feng <kenneth.feng@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 14/19] drm/amd/display: Restrict the dc directory root to
- DC-internal builds
-Message-ID: <202611170620.2eTup2uR-lkp@intel.com>
-References: <20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2@redhat.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:cancellations-backup/scratch/guards-tested 3/51]
+ arch/x86/include/asm/nospec-branch.h:656:31: error: '__KERNEL_DS' undeclared
+Message-ID: <202611170726.Sw6EPtoN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -90,47 +79,62 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2@redhat.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a6836fcbb5b22968019256025321d655b78bc49c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie-via-B4-Relay/drm-amd-display-Drop-the-dead-vmid-module/20261112-114336
-base:   a6836fcbb5b22968019256025321d655b78bc49c
-patch link:    https://lore.kernel.org/r/20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2%40redhat.com
-patch subject: [PATCH 14/19] drm/amd/display: Restrict the dc directory root to DC-internal builds
-config: x86_64-randconfig-1001-20261117 (https://download.01.org/0day-ci/archive/20261117/202611170620.2eTup2uR-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170620.2eTup2uR-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux cancellations-backup/scratch/guards-tested
+head:   67019855e76166974da23fb9e8c833b967bcc76a
+commit: d6c820ed0315c90ec643c56fbf84d76d28ca9776 [3/51] bpf: Let a callback unwind into the pad of its helper
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20261117/202611170726.Sw6EPtoN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170726.Sw6EPtoN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170620.2eTup2uR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170726.Sw6EPtoN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager_v12.c:25:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.h:32:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:51:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:57:
->> drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26:10: fatal error: 'dm_services_types.h' file not found
-      26 | #include "dm_services_types.h"
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from include/linux/bpf_unwind.h:55,
+                    from kernel/bpf/verifier.c:13:
+   arch/x86/include/asm/nospec-branch.h: In function 'x86_clear_cpu_buffers':
+>> arch/x86/include/asm/nospec-branch.h:656:31: error: '__KERNEL_DS' undeclared (first use in this function)
+     656 |         static const u16 ds = __KERNEL_DS;
+         |                               ^~~~~~~~~~~
+   arch/x86/include/asm/nospec-branch.h:656:31: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +26 drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h
+vim +/__KERNEL_DS +656 arch/x86/include/asm/nospec-branch.h
 
-a2dd023a7788ba6 Eric Huang 2017-03-06  25  
-20582319bce482e Rex Zhu    2018-06-20 @26  #include "dm_services_types.h"
-20582319bce482e Rex Zhu    2018-06-20  27  
+6a9e5292725177 Thomas Gleixner       2019-02-18  646  
+6a9e5292725177 Thomas Gleixner       2019-02-18  647  /**
+f9af88a3d384c8 Borislav Petkov (AMD  2024-09-11  648)  * x86_clear_cpu_buffers - Buffer clearing support for different x86 CPU vulns
+6a9e5292725177 Thomas Gleixner       2019-02-18  649   *
+6a9e5292725177 Thomas Gleixner       2019-02-18  650   * This uses the otherwise unused and obsolete VERW instruction in
+6a9e5292725177 Thomas Gleixner       2019-02-18  651   * combination with microcode which triggers a CPU buffer flush when the
+6a9e5292725177 Thomas Gleixner       2019-02-18  652   * instruction is executed.
+6a9e5292725177 Thomas Gleixner       2019-02-18  653   */
+f9af88a3d384c8 Borislav Petkov (AMD  2024-09-11  654) static __always_inline void x86_clear_cpu_buffers(void)
+6a9e5292725177 Thomas Gleixner       2019-02-18  655  {
+6a9e5292725177 Thomas Gleixner       2019-02-18 @656  	static const u16 ds = __KERNEL_DS;
+6a9e5292725177 Thomas Gleixner       2019-02-18  657  
+6a9e5292725177 Thomas Gleixner       2019-02-18  658  	/*
+6a9e5292725177 Thomas Gleixner       2019-02-18  659  	 * Has to be the memory-operand variant because only that
+6a9e5292725177 Thomas Gleixner       2019-02-18  660  	 * guarantees the CPU buffer flush functionality according to
+6a9e5292725177 Thomas Gleixner       2019-02-18  661  	 * documentation. The register-operand variant does not.
+6a9e5292725177 Thomas Gleixner       2019-02-18  662  	 * Works with any segment selector, but a valid writable
+6a9e5292725177 Thomas Gleixner       2019-02-18  663  	 * data segment is the fastest variant.
+6a9e5292725177 Thomas Gleixner       2019-02-18  664  	 *
+6a9e5292725177 Thomas Gleixner       2019-02-18  665  	 * "cc" clobber is required because VERW modifies ZF.
+6a9e5292725177 Thomas Gleixner       2019-02-18  666  	 */
+6a9e5292725177 Thomas Gleixner       2019-02-18  667  	asm volatile("verw %[ds]" : : [ds] "m" (ds) : "cc");
+6a9e5292725177 Thomas Gleixner       2019-02-18  668  }
+6a9e5292725177 Thomas Gleixner       2019-02-18  669  
+
+:::::: The code at line 656 was first introduced by commit
+:::::: 6a9e529272517755904b7afa639f6db59ddb793e x86/speculation/mds: Add mds_clear_cpu_buffers()
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
