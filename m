@@ -1,56 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794855415;
-	b=r1YOdkhyVrYssWQW86cR5Sm4pc1HNUDdHI6nTE2Y6l7M2XHtGx3irHgvbATcnIiucUg7
-	 nL4pQFovuCneqzhxHzkJ+h7esdmlCLDq5UYUdZoIGKUuqkrqS+UH7lYRsfgBJA7oc69nz
-	 3r1gUe8k9gE2kGvZ7Fd7GsWB2mXadjbks1E4ZqYjqkheoje08vtFCMkL6/Nw/uJPCAurM
-	 bdQr6RD6jw44iyFjipaA6grGAm7SYu+cZj1yG22jIAphN6cVEkuRZZ9j53ceHiK6HtttI
-	 +LNPzY1NVVUz14SttSeP6MlxQ/FzGaTk7RicsVtIR+O9EzikJz4s31fteB0RcCrUR7w==
+	t=1794855476;
+	b=hklaMP+AM7ZF6inttCKe0gBNR5myYsqBcGobaYWoY+JmVo1nCfn4peyMx2E72La6U1wI
+	 QGNTxo705/QHl4Rv1DbbZSw5yJPNq/0LaApfclEzSJUvk/qNiFzzDK/83VFl+FlQKTOaE
+	 2BTau2hRPBAAbd3JvACH9cpi6UrLMUSYMQ4rBc277ysluuH3AV82gvT5FTiA5Xurm7WCn
+	 eVVXT9F+r2sITO3y1gKbs9keZH78zgQ1bPh5LDKLGBqBtv/CzTPJDc9lPfZB2fP+stlUd
+	 k60gwAixcPCMc+amiJlPfKK9Jjp4vqJSGZi/ODOuwKzOVMtoeFjgK5LE1NN4wv1cugQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794855415;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=djbnv2cFO7ZIYTtp00ab8uSb76b4hRORaQxuM0jP+GM=;
-	b=u5ocggyjkZeWWq5qhBLIXSmP2wWx7jdo5+F8KMPNfWfBuaviZAsQBWfWalETh/tDgamk
-	 rKojd8dkI6ANhNSsz9xqSRu1SIHoeRJPArv+3FieRYxV/h3helveJDZ2t41+7QgitQcEP
-	 zUl7QjF9qB8JytSDLKDFjCFgsjhVwLzVrbKy/5k+OhB6sFBBL/hCyR6hjU2XFmYvA7iSO
-	 5ogRqoH68EAsL9RD1zg34tjjcjzLtAU+f1gn8NcrUF2++9ErgkusiS4FgTB4qR+u9HxQE
-	 fWU806xv5JUPyGoPueWH6obOnyMR5SDJDPFUcdHpR0i26g4f/SlxjurVZaHnFPKfJpA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794855476;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=O4upto3EJKUWhVwZadv8bytCOVjoNu31rt1JKnh0U9w=;
+	b=GXQwXu9kAcmubK5Ws41ThJjaW4lCOGw1//30PWmwQiDlAacfA5jk4DxIsK+c6rcxK0cK
+	 c30JW3CPrYJL8ufIxgrgwuMdp+PQlo/CiXb0sHzn5QzxKLVVJsahz2BADRUTbTf0aVj4p
+	 7ong70tWx5xEugn6OhSGVI8Cxj8TMK7UMVfEyXt+KH4IzUw9T5alPTnqm8tlRk6iHYRiO
+	 AR15Al8OxNvYqCy3SWmPw48tCfOQ0cDEAL1+PE8wI0ogXJ8UuscP1ij0RYVlidqEVthdh
+	 MSQKoCreWuBw6LnZOMdt743NDjKVDtZeXdkiFyruLuZem/IAucQ6TZmLFWPEYAx06gg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hi+WAglL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BudgLNao;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80697606A322;
-	Mon, 16 Nov 2026 18:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE14C606A33F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 18:57:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE14C606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hi+WAglL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2B71F000C9;
-	Mon, 16 Nov 2026 18:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794855415;
-	bh=djbnv2cFO7ZIYTtp00ab8uSb76b4hRORaQxuM0jP+GM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hi+WAglLp8APvIhFLgmsqQCYPUVbBQ9gM+XT3Y4zPUwgK+ModW7XH4I536UmfTpdz
-	 VjeZRYx7KZBjg71JJ8BaZ3cE8nHpSvEd6XATmPooNOohz2hHrFdQ801DfolcTS104a
-	 zMQznwyWWDPbyodysaCQ8JfwDSWSh+tVdQqkmTRkpaoTaOoo19MFg8JK+b/48bnYm1
-	 3jJlCwiIT3uJ/9kuHXoipmwKlTP6B/tomF7e/5/OnclWWmlzGjcmIzUZppaLCjR7EF
-	 pQc4hPEBp/yHfRVGPCdO68BaMMqqZH8RUyYSftCI3bCoYtN6aIbj3cjxK3iVOsZY7O
-	 ZFwybEPhIrFIQ==
-Date: Mon, 16 Nov 2026 11:56:51 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>, linux-hardening@vger.kernel.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] seq_buf: always inline seq_buf_terminate() and the
- helpers around it
-Message-ID: <20261116185651.GB1036192@ax162>
-References: <20261116022004.2373108-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BudgLNao
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794855475; x=1826391475;
+  h=date:from:to:cc:subject:message-id;
+  bh=vqiOPma/BktZodj7GNnVpa7qz/e37dC2ln156ZuwZ/g=;
+  b=BudgLNaoWvv9lfLPp4zIzGCMF67OyRR525N56v6TZAf3nNQKTBl1jUXD
+   KUlrf4NbTp0W54cVh8CzMEt+1GawbnCHry3SL0g+sDQsgSbFdd66vaq92
+   mPEB4z0idYF6gauuI/QcvKTuCb6Uo7F+z843/smt87gCxiY+VAnU5r3rQ
+   u59lu3+NCQSy/PfBF7XwVAirWvrjTJiDcZgc6tKYhsmLhNl6ZdIYeAWc2
+   2u5qvQjDyX4Di/X/zsLESfcqc3VqNmu6zu4WTg10A0LcbOj/O9ZkAJDTz
+   OOQeaokALXGSff8k6P+cAlzTHGh6jsZXEXMJoNRv2c5WpbdIS9XEkFyaA
+   A==;
+X-CSE-ConnectionGUID: PFEUBzp+QT2f5zZGxSDrFQ==
+X-CSE-MsgGUID: +TvqPU7eRby/ZfqqOissUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3633381"
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="3633381"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 10:57:55 -0800
+X-CSE-ConnectionGUID: 44RDtqlPTjy25LooVvichw==
+X-CSE-MsgGUID: HnVL2CI2Rr6FSaAwo74jGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="10020024"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Nov 2026 10:57:53 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xT1tm-000000002n3-1NKF;
+	Mon, 16 Nov 2026 18:57:50 +0000
+Date: Mon, 16 Nov 2026 19:56:48 +0100
+From: kernel test robot <lkp@intel.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: [linux-next:master 5327/7428] ld.lld: error:
+ vmlinux.a(init/main.o):(function set_reset_devices: .init.text+0x14):
+ relocation R_RISCV_HI20 out of range: 542226 is not in [-524288, 524287];
+ references 'reset_devices'
+Message-ID: <202611161914.JydKu5O7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -59,43 +82,38 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116022004.2373108-1-sashal@kernel.org>
 
-On Sun, Nov 15, 2026 at 09:20:04PM -0500, Sasha Levin wrote:
-> Commit 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating
-> it loses a byte") made __seq_buf_terminate() bigger, and clang no longer
-> inlines seq_buf_terminate() into its two callers in
-> kernel/trace/trace_events.c. Both pass bootup_event_seq, which is
-> __initdata, so the out-of-line copy sits in .text with that address in it
-> and modpost warns:
-> 
->   WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_terminate+0x12 (section: .text) -> bootup_event_seq (section: .init.data)
-> 
-> Both callers are __init, so nothing uses the buffer after it is freed.
-> But the warning shows up in allmodconfig builds, and it is an error with
-> CONFIG_SECTION_MISMATCH_WARN_ONLY=n.
-> 
-> Always inlining only seq_buf_terminate() and __seq_buf_terminate() moves
-> the problem: clang then leaves seq_buf_set_overflow() out of line with the
-> same address in it. So mark every inline helper that trace_events.c
-> reaches with bootup_event_seq __always_inline: seq_buf_terminate(),
-> __seq_buf_terminate(), seq_buf_set_overflow(), seq_buf_buffer_left(),
-> seq_buf_has_overflowed() and seq_buf_used().
-> 
-> Fixes: 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating it loses a byte")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202611110802.zPIiPSnJ-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202611120138.Fwm5Ljmj-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202611122226.vTBpAmtr-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202611122323.IvGv8FYK-lkp@intel.com/
-> Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   84abb955b1015477aa11a96e2f3ac1b938b77f48
+commit: 9b432eb4b45e7828530b81fb4c23adf2681572cd [5327/7428] fs: make umount(2) of the root killable on s_umount
+config: riscv-randconfig-2200-20261116 (https://download.01.org/0day-ci/archive/20261116/202611161914.JydKu5O7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d5c981bc431fd5e8ac0bc624472ea081515a1299)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161914.JydKu5O7-lkp@intel.com/reproduce)
 
-Tested-by: Nathan Chancellor <nathan@kernel.org> # build
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161914.JydKu5O7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: vmlinux.a(init/main.o):(function set_reset_devices: .init.text+0x14): relocation R_RISCV_HI20 out of range: 542226 is not in [-524288, 524287]; references 'reset_devices'
+   >>> referenced by main.c
+   >>> defined in vmlinux.a(init/main.o)
+--
+>> ld.lld: error: vmlinux.a(init/main.o):(function debug_kernel: .init.text+0x54): relocation R_RISCV_HI20 out of range: 540969 is not in [-524288, 524287]; references 'console_printk'
+   >>> referenced by main.c
+   >>> defined in vmlinux.a(kernel/printk/printk.o)
+--
+>> ld.lld: error: vmlinux.a(init/main.o):(function quiet_kernel: .init.text+0x94): relocation R_RISCV_HI20 out of range: 540969 is not in [-524288, 524287]; references 'console_printk'
+   >>> referenced by main.c
+   >>> defined in vmlinux.a(kernel/printk/printk.o)
+--
+>> ld.lld: error: vmlinux.a(init/main.o):(function loglevel: .init.text+0xf0): relocation R_RISCV_HI20 out of range: 540969 is not in [-524288, 524287]; references 'console_printk'
+   >>> referenced by main.c
+   >>> defined in vmlinux.a(kernel/printk/printk.o)
 
 -- 
-Cheers,
-Nathan
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
