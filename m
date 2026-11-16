@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794843679;
-	b=Rmc+CxZE/x1FUmZG4Izn05ZooNgQw/gZPILiAwUIBhHrFnmBcPOpihaoVm6TlaTa8xvD
-	 ZZk+Ul/oDiZY4/WRYNhS0QDAVlkANNz467Or3yUAleZsJcHJsr5usi/zNXuoM4u9MZp5x
-	 04jNFNCdBJUpAkmIzlERwqkf1rcU0sTrsAR3iuUgqNHljLkGbEf+6bxQyglooGy6h+UF8
-	 COljwhLwmPo/eV82iKd2csUmGyjzdSn7dldv4gc2GIOslIVJchp+3XcUdYGL6NQvQKVpv
-	 j7imcBs9MKIBnLr4tvrGjiP6duUK4yEfDxSbeMRlwJFTGTiEHihe3oEIxzsjZlfxhDQ==
+	t=1794843790;
+	b=u3eVaawucKRG6ixVbvlMM6nbhd4uVh1RSyi2K0Tt4O4w+2UKUggRwFwzNR+gj1p0avyX
+	 UKVpd+naIyyNrykXFjnM6LjgydKYVLot8dJQduIZwge/VcAprZUBsty7gARAVT62lY4ep
+	 /ntpW9QNAwdNuNh12e1ZczQ0hoyOPHYMnWMVEhJT+NKfgFY2Xggjm5NRAtJp0rUKs/fkA
+	 b0nSSKbPRhIEwj50C8P+JmPshgczIT2Lf6fG0ayQwSXmsxH73sPwi0plEwqY2O+yyyJ+0
+	 6N83r9zolXeZietZqNdbg3cudZhj04DdZXkBaQs7sZfeoBS0xE0LGWRskWJy8OU46ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794843679;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=KWR/J/J58+Atn/vMtZtNZ6y3lmKLITgM/1HsveMyy7o=;
-	b=VOKsLARBHbzgHdrMzkAHuwfNCMeUuzyxOgZ47nFdOvQ4qjSmy1n1K31yOPvI/31wL7sU
-	 j+9XNiexPkuTO6kPESpHNAStTm9SBl3saejf9yCFPks3x+WdSVC89dpOV/tKxuvlb5NL8
-	 eduqTogytWJ7jeWKRPymq528lGPxrD5zAwPSA2lephJF88HzFvw/dy4k710mHaWspQWTl
-	 jus7zIAjJcgKefnUAz8WFOaONbZlVcGEdnvuORnzh6D2dpFgtHgwME3sL6OLZjKWEqvIB
-	 qBC5NAEFc461FSkq1rb4w3HtGYD0B7whSiV7pVQ6H2EGWHni7KFaaJ6OH0oZ4dbbMPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794843790;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=u6Gq9flThtULHh6xNyi8YrXKgqd3TaMLR0PXIDkbobc=;
+	b=QP8Wah0YLAzYhjwDP/XSWJj7okIz+kXhfjDpud2eyKXH0HeosSwXzbpIdIOfEc4IPRZ/
+	 AFiWhD1h/cJOqZtNgcR2jrAwI8UZUDr7gzNggKFfGBRkluhHdoPCTacbwiW1ZlRmQNG8T
+	 zigE6T73dUa+qRPemS9Fc1Pkfr86xC5vJ+Ow3Gp/MFL/URh5qZChzogogflPsu7044py0
+	 sEm7Y2tm9FfYJ68GjVSwQsWd96OGyxrr28tt0xJPN9jHzn0GHwecpzx++EL0l3diw+s0y
+	 Z8FX8bEGSTUl0rY/QdRQ1k4usTo5sOLW0FBLNPQe+qiiZeGCQIYZX1dcc/aInSJ4XSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rx93tga+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NXRfzdMs;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id B985B606A31C;
-	Mon, 16 Nov 2026 15:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8B4606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 15:43:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D8B4606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rx93tga+
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 192521F000C4;
-	Mon, 16 Nov 2026 15:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794843679;
-	bh=KWR/J/J58+Atn/vMtZtNZ6y3lmKLITgM/1HsveMyy7o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Rx93tga+iEZqWtg3d0GphcFn91pO9fZ2kWQnjfyHDfXHcGN+h2rKcnZvDufLT01Gw
-	 /laXOV5urbjZ9s3aucgOs1E62Sm5GAPzy9d1mAPYJum4fha+AR7FZTLm2ak1nQZxUL
-	 n0IVlYF4SuPVlvqOIqJusMUGDrK6PqNpdqK82sGqrWF8iPmp0maZXBlokGx90ZtD9X
-	 AfU0L+hVle+r8DbCH0mEwVX/5wIfakizj8nFw3WpiNSkKC3F926TILlkTxoZQGjA4A
-	 TZmk9ByNFgMI5B4hJAKA1p6sYqLDMguFVtfZ+qjvQr09HcA8o5o/nucXHXGSVnFOVY
-	 QroySXHMk9w4g==
-Date: Mon, 16 Nov 2026 16:40:53 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 3784/7428]
- include/linux/page-flags-layout.h:6:10: fatal error: 'generated/bounds.h'
- file not found
-Message-ID: <avskBTulNo70xq-i@levanger>
-References: <202611160947.NOrZmI1p-lkp@intel.com>
- <avroMXSm8hiG1W4N@monoceros>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NXRfzdMs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794843788; x=1826379788;
+  h=date:from:to:cc:subject:message-id;
+  bh=c6aPnrOuVHLSARRBDLHdGv9LkXaxegiJkbHetnfqmT4=;
+  b=NXRfzdMsjewQX9YeiAu+MxVqhOxXbAJpUG7jF9qB6uMn1/6eiHZDOb+T
+   h3QawiosG2197xt5zVg+Y5ul/wX7sY1/czVQNwL/WtKXKCnW1xeE9hSCg
+   8JsmCPql5knMiuREJB0d8SCjHHzdg17GG8Uc721kfnxf1PZkHsaHJK+XJ
+   QayPI/ieqYTXqWIbhUjlhLmIAQo/h+G0ryAVxfrZsQvAP2g+mDTpv6vpZ
+   hpeNLsl1SFc02w6k3rUxT04xMx6DjINRE3B+iSVsf036GDzBqnIgqGkak
+   tLIAAvfKMFArY9ko+OGYVRSWdWEzXediVrVBsKVOTAxuIdAngs/ANb1kz
+   w==;
+X-CSE-ConnectionGUID: l04X6ojcTmyjDeGakYMSHQ==
+X-CSE-MsgGUID: ADJHSzUUSAyleq6JUo7m9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3573684"
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="3573684"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 07:43:08 -0800
+X-CSE-ConnectionGUID: DUOmxBadQYCoYYoPcwwE+g==
+X-CSE-MsgGUID: QwYSINQKTNmj0P4epiEAJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="9565869"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 16 Nov 2026 07:43:07 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSyrH-000000002ja-3hbB;
+	Mon, 16 Nov 2026 15:43:03 +0000
+Date: Mon, 16 Nov 2026 16:42:24 +0100
+From: kernel test robot <lkp@intel.com>
+To: Davidlohr Bueso <dave@stgolabs.net>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sspesa_v2 4/98] arch/riscv/kvm/main.c:37:30:
+ warning: result of comparison of constant 9223372036854775816 with expression
+ of type 'unsigned long' is always false
+Message-ID: <202611161622.aqdYjq0c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -59,58 +80,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <avroMXSm8hiG1W4N@monoceros>
 
-On Mon, Nov 16, 2026 at 12:28:24PM +0100, Uwe Kleine-König (The Capable Hub) wrote:
-> On Mon, Nov 16, 2026 at 09:45:42AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   84abb955b1015477aa11a96e2f3ac1b938b77f48
-> > commit: cdfdbc11552b99dbc5c45c55f62a76527ffcc73d [3784/7428] Move struct cpu_feature to <linux/cpufeature.h>
-> > config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261116/202611160947.NOrZmI1p-lkp@intel.com/config)
-> > compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ca14e3d05c4e63d6e8103945c86b958ed2f55d5f)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160947.NOrZmI1p-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202611160947.NOrZmI1p-lkp@intel.com/
-> > 
-> > Note: the linux-next/master HEAD 84abb955b1015477aa11a96e2f3ac1b938b77f48 builds fine.
-> >       It may have been fixed somewhere.
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from scripts/mod/devicetable-offsets.c:3:
-> >    In file included from include/linux/cpufeature.h:30:
-> >    In file included from arch/loongarch/include/asm/cpufeature.h:13:
-> >    In file included from arch/loongarch/include/asm/elf.h:9:
-> >    In file included from include/linux/fs.h:5:
-> >    In file included from include/linux/fs/super.h:5:
-> >    In file included from include/linux/fs/super_types.h:7:
-> >    In file included from include/linux/list_lru.h:14:
-> >    In file included from include/linux/xarray.h:16:
-> >    In file included from include/linux/gfp.h:7:
-> >    In file included from include/linux/mmzone.h:20:
-> > >> include/linux/page-flags-layout.h:6:10: fatal error: 'generated/bounds.h' file not found
-> >        6 | #include <generated/bounds.h>
-> >          |          ^~~~~~~~~~~~~~~~~~~~
-> >    1 error generated.
-> 
-> This is the issue that Sasha Levin already reported and fixed in the
-> thread about cdfdbc11552b99dbc5c45c55f62a76527ffcc73d, see
-> https://lore.kernel.org/all/f610c07f39df15f3e7ebdc63bfcd759ca7a687a8.1794233316.git.sashal@kernel.org/.
-> Nicolas claimed to have applied it already.
-> 
-> Best regards
-> Uwe
+tree:   https://github.com/avpatel/linux.git riscv_sspesa_v2
+head:   6deccfa10a938ba2257b489c067a1928022d510d
+commit: c4002f83490c6cd2ffd1ac02fb961b1082a0b1b1 [4/98] RISC-V: KVM: Do not touch the envcfg CSRs on the SiFive P550
+config: riscv-randconfig-r2306-20261116 (https://download.01.org/0day-ci/archive/20261116/202611161622.aqdYjq0c-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161622.aqdYjq0c-lkp@intel.com/reproduce)
 
-yes, just re-checked: the fix is included in next-20261113 (commit 50ccc340081fd1e6cd175).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161622.aqdYjq0c-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/kvm/main.c:37:30: warning: result of comparison of constant 9223372036854775816 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
+      37 |             riscv_cached_marchid(0) == 0x8000000000000008ULL) {
+         |             ~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+>> arch/riscv/kvm/main.c:37:30: warning: result of comparison of constant 9223372036854775816 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
+      37 |             riscv_cached_marchid(0) == 0x8000000000000008ULL) {
+         |             ~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   2 warnings generated.
 
 
+vim +37 arch/riscv/kvm/main.c
+
+    25	
+    26	static void kvm_riscv_setup_vendor_features(void)
+    27	{
+    28		/* Andes AX66: split two-stage TLBs */
+    29		if (riscv_cached_mvendorid(0) == ANDES_VENDOR_ID &&
+    30		    (riscv_cached_marchid(0) & 0xFFFF) == 0x8A66) {
+    31			static_branch_enable(&kvm_riscv_vsstage_tlb_no_gpa);
+    32			kvm_info("VS-stage TLB does not cache guest physical address and VMID\n");
+    33		}
+    34	
+    35		/* SiFive P550 (ESWIN EIC7700X): H on a 1.11 base, no henvcfg/senvcfg */
+    36		if (riscv_cached_mvendorid(0) == SIFIVE_VENDOR_ID &&
+  > 37		    riscv_cached_marchid(0) == 0x8000000000000008ULL) {
+    38			static_branch_enable(&kvm_riscv_no_xenvcfg);
+    39			kvm_info("henvcfg and senvcfg CSRs not implemented\n");
+    40		}
+    41	}
+    42	
 
 -- 
-Nicolas
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
