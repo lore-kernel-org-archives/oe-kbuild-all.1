@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794860115;
-	b=sqozZO59PxfdAzBJwDoK0s/wW4xiQ5GHgaA7YcN0EHS8Zv1vBA4KNh53CMVMImf4YW5t
-	 0CDgkaRlql9DUZLBiUdCsgPbOir/GP6aYdGf1tSQYn0aMOJYf1evSEijrSEti/mbmcN5o
-	 gEryMSiHK6mRbqr41aH6tpJeDPmzPJLhR60I9d1k+VJ9/ZtAOTeQEiTxUumWTBLCPzzx4
-	 6NM5hzGu6v4LjV9JBQfc7QSuC71Zeui0MM50/uIufv6skAvkxGOPdP90/uajCcUjP8E42
-	 xniPrvtfX7WFoZ/qs6SAFdaQ28Qi5MI4grfPAcRijdeGI2RtScN9scgq9ob1pkNSSsQ==
+	t=1794860933;
+	b=lVHXjFTDiqjPPnHL1meGQ/oKrkx93w7TkDIYOwAqt6LLVw1isyVO9Ii+n8R9kKjk5uMV
+	 xCcaHZUfnxPyDyamsIeOJeLgl4cDHzp8rZoHxY5PvMOzT4dJSNRaVmFBs3QM0MdQkzmYr
+	 UHIiPskC8wMbp9L5nUiyZAs3/XyyMKMnaiJIb4i/F1OpjAnQI0tYxd5kDAOIW7TpI4exq
+	 LGXHR7d1isJ/StL60sU+hKkvZXY9Wtd26AVxMEGHnK2nHV4y86xdQ0X0nSItCBrU5TGKq
+	 //A8XRk3xWhuLNqZ8KRD4qRBGeoG71vhvsHg7WH2NvpcCLXkdXUgbi0bKagrip0EXVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794860115;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794860933;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=UXskvfheqt/c0WMT/RSpIpg8z1Dj9wtPAhBZzUAxqTk=;
-	b=tGD6BIj77nO3bzA85R6TBDeEWCfWf2YJ/kviLXkqAyxeT1nvGX0qmNCD9jeeA3MjgxBD
-	 SUT3y4y2pDCxoEaG9Mlg2NRg1fZghMv/0jzmVZZSfIzTMoE7HQ5UsBPZBb/XqAVHZNKQL
-	 C/9mlSNpL1GjrJFH1PaTB4UKUE9dS7ZpV33ORxupWaEkwD+ESqH6ZZJfniNa/Tag+cNFg
-	 Fm5wFXA4fNc2hHcULuZi/mmH4PYZPGZjSQ1ofXK44MvOUrhbfFq26jH0TypgaJ+GrLIky
-	 +0xdwVujosIu1s4p7OIJq9I86SJGRYR+nIBOzW1mYrqDbOwad3HXqGLDZqaEQcq8i/g==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=xS1o3rZDvoPcOnNn0jdvkSHcQJPQ12Zkrym3PMtGPos=;
+	b=LvnGmvAmx2fHw8QPqMEglA+946YHZjbiVTyg+WaCKXbthxYWdtSPIY9uRsD6ea4gfNyR
+	 ZDOn6y62EkQwLJ/06bvcuHdqcBTkT7rNFVg3IavGsErgMDVuh3nbbm5MasuaKUtZinXdT
+	 xBX5zR4twm8BsNU/BDFqKwIkRzn2JSqstws6hwn0WM5Z68OnTH5WpOAGE4sGBmcShN1jB
+	 XVs7TgDtxGueCZbtGFX4Ur4kpD5VE2ECI3b4EVTqtKngYLJQeA4p9pX4uHXpAPtUN1EUR
+	 MNq0wjW0VtaOAOi83liR3zs4Yxzd9djeIHEKysUkzBG/Owe0eyAh8Bg6WpO691GedkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NCgfqY60;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="ikdZBT/H";
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95872606A330
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 20:15:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95872606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C03606A334
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 20:28:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8C03606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NCgfqY60
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ikdZBT/H
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794860115; x=1826396115;
-  h=date:from:to:cc:subject:message-id;
-  bh=mhD1BocLw9GmfzYgNdoRVjzQFbHBeQchxZS3pODfhYg=;
-  b=NCgfqY60lGyAJe9tIHwLgM4lcPs7BM1yetJeJ4/KpBJnkISe3IjOL8m3
-   0y4qoFTFDpRBFISVAya1Zgh+FdAJeOQDq4UkTVdd3ZJWNYAZ1uBlE2yZr
-   hVBnnF2d8OcFaI9CQllJx7oW/GP+uAEBzYTIhmJ1aOCxdw0XSyGfQX6rP
-   KmUsyn3xmQf2okKrSMPSMHisSuo0BBAJjLrovjK1vuhGccUctbFuytas6
-   ykA3AHqLpzbSEPfhqTqWws/N+AAkeun0dsrwkS/zqMUL0sB6bedpru9Uz
-   Egg3hR9/iipR65zmyB63McIEpsa9hKrT67YloGsaPWrbYbgqN8tHwcbXH
-   w==;
-X-CSE-ConnectionGUID: Bt7EJNdsScixrMHE7xTB7g==
-X-CSE-MsgGUID: C7SJpF/xQy2H75RR7ndi4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3717684"
+  t=1794860933; x=1826396933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Bns3dpZyOx5SbBohcAl653V45jCd0xP5FBRlRQ1zuU=;
+  b=ikdZBT/HeUJA8rQ64NnxTb4Nvqrnr1XsFdBpL8m3MAKjrMm8UKA9YyWK
+   wujK/9ljmcvLqAkhgqEqCaAsZZP8uJ3gvTgRCsxxG4F3btoI+9DQDVrzY
+   3EEeqB69qVcYSPzKoVw605xxvUDg5aK0YEXMSm+hJl65tt3e+G9AVLVZW
+   W0/6/DJo/D2M76TWKaIoSP/Kj2vMO9wntkIO2oENLS7GWaGb78acA4cZT
+   zFFHhEb2PAz1pxifdDYDpTl3JA79Mx6/HxxHjRs62wpXt0iA9xTaHg+8V
+   7W/eTZsNyGhTNM6DY5E2yDEJ8sX93tvFWZP4sbeg2deHJdJihGsBysTJR
+   A==;
+X-CSE-ConnectionGUID: R8lxIxETTSmqJgu4ZjDa+A==
+X-CSE-MsgGUID: 6a2Sr9SfSyKJ1ZxRvTjIOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3510983"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3717684"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 12:15:14 -0800
-X-CSE-ConnectionGUID: tg803cdxQqaI2AvGWgAQNw==
-X-CSE-MsgGUID: +Zx+Xd9STa2Od39N10wnlw==
+   d="scan'208";a="3510983"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 12:28:52 -0800
+X-CSE-ConnectionGUID: v/ptN20pSu2PJ0fEedtNlA==
+X-CSE-MsgGUID: JG26hXrvS2GCbk9hXPN0ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9444916"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 16 Nov 2026 12:15:12 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9689087"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2026 12:28:51 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT36b-000000002nu-1wp0;
-	Mon, 16 Nov 2026 20:15:09 +0000
-Date: Mon, 16 Nov 2026 21:14:27 +0100
+	id 1xT3Jo-000000019Ny-0ZuM;
+	Mon, 16 Nov 2026 20:28:48 +0000
+Date: Tue, 17 Nov 2026 04:28:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Subject: [avpatel:riscv_sspesa_v2 79/98]
- drivers/hwtracing/gtrace/gtrace-core.c:590:10: error: call to undeclared
- function 'kzalloc_obj'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202611162152.ziG1UYqr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: William Chuang <founder@logarcheon.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dhowells@redhat.com,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+	William Chuang <founder@logarcheon.com>
+Subject: Re: [PATCH 1/2] lib/assoc_array: add KUnit test suite
+Message-ID: <202611170414.5JNJifXz-lkp@intel.com>
+References: <20261116054112.39078-2-founder@logarcheon.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,150 +82,46 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116054112.39078-2-founder@logarcheon.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_sspesa_v2
-head:   6deccfa10a938ba2257b489c067a1928022d510d
-commit: 0556d8fb8f512a50300ff8436c8b02d4d33d5bb4 [79/98] gtrace: Add functions to create/destroy a trace component path
-config: arm-randconfig-r2101-20261116 (https://download.01.org/0day-ci/archive/20261116/202611162152.ziG1UYqr-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162152.ziG1UYqr-lkp@intel.com/reproduce)
+Hi William,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on akpm-mm/mm-everything linus/master v7.4-rc3 next-20261113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/William-Chuang/lib-assoc_array-add-KUnit-test-suite/20261116-054121
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20261116054112.39078-2-founder%40logarcheon.com
+patch subject: [PATCH 1/2] lib/assoc_array: add KUnit test suite
+config: i386-buildonly-randconfig-1001-20261116 (https://download.01.org/0day-ci/archive/20261117/202611170414.5JNJifXz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170414.5JNJifXz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611162152.ziG1UYqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170414.5JNJifXz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/hwtracing/gtrace/gtrace-core.c:372:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     372 |         kfree(cpriv);
-         |         ^
-   drivers/hwtracing/gtrace/gtrace-core.c:416:10: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-         |                 ^
-   drivers/hwtracing/gtrace/gtrace-core.c:416:8: error: incompatible integer to pointer conversion assigning to 'struct gtrace_comp_priv *' from 'int' [-Wint-conversion]
-     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c:426:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     426 |                 kfree(cpriv);
-         |                 ^
->> drivers/hwtracing/gtrace/gtrace-core.c:590:10: error: call to undeclared function 'kzalloc_obj'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     590 |                 node = kzalloc_obj(*node);
-         |                        ^
->> drivers/hwtracing/gtrace/gtrace-core.c:590:8: error: incompatible integer to pointer conversion assigning to 'struct gtrace_path_node *' from 'int' [-Wint-conversion]
-     590 |                 node = kzalloc_obj(*node);
-         |                      ^ ~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c:610:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     610 |                 kfree(node);
-         |                 ^
-   drivers/hwtracing/gtrace/gtrace-core.c:627:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     627 |         path = kzalloc(sizeof(*path), GFP_KERNEL);
-         |                ^
->> drivers/hwtracing/gtrace/gtrace-core.c:627:7: error: incompatible integer to pointer conversion assigning to 'struct gtrace_path *' from 'int' [-Wint-conversion]
-     627 |         path = kzalloc(sizeof(*path), GFP_KERNEL);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c:661:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     661 |         kfree(path);
-         |         ^
-   drivers/hwtracing/gtrace/gtrace-core.c:671:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     671 |         kfree(path);
-         |         ^
-   11 errors generated.
-
-
-vim +/kzalloc_obj +590 drivers/hwtracing/gtrace/gtrace-core.c
-
-   576	
-   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
-   578				      struct gtrace_connection *stop_conn,
-   579				      void *priv)
-   580	{
-   581		struct build_path_walk_priv *ppriv = priv;
-   582		struct gtrace_path *path = ppriv->path;
-   583		struct gtrace_path_node *node;
-   584	
-   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
-   586		    (ppriv->sink && ppriv->sink == comp))
-   587			*stop = true;
-   588	
-   589		if (*stop) {
- > 590			node = kzalloc_obj(*node);
-   591			if (!node)
-   592				return -ENOMEM;
-   593			INIT_LIST_HEAD(&node->head);
-   594			gtrace_get_component(comp);
-   595			node->comp = comp;
-   596			node->conn = stop_conn;
-   597			list_add(&node->head, &path->comp_list);
-   598		}
-   599	
-   600		return 0;
-   601	}
-   602	
-   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
-   604	{
-   605		struct gtrace_path_node *node, *node1;
-   606	
-   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
-   608			list_del(&node->head);
-   609			gtrace_put_component(node->comp);
-   610			kfree(node);
-   611		}
-   612	}
-   613	
-   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
-   615					       struct gtrace_component *sink,
-   616					       enum gtrace_component_mode mode)
-   617	{
-   618		struct build_path_walk_priv priv;
-   619		struct gtrace_path *path;
-   620		int ret = 0;
-   621	
-   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
-   623			ret = -EINVAL;
-   624			goto err_out;
-   625		}
-   626	
- > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
-   628		if (!path) {
-   629			ret = -ENOMEM;
-   630			goto err_out;
-   631		}
-   632		INIT_LIST_HEAD(&path->comp_list);
-   633		path->mode = mode;
-   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
-   635	
-   636		priv.path = path;
-   637		priv.sink = sink;
-   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
-   639		if (ret < 0)
-   640			goto err_release_path_nodes;
-   641	
-   642		/* Before proceeding, check that a valid path was built. */
-   643		if (list_empty(&path->comp_list)) {
-   644			ret = -ENODEV;
-   645			goto err_release_path_nodes;
-   646		}
-   647	
-   648		if (!gtrace_path_ready(path)) {
-   649			ret = -EOPNOTSUPP;
-   650			goto err_release_path_nodes;
-   651		}
-   652	
-   653		ret = gtrace_assign_trace_id(path);
-   654		if (ret < 0)
-   655			goto err_release_path_nodes;
-   656	
-   657		return path;
-   658	
-   659	err_release_path_nodes:
-   660		gtrace_release_path_nodes(path);
-   661		kfree(path);
-   662	err_out:
-   663		return ERR_PTR(ret);
-   664	}
-   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
-   666	
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_destroy' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_delete' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_apply_edit' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_gc' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_find' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_iterate' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_insert' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_clear' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_insert_set_object' undefined!
+>> ERROR: modpost: lib/tests/assoc_array_kunit.ko: symbol 'assoc_array_cancel_edit' undefined!
 
 -- 
 0-DAY CI Kernel Test Service
