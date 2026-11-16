@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794863262;
-	b=boNTUa3/5zh1lcsjfY/hv8pmj2ndrQ7ZN7gtvLKFSNaXOZE8c6zFla9/rAVKSfDlpkbW
-	 OEnb05cVwyeOb7pLVYwpkc3RRC/MvnqXPazGBkP5lAtfPUPdFzk/Fs09S5Ss3XxGjZp6H
-	 Lc1iFlZ4bZpKEzs6Bn3Kvj5axx3K/ysGt9DnBsfblmfbmE7a/u98mr9pkthjuWH+J0fWK
-	 4Lj+84MrMdCms40cq1wKq/hcdIL9OUdNTsfp/BE/W7dHpMSlt7JMOqlBU9VKfULPxsBEm
-	 GKYGQr/9YlqkbBiox6AjwB1cECDKEl2c6T+LdWBIZK8pGBojpLl1N01Fc4x6FMY3OMA==
+	t=1794864046;
+	b=2R6xWM5q/AvePuBPof00yomvY6jE/4jEMMZx1hc3Y6b1j5Y02Tt8ch64LLRibMiLZQtD
+	 DB1fwNHZwEyF1NBLJ8STCnaLIWAXAG3lw7g/f4y69SRZXD15Oe4oRvWtgTQvC1ZsArQiE
+	 CJMFaKtowwzLMoeewzKvWhHioPufLmI12vlS44dg17zNTGpKrrsgJMp/00UyqKdcrs4fL
+	 aW4Ba4Sq9SFMMB3sVxSDBcHeC1U9dn/5ZmIHrabW5AnSCOtx1iIGDrB1fvXVpXiLrbzsQ
+	 lsYlLDD9KZyJjd26n5O5/ji0OSVTiRvps4vC5bLh65km/h5/J2Rkj00zcbDoh2g79fA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794863262;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794864046;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=k806BBPv8BGjL880n9W5SMH1v96EGy7qDLie5wy76Dg=;
-	b=fD4s64h0Ojx5IPOP/0HX8g6kCqtrUEkZ3+Aulnx8Z3Fl3F2S5odbAJR21EjGS52UFdkr
-	 oLBSwjnI1w+OADDa/ppzHM89iQ87GG+0cwDzEu8Z5yJBiCLnwqU7V8/4XxpLcfNNm5S7Q
-	 y2OO7AVzl9/JH7Q4ZIoJ0UrvxP+AGINNPJWK5BB1V0Mj/YA+xKiVsFkkhSlWujkdDy5cx
-	 B++A4pd0bhtJI72eilXpgcW1uHP9f1Rbw+ds3jJ5Nz08cvMtB6O77mopoZQqBhw7RKEZT
-	 W3c7ZY6v78UlRHpWHHTHsyIf1M3HosYJnAeZHucnqC4pEbzW1w/+Jq3XKdXtiLtKwRg==
+	bh=CuZi0v1I+XutpmWotubaLEs/MB6U3kYOJ/W8WTcWvww=;
+	b=5DmeoFigfHU49lc7Tw1a/w1OZacBuWZ0NDxH6yFYY2vDDH7Q36IeSxubJ3GDb6pwKh4a
+	 BN5/XogYeW201dwfFShsTfBXli4zKD/V83P0lGInjDkMsmCQy3pSquZtyeZz+73AgP/Ev
+	 Uc3bLENKG1J+Bu4nNeZmsUBE0DJaIbrc6YRr4x0wDy7oy+8QYdEPY2olAGdrhPnjTlRob
+	 /O+qRFhd/0hg3BetmxYaWLvE+NTd+VYuxxP34SxdvOFPi9t1jO8D0thAevDRgeEyfU1+6
+	 yEk4Y4n/lB2QUekTS3NemnyN8OGMTm9ME1obTBbZpzAY2oFCqVMLxKRHDq8bhwwYu5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jU2RDeu6;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i5BgaCxh;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3598606A322
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 21:07:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3598606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B418C606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 21:20:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B418C606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jU2RDeu6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i5BgaCxh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794863262; x=1826399262;
+  t=1794864046; x=1826400046;
   h=date:from:to:cc:subject:message-id;
-  bh=9KACA+pYxG1EbQhypd02pb16Mt6h39/URHcCAPHnBO4=;
-  b=jU2RDeu6UDRtrf7f9Mhu8aiwwjO8t9W76BerPJTB6e6B3rwKaAkIhR3Z
-   szU9Ml6+vri8/3gVFF0UShBL54Ptb0qKsXAMJa+MSOKQ4nZZViG3tahlo
-   1R5qhZnqOLFLw4iDb3hmiSxv35Z8nCXXMLy2UQjAwPHMoBB6s4AxdDb0N
-   6f69lN5UpimXhh7sTEm4owvoHr0GO8WCYGjP7mMtUiBDCwiycDG05oAsv
-   1Tw+BbvygfLsYDqTNzjhQCdywi9fXVNKUCNJ94kLYmb9lk8m0BCvjPieL
-   BDVox329MY+/QZPFMSiglH7Ks4fXUjveSRNqIzHsgplvb9PffT5iRpNnj
-   A==;
-X-CSE-ConnectionGUID: jphhx5ZYSbCoAMiyDwBz5g==
-X-CSE-MsgGUID: a9Il4sg+RUOi2r9IkjX/EA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3650838"
+  bh=G5rXYyu+sg/052i7WL+YKLbBfAlfTWFmQtov0BDS9dA=;
+  b=i5BgaCxhclbBXYHACLMJMXkI1P5rXq6e21yP9PrM1EZ7Hwq8GYe2p9kc
+   Fbn4ExtkvdW3e+3WzE3EyZfFYNrr1PbGcekQEYR4+5AM4mXcxortsvQfE
+   IM0szbcl+ZWmqGJfEkSPDkTt2+ilJWdvh7uFPMW+gAGw4vMhYXFHV7KzF
+   1MtSkfCuZC5dAVoBZfDHYiQodZIARsP0dZyFrhU7Vk3uzz3EiEmzpPW4z
+   ybVxRwB0N77/Qs3F3u1GR6G/yjtla1mexIcp2ZBUq8OpiYn7nUI5bkYLv
+   uk2QxGBa9oBHvuOCSW31uN4Xe33mD8BLpZaSIBNDyu/oION1gU/XeSQDd
+   g==;
+X-CSE-ConnectionGUID: MTPHVgnESJidQdWzHPwMEw==
+X-CSE-MsgGUID: 2ngbMLdPSMKdWyfHMy+Sjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3495190"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3650838"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 13:07:42 -0800
-X-CSE-ConnectionGUID: lW/hP+yIQK+QVz4HxkvFAg==
-X-CSE-MsgGUID: 6jLIy6y7SXajm4It3m1IbQ==
+   d="scan'208";a="3495190"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 13:20:46 -0800
+X-CSE-ConnectionGUID: afRYT2GdQhimZMgMCseADg==
+X-CSE-MsgGUID: a/toFwhKTHiE2WNOg92giw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9629447"
+   d="scan'208";a="9592185"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 16 Nov 2026 13:07:40 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 16 Nov 2026 13:20:44 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT3vN-000000002oQ-2yio;
-	Mon, 16 Nov 2026 21:07:37 +0000
-Date: Mon, 16 Nov 2026 22:07:09 +0100
+	id 1xT481-000000002oU-3R6q;
+	Mon, 16 Nov 2026 21:20:41 +0000
+Date: Mon, 16 Nov 2026 22:20:36 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android18-7.3 5/5]
- ./usr/include/linux/android_fuse.h:7:10: fatal error: 'stdint.h' file not
- found
-Message-ID: <202611162216.RFBedIbT-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:7.4-rc 51/155]
+ arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800
+ (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon']
+ is too long
+Message-ID: <202611162252.nYPVoqhl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,26 +82,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android18-7.3
-head:   8bf243c0128eec0a5942f72d5025582d5790441c
-commit: 03e893c277ca546cba219fa7f82b93abc0250a7c [5/5] ANDROID: fuse-bpf: Add uapi, BPF_PROG_TYPE_FUSE and CONFIG_FUSE_BPF
-config: arm64-randconfig-2001-20261116 (https://download.01.org/0day-ci/archive/20261116/202611162216.RFBedIbT-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162216.RFBedIbT-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
+head:   cd0eb1d4dd5d81633888178d716cb96817bdd927
+commit: c178127e627efce9560b07a81e3d2682759ad608 [51/155] arm64: dts: mt7622: fix sata
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261116/202611162252.nYPVoqhl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev6+ged91b647c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162252.nYPVoqhl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611162216.RFBedIbT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611162252.nYPVoqhl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:1:
->> ./usr/include/linux/android_fuse.h:7:10: fatal error: 'stdint.h' file not found
-       7 | #include <stdint.h>
-         |          ^~~~~~~~~~
-   1 error generated.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller (mediatek,mt7622-audio): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800 (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@1a100800 (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml
 
 -- 
 0-DAY CI Kernel Test Service
