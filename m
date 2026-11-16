@@ -1,58 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794795607;
-	b=OgWQPgVuE0cPrYM7SU5crKuuCGaBQ8fCeHLu6BFOQ8Zxp8zWmnhhnE3N4pT02YNcTdof
-	 v32aw3w2W+4bfJJBZnO8eJIIPq+QhzR+DHin8EirV6Z8BTYyJMPb0/Nl+ZAFTmCGODTe0
-	 ydh5Vp0U/5HYGoRrrIrQM32igxXhRs4U5Pl/Th1v2K9TgZIHCsIMtgV2SbBJrvuFa4ryO
-	 lvfvNUwyi4ynecSn+EFqd6jchp9eebJJwpMqAqZCt30px5DyYVb6/XMu/lcSgmeDMmlhQ
-	 0c2EFhJf/HhNmAtZFodACalxMcP1DT4ey85Yaj+M6pEtsMXSlRMjf375U0/rEroheUg==
+	t=1794796969;
+	b=T6f9yLYCpn/xPyYA/IutSOGLNACGWqgzIBrnAtrV9SUy4qoAo/oldvMKqZqdwpUahiRj
+	 adIiFAor1rbuZ7gMhce7hnJBvNh6uFYoQfE5rfK05rMbIoQPKuocPqyM6it6lGlPZLlRK
+	 ovwC8roKdCluBayTb1ZnA8BRM/fIbt2T59eZK9xz0Vh3OK/WJqWcZjhSqQ7F8gOiJPcTY
+	 Qx/5FGtTv3F0whSuhdAdsIH4gIcglhjFnuMj5Y00u8937D/SguuK2WbLrknJSiSHmGQmO
+	 jrOfeK6brp6II4l9BiAmcIwXBt4GFhSunelUfDF4oG6bcsA/T/ieKDdAcAfKVGJyLOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794795607;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=mtDsjVuvFX9+DhdSuhUXhkgY2YLwLBeTv+Zc0QOggoM=;
-	b=en1RKu3PRxhimxIoc6AmbeLK33qRQN7PtI2+cb4a/+y+8MYIPwVNzY1am2vucWPQMOIr
-	 0QeCYHzzacRanOnCfWnsB7nBRMx6sRa89iSTHUUqmeQki6KZtklV5P5W7rlb10MPEfbEz
-	 b0Aq6Tw02Gy36dytKR167vl3u4Vsp2Fdt32Mn83CtydteiHf4whqXrXt8Sy41AM3ot71G
-	 2hvry4/2pqTKNfh/QD7K8z6ZV/w5e8eupy/lLNPGabKJEK/pFtGwfkSxzveOW2XARXRQI
-	 T7z1pxm7Gn/yGD9Iywie2rIkPc7hYV+tnca0z3txgm7Dvy3MBBFQixaKyDV0jJi4jMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794796969;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=sRHTt+iR+IRXpQ1t+pHVns6pksLULRysfnI5/gnbViE=;
+	b=gRJS79sq7rkKsaT5KyzZSJbNZgSQlQpazysw2kYy+Hm+1YdUAzP/SDEav/8Rmi23Gn+X
+	 7qFpap0TjgHByEsvEnSUGpJZU9JQprCGw5XbJ4jw9S1+GdkBvlTrS/8lJs2hw81WiB5Uo
+	 hOVSq9SZDpOphZD+kf/6tBSwR4jesy4a0LNu334URO366TWkmvG81nj2GceO4qs86eQap
+	 gUjF230Jbu65uMwKjnGBPQI49qGAteoFOYpJBbrBX112wop+J1yYkHMS+Bmcf9jCA/B4p
+	 tKbNS1AjVwMTs3q3nK/uNa/sYagOtaI5sFkFfgcQpdKWDETc/3l6Uhl9T9/4QR9I9gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pb7KS2wy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="hndk2/Dz";
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0D6606A31C;
-	Mon, 16 Nov 2026 02:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80370606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 02:42:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80370606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pb7KS2wy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1561F000C4;
-	Mon, 16 Nov 2026 02:20:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794795606;
-	bh=mtDsjVuvFX9+DhdSuhUXhkgY2YLwLBeTv+Zc0QOggoM=;
-	h=From:To:Cc:Subject:Date;
-	b=Pb7KS2wy/gqEffBFXXEPx1uockJPskK0qgh3k+kVoMbsYtqE7WfBmGNR0uXxhS4sN
-	 KD4ERbD9PrRfPIxIHQV/5tYnl8NoMkFUth61GhJLfiXWPi0oChtAUA+1ruM4/UZABm
-	 nI7qioYflluwFJlaCTp2gPY5FQySUsUiEFjNhB+AOzkmH2yInRrIgdQ8UKlDeysSxT
-	 6vjouI/VS54idmZCXIcxfq42XtiWZLrqVgAHbtI0dZK0+/Nckhyqvu91WWnpZHZade
-	 eHYFEaLgsoHW9/NXhdbcJYY8ozVqgeRzQ3JodcoUNce1WTWsL9fyOUQEehBzhMzTTC
-	 qSwHDtTpO4ETw==
-From: Sasha Levin <sashal@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-hardening@vger.kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] seq_buf: always inline seq_buf_terminate() and the helpers around it
-Date: Sun, 15 Nov 2026 21:20:04 -0500
-Message-ID: <20261116022004.2373108-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hndk2/Dz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794796969; x=1826332969;
+  h=date:from:to:cc:subject:message-id;
+  bh=z3KAbZwDTyUpQrv0QcPgbayZxUZR6lOUKybZK/r3PYc=;
+  b=hndk2/DzTus8480JSCI2IJWG2h74HYlgvxd4HgJbtrZCcTRcI3Isau1Q
+   +E4BW3VRFm3QOIi0yAxXrCvRDXG85iv9XiVqw6FYa73KxCr0wM2KYmjf9
+   mVVRdE6p8YInVGu2KPrG2e0qdTcfbmSNTOPNgpharPvW1KoDbyiXAoAp6
+   5t43iavEBLtuvtCnAzggdzQhLwvoKNFszk4iOWUc4rCeJ6wMRH+keDkcC
+   kNfa/F+ZzRAgJpVp6fSHLxzjq8hNI1uRB2qKuaN+DS2DYdcn/xMr8Gj0W
+   nEYUqBAO28igkX3+E7SHVyAviNs1QCR5LZcR6NGT4e4oWpl0fAr/4/M0b
+   w==;
+X-CSE-ConnectionGUID: BQ37IcVWThWfSnuehOvpbw==
+X-CSE-MsgGUID: h3egWxaVTZKMztWhpqCqWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3628796"
+X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
+   d="scan'208";a="3628796"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 18:42:48 -0800
+X-CSE-ConnectionGUID: gQDp+rmcSAe91sib3bsIPQ==
+X-CSE-MsgGUID: PRNSlFrGSqWiB6QxJ6qCwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
+   d="scan'208";a="9269497"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 15 Nov 2026 18:42:46 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSmg8-000000017ho-082U;
+	Mon, 16 Nov 2026 02:42:44 +0000
+Date: Mon, 16 Nov 2026 10:42:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aary Patil <aary.patil@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Subject: [thesofproject:topic/sof-dev-rebase 16/67] alpha-linux-ld:
+ sound/soc/sof/mediatek/mt8365/mt8365.o:undefined reference to `sof_of_pm'
+Message-ID: <202611161039.NPI67TL9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -61,115 +81,29 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Commit 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating
-it loses a byte") made __seq_buf_terminate() bigger, and clang no longer
-inlines seq_buf_terminate() into its two callers in
-kernel/trace/trace_events.c. Both pass bootup_event_seq, which is
-__initdata, so the out-of-line copy sits in .text with that address in it
-and modpost warns:
+Hi Aary,
 
-  WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_terminate+0x12 (section: .text) -> bootup_event_seq (section: .init.data)
+First bad commit (maybe != root cause):
 
-Both callers are __init, so nothing uses the buffer after it is freed.
-But the warning shows up in allmodconfig builds, and it is an error with
-CONFIG_SECTION_MISMATCH_WARN_ONLY=n.
+tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
+head:   862d4ac42408c74e989139ede5a7348ead782ec9
+commit: 9089b6943d8f12edf396b282b7cc1047b3a82556 [16/67] ASoC: SOF: mediatek: Add mt8365 support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611161039.NPI67TL9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161039.NPI67TL9-lkp@intel.com/reproduce)
 
-Always inlining only seq_buf_terminate() and __seq_buf_terminate() moves
-the problem: clang then leaves seq_buf_set_overflow() out of line with the
-same address in it. So mark every inline helper that trace_events.c
-reaches with bootup_event_seq __always_inline: seq_buf_terminate(),
-__seq_buf_terminate(), seq_buf_set_overflow(), seq_buf_buffer_left(),
-seq_buf_has_overflowed() and seq_buf_used().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161039.NPI67TL9-lkp@intel.com/
 
-Fixes: 7b8cd26b6aab8 ("seq_buf: Mark a seq_buf overflowed when terminating it loses a byte")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202611110802.zPIiPSnJ-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611120138.Fwm5Ljmj-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611122226.vTBpAmtr-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202611122323.IvGv8FYK-lkp@intel.com/
-Suggested-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-7b8cd26b6aab8 is on both for-next/kspp and for-linus/hardening.
+All errors (new ones prefixed by >>):
 
-Changes in v2:
-- v1 moved the warning to seq_buf_set_overflow() instead of removing it,
-  as the kernel test robot found [1]. Mark all six helpers.
-- Checked with modpost itself this time, run on trace_events.o: x86 and
-  arm64 with clang 21 (allmodconfig, defconfig, defconfig with
-  CC_OPTIMIZE_FOR_SIZE, and the robot's config) and with gcc 16 (x86
-  allmodconfig and the size-optimized configs). No mismatch is left.
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+>> alpha-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365.o:(.data.rel+0xa0): undefined reference to `sof_of_pm'
 
-v1: https://lore.kernel.org/r/20261115153430.1607764-1-sashal@kernel.org
-
-[1] https://lore.kernel.org/oe-kbuild-all/202611160835.RPhYOuAv-lkp@intel.com/
-
- include/linux/seq_buf.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/seq_buf.h b/include/linux/seq_buf.h
-index 6b915c67d2358..da69f2f09772e 100644
---- a/include/linux/seq_buf.h
-+++ b/include/linux/seq_buf.h
-@@ -62,7 +62,7 @@ seq_buf_init(struct seq_buf *s, char *buf, unsigned int size)
-  * seq_buf have a buffer that might overflow. When this happens
-  * len is set to be greater than size.
-  */
--static inline bool
-+static __always_inline bool
- seq_buf_has_overflowed(struct seq_buf *s)
- {
- 	return s->len > s->size;
-@@ -74,7 +74,7 @@ seq_buf_has_overflowed(struct seq_buf *s)
-  * seq_buf_str() terminates it, so clear whatever was not written: a writer
-  * sets len to how much it filled, and anything past that was never adopted.
-  */
--static inline void
-+static __always_inline void
- seq_buf_set_overflow(struct seq_buf *s)
- {
- 	if (s->len < s->size)
-@@ -111,7 +111,7 @@ seq_buf_init_append(struct seq_buf *s, char *buf, unsigned int size)
- /*
-  * How much buffer is left on the seq_buf?
-  */
--static inline unsigned int
-+static __always_inline unsigned int
- seq_buf_buffer_left(struct seq_buf *s)
- {
- 	if (seq_buf_has_overflowed(s))
-@@ -121,7 +121,7 @@ seq_buf_buffer_left(struct seq_buf *s)
- }
- 
- /* How much buffer was written? */
--static inline unsigned int seq_buf_used(struct seq_buf *s)
-+static __always_inline unsigned int seq_buf_used(struct seq_buf *s)
- {
- 	return min(s->len, s->size);
- }
-@@ -134,7 +134,7 @@ static inline unsigned int seq_buf_used(struct seq_buf *s)
-  *
-  * Returns: the offset of the NUL.
-  */
--static inline size_t __seq_buf_terminate(struct seq_buf *s)
-+static __always_inline size_t __seq_buf_terminate(struct seq_buf *s)
- {
- 	size_t end;
- 
-@@ -240,7 +240,7 @@ static inline size_t seq_buf_strlen(struct seq_buf *s)
-  * After this function is called, s->buffer is safe to use
-  * in string operations.
-  */
--static inline void seq_buf_terminate(struct seq_buf *s)
-+static __always_inline void seq_buf_terminate(struct seq_buf *s)
- {
- 	if (s->size == 0)
- 		return;
-
-base-commit: 7b8cd26b6aab8cf147165610d13964f79200a5a7
--- 
-2.53.0
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
