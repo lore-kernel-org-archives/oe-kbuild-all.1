@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794828509;
-	b=M7Ai8JZMwBwYN0m41TUja9oP+b1IR8Wci9UHFdf3J8kE7AkzW0LxyNZZQVcpKazPDIFV
-	 YBv8TjElyjZ/rTjW74p+C6w+La+TzIi9j5qes0PA30+H6j2eJxM0bUR0UYh0z4UuX5wul
-	 plUf859iPhzXHhg8WfDPHLoB6jtL/DwUz+jgudSky6WxUzUn3z3J+iIkG8sVLLXs93Jth
-	 fBs63ITz3QETsc8wu1KASQhWIxzWUHQWv5wMty/jIoY0AgGNHgsy1HXPrd47FBjwXNnVV
-	 sfLpnGJigCo9FsL4nXFgJ0O0LCZIMD0u2rMI4gqIRjyHovLCXx6sSQIBDmVtR4e1dIQ==
+	t=1794829865;
+	b=lQcT8hVwwAzIDr6zcAvPld47msu4V3UNu6uc7iv6juDJsZ6M67G/eTTw/v6PR4jMUqNG
+	 zXDldIOe5YfsiEyb8bzfLugvYdjQVcBZuD47G88HPNWngCXJZe1GjJVjghBT/iCYLb2E6
+	 3PLcqVCSCEIvAXBBtUR/I8HGP2oo/+C5jkWahlPkcdA2gp11XxSY5q588aOAHob12QRD9
+	 GV3DvknwZDA6TIMPes1kdK5aQBCv6vR/z++KPHw5meXOP8kRPtGlUWdJFmRXnWVvNfYFX
+	 xsug68vGhkYR7nNDXO/87h8NRQitmq7qiezvvYZVv5uPfkg3c5f7mA0o0BGVzV14BaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794828509;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=0JL4wR1lGs+QPvkNjJXfpba0XDMYzbIwMDG29YMLDPQ=;
-	b=y8CTcgtX5ohfS6DPwDQhgkNCoF9hRp/7BDb25jPutlFVlbee0zP67JS0+nlJDnv7zt4w
-	 UnnDlimjQ2yFZFnu14Mzzp2JnYKb0zWUXCwUGqzdHmSLxMCp/9LZLLp0ZMpwafZhbnTjx
-	 WJgFPlqFdNP13D3fBwh215GKjIP8NA88N3fE1aee2rj0lIdKiamhHOXRmUlrtNK3q2P9P
-	 eh/owu3S79ciNac5mJnhEgTYFic+v44Z6ZV46wOnvPOtkeK9zdEiu0IjzvCfSPV5U0AAI
-	 NCbqYzyQziHBfacTdQRIS700NUrYTY+NrDHDHbV9Kf53jqJtUYEGUOkpEndQKBzvzlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794829865;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=E4Mfa5Kzqm6sNdlgvVw9fOGmF51fKbpDpOPLk1g9eKM=;
+	b=vTWmnVckxzl8y4eZ6vhGEGKmaU0cxuCXaTDct3kck/63Nd95CIFPeAiMMZMY4XaMF6D2
+	 Zh9fIO/Znu3+N0I55N2bR362Fw5V3+9fOccwn82iR84DtZTvN/eceSBhfFtkfusHEYr11
+	 FUHncebOih0YsXzQ8ZJs1WUqS/qLueZnLZwv5Jm5c/0N5NUUxndhe2Fy/0pVsXJXtRSyi
+	 E3InZ/TmiUxmSWt/pQisU7e+dyIkPW7SAFBuKF9MfczPwPst6Fkvy3fSQbCMkiFQFvHjL
+	 8miFP+DK/L3OMOMrRRavbmQ7kIrD1H3gzlBqkW05Z6GUqQJcBKUo9eIWg7+G8Vw8fXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=OYFEy+Tj;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jmJBYZ6m;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BA1606A795
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 11:28:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35BA1606A795
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B782C606A329
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 11:51:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B782C606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=OYFEy+Tj
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so7457275e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 03:28:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794828506; x=1795433306; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0JL4wR1lGs+QPvkNjJXfpba0XDMYzbIwMDG29YMLDPQ=;
-        b=OYFEy+TjftV22w39sQRkfs2vLcUIS/5nyrLBuqWYUCHMJtxH5wU6H/7f+wREK600J4
-         th0jiv1oiFVRJyKpknmpEoztwJd9uC2xHS8KU2xx7EF03cZvqb9gRIA3Ss8yTfQ6zykm
-         oK4nXZG5VKxU94CxCtd/6WzhDh+Pf0oN3LqH7GE+v48MvPf5dgZP3agX7iSZ6V4alLpO
-         7joDx54InZlfuiNlZ7tNiqVWRV3TermKpQVjQGgD7pe/guujH4AJO2h96P60+wLNQMj2
-         C4tgvaqggrGhVk3ztdq4I4ybH87HkJji9P0dv9qIjJ8/gRYiyULaTiHRsG3iCLL93uqq
-         qHvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794828506; x=1795433306;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0JL4wR1lGs+QPvkNjJXfpba0XDMYzbIwMDG29YMLDPQ=;
-        b=xhjDD0lVwfmN+J3IVeibHvcwA5Xgq5zdor0sftM4vajucl6oT174tvktI4+f0UniZg
-         3lpschdPb3K+hoM6Heo4OrHXMCXvklhYEVGc7ldMpUWBD+QoCt+YzQNq1PzAaumZdjUm
-         EEpQcbk4TM2/XGrVcCKatNPFE3drrXJ9K38N4pj93oXmKk8sQNAEqIRROycQQ1lfTI+O
-         O6OZ/04dir7HtZsdknvmwOCdIpsccwlDb8DJUpwYrW+kO7Eged9vqs1z5SggcmfiNlG6
-         o2UmhnHoFYVI1CKk3Y7gaBHhuQfK4toZRiuVukaXmVRdNOscTBd2KwOJinJs2DbsY9J0
-         5rOA==
-X-Forwarded-Encrypted: i=1; AL+hErHC/We2sPOFkySiTQaoHn31y7V/VmrkV2VO6CofT8ekygwpgXoWVlDa/ZiW82hZZ608pi/7urpL/NLW9O63@lists.linux.dev
-X-Gm-Message-State: APuU4Z8MKfWCSXT7Mp9N18PabGoV4oyQt43/cjUC/hBuN/Msq1vDzOV2
-	biEhDT5YJmc2LRDVsUCsCm8Yyumxx9cMlLXg3L4L++V7QqE1zlgJMT9Tzk4qYfhN0Yw=
-X-Gm-Gg: AYBFou3QPZjq2tHeTS6J+ElrNqCQ5RTRfDsliiU2qKeV7p6ZID8duCk2rMd41yc4kgQ
-	018rspuYLkUvc4qwDdFzlM7w8lc615kvhC6bQ1ETvGDmfBp18CjFuLo+GmTbZJinnkS3vrK8Ohz
-	LENqE0suMZlYbaHg22DECJUKjZZNqPTBR7iEAVtqDRiM/b1q6yd4aoBBz71xRpIY6zJH1JwRH1q
-	882O1oJNiI4kYPpzZlGF49yQOhGYQQU/pgP+YIgLL9y+yBsAQ9aqOUn9CdYJelZB9ouDz8OoOt7
-	3KhYWrI/8tKTN5esJwysIPb41pLVkygiq91NrU1ODTINNpS+AAA79gnZC1IPRLC/vZLiTtKEfQV
-	cVlcLSXRI/F0hlmDT69QmSC+UzgK+V4sNTUTqyIXc0yn3nDfcEB+K0Iawak88zoDYSK6QxdsqTH
-	GGbUlgOf12nBEWxq8Lauy3FrSoxRuLzMW1HGftlJOCwuk7d3uSX6mKD7GSUYCyVHuvDzyx20OIj
-	HFufXDTMbxEUSbqErpv18gRK5MPM/vSAOrnlaHen8U5PadC0OT9UV/nZlgVOsO71BnEDMSFee7L
-	o7ephxiNAb4AfDsPN6SSQE69FoNTsQ3NoyZ+gBUULaNNSZ81AiuHwBvRlCFLVu+sAzwF0dSobrd
-	4umkLdPqc7sGwjb64+Q==
-X-Received: by 2002:a05:600d:2:b0:4ba:761:c0c5 with SMTP id 5b1f17b1804b1-4bb55a581e6mr164572525e9.5.1794828506130;
-        Mon, 16 Nov 2026 03:28:26 -0800 (PST)
-Received: from localhost (p200300f65f19a9042c263c0c153a4e28.dip0.t-ipconnect.de. [2003:f6:5f19:a904:2c26:3c0c:153a:4e28])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-49d673ce75fsm15469466f8f.55.2026.11.16.03.28.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 03:28:25 -0800 (PST)
-Date: Mon, 16 Nov 2026 12:28:24 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Nicolas Schier <nsc@kernel.org>
-Subject: Re: [linux-next:master 3784/7428]
- include/linux/page-flags-layout.h:6:10: fatal error: 'generated/bounds.h'
- file not found
-Message-ID: <avroMXSm8hiG1W4N@monoceros>
-References: <202611160947.NOrZmI1p-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jmJBYZ6m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794829865; x=1826365865;
+  h=date:from:to:cc:subject:message-id;
+  bh=kJf+FrsPudvTq/jtc7xNiV1iGwHWjSe7fjC/xhSmdO8=;
+  b=jmJBYZ6m2XC6PoKhvSIsid01msZJ18QufTY4QDb+aIKt9BS3PRoGZlI4
+   EWgQKsWZlV0KE1DwDMPKOmQEW4L889UDgvoGZvXy0TAaAYP0nTGsB9yhw
+   Ikg/SlUCHhGbxaeB0ICN1ZOFxv46IoZFVtXhUlQISA330pCbzzSXUAZ39
+   LcNvlYFPZH7AUptRXAhQL43/qRXWXNagkDL80Uj63zSf8DBz29QMSWSgT
+   4WQy6iKLnO7yGtlDpYoBQ3VFLi1lOcMbuLzVnIYRERNxSAOhf5lkhYlvW
+   l345kH3QVUChfBDx0yl03E4sr0TNJLHkdFiAzPNuihIhihi+LdgKuxA+i
+   w==;
+X-CSE-ConnectionGUID: kI5LQAh2TSe/PeOTANIung==
+X-CSE-MsgGUID: TkgJkMbxRDOmUp5uAzYM4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3479929"
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="3479929"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 03:51:05 -0800
+X-CSE-ConnectionGUID: PEyCOsfOSNSNPjzhru0vFg==
+X-CSE-MsgGUID: hwdOJo/GSreUvJ8QOSX5sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="9545711"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 16 Nov 2026 03:51:01 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSvEf-000000002gF-1XlD;
+	Mon, 16 Nov 2026 11:50:57 +0000
+Date: Mon, 16 Nov 2026 12:50:07 +0100
+From: kernel test robot <lkp@intel.com>
+To: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sspesa_v2 34/98]
+ drivers/iommu/riscv/iommu-ir.c:325:27: error: implicit declaration of
+ function 'virt_to_pfn'; did you mean 'virt_to_phys'?
+Message-ID: <202611161251.Fl34zAyg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -98,87 +80,76 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5folxt6ljtu6yeis"
-Content-Disposition: inline
-In-Reply-To: <202611160947.NOrZmI1p-lkp@intel.com>
+
+tree:   https://github.com/avpatel/linux.git riscv_sspesa_v2
+head:   6deccfa10a938ba2257b489c067a1928022d510d
+commit: c5446adf22b458b508a4cb31001bcb0e84c87927 [34/98] iommu/riscv: Add guest file irqbypass support
+config: alpha-randconfig-2200-20261116 (https://download.01.org/0day-ci/archive/20261116/202611161251.Fl34zAyg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.3.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161251.Fl34zAyg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161251.Fl34zAyg-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_msiptp_update':
+>> drivers/iommu/riscv/iommu-ir.c:325:27: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_phys'? [-Wimplicit-function-declaration]
+     325 |                 .msiptp = virt_to_pfn(domain->msi_root) |
+         |                           ^~~~~~~~~~~
+         |                           virt_to_phys
 
 
---5folxt6ljtu6yeis
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [linux-next:master 3784/7428]
- include/linux/page-flags-layout.h:6:10: fatal error: 'generated/bounds.h'
- file not found
-MIME-Version: 1.0
+vim +325 drivers/iommu/riscv/iommu-ir.c
 
-On Mon, Nov 16, 2026 at 09:45:42AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   84abb955b1015477aa11a96e2f3ac1b938b77f48
-> commit: cdfdbc11552b99dbc5c45c55f62a76527ffcc73d [3784/7428] Move struct =
-cpu_feature to <linux/cpufeature.h>
-> config: loongarch-defconfig (https://download.01.org/0day-ci/archive/2026=
-1116/202611160947.NOrZmI1p-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c=
-a14e3d05c4e63d6e8103945c86b958ed2f55d5f)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20261116/202611160947.NOrZmI1p-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611160947.NOrZmI1p-lkp=
-@intel.com/
->=20
-> Note: the linux-next/master HEAD 84abb955b1015477aa11a96e2f3ac1b938b77f48=
- builds fine.
->       It may have been fixed somewhere.
->=20
-> All errors (new ones prefixed by >>):
->=20
->    In file included from scripts/mod/devicetable-offsets.c:3:
->    In file included from include/linux/cpufeature.h:30:
->    In file included from arch/loongarch/include/asm/cpufeature.h:13:
->    In file included from arch/loongarch/include/asm/elf.h:9:
->    In file included from include/linux/fs.h:5:
->    In file included from include/linux/fs/super.h:5:
->    In file included from include/linux/fs/super_types.h:7:
->    In file included from include/linux/list_lru.h:14:
->    In file included from include/linux/xarray.h:16:
->    In file included from include/linux/gfp.h:7:
->    In file included from include/linux/mmzone.h:20:
-> >> include/linux/page-flags-layout.h:6:10: fatal error: 'generated/bounds=
-=2Eh' file not found
->        6 | #include <generated/bounds.h>
->          |          ^~~~~~~~~~~~~~~~~~~~
->    1 error generated.
+   306	
+   307	static void riscv_iommu_ir_msiptp_update(struct riscv_iommu_domain *domain)
+   308	{
+   309		struct pt_iommu_riscv_64_hw_info pt_info, gstage_info;
+   310		struct riscv_iommu_device *iommu, *prev;
+   311		struct riscv_iommu_bond *bond;
+   312		struct riscv_iommu_dc new_dc;
+   313	
+   314		pt_iommu_riscv_64_hw_info(&domain->riscvpt, &pt_info);
+   315		pt_iommu_riscv_64_hw_info(&domain->gstage_riscvpt, &gstage_info);
+   316	
+   317		new_dc = (struct riscv_iommu_dc){
+   318			.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) |
+   319			      RISCV_IOMMU_PC_TA_V,
+   320			.iohgatp = FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_MODE, gstage_info.fsc_iosatp_mode) |
+   321				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_GSCID, domain->gscid) |
+   322				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_PPN, gstage_info.ppn),
+   323			.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, pt_info.fsc_iosatp_mode) |
+   324			       FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, pt_info.ppn),
+ > 325			.msiptp = virt_to_pfn(domain->msi_root) |
+   326				  FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
+   327					     RISCV_IOMMU_DC_MSIPTP_MODE_FLAT),
+   328			.msi_addr_mask = domain->msi_addr_mask,
+   329			.msi_addr_pattern = domain->msi_addr_pattern,
+   330		};
+   331	
+   332		/* Like riscv_iommu_ir_msitbl_inval(), synchronize with riscv_iommu_bond_link() */
+   333		smp_mb();
+   334	
+   335		rcu_read_lock();
+   336	
+   337		prev = NULL;
+   338		list_for_each_entry_rcu(bond, &domain->bonds, list) {
+   339			iommu = dev_to_iommu(bond->dev);
+   340			if (iommu == prev)
+   341				continue;
+   342	
+   343			riscv_iommu_iodir_update(iommu, bond->dev, &new_dc);
+   344			prev = iommu;
+   345		}
+   346	
+   347		rcu_read_unlock();
+   348	}
+   349	
 
-This is the issue that Sasha Levin already reported and fixed in the
-thread about cdfdbc11552b99dbc5c45c55f62a76527ffcc73d, see
-https://lore.kernel.org/all/f610c07f39df15f3e7ebdc63bfcd759ca7a687a8.179423=
-3316.git.sashal@kernel.org/.
-Nicolas claimed to have applied it already.
-
-Best regards
-Uwe
-
---5folxt6ljtu6yeis
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr66NYACgkQj4D7WH0S
-/k4pswf/RmI//KlVDYKhdyuKWPtJ8WKGW/CM2ZYfKGXlld02zgqVsK+EA/ksXDlw
-gd6BggceGEfqs9InvoyIG7ZapDAmELpajI50WK5No3w0J3zbpkx7iMC8jZPjQjxH
-rgoYPYv+RpJlHqMv46xf5nMqImnlCTftBX8dJZIiI5DrvOSYtRiu20rEJwb8uo42
-IvgRCeQF/0Pm0cNz0o+JiCXI+LvnRpiQ1FtNGP/cPTG/68K9l0pZzwhar7XzNqON
-SjdZeRAIp3RZxloqoFWDUcOB/nxokRYA4bIDVgV2CDtCZJ50ZsndddwVuzcD898P
-9ioX7+hQ8XdCT3MKDynkU4Zi4Rg50g==
-=TLBX
------END PGP SIGNATURE-----
-
---5folxt6ljtu6yeis--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
