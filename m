@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794867670;
-	b=tTc60HSMJM3Odmc9i0IetS2yvaS0s2MD9hgQbyCadk/PHDh3q/3mWnWIezjZChEsaOEa
-	 ZfKd2RppDGK1a4Bq1+oj5rBcWjfyKry7Mw5kZMyLHdwFaVGTn3vRp+M5szwPSaCsRv/Af
-	 wL/NgEnyEOmpwz/SVN/AKrjAm2StSKCpT8rZHz8RTcos56XU5brKLKS4Wtj3kMU5v3iXC
-	 ZEpnY98qoFzlHp4wprgRz+prCJgMYG4tMHQsZTCxoUukFztOtdBErY3/OztOCp5dOiDtK
-	 oGdvMOisSslmXjjkI6U3MEIFVNJ9PJ5QZARx2YeAghTB4ovh2zUsrSwYcfPmMM7nwWA==
+	t=1794869560;
+	b=w9p3hJXUt+JTCtIGO6UywS1kWI5Ycr0QUzrayVph/k1kTTWGMTvCX9EFTNCCrAAdbgiE
+	 JcTq64EQElIEL0D2HLMHVm/e11U4ngkxw97Kh5N6rKgt1l5k7O9+p/4XfyduFwm8AkL3T
+	 jNVhNqAMEia8qZVgAdBNX/jsCfXEbq6jY3PuIhDtTRJ2LEE2UoD4AJ72s1d/VAvs4687s
+	 IL9lC8pDCH0I9hGNcmeM91eN3evbMcWhSl21r8tJF+kifa/g3E4YXLmDdWfkSIA195gO2
+	 cN95xfF70rjS+7vpYgP/Iynk8Ttz0WuvJSAjoTdce4HCWWqDxOYoAC8kHP2sI8TDHtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794867670;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794869560;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=GGiyYCG9Q8f+ZQu7hn6DdoPPqlDdbh1u2BTLToUlrwg=;
-	b=CKUyj7TMQvO5iD2n9On41ezVpbfPcLEgPIV+RPSc4AqteGQcY+41mW86Dny5o0tTO6Fd
-	 CkGQZcO7HZDfYVkmlvo5C3LUH2Hukn21YAi0n1YOOcyg6fCHFzvw2bUFkt+SchaQmrtLU
-	 V9CAjMCWNepKJXTOyaDrsPoXjUgqqSK+4XxXhsDft8LsOXJGmf1RZFv9qb8nZWFwSALRQ
-	 HkuFNKHf7d/EWbOo/vTff6vulMUE+FDG/IvQqobfp6FSFzt+sWyYZNy6gTt174QxLXnOA
-	 U0O/lMQGR2e+0fRahqh8FvufmAfn5VCM6HIRrrZRM3pcbm1YNjNh0sZgAF1rQyGwL4Q==
+	bh=Ao9mgisv3hBiJlypE67WLoX0blfRlaF8zJop+Uud4IU=;
+	b=4CFEqA2FCk3ercsn2LKbEyquUOAtpJ5vcBOsVUGlqZ85IqKwOTx7wPArqlQJR/MA8tPT
+	 KhHBMFeC+5JknLgd8CuAxGl/9NXw7nuMdU2BJE5/TaSmJ9Y50f+7nmidpdLVgsaFd6hcs
+	 YEkmsZ7YDOG55pRbxb5eftVdKKyXJNbW4hIu62pKIdVpahoWfdp7qGVNDUG3jAXsAj/mW
+	 5pZoKda7GOpSBdR4TXnQBO+TVSZ9V7B+6VSjiL9Kn9x1ZiMUOvPGsxekMMzr6PSN20ieL
+	 kwHLdEjuO2XtE7JPLSAl+4G109Hg0CaMrcQEVR0KFK+jzY5s5ab3j5Tpgj/niQlhUgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W2KKuMmc;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EsbGcuTF;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091D3606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 22:21:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 091D3606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292F4606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 22:52:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 292F4606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W2KKuMmc
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EsbGcuTF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794867670; x=1826403670;
+  t=1794869560; x=1826405560;
   h=date:from:to:cc:subject:message-id;
-  bh=Nj5i4g2EbD10e5OQAGfaRMizdQwYsmzBwmalWPU4ekY=;
-  b=W2KKuMmcbEHClNbv/Xew4V7wFPClrPEY3F5LsyI+lsc3cJHgVFBSOBV7
-   CD3v8vwwY/iKEnD9SJzLpG08j7JDA2mWx3mg6xUnUBApy24d8VGljn3Ic
-   DgOGbleMdaPEwDWU9kPM484s9/jx9v3morkK2fvpL+OQZapB884Z5af/Q
-   lRHkdBr7eXG4dNH6UdxbCGm6k6H9kS1sRIPQ24UTl/9crirS9y385lafn
-   ruq35vc+Dg9BGDz3Ks6sxFKmCij8YAMB7eta9UFcplLXU8GBVte1uUtEz
-   B+1DJ/PMbKgOBAT0jST7buuI5Ayvw4+rasUCl8WyhJkIBMszF6tZMxves
+  bh=MDlwr+DJY3dNKRj9k/ialJiwu2kbHK6f9RPBJmd+3wA=;
+  b=EsbGcuTFv5upZ0vLCWT6/uMo6cstVK5KPq9m6Pc5bioP4exU/PcunTrm
+   wgT7/MtrUfQgHaG5r7InOdwZ8TVbxc4sfda6Vi07AgWnCVdoFhr7+r85A
+   OZ5yr+zGjxPhMMFBPgy357wG3rHfaBKLq+ljpsa2XHRWm8CSOOEoyKzGa
+   awBUzM3MWgEsh0Gw/S8WYA8eiAX3R33DrIm1b6qjDfdHLHvqp5NOEOxDc
+   zRQ88DydEDiK3F+I4yuhRSO6K6nQNRGAwQC5slJx581uazGOVCD592NgY
+   Qunr4Hjwh6LxhSgZpGs5U93VRjkVh3VMe25BYXEzC62JPjXtPRHUn0Yjy
    g==;
-X-CSE-ConnectionGUID: KAmlfCvdSZG+WPkoM9KdZw==
-X-CSE-MsgGUID: /RYhefjdQYe77CkjRhRFwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3658720"
+X-CSE-ConnectionGUID: LeZ0tLruQQmLdEr8phFQgg==
+X-CSE-MsgGUID: M7VTp4qvTl2L8rNydg2NsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3701824"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3658720"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 14:21:10 -0800
-X-CSE-ConnectionGUID: JGqvUulrTRGxHVQijJagaw==
-X-CSE-MsgGUID: OhM/2OGmS8CTby1Aif8pEQ==
+   d="scan'208";a="3701824"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 14:52:39 -0800
+X-CSE-ConnectionGUID: JdL1Y5XVQmiPTxTQATz5wg==
+X-CSE-MsgGUID: RumKkXd2TlWalBJsiyCmhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9585428"
+   d="scan'208";a="9840933"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 16 Nov 2026 14:21:08 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2026 14:52:37 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT54T-000000002os-2Uu7;
-	Mon, 16 Nov 2026 22:21:05 +0000
-Date: Mon, 16 Nov 2026 23:20:20 +0100
+	id 1xT5Yv-000000002p4-2ve4;
+	Mon, 16 Nov 2026 22:52:33 +0000
+Date: Mon, 16 Nov 2026 23:52:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 152/152]
- drivers/gpu/buddy.c:1272: warning: Excess function parameter 'p' description
- in 'gpu_buddy_print'
-Message-ID: <202611162330.mI3EKFyj-lkp@intel.com>
+To: Sofus Forstreuter <sofus.c@icloud.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 95/96]
+ drivers/media/platform/apple/msr/msr-hw.c:151:25: error: implicit declaration
+ of function 'readq_relaxed'; did you mean 'readl_relaxed'?
+Message-ID: <202611162341.HCFsqiX2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,66 +81,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
-commit: 1c44c262a0c2dfd083dc00308d6488d23b58b59e [152/152] gpu: Move DRM buddy allocator one level up (part two)
-config: x86_64-randconfig-r2307-20261116 (https://download.01.org/0day-ci/archive/20261116/202611162330.mI3EKFyj-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162330.mI3EKFyj-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   41eeb3a08926fbe6037568be57148a360190fbe6
+commit: c967c4f5b870c69ed8f3b064e2d53f9171ec93d4 [95/96] media: apple: add msr driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20261116/202611162341.HCFsqiX2-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611162341.HCFsqiX2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611162330.mI3EKFyj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611162341.HCFsqiX2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/buddy.c:1272: warning: Excess function parameter 'p' description in 'gpu_buddy_print'
+   In file included from include/linux/kernel.h:30,
+                    from include/linux/videodev2.h:60,
+                    from drivers/media/platform/apple/msr/msr-hw.c:11:
+   drivers/media/platform/apple/msr/msr-hw.c: In function 'configure_fmt':
+>> drivers/media/platform/apple/msr/msr-hw.c:151:25: error: implicit declaration of function 'readq_relaxed'; did you mean 'readl_relaxed'? [-Wimplicit-function-declaration]
+     151 |                         readq_relaxed(base + reg + i * 8));
+         |                         ^~~~~~~~~~~~~
+   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   drivers/media/platform/apple/msr/msr.h:116:9: note: in expansion of macro 'v4l2_dbg'
+     116 |         v4l2_dbg(level, debug, &(msr)->v4l2_dev, fmt, ##args)
+         |         ^~~~~~~~
+   drivers/media/platform/apple/msr/msr-hw.c:150:17: note: in expansion of macro 'msr_dbg'
+     150 |                 msr_dbg(2, ctx->msr, "%s[%d] dma:  %12llx\n", FRM_STR(frm), i,
+         |                 ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/apple/msr/msr.h:116:9: note: in expansion of macro 'v4l2_dbg'
+     116 |         v4l2_dbg(level, debug, &(msr)->v4l2_dev, fmt, ##args)
+         |         ^~~~~~~~
+   drivers/media/platform/apple/msr/msr-hw.c:150:17: note: in expansion of macro 'msr_dbg'
+     150 |                 msr_dbg(2, ctx->msr, "%s[%d] dma:  %12llx\n", FRM_STR(frm), i,
+         |                 ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/apple/msr/msr.h:116:9: note: in expansion of macro 'v4l2_dbg'
+     116 |         v4l2_dbg(level, debug, &(msr)->v4l2_dev, fmt, ##args)
+         |         ^~~~~~~~
+   drivers/media/platform/apple/msr/msr-hw.c:157:17: note: in expansion of macro 'msr_dbg'
+     157 |                 msr_dbg(2, ctx->msr, "%s[%d] meta: %12llx\n", FRM_STR(frm), i,
+         |                 ^~~~~~~
 
 
-vim +1272 drivers/gpu/buddy.c
+vim +151 drivers/media/platform/apple/msr/msr-hw.c
 
-  1264	
-  1265	/**
-  1266	 * gpu_buddy_print - print allocator state
-  1267	 *
-  1268	 * @mm: GPU buddy manager
-  1269	 * @p: GPU printer to use
-  1270	 */
-  1271	void gpu_buddy_print(struct gpu_buddy *mm)
-> 1272	{
-  1273		int order;
-  1274	
-  1275		pr_info("chunk_size: %lluKiB, total: %lluMiB, free: %lluMiB, clear_free: %lluMiB\n",
-  1276			mm->chunk_size >> 10, mm->size >> 20, mm->avail >> 20, mm->clear_avail >> 20);
-  1277	
-  1278		for (order = mm->max_order; order >= 0; order--) {
-  1279			struct gpu_buddy_block *block, *tmp;
-  1280			struct rb_root *root;
-  1281			u64 count = 0, free;
-  1282			unsigned int tree;
-  1283	
-  1284			for_each_free_tree(tree) {
-  1285				root = &mm->free_trees[tree][order];
-  1286	
-  1287				rbtree_postorder_for_each_entry_safe(block, tmp, root, rb) {
-  1288					BUG_ON(!gpu_buddy_block_is_free(block));
-  1289					count++;
-  1290				}
-  1291			}
-  1292	
-  1293			free = count * (mm->chunk_size << order);
-  1294			if (free < SZ_1M)
-  1295				pr_info("order-%2d free: %8llu KiB, blocks: %llu\n",
-  1296					order, free >> 10, count);
-  1297			else
-  1298				pr_info("order-%2d free: %8llu MiB, blocks: %llu\n",
-  1299					order, free >> 20, count);
-  1300		}
-  1301	}
-  1302	EXPORT_SYMBOL(gpu_buddy_print);
-  1303	
+   124	
+   125	static void configure_fmt(struct msr_ctx *ctx, struct msr_vb_buffer *vb,
+   126				  struct msr_frame *frm)
+   127	{
+   128		const struct msr_fmt *fmt = frm->fmt;
+   129		void __iomem *base = ctx->msr->base;
+   130		size_t reg = 0;
+   131		int i;
+   132	
+   133		reg = IS_SRC(frm) ? 0x180 : 0x280;
+   134		msr_writel(ctx, MSR_DMA_ALPHA(fmt->alpha) |
+   135			   MSR_DMA_SUBSAMPLING(fmt->subsampling), reg);
+   136		msr_dbg(2, ctx->msr, "%s: %x\n", FRM_STR(frm),
+   137			readl_relaxed(base + reg));
+   138	
+   139		for (i = 0; i < MSR_MAX_PLANES; i++) {
+   140			msr_writel(ctx, MSR_DMA_STORAGE(fmt->storage[i]),
+   141				   reg + 4 + (i * 4));
+   142			msr_dbg(2, ctx->msr, "%s[%d]: %05x\n", FRM_STR(frm), i,
+   143				readl_relaxed(base + reg + 4 + (i * 4)));
+   144		}
+   145	
+   146		/* XXX: can src have 4 planes? */
+   147		reg = IS_SRC(frm) ? 0x198 : 0x290;
+   148		for (i = 0; i < MSR_MAX_PLANES; i++) {
+   149			msr_writeq(ctx, vb->dma_addrs[i], reg + i * 8);
+   150			msr_dbg(2, ctx->msr, "%s[%d] dma:  %12llx\n", FRM_STR(frm), i,
+ > 151				readq_relaxed(base + reg + i * 8));
+   152		}
+   153	
+   154		reg = IS_SRC(frm) ? 0x1b8 : 0x2a8;
+   155		for (i = 0; i < MSR_MAX_PLANES; i++) {
+   156			msr_writeq(ctx, vb->dma_meta_addrs[i], reg + i * 8);
+   157			msr_dbg(2, ctx->msr, "%s[%d] meta: %12llx\n", FRM_STR(frm), i,
+   158				readq_relaxed(base + reg + i * 8));
+   159		}
+   160	
+   161		reg = IS_SRC(frm) ? 0x1d8 : 0x2c0;
+   162		for (i = 0; i < MSR_MAX_PLANES; i++)
+   163			msr_writel(ctx, vb->stride[i], reg + i * 4);
+   164	
+   165		/* offsets? */
+   166		reg = IS_SRC(frm) ? 0x1e8 : 0x2cc;
+   167	
+   168		/* component order, so hw can normalize */
+   169		reg = IS_SRC(frm) ? 0x1f8 : 0x2d8;
+   170		msr_writel(ctx, MSR_FMT_COMP0(fmt->comp_order[0]) |
+   171				MSR_FMT_COMP1(fmt->comp_order[1]) |
+   172				MSR_FMT_COMP2(fmt->comp_order[2]) |
+   173				MSR_FMT_COMP3(fmt->comp_order[3]), reg);
+   174	
+   175		msr_writel(ctx, frm->pix.width, reg + 4);
+   176		msr_writel(ctx, frm->pix.height, reg + 8);
+   177	
+   178		/* plane sizes */
+   179		reg = IS_SRC(frm) ? 0x234 : 0x308;
+   180		msr_writel(ctx, frm->pix.width, reg);
+   181		msr_writel(ctx, frm->pix.width / frm->info->hdiv, reg + 4);
+   182		msr_writel(ctx, frm->pix.width, reg + 8);
+   183	
+   184		reg = IS_SRC(frm) ? 0x244 : 0x314;
+   185		msr_writel(ctx, frm->pix.height, reg);
+   186		msr_writel(ctx, frm->pix.height / frm->info->vdiv, reg + 4);
+   187		msr_writel(ctx, frm->pix.height, reg + 8);
+   188	}
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
