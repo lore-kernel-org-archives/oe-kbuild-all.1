@@ -1,91 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794852040;
-	b=z1q8stApwkOjRgibcnvw0PP4hT37CpCcHvxs3EmFfLTfXbNvazGK1xdpf3MEydZ2hmoJ
-	 kNxOxkuf3Eildsgzs6I7/FJNUxY+vkJk7pKZaRE7OcqybUcbCVmRFjjoveZ+AHhPyPIYC
-	 twOyeyRRAS0Zdcp6tzzykuCZMyKl4REgYG7h9LKmhPSlUICXjRuMIifCBC2RBm1Yqzz46
-	 LqGJt/9+YakO6UYjuaG4W9frrf1fiXzs+8fv1R9dFmi0/HDuCa5VE1gvc/4kWaSkZxIbg
-	 rzuHQvIv9C37kCsKI1GuwDLUMKIopU8zCyhfDu+LRNS7e4GV3Izirl+CqynLAzioP6A==
+	t=1794852098;
+	b=TmLdFHubDFRYZz9RV8bxz/6clx1h4MdN5GOJKyQ68TTco2Bn3VwJLkfGidzARfhEmonj
+	 zVGala2HoXRbAnK4dW6uEUNRPp1puwVYqbnF+xc8TID8X4ObRNq2gsNhwmb6ec63JNsxy
+	 3Yiz8TTwfO4KAEHIaqq4MuFDLYKv7sZE5N6YF+i75Dhcrpgzi7l1hTe5dqquUGhEjBxKp
+	 5QIid3qurT15g5WARUF3Jwi0B+8VnVsWQL/NEzs6Rdz0sAdOYASC1FBUJfga4u4/LH1Oe
+	 edu0OaOnPFitMShxA4Tm+LKZx6JV48WAT6U96U8GZ/u47CkfN0fu8LfcxIxUhqwEWcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794852040;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794852098;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=AGMTwFfs53sTPCTAbdlxmCJ8hYeb9iUmlEmcpKGM0Ow=;
-	b=QQtGeCsthdii4JM6Gn1IEt+AGoSpHesyr4SkQd28U3H3bLx7dUgEzqz2NhpNkSEK4EB6
-	 WfOJS+jAN3/a1x+AXvJ/5pmjzOTc7Qpihx3jnQHfsbikkddjxKdKK1zRcguHbINwwMIVG
-	 oyNtH1utRLRpGlurJs2GIrBGo/FDegbwmGK8t2h4POm0AMEu79QviCTx+qxbPIQhuGvHx
-	 bm28IcWyupMF/V3wr46ndGH5pLifmxviZ044hzV1mC29O8Fap63K1bcIrM3XGhRU8HEdU
-	 8PtrW0DHgPEfHpaCZuJCZNrzi1Z6sSrszAYrmjG0R3nL2paYW4vFcTYtnfSoee8jIGQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=6bHNbn+AnrGcdiIjb4Ht7xasuv47Ac5iq3Lki+QWU7A=;
+	b=UVy7HjvZhgMmMuL2Ss0o86bFpRi/RFL4VRimbwZjxUmeW8n76RKnjp7dXrgc3q0heuPp
+	 penLMhlaLlUwLQorLLtdVQcKKiPP279dCJ3qxOg781W0BRmHgNjVL9tUZ7KZSV+1PdRfL
+	 YgyfBMXycM0PiKXkigfS9hSk7UKs8K2hChutMBS9RnskEVw6VvkwwNJ8dIpn/M1Q35/xJ
+	 Jz8VXIfSNRkM/czrayCMxJOtRiCTjTk+dePncDjbzxqnuEY2MISxGxcpyc+0nQbsUWjT0
+	 IELe4yK4Czr4uLx0vEDfVsb8YVgWkeiDOqb/klKxhwD56RjUXbKmLfrm1jK6lqSW49A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=czzKdeD5;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I37liP1F;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB26A606A880
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 18:00:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB26A606A880
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C79606A33D;
+	Mon, 16 Nov 2026 18:01:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8C79606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=czzKdeD5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I37liP1F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794852039; x=1826388039;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wWTaX5iA12+M0wZvVENhAikZT3twTo+LW7rgrLUSPGY=;
-  b=czzKdeD5M0VQO/XLCplAUBt5kG6UTfNZAHDTc2cz0yCI3u0+CL5tG04V
-   5sps0E3mUUYovZhtmiX5uRJpw/tbTenewKzM9T48fD1zkdDmsShyrgrGq
-   /nU+js8h+5xqu/wvI7dUrLtZfzWDMfyCNWO9wVJX1rdYwrn2w5X/KXvCy
-   6ICDeS6no7jIfC2xPDV2rMU8XlY0pizIVdYYaMtt3QuMLPCT9oG3i0WVi
-   nsdpBpQAhnarZ/M8VkG9mSXahpIGWeZ7iqjHIkE4I6uAhd0vVOOhDKrf5
-   t7uLxMsw8O32IUZT64R4Z7aQReydrPlOJ4bhFZ0XKk7Hz/1fMFJXjqaez
+  t=1794852097; x=1826388097;
+  h=date:from:to:cc:subject:message-id;
+  bh=Bg5KF6+w4I+oh0aPQlU7TVcauuHaFzXGt0EAR5oTkWg=;
+  b=I37liP1Fs0u5RYysPepew9Ql8oPIrdQQEdHvsJOhB5Qhv2k85zo/NkFc
+   jdzCXnlL8Hk5LaANrRfE+A64Hj7zMtltTeganOQsQ3dCSZKQ+X9mK1h9Z
+   nJNpXzwT/QMDfU2A0JZpsP3cd2nKDiOHZK+8VjoQ5NeurNo2avDGy87qo
+   2Jr0+MgwCw8XVl/Gm/+M5AKABVRvnpjcixy23RhvI10sEFJJidmGrIWXQ
+   vS9wcP0f/AM6e9BXLL1HxPe95rfEvSw7yPP7OQ0cqC0jJJR6ym1Ely8FG
+   WfjSD5H/90AfOVBLnN5wO3xStJJkI9Zfyk7EMrW5C0fX6ohpIMG3gYCs7
    w==;
-X-CSE-ConnectionGUID: kdsvGCd9TbKhU8t8JSuayg==
-X-CSE-MsgGUID: diLM3QmYQjWOC8bl4TQqyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3632818"
+X-CSE-ConnectionGUID: igjwPxFyTb6heH/5EfwJLw==
+X-CSE-MsgGUID: 6gflfacgSuyS8RYolM7a2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3676528"
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3632818"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 10:00:39 -0800
-X-CSE-ConnectionGUID: RV4zCj+tTT6w/vcjLZb1Bw==
-X-CSE-MsgGUID: r6GgFtjpRX2f2sT+idN6jA==
+   d="scan'208";a="3676528"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 10:01:36 -0800
+X-CSE-ConnectionGUID: Z73Ks279RpG/76Q/XeAxsA==
+X-CSE-MsgGUID: 7DtGVnf3Saes/RgnsGWDFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9591695"
+   d="scan'208";a="11328297"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Nov 2026 10:00:34 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 16 Nov 2026 10:01:34 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT10J-000000019Bc-1yxt;
-	Mon, 16 Nov 2026 18:00:31 +0000
-Date: Tue, 17 Nov 2026 02:00:13 +0800
+	id 1xT11H-000000019Bo-2nNl;
+	Mon, 16 Nov 2026 18:01:31 +0000
+Date: Tue, 17 Nov 2026 02:00:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>, Akash Goel <akash.goel@arm.com>,
-	Karunika Choo <karunika.choo@arm.com>,
-	Lukas Zapolskas <lukas.zapolskas@arm.com>,
-	Chris Diamand <chris.diamand@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v5 11/13] drm/panthor: Support FW init of protm
-Message-ID: <202611170131.5ommYcYW-lkp@intel.com>
-References: <20261116112601.3483649-12-ketil.johnsen@arm.com>
+To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Subject: [cornelisnetworks:for-upstream_20261115-1518 35/35] Warning:
+ drivers/infiniband/hw/hfi2/bulksvc_user.c:1291 This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202611170154.glIRRQ3t-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,47 +82,178 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116112601.3483649-12-ketil.johnsen@arm.com>
 
-Hi Ketil,
+Hi Dennis,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20261113]
-[cannot apply to linux-review/Ketil-Johnsen/drm-panthor-De-duplicate-FW-memory-section-sync/20261012-145929 linus/master v7.4-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ketil-Johnsen/drm-panthor-De-duplicate-FW-memory-section-sync/20261116-122549
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20261116112601.3483649-12-ketil.johnsen%40arm.com
-patch subject: [PATCH v5 11/13] drm/panthor: Support FW init of protm
-config: sparc64-randconfig-1000-20261116 (https://download.01.org/0day-ci/archive/20261117/202611170131.5ommYcYW-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170131.5ommYcYW-lkp@intel.com/reproduce)
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream_20261115-1518
+head:   16b51e7cd1a98a98348c7b3d5824a3507c8132fa
+commit: 16b51e7cd1a98a98348c7b3d5824a3507c8132fa [35/35] RDMA/hfi2: Add tracepoints and enable hfi2 driver build
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261117/202611170154.glIRRQ3t-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ca14e3d05c4e63d6e8103945c86b958ed2f55d5f)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170154.glIRRQ3t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170131.5ommYcYW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170154.glIRRQ3t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:145 Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.start', 'data.start')
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:145 Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.end', 'data.end')
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:208 Excess struct member 'buf' description in 'panthor_fw_section' (did you mean one of: 'data.buf')
->> Warning: drivers/gpu/drm/panthor/panthor_fw.c:299 struct member 'protm' not described in 'panthor_fw'
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:299 Excess struct member 'ping_work' description in 'panthor_fw' (did you mean one of: 'watchdog.ping_work')
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:145 Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.start', 'data.start')
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:145 Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr' (did you mean one of: 'va.end', 'data.end')
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:208 Excess struct member 'buf' description in 'panthor_fw_section' (did you mean one of: 'data.buf')
->> Warning: drivers/gpu/drm/panthor/panthor_fw.c:299 struct member 'protm' not described in 'panthor_fw'
-   Warning: drivers/gpu/drm/panthor/panthor_fw.c:299 Excess struct member 'ping_work' description in 'panthor_fw' (did you mean one of: 'watchdog.ping_work')
+>> drivers/infiniband/hw/hfi2/bulksvc.c:1205:44: error: use of undeclared identifier 'HFI_RVT_WQ_PERCPU'
+    1205 |                             (svc->num_lanes == 1 ? WQ_UNBOUND : HFI_RVT_WQ_PERCPU);
+         |                                                                 ^~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/infiniband/hw/hfi2/bulksvc_verbs.c:2214:6: warning: variable 'err_rc' set but not used [-Wunused-but-set-variable]
+    2214 |         int err_rc = 0;
+         |             ^
+   drivers/infiniband/hw/hfi2/bulksvc_verbs.c:2458:6: warning: variable 'err_rc' set but not used [-Wunused-but-set-variable]
+    2458 |         int err_rc = 0;
+         |             ^
+   2 warnings generated.
+--
+>> drivers/infiniband/hw/hfi2/dms_roce.c:562:13: warning: unused variable 'roce_pio_movdir64b' [-Wunused-variable]
+     562 | static bool roce_pio_movdir64b;
+         |             ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/chip.c:6483:28: warning: variable 'extended_vl' set but not used [-Wunused-but-set-variable]
+    6483 |         unsigned int qpns_per_vl, extended_vl, ctxt, i, qpn, n, m;
+         |                                   ^
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_ethtool.c:1050:12: error: no member named 'ptp_clock' in 'struct ether_device'
+    1050 |         if (edev->ptp_clock) {
+         |             ~~~~  ^
+   drivers/infiniband/hw/hfi2/eth_ethtool.c:1051:43: error: no member named 'ptp_clock' in 'struct ether_device'
+    1051 |                 info->phc_index = ptp_clock_index(edev->ptp_clock);
+         |                                                   ~~~~  ^
+   2 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_main.c:214:10: error: call to undeclared function 'cne_ptp_get_ts_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     214 |                 return cne_ptp_get_ts_config(ndev, req);
+         |                        ^
+   drivers/infiniband/hw/hfi2/eth_main.c:214:10: note: did you mean 'cne_get_vf_config'?
+   drivers/infiniband/hw/hfi2/eth_main.h:345:5: note: 'cne_get_vf_config' declared here
+     345 | int cne_get_vf_config(struct net_device *ndev, int vf, struct ifla_vf_info *ivf);
+         |     ^
+>> drivers/infiniband/hw/hfi2/eth_main.c:216:10: error: call to undeclared function 'cne_ptp_set_ts_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     216 |                 return cne_ptp_set_ts_config(ndev, req);
+         |                        ^
+   2 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:228:40: error: no member named 'ptp_in_progress' in 'struct ether_device'
+     228 |                     !test_and_set_bit_lock(1, &edev->ptp_in_progress)) {
+         |                                                ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/vf2pf.c:472:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     472 |         int ret;
+         |             ^
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/rvt_qp.c:2507:6: warning: variable 'j' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    2507 |         if (unlikely(num_sge > max_sge))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:22: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2526:9: note: uninitialized use occurs here
+    2526 |         while (j) {
+         |                ^
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2507:2: note: remove the 'if' if its condition is always false
+    2507 |         if (unlikely(num_sge > max_sge))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2508 |                 goto bad_lkey;
+         |                 ~~~~~~~~~~~~~
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2495:10: note: initialize the variable 'j' to silence this warning
+    2495 |         int i, j, ret;
+         |                 ^
+         |                  = 0
+   1 warning generated.
+--
+>> Warning: drivers/infiniband/hw/hfi2/eth_sriov.c:74 function parameter 'ivf' not described in 'cne_get_vf_config'
+>> Warning: drivers/infiniband/hw/hfi2/eth_sriov.c:74 function parameter 'ivf' not described in 'cne_get_vf_config'
+--
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:207 Incorrect use of kernel-doc format:  * hfi2_roce_resolve_ah - resolve L2/L3 addressing from a RoCE AH
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'dd' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'ah' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'udp_sport' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'addr' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 expecting prototype for hfi2_roce_modify_qp(). Prototype was for hfi2_roce_resolve_ah() instead
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'rdi' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'qp' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'pmtu' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'rdi' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'qp' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'attr' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:716 function parameter 'qp' not described in 'hfi2_roce_do_send_from_rvt'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'rdi' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'qp' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'pmtu' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'rdi' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'qp' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'attr' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:716 function parameter 'qp' not described in 'hfi2_roce_do_send_from_rvt'
+..
 
 -- 
 0-DAY CI Kernel Test Service
