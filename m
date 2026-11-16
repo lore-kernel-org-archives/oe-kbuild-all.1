@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794803336;
-	b=iiUIKss2nshqC77Pf5Gx31TXsB7gS1D0+h4EW8gT8W/or2r+pRBjNt2LlXW90Ljz1Zg/
-	 jcUAiQeAEXMU/aGH4kEs10jWZi8W2L0uAQPcuomdvpJ1Zn27DOPnFgVE0Eg9RjsBhNq+4
-	 gEU98JP3wno9JbZ2t5dgokLpWR+qsilpUBuvNGVXlMUddsUdxv7Rz1hi1EStHPGuijkGD
-	 nmh6M+fhYZrifd+94rkSafkJArh5sVOcl0IdhLmyvWjGx+hQjOaNDiJnJZqM1fTy/umn0
-	 vDjcTgIwWjmhwLtq5g9OMj8sL8erCYi5TpsDd87hhZC1don8hB3qjPp60cdy5GHhZyA==
+	t=1794804530;
+	b=M+p9m4mAb3EqoiQUKZTQZr0QzKJwgPKWYofwJu7w2/o4iNgkitusceygAYUXI2ADsxw+
+	 GDrrGHb2+QwyB1rvjip13y2yA6n2ppnEyeLCwLvKGsW39gIISg/EEmta6FNUXkkzPyF+4
+	 uGQrBjU0+TVmlguWD41xcxAj9BfBvnyqt9Ou5tmFmiwkB83lsssjalO5T/NG2hPbMoyoI
+	 vosFkc7dehpI/7JegNpjwe7j7WJYXFow0M4/3O8lQ8655Ufqu+athXlp0oOU+87LROQkh
+	 0TnMgIWqva2Dzf6HIW5VT5c9hQk2sWopfXc4dlnqYgx7GAlKTjA2RsT+zszt7mNEANA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794803336;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794804530;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=hUvzvIMxZMM6T9ZKzBHZUXcrm3vlX5Y3EaeSlZJi+MI=;
-	b=MczK/ReN97y5bhY2PAWSdSWnrRJ8TEB/aWdWnKqs0vr4SpDDrV2L4A97vC9a9lWjXkrH
-	 KQGsF5oLHFBpYtiBhU2OE5kWRXJr6cAEzUEtQ2eUZjasJ6CexpTA6QM7PN698ealdO43N
-	 Kff7h2jbYZZffQbHSonFJYo6VaZiw6sUQKYFsq9oN6/YpyZ0GWX5XnYu6hMdRbe4dRkEP
-	 sNPRrckoLMl0xos9kynnkYC84nhnblVvoJ639Lv0Eber6N+g2HZLnIZKQjQLRRfdZBAAO
-	 mk7ZdDBKx3f/gin88cJG4XcutHWB+cM676htQ4ygqiYYjsAa6XfWAtyrIP3/MFjyjCA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=4+bF1PXdM9i12hwxUlirMfiz4q0u6ZQpW494Zdzq3Q8=;
+	b=fIzkxgasy+EGZ5qYs2eh4b19REVH9LuXDJsEyTVpYmz2yh4qBjdj66u1AilrVMFDqA/H
+	 x+z5ThiXDU8wO3U6ZTmG2vm7OIQA5L56/93RP5vbTpi8x9gjP272LRwJ2jRrwG8Mk846j
+	 LaLVdaWsA4YDeu6q0LHn9ZymVvehlb5KD/ZXUTAzl1N0SzB0sEanxWXZASP4y0xdj4FXC
+	 Li8FXd/cUJEDdYRuQGxUOfjJhX1nb/+FClVzrWj79JTY6hcG2QjlClHk1PaxLAS+DeUVr
+	 yhEEXjaLm637QNRs6YbRk8niEdT/8114aO4gtXsjOvhW/keMDhyVhTBaS9zCmKqbDIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n7sVDtiI;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cQpJHli2;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1973A606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 04:28:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1973A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAEB606A31F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 04:48:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EAEB606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n7sVDtiI
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cQpJHli2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794803335; x=1826339335;
-  h=date:from:to:cc:subject:message-id;
-  bh=FBaHbsrZr/Gs9CXHJbsJTYL2XyQ5wfsendL9cSkmwfo=;
-  b=n7sVDtiI2r5uIyOaTRc5kB3kIl10Ed5Alj1H7MHC6iNX4zEQanrXjC2o
-   gA+CFgmklIyw0MlwD8Ib8tgmN/aTJbL9a9wc0fh0sxJPQXHvl13Imnem/
-   e7DDaBYd+uyGNW65gY+HJIceL2qMRj3sHO8UDq9LYvHh9W3nFII3kQUH3
-   AgobRR5PKTIEPzdE1CoteSfTjS+ShhI88Ylf0EvAZ2fsYOkmNb0czw/mc
-   9cVNXv5PYa8EWOSYp6gDFGmE9kD3K4LvPlmdobBc3hP9ZwtWm+u8UlnE1
-   WrK8fqGVN6dmQUgqSSiRy0/oG4fTl8Dp+rjjfg/EfIAHvfI7T19vK7xsG
-   A==;
-X-CSE-ConnectionGUID: /ZSKofSETyS8NgHH3WBgwg==
-X-CSE-MsgGUID: h4HfWynkTpmsuJETnSE3zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3419477"
+  t=1794804529; x=1826340529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jBip4E2/xRX2TRtB/jshEtf0db72k3wz/T8VBbLeJ4g=;
+  b=cQpJHli2WxlnpIzJ268rIRIEWn0R3uxbiTwJo4VKvC/pnMn/L+7CP88p
+   MSjA+1CDeGCub5/hAfIO1yA0YPCCDmueqnDR5RXN8EHnd3cb5wFXnADyA
+   dmg8KZhJJiUSiv6wscps1m6foILIWeJH9+0Yq2211fJSWex3+q3TsOb2E
+   azBseBqhNPYhzpvHZs7sU3uq7z20VR5RkjL109dWXYhQIzkFgmWxH6mEn
+   7eOb7xHWAcDOH0KknjDO9SWQzZ/CUBuz5ueXIWVhfqMWX9qGQm7RC1K/Z
+   qWE6o528HYjcO9Xo4L0RN/6MvwaliJUlcD7K2/avAK80pUJOVBDhrEsH3
+   w==;
+X-CSE-ConnectionGUID: /k7PWoyVSRW5IkfV/sQl8A==
+X-CSE-MsgGUID: tb57cLdfTdGdEMMRR0hlYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3518302"
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3419477"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 20:28:54 -0800
-X-CSE-ConnectionGUID: f4BNBpoJS3CWkeAA1kRhiQ==
-X-CSE-MsgGUID: kzWkvnA6Q1CRYluCaP1egg==
+   d="scan'208";a="3518302"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 20:48:49 -0800
+X-CSE-ConnectionGUID: VuhJD+lmSleff1kF0eSD3g==
+X-CSE-MsgGUID: rBi3O6LXSwKZ45yb2JguoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="9325382"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 15 Nov 2026 20:28:54 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9284633"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 15 Nov 2026 20:48:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSoKn-000000002at-2HQU;
-	Mon, 16 Nov 2026 04:28:49 +0000
-Date: Mon, 16 Nov 2026 05:28:14 +0100
+	id 1xSoe4-000000017qi-1AK4;
+	Mon, 16 Nov 2026 04:48:44 +0000
+Date: Mon, 16 Nov 2026 12:47:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:libeth 2/10] Warning:
- drivers/net/ethernet/intel/ice/ice_xsk.c:758 function parameter 'xctx' not
- described in 'ice_xmit_pkt'
-Message-ID: <202611160505.VjAfLafe-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Matt Turner <mattst88@gmail.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Matt Turner <mattst88@gmail.com>
+Subject: Re: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer
+ environmental sensors
+Message-ID: <202611161243.v8EOeTtt-lkp@intel.com>
+References: <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,40 +86,38 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com>
 
-tree:   https://github.com/alobakin/linux libeth
-head:   fe0bad42334b5194c60b75defee06b292e360503
-commit: 8f482d804e2bf88416876d31846343571f24a8e3 [2/10] ice: add Tx launch time XSk Tx metadata
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20261116/202611160505.VjAfLafe-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160505.VjAfLafe-lkp@intel.com/reproduce)
+Hi Matt,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0b4cadbe7c39d830dec35c4a2655483de0dae568]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Turner/alpha-marvel-report-environmental-events-without-VERBOSE_MCHECK/20261114-123947
+base:   0b4cadbe7c39d830dec35c4a2655483de0dae568
+patch link:    https://lore.kernel.org/r/20261114-marvel-env-v1-5-890328e4b7e5%40gmail.com
+patch subject: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer environmental sensors
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611161243.v8EOeTtt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161243.v8EOeTtt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160505.VjAfLafe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161243.v8EOeTtt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 function parameter 'xctx' not described in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 Excess function parameter 'xdp_ring' description in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 Excess function parameter 'total_bytes' description in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 function parameter 'xctx' not described in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 Excess function parameter 'xdp_ring' description in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 Excess function parameter 'total_bytes' description in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 function parameter 'xctx' not described in 'ice_fill_tx_hw_ring'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 Excess function parameter 'xdp_ring' description in 'ice_fill_tx_hw_ring'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 Excess function parameter 'total_bytes' description in 'ice_fill_tx_hw_ring'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 function parameter 'xctx' not described in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 Excess function parameter 'xdp_ring' description in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:758 Excess function parameter 'total_bytes' description in 'ice_xmit_pkt'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 function parameter 'xctx' not described in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 Excess function parameter 'xdp_ring' description in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:788 Excess function parameter 'total_bytes' description in 'ice_xmit_pkt_batch'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 function parameter 'xctx' not described in 'ice_fill_tx_hw_ring'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 Excess function parameter 'xdp_ring' description in 'ice_fill_tx_hw_ring'
->> Warning: drivers/net/ethernet/intel/ice/ice_xsk.c:829 Excess function parameter 'total_bytes' description in 'ice_fill_tx_hw_ring'
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+   alpha-linux-ld: drivers/hwmon/marvel-env.o: in function `marvel_env_refresh':
+>> (.text+0x528): undefined reference to `marvel_cfgtree_partial_update'
+>> alpha-linux-ld: (.text+0x52c): undefined reference to `marvel_cfgtree_partial_update'
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
