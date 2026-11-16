@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794786414;
-	b=cLye9h0TkWRhbsmogtHNDSKIq/2YlnvG/+eNUcj1CtiypcslOw9SjAI3XYagCAM7CA24
-	 ysj2B8EsKVS7YMJrPaeKasPrOIA6tFckt7GqIRnn66H0QQKKWL2tvTqSPSB2UMtwwJmWJ
-	 wxmfLmcB0OJLuKqWwP/7pRJUUsLA1C+ej7E4hE6XuQ3MBZnTyDB62IcwCYzk60NwIdwTg
-	 trc1uAFO+MdAvtdBrkNiR3ZSphH18rW2GjqlsI57320poJX8+EB01seFFg+dw5MiTdFA6
-	 h+VC7m/jh5XKBgZ4kq072AKxrAoLp9r/epubhB4vlvu3zDwUqUP1A5lf5tpPvJ1It/g==
+	t=1794788870;
+	b=jjONG67hzMD1YPEtbHl6q7Z02o96GBc80qSqOKpMRCrYMNX5ghk6jz0lJkY+Iuri8cqv
+	 hIT/zC5RdmljLFrOb3uAe7b0Z9bmvmoGv6jsn6uYTTwDdubm6m0MpfBWatKs/PyjKpVPJ
+	 OfsNvGIYTjvYJ/0mhCvbYEPpWbxeSZgSr5Yeib7D0KGkLi9bHbKM3T7AirB7SYTefA1Wl
+	 bYr/xlG3xwTNB+L1Vb7upWDHnQtSh7uGz6Ocb47UOqOxuB8EgDo+0YZroJVbQQNYqLPQ+
+	 rf+9F8fV+Wb92owaSnX4p/goW36cxNKzZFZMnNjmWJqImJ3jcK08bM+b+JSURI1oPyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794786414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794788870;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ePUowuBb0DdqfYiegRy2ETDVG3POlwYyegshLEywBOI=;
-	b=KXCz+l2ST6MyU4RdUG//CQ/gWlukzi+U/sLZqy6gSZRBRl1PV13dk+GF0Ucg8KOd4H/t
-	 fxsc9nFlRU5/1wOpK1M1Ho+4p+v+HsE2cXaVcn4hya85S2VrVL1ukzgm4LRWYNqaKPOyJ
-	 bpj+/i4PslmWOsgMV4eUI+zWYRmGaml+0FsIij3IUlwMe2mJ3SMSvJQr2SExy70PxVouq
-	 nFarbHpNQ6zneMiln+EuV9w9V0JqHrdaCWmprIxqUcXRH/Rzf3hUe7Lqst5O6o4PnGxvd
-	 lWbFttZrc6D9EGtcERqdMeAlca3Iv/GYFlEfm5HqqGGscAwmNOgZRL6uOceESLOtozw==
+	bh=TtiiaCFeqtLXGnA0GpTTu12dC+fDzVvWIjzSRct5aYc=;
+	b=vkxhhdmNEpSiJBt0S0QGtpaRXxojhxAlcXUrTFL4JA3GS4AHU/rKFCJrnfVCZO5TOomI
+	 Dsx+6ZbzLq1OCnqweHzc7cCsYUE7eEodOb9fXGB7e6NxvUv+1XKISDwHDvyGQ3Iyc2pjT
+	 O4JKQXpDcvTkALEbd0weql0zJ9gsMiNXgUVgYnimsh4mgu4jFIjpnCn41A6o9/Y8MmE+5
+	 e/muxcuzx6NZvbFTVMyEXrcLj9hoqkQ+s7m1D2GI7ieA42C8GWWF0rOzTrzfS6e98+wKS
+	 UGce4DEJ8Mo7YXbi26EJN795HKlVb8MLo3Nopdn7lrnaI1tZdTJcaP92pW39KSVW7qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O26j4NoW;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RmWy5+XH;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDB0606A31F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Nov 2026 23:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BDB0606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A773606A329
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Nov 2026 00:27:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A773606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O26j4NoW
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RmWy5+XH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794786411; x=1826322411;
+  t=1794788869; x=1826324869;
   h=date:from:to:cc:subject:message-id;
-  bh=6kie41xxi1Gn+QaFsyUgxjSE9NoeHofFVhI08Nqm4LY=;
-  b=O26j4NoWwwynC/raSfnTOVP+OPCdnQptTmvbvyPU3ZtqQMQXWa5x0kEB
-   NuVvp4v5LYc2iHxNINhrDFTwX/SIQuwpmjTj285LobBbw4plkloITWkRq
-   rj3BuiRxOv+hISr/269N5piK3DC0xjD4kiiLyY6rcazQf6BbNdeF3SuhY
-   Mf4s5LZcOKbRTzV4+h1+MpxoFK6psilaDVsb0d0QJ4lOJzWXIegKFcvR9
-   JB2qy/4lDWE0oCqUPnlHy6oymVhF7W8IIPU2rn81KjYVQohTP0xod1+iJ
-   EVcZ4DJFzaxkv4AqSoB/oBvHtFhIwQVYAl5i857RLR8+QJr/bc4wQ+g+O
-   A==;
-X-CSE-ConnectionGUID: DbCkea2JQ76Wew1RydFlmg==
-X-CSE-MsgGUID: 3R+wWfjLRralvx6PugUONw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3423677"
+  bh=Ls/0rd3AhZY4FetIF9ozeDQ7xvACYQetDnnTkuy0/yY=;
+  b=RmWy5+XHmjj/SqXSYjRCCxI4SkkVt2aYFAvFZzuhtSxspKF/d5eVf7PH
+   ZY3z7n8IUQWb7Evcbfnr6uzQohKwAlLvXN102hGRHu2y+flNlOM7EFc3x
+   SC+wVbcxws9qMeNPVEzVQwTOY22mFNovk8lSiraIb++ZumrlH0zsb5Sj9
+   jbXOhvoC1i44pTo+n8wWWt/vqYf46HvTRCT6Bow5lW9hAFGApI0XKLgJZ
+   85FJ8nK+DKv03gjN4hJsKGNg4ROvS020xGytDvLk4KCqwOwbGPP1yID3H
+   gl7k6svAJzH3zLPXvu9jhXw5Ph+bFJBzBspAReGiBGB0usa7XTtcpI38t
+   g==;
+X-CSE-ConnectionGUID: 2WZO4XppTUCaJ7U/Yxq4VA==
+X-CSE-MsgGUID: x11Sqqh9QqeBm5Ww/W8h3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3507241"
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3423677"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:46:51 -0800
-X-CSE-ConnectionGUID: tnpXwqabQyeZDPp8rJofLw==
-X-CSE-MsgGUID: bwrIcH9YQ0SCE+Aesj3Umw==
+   d="scan'208";a="3507241"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 16:27:49 -0800
+X-CSE-ConnectionGUID: TtsVxioKSniRqVN26etQQg==
+X-CSE-MsgGUID: 6Et6NeMgRSeAf7aim/SxBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9326619"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 15 Nov 2026 15:46:49 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9742699"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2026 16:27:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xSjvq-000000002Vj-3tAh;
-	Sun, 15 Nov 2026 23:46:46 +0000
-Date: Mon, 16 Nov 2026 00:46:44 +0100
+	id 1xSkZU-000000017UO-0S06;
+	Mon, 16 Nov 2026 00:27:44 +0000
+Date: Mon, 16 Nov 2026 08:27:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal-linus-next:linus-next 46/46] htmldocs: Warning:
- merge-report.html references a file that doesn't exist:
- Documentation/core-api/assoc_array.rst
-Message-ID: <202611160011.kjg0BMbW-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Nathan Chancellor <nathan@kernel.org>
+Subject: sh4-linux-ld: drivers/media/i2c/tc358746.c:1607:undefined
+ reference to `devm_of_clk_add_hw_provider'
+Message-ID: <202611160836.dBWEJOjI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,34 +84,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linus-next.git linus-next
-head:   8655c5c695f6fb347dd1a025b9d4e7a7a4a0e0f0
-commit: 8655c5c695f6fb347dd1a025b9d4e7a7a4a0e0f0 [46/46] Add merge report for 2026-11-15 (20 interventions)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261116/202611160011.kjg0BMbW-lkp@intel.com/reproduce)
+Hi Arnd,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fa2933aac170dd19c6a7f0d7b81a8f537e40915c
+commit: 94bfc7f3b0c7c33331ba4ff6cc64ff309dfcbce8 err.h: use __always_inline on all error pointer helpers
+date:   5 months ago
+config: sh-randconfig-1001-20261115 (https://download.01.org/0day-ci/archive/20261116/202611160836.dBWEJOjI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611160836.dBWEJOjI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 94bfc7f3b0c7 ("err.h: use __always_inline on all error pointer helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160011.kjg0BMbW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611160836.dBWEJOjI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
->> Warning: merge-report.html references a file that doesn't exist: Documentation/core-api/assoc_array.rst
->> Warning: merge-report.html references a file that doesn't exist: Documentation/core-api/assoc_array.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
+   drivers/media/i2c/tc358746.c:1607:(.text+0x1f98): undefined reference to `devm_clk_hw_register'
+>> sh4-linux-ld: drivers/media/i2c/tc358746.c:1607:(.text+0x1fa0): undefined reference to `devm_of_clk_add_hw_provider'
+   sh4-linux-ld: drivers/media/i2c/tc358746.c:1607:(.text+0x1fa4): undefined reference to `of_clk_hw_simple_get'
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
