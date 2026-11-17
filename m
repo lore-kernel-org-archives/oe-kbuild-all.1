@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794888522;
-	b=qANNzSSswdlrJkgdN5ntfKzn0VOaxIcrgTa2KOKWccqFKdHXyqn9DT5u+q9obDslbm6+
-	 F2kMH2CcZ0yu7bF1reXwt2kTNLPpN67sYIYnQUjuMuuTNLAlkUcVq9rSNYLp8pHHJb4++
-	 TiU2VGw1CH1i+1FGkeohqBSpD/fE1aqyQmZsVxGo2cicX1WI/Dj5/1J/tnxMyX0A8AQup
-	 nWWeoeAVc5HCZAEdAzigiaaT69UStTCvoSb5bAVr6ycmk+3WYQ6iUSA1uq/PvM2ufO1yv
-	 QDvrP1sXt3D/Bk2YubW/rD11ZhuNHR046fbexofhObgs3rXnRGsJhFIMSPkIRx90JYw==
+	t=1794890395;
+	b=0aFlWQUNPX1x4EKwowImOUWxu8+JHRvArO6w/mFaMarRXw1Glj2kej8DDAixpGExK8mr
+	 Dhc1F+bbB9ex+MJtchPMvDPO6puSOyYc9B7twq5yjHMZ4Z9LEhIvn9pmm+UBJewX1DKDJ
+	 Trf1zxGJijaLhgBcXKNDSz/a6FZD0ij4JU7Rgzl4O492QGsnCSRQTPPWucNOch7cJpYx9
+	 eCGAPq4YJ01RcOkLfQwKxoZ/+3Iw5YN1sLrMK0fWZvPiN16zvBnccRuDdxXPgBJ7wSwiD
+	 ALk5/WtD0qEuR7LZIGa7cSLVWGdLEtgdPFGLoZs27omU2IN+9V1erZSkHKjtpsGmePA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794888522;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794890395;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=orpkeALbt+XILUXbfRsHazGdPo0++Qa4+hSwe1P4ERA=;
-	b=YCldFPZQaYukJ4lDJfWmnUPmYsP+qjuibWAKZ1HKz8Np6tq6pDqqvbTScMdsGHcZH2Di
-	 Gnquy3hb57zVuegb3qZ+p2CbiNCJ3QwXVY0VJn4zbmAcRO+TXg7SUSRYpsEoPBKImMoDc
-	 jy3FoB7wf5bmRCi9ic5kBdXUD0G1BOtb5u7oh4PfAJleez+OUL3QnD8fe+RAuIRGg5vwq
-	 VogsBSaFkcUMW6art7EnD+TifyQ2Oqb4y7gxVyaUMgojqcAMpckrktX9HvabqTNDVdTJh
-	 8bHA7Y0DOoWL8TPkZXi3X1CKfLW2Ue62LIoO7H1IpXTGI97y+hhCA2nig8+0FgM8Asg==
+	bh=5wcCOHUaXeS5O9/ZL6MHsQ4ju+XWXmRTaSrhD2mFMXU=;
+	b=sQOCIzvHXNI4szgF+a3NM4Vh1tX4BczPYSgjB/HLV4JJolORKVHQR9UdkzNoLMBAif/l
+	 qe+94RSLJv1VDrKRtn8DKm24fgS9XhPnLB27SyNbxOTGys3z2OfC25GqKChCfhRuQDf2e
+	 5fmHa3i5D8H/gPPPnDPpjdEWCbUfaYeib/Orv38xlluSW/gQXjhaGBLHdNmrjzwYMCqef
+	 XFIWdq0rj+AJ4UD7Fg/LBN6uRBNiLLoTPdgXGCL5zjYRUND4t+Z+wjz9RndRMMyOrxly6
+	 mckb2W/mb/SaI0uubDQCobU3JNJDY8WJDiqjZOMYfFehrY3kAJmUENumqvFRli/698Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sv+8dQKU;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KBBUDExv;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A666606A32F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 04:08:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A666606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B23606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 04:39:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66B23606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sv+8dQKU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KBBUDExv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794888522; x=1826424522;
+  t=1794890394; x=1826426394;
   h=date:from:to:cc:subject:message-id;
-  bh=8qKbAwgvhR/QaBGnKdlEorNc6/PAeivG3ln47oxuMYo=;
-  b=Sv+8dQKUGVzUt3wLSzXNoUXiXa9U7aFDh1CGXj2hDEM+mebdl1uZAWUL
-   kWdKMzSYZWt2YdkTzxvqzLLLSSNeGK/m0QIT3wqEG2+9HTOZ5p9A7X+d9
-   Gd+2t63TDEwQGGNpCmVt40DCEN7OcT7CsKzwS+nXuGp+PNnqweMdztbgh
-   clruokf1HrqeyZrzZJ8oVn4R+qkYwIwb/r1BXmzXkNNL2Ak9X+apnnKHw
-   dNXRt0X5Jfw8Zn1JlBXwCwqq9dJMu3RQ6Dnml8dossUtc+NJs9gtu+9Dr
-   K6xgErkvV4e1iy1FHPE2yG36exSR9EjdyNKio3SpH+UPTtp2kuUuPvSEo
-   Q==;
-X-CSE-ConnectionGUID: T5fvKOM5SeqJeG7/QRXY+A==
-X-CSE-MsgGUID: q5mHJQXaS5iJGdngJDNTvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3541321"
+  bh=SrwUQ6EsZ3+VQN4QAkRK9NZIRkohzJ/7KFzspVKuKXY=;
+  b=KBBUDExviGM3bXUzUCUIBjpJqDLsCNn8Tf7Q2taE4aKcS6q4LSPy9QxB
+   /GeWdf6m6yRfRCcq5NYfIEsiKg0NbDvSr2L6IEuD/1h75HzheDNlfTAp3
+   4245JlA4XigQ2mq/zoaHX1dk/jOzhIpHm1YdcS6Q7zSBhq5E7F5beIPpE
+   +39579qwcMIn4joiMrIiDRyd4xIWfuj4yz+SF4cjHt9v4+ZsgoW8wpz98
+   ydQmxaL4WIbr/cBtHT9vs6M6UTlJSC3zfM1ZLL2EjZTAxXeBsbawByH9r
+   bkiQNrULgE1ErJSKKYNw8ch+22igsgVF7FR2uQ6M/9XGVC49MopYoT1RH
+   A==;
+X-CSE-ConnectionGUID: SJGGZiM8TEmdq5HtZQ3Vyw==
+X-CSE-MsgGUID: t0D2nVduQryy91JvHxHvrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3547094"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3541321"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 20:08:40 -0800
-X-CSE-ConnectionGUID: PhdnKoqVS7yToEUqddEMEQ==
-X-CSE-MsgGUID: bZifgtfiRWiIPm6SshnZ7Q==
+   d="scan'208";a="3547094"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 20:39:53 -0800
+X-CSE-ConnectionGUID: BKoc8vLxTUGLoXskkoWb5w==
+X-CSE-MsgGUID: 823rrpqzTsS2DmeND9AVQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9847486"
+   d="scan'208";a="11457961"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Nov 2026 20:08:38 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 16 Nov 2026 20:39:52 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTAUk-000000002xW-2hJE;
-	Tue, 17 Nov 2026 04:08:34 +0000
-Date: Tue, 17 Nov 2026 05:08:12 +0100
+	id 1xTAyy-000000002y6-0Ryk;
+	Tue, 17 Nov 2026 04:39:48 +0000
+Date: Tue, 17 Nov 2026 05:38:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 152/152] htmldocs:
- Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a
- file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
-Message-ID: <202611170530.alvfXK8W-lkp@intel.com>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>
+Subject: net/sched/bpf_qdisc.c:205:18: sparse: sparse: symbol
+ 'bpf_kfree_skb_dtor' was not declared. Should it be static?
+Message-ID: <202611170522.FvyEK1yX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,33 +81,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
-commit: 4949de7846c5e0ddc0de1567876238370ac1515e [152/152] drm/nouveau/bios: skip the IFR header if present
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261117/202611170530.alvfXK8W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+commit: c99d97b46631c4bea0c14b7581b7a59214601e63 bpf: net_sched: Use the correct destructor kfunc type
+date:   10 months ago
+config: arm64-randconfig-r2300-20261117 (https://download.01.org/0day-ci/archive/20261117/202611170522.FvyEK1yX-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7864c0736a8a09670dfbfc513f1e9649799f2486)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170522.FvyEK1yX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: c99d97b46631 ("bpf: net_sched: Use the correct destructor kfunc type")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170530.alvfXK8W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170522.FvyEK1yX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/sched/bpf_qdisc.c:205:18: sparse: sparse: symbol 'bpf_kfree_skb_dtor' was not declared. Should it be static?
+   net/sched/bpf_qdisc.c:234:17: sparse: sparse: symbol 'bpf_qdisc_init_prologue' was not declared. Should it be static?
+   net/sched/bpf_qdisc.c:261:18: sparse: sparse: symbol 'bpf_qdisc_reset_destroy_epilogue' was not declared. Should it be static?
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
-   Using alabaster theme
-   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_PRC' not described in enum 'dpll_clock_quality_level'
-   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_SSU_A' not described in enum 'dpll_clock_quality_level'
-   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_SSU_B' not described in enum 'dpll_clock_quality_level'
-   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_EEC1' not described in enum 'dpll_clock_quality_level'
---
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
+vim +/bpf_kfree_skb_dtor +205 net/sched/bpf_qdisc.c
+
+   204	
+ > 205	__bpf_kfunc void bpf_kfree_skb_dtor(void *skb)
+   206	{
+   207		bpf_kfree_skb(skb);
+   208	}
+   209	CFI_NOSEAL(bpf_kfree_skb_dtor);
+   210	
 
 -- 
 0-DAY CI Kernel Test Service
