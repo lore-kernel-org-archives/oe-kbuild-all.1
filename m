@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794893076;
-	b=iWesYGLt+Eqglcw7AfhL+SY3XvDNQbINXvWObh6NLzvUSYmj4hUgWp8zv/fjAKTM8eZi
-	 uAG88YOFw76nzWwWdt+uBsrsFEMZUTs+WZmyh4JggKmi7uTBHEjEcxpl8ZgN/3PpSzVvt
-	 67LmptAAqJSSNnUpDMBJLuyPzzRE0KDO/OLdT+IywPmB9ybNhUAKKjxrj5EizMtS38WkM
-	 safe12gmfQD5axEvLDFBnVIaBzQMsb+QJGceFyU4L1I3bIRt5ktp7YPiyXQon7mGYOylN
-	 SrZP8kRCwrgb2m4HK5jVIiTPKC4ugI1bqKY+aWw2bMR6Hou2psXmknylfLQ4dsYEKDQ==
+	b=MisYbuzIRO4RfQP1eO/36iPIw31pE6aOPOtRtfBGYk6Y9fWDBcWwblHNkNNLGvF19e5q
+	 kKGrbrZIywC0omO0zZ9yVh6wG0D9tfQtTpSLB/0NXBIaWuK37AAVbkwxm39Sgg+Fb9Ggc
+	 Hx1ljWLC9FvOKJeikW0aYeJ3l7QtrLjNBx2JWS76ptpZQN8R5cOVB0RE7qJlana1BwglS
+	 zqDNdN1Rm/iWsefCqwjAO5ZbZ14kBXQMmwS8tIJBbL9C+ZoGGTYQRoIONrJ+w6kiW4hMB
+	 jhMZrAPhRD+fgcS54iD11lVS5NF2Yvz4lNS0AxRNQ7imyvnAWS9dnD54jNRN4SC7prA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794893076;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=dFotAlj5cF0NBsSI7CFOChrnJY5Yvv6nuH3fhn1mv+c=;
-	b=M2sxZ49e0Y0Sk0xMSM9VuRSxz73/aAcEf1S3zAyzHW2cLnfcKaHS2ua87+UYy0pDeKg6
-	 BxW6xkCLccZrNR5cvO+WWDUNhTv5v0hVNzDmmJgkprih1YlA76QST+amuJZpKBQ4CrdXE
-	 2BEGbGVEDKRSJYpx/RJZ5iQvqLxTDxf3J8qtthiMdbFTktORK2PROip5mEaZVK/lp7O8L
-	 P9xmb2ITf1MCLXoCBWp8T9hp9159Zp4ay3BxBjCahv7YZ+dkjMPUYTGOglehJPtIJ64Tt
-	 ee7Ffsn622ALIOGDXifpfB+12PZdX2tw2tLZqIGLprYJBlwqO4Ioof/op4KTSBgJH4A==
+	bh=a8fOfTWHFzr2pCOGSJbbffcbXW9qhAZ/XrlO3SqW07Y=;
+	b=N5FWKkpmtgIDekaDpaeATRa+a6DpCRlwwypcYFWTIwykBlbfDOFrqsSuO3tvF6vVbQNn
+	 5oduUtMbOj4pDpx1AL7zh/lXeQG9eAq7bBn3ZjCxabh478GHMOPKLZEwen/8SiOtjowW0
+	 6lnB4qHebJcJ7Ia+m04lRjv7txhWydh1jrF6VwzdJl6i3xAjhArS2QIyQkaNaijYOk7Hu
+	 J/FNRohX/vS/yv9CSX89MkkrlwLIaRZCMF0Q1tb0qZwFMrqpjAJAw77FGyFBTlxGKVBcl
+	 TLysv8QnzUQmFmdMnYxX9VBv/6WZ5sKjMDfk94pjVwbijqKQzupr7eSPt7XO0Gf1JyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IDjo0yra;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nF2gGAPe;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F6D606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 05:24:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5F6D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D0E606A329
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 05:24:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16D0E606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IDjo0yra
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nF2gGAPe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794893075; x=1826429075;
+  t=1794893076; x=1826429076;
   h=date:from:to:cc:subject:message-id;
-  bh=wgW46IHDJTLyWT3L7PMBvahVetidJ29grlXDn1OKyPo=;
-  b=IDjo0yraqUX+BniLGn/ojDuc5LHhu/q2Oya2pBKGzUlNOlLwpKT+JkLS
-   YSXNHytTOo3dKNPr+IADUT+KFE16aET7jhMW5KJ7hIanFvOziQrpc6kSx
-   dPUUEC7RcsEg43dxky1OnG6MZmXQbVx+e+jLOzoXByox6VC8bBtpQ9DXf
-   FePw2l+Tk5wcoinGV5HV9s7ER0EnpMn6lF0hhBfkmBUA+Mm+cRsyIprHn
-   WvD2+vxA9yUeHKmCLzHQhHyNBmVD3E5UR21v1+MqRgQnI5UeWlXVpDuf7
-   5ow9GPEZowBgKn0K534cfJ5kc2MGqHRKzhDtWkkVWtWhkrmoNDmYz9Wha
-   Q==;
-X-CSE-ConnectionGUID: I/JlFDdPQ8anyhlGs1XGmw==
-X-CSE-MsgGUID: asiYRtkkQSi+ZugN6Vr2Yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3639001"
+  bh=ddbsLmPpbhsXU0oGii5UBIGk7CwMM5ajiAb+K7aa1JA=;
+  b=nF2gGAPeLSRtmK3qgjkDWQOFo8enFrDgQaVGXgIvxWl/Ue1YEvVg9HBh
+   QKOVkNtWQ8b1yYTXkCBDh4RIApjKS4MGQr2r8oOYipUSNnMZb5gzt/49r
+   hqYwQa2lOw9ALNiwGruGeb925AQFVv8oFlFSih+l06v5xweiGXaYELIoC
+   WiEbIwNGj9GP7rwcokTZjvwLcjL48PVQr39+kRfp+MM2MJ7YBPIt4aSIc
+   GgSygVDwobCxRQ6TIEcxHlbFjl0mqxWVoJTmDEbseXmfa2XzzfYsRDlMW
+   JFu0wX8aSq5brfWMrT+WCIfWtBkW4OtX5MBiP8k7TRqPi8rjF5UJ0CRzG
+   A==;
+X-CSE-ConnectionGUID: zADqZoD7T3Gfgud9qKIy1A==
+X-CSE-MsgGUID: 3p2KtoSeS2i8qsvVWGCWAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3689331"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3639001"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 21:24:34 -0800
-X-CSE-ConnectionGUID: a3OI9VdQSVeIsLC1DRI/RA==
-X-CSE-MsgGUID: 0SYVbg4pQPmOp7/PQsmidg==
+   d="scan'208";a="3689331"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 21:24:35 -0800
+X-CSE-ConnectionGUID: uZ6zDkeYSvOxh0/CyrBLBg==
+X-CSE-MsgGUID: mKTfeP5sRrWebZ//BHKaJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9906088"
+   d="scan'208";a="11665676"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2026 21:24:33 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 16 Nov 2026 21:24:33 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTBgE-000000002ys-0Py3;
-	Tue, 17 Nov 2026 05:24:30 +0000
-Date: Tue, 17 Nov 2026 06:23:59 +0100
+	id 1xTBgF-000000002yv-0APJ;
+	Tue, 17 Nov 2026 05:24:31 +0000
+Date: Tue, 17 Nov 2026 06:23:56 +0100
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Subject: [avpatel:riscv_sspesa_v2 79/98]
- drivers/hwtracing/gtrace/gtrace-core.c:590:24: error: implicit declaration of
- function 'kzalloc_obj'
-Message-ID: <202611170648.B4WmJK5t-lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: [broonie-spi:for-7.5 2/6]
+ drivers/spi/spi-cadence-xspi.c:438:43: sparse: sparse: unsigned value that
+ used to be signed checked against zero?
+Message-ID: <202611170617.CCFgmq6H-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,137 +82,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/avpatel/linux.git riscv_sspesa_v2
-head:   6deccfa10a938ba2257b489c067a1928022d510d
-commit: 0556d8fb8f512a50300ff8436c8b02d4d33d5bb4 [79/98] gtrace: Add functions to create/destroy a trace component path
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20261117/202611170648.B4WmJK5t-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170648.B4WmJK5t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.5
+head:   9b2d7c8736a6fd27ceda93bd67529758c139e24f
+commit: b7d724ff0f4ab6b5d3392938076f5914ecec12fd [2/6] spi: cadence-xspi: Support dmaengine for sdma io copy
+config: m68k-randconfig-r2308-20261117 (https://download.01.org/0day-ci/archive/20261117/202611170617.CCFgmq6H-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170617.CCFgmq6H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170648.B4WmJK5t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170617.CCFgmq6H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-cadence-xspi.c:438:43: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/spi/spi-cadence-xspi.c:430:59: sparse: signed value source
 
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
-   drivers/hwtracing/gtrace/gtrace-core.c:372:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     372 |         kfree(cpriv);
-         |         ^~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
-   drivers/hwtracing/gtrace/gtrace-core.c:416:17: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-         |                 ^~~~~~~
-   drivers/hwtracing/gtrace/gtrace-core.c:416:15: error: assignment to 'struct gtrace_comp_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-         |               ^
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'build_path_walk_fn':
->> drivers/hwtracing/gtrace/gtrace-core.c:590:24: error: implicit declaration of function 'kzalloc_obj' [-Wimplicit-function-declaration]
-     590 |                 node = kzalloc_obj(*node);
-         |                        ^~~~~~~~~~~
->> drivers/hwtracing/gtrace/gtrace-core.c:590:22: error: assignment to 'struct gtrace_path_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     590 |                 node = kzalloc_obj(*node);
-         |                      ^
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_create_path':
->> drivers/hwtracing/gtrace/gtrace-core.c:627:14: error: assignment to 'struct gtrace_path *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     627 |         path = kzalloc(sizeof(*path), GFP_KERNEL);
-         |              ^
+vim +438 drivers/spi/spi-cadence-xspi.c
 
-
-vim +/kzalloc_obj +590 drivers/hwtracing/gtrace/gtrace-core.c
-
-   576	
-   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
-   578				      struct gtrace_connection *stop_conn,
-   579				      void *priv)
-   580	{
-   581		struct build_path_walk_priv *ppriv = priv;
-   582		struct gtrace_path *path = ppriv->path;
-   583		struct gtrace_path_node *node;
-   584	
-   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
-   586		    (ppriv->sink && ppriv->sink == comp))
-   587			*stop = true;
-   588	
-   589		if (*stop) {
- > 590			node = kzalloc_obj(*node);
-   591			if (!node)
-   592				return -ENOMEM;
-   593			INIT_LIST_HEAD(&node->head);
-   594			gtrace_get_component(comp);
-   595			node->comp = comp;
-   596			node->conn = stop_conn;
-   597			list_add(&node->head, &path->comp_list);
-   598		}
-   599	
-   600		return 0;
-   601	}
-   602	
-   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
-   604	{
-   605		struct gtrace_path_node *node, *node1;
-   606	
-   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
-   608			list_del(&node->head);
-   609			gtrace_put_component(node->comp);
-   610			kfree(node);
-   611		}
-   612	}
-   613	
-   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
-   615					       struct gtrace_component *sink,
-   616					       enum gtrace_component_mode mode)
-   617	{
-   618		struct build_path_walk_priv priv;
-   619		struct gtrace_path *path;
-   620		int ret = 0;
-   621	
-   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
-   623			ret = -EINVAL;
-   624			goto err_out;
-   625		}
-   626	
- > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
-   628		if (!path) {
-   629			ret = -ENOMEM;
-   630			goto err_out;
-   631		}
-   632		INIT_LIST_HEAD(&path->comp_list);
-   633		path->mode = mode;
-   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
-   635	
-   636		priv.path = path;
-   637		priv.sink = sink;
-   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
-   639		if (ret < 0)
-   640			goto err_release_path_nodes;
-   641	
-   642		/* Before proceeding, check that a valid path was built. */
-   643		if (list_empty(&path->comp_list)) {
-   644			ret = -ENODEV;
-   645			goto err_release_path_nodes;
-   646		}
-   647	
-   648		if (!gtrace_path_ready(path)) {
-   649			ret = -EOPNOTSUPP;
-   650			goto err_release_path_nodes;
-   651		}
-   652	
-   653		ret = gtrace_assign_trace_id(path);
-   654		if (ret < 0)
-   655			goto err_release_path_nodes;
-   656	
-   657		return path;
-   658	
-   659	err_release_path_nodes:
-   660		gtrace_release_path_nodes(path);
-   661		kfree(path);
-   662	err_out:
-   663		return ERR_PTR(ret);
-   664	}
-   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
-   666	
+   422	
+   423	/* -EAGAIN means no DMA was issued, so the caller can use the CPU path. */
+   424	static int cdns_xspi_dma_transfer(struct cdns_xspi_dev *cdns_xspi,
+   425					  size_t len, bool read)
+   426	{
+   427		struct dma_chan *chan = cdns_xspi->dma_chan;
+   428		dma_addr_t port_addr = cdns_xspi->dma_addr;
+   429		enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+   430		void *buf = read ? cdns_xspi->in_buffer : (void *)cdns_xspi->out_buffer;
+   431		struct dma_async_tx_descriptor *desc;
+   432		struct device *dma_dev;
+   433		dma_addr_t buf_addr;
+   434		dma_cookie_t cookie;
+   435		int ret = -EAGAIN;
+   436	
+   437		if (!chan || len < cdns_xspi->dma_data_width ||
+ > 438		    len > cdns_xspi->sdmasize || !virt_addr_valid(buf))
+   439			return -EAGAIN;
+   440	
+   441		dma_dev = dmaengine_get_dma_device(chan);
+   442		buf_addr = dma_map_single(dma_dev, buf, len, dir);
+   443		if (dma_mapping_error(dma_dev, buf_addr))
+   444			return -EAGAIN;
+   445		if (!is_dma_copy_aligned(chan->device, port_addr, buf_addr, len))
+   446			goto unmap;
+   447	
+   448		desc = dmaengine_prep_dma_memcpy(chan, read ? buf_addr : port_addr,
+   449						 read ? port_addr : buf_addr, len,
+   450						 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+   451		if (!desc)
+   452			goto unmap;
+   453	
+   454		reinit_completion(&cdns_xspi->dma_complete);
+   455		cdns_xspi->dma_error = false;
+   456		desc->callback_result = cdns_xspi_dma_callback;
+   457		desc->callback_param = cdns_xspi;
+   458		cookie = dmaengine_submit(desc);
+   459		if (dma_submit_error(cookie)) {
+   460			dmaengine_terminate_sync(chan);
+   461			goto unmap;
+   462		}
+   463		dma_async_issue_pending(chan);
+   464	
+   465		if (!wait_for_completion_timeout(&cdns_xspi->dma_complete,
+   466						msecs_to_jiffies(CDNS_XSPI_DMA_TIMEOUT_MS))) {
+   467			dmaengine_terminate_sync(chan);
+   468			dev_err(cdns_xspi->dev, "SDMA %s DMA timeout\n", read ? "read" : "write");
+   469			ret = -ETIMEDOUT;
+   470		} else if (cdns_xspi->dma_error) {
+   471			dmaengine_terminate_sync(chan);
+   472			ret = -EIO;
+   473		} else {
+   474			ret = 0;
+   475		}
+   476	
+   477	unmap:
+   478		dma_unmap_single(dma_dev, buf_addr, len, dir);
+   479		return ret;
+   480	}
+   481	
 
 -- 
 0-DAY CI Kernel Test Service
