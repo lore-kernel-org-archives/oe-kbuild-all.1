@@ -1,83 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794930754;
-	b=c1bjxKASri6ZlUkmpt0sLECfDxAGV9cNHB7IoFgXCPL5nezExnZh93JDI4ctjxOe3hUG
-	 kR/2AKYDUe8W0D+b1bC/wft9D7Bynjfuy7Sw716BHCvj6mfC8HIOjbgmlj1q3RdmP4hX0
-	 l5sMUOq1nNGAXHEpA9Y0gU6OnR+iXIEgqQUCg2R2f4cCCjVcds6GUt2TZIJOljNnNag0h
-	 kHkZ+itPYIgWJ3DSPaa4CL6O8JVkcZPvnDU3qohspoCZv4uFD/1JTOWHqT7PPx/n60ViZ
-	 KKtOoFyvNOMSM48lEjKt/e3OkvZjgXqAQkM0GKwVqlEx0l4kMmkyA5XxVz1P4fh93ZA==
+	t=1794931786;
+	b=vsI0KF2bLGziEWHzwS2CO5x12SgLc1255SEsy7nKOvj7DB/gxcJkKsiU33b5PcSX4dNN
+	 hkiljHeSAdweSh53Y9Fgn+zfj98G4rELT6v81/mDZGxDkNtVR1e7C8yUaGZJAmYJhK6lT
+	 iPEvHaV3ojf9SI9I5S5hA82CBLyYdEeZiiLsIbkd6JOsd0duc9dFrk0pA2fajribW4hM/
+	 fW7v9icS6zENC9ff4H67blevtBN6NeYnC9U6GrLuRXLUypHAvHDvoC7ub6G1JnFy/0XMV
+	 awu/l45AjiH+f2fhUqohlaPVkU57hfK4dAbdLPf2wJ9OWiYu7evggenPnrnACffr5Eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794930754;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794931786;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=CwkcucwhqEMaEXV/tKbkgRirE2/Vf8LnyzYqxi1MaCo=;
-	b=KYFCeNagoOBWoOYvg++zsH8vK0fnuW7ojRgqaSkf+K2G9CvBjtH+QuMhj/8XOXPGaOlc
-	 7XGkBUgUdFuMUOK7X1DXJWQV5oynZJ9IoX/4iJMZNjTRkw322K1YTKI187q5LnzOsw/ad
-	 ReIsPX+WHFSl86Ob7g44BP7eqI6KG2de4BNjLnCazOHdKR+j9qqh8IOnZY3S++99JDOyh
-	 iNW07URvmPAVrfaLERFSYbtGDigRGI6efrqUordfyf4nGlX5wKKLS7vPW6flUqhKffGP7
-	 eU7B+c1eZQLgDXhkVSjILFtRhmsLBRLANttXOiPWEOHUrT/YvuolGy3Cw7LVDTJ+GeA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=UvScUGHsM15lCFKb8FKHXeRBorNMwqwMVFB7TYVWqMM=;
+	b=yfbOQJimCKepkoVop+OrTtkMRYBoO9yeFQIZjM/zWGFx73zPMvVnVwK0tdU2vPQ1xLgN
+	 DCeBW5TxxLXegZnaBtXC629YOw88BUJMD0nWetbp2Boky4MDKbkUmcqZBbvYfOjluTjoz
+	 xxOkI3qfoytj9eRXs2RrEnsQzh/ECHB3jB6o7kwQ4iVAabz2kdJ27adHg1gPHuQxYbouX
+	 mv6oXs1jjAfWr26qb+eVFEq9OstrkSk9H/z2qjcBHL+aH3YHM6SV0hzUcnXSiOwPwZQbM
+	 47AKolrM54XQ3LF7Ybd6pISfcAjhwiaopEJcvdhkBGs+JynjsgpPRvsrySioaJWRLeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jiMcpdE1;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Yuy7TRI3;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D96606A330
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 15:52:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56D96606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60040606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 16:09:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60040606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jiMcpdE1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Yuy7TRI3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794930754; x=1826466754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TvP1lwl2p/FoqY4pTZ0m2d7ltv5FWa0x0Go76nDAdas=;
-  b=jiMcpdE1cT2DlU0f+6oF4SW4T2RyRVfD/1lF0Yp8/38zJYm3V9bejzKm
-   tAeQeWSMUkOemglxifdp1kvvoOIdc700IJFb3SqnEDDgrfmMBUdcPm2w8
-   mzHsyu1F6xBDUE0BDQpNEkIky48JxvpqUFwuy5jE0/FSpG8N12A4SBtHK
-   9VekOHWaSPjURgr7H5EbriAURiu8DmVMkRN1xpMMZ9ZA4ML/6Pw2nFDWQ
-   5YBtU/uNdTyt+yf4el+UGjsv5TmaeFSS8PQwQOaY8HjMnrbdOfDZKijSQ
-   7egKTCrAmaBxJb3dyvMyd00fRNaMYrG38AqFPUYq5Y9/AfVlaMXB1u8Ql
-   Q==;
-X-CSE-ConnectionGUID: hj4mQ28yTk6/+IVkKXevAg==
-X-CSE-MsgGUID: GQGZYpE6Rf+/ojN5DPtpYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3607159"
+  t=1794931785; x=1826467785;
+  h=date:from:to:cc:subject:message-id;
+  bh=vkshbKx18VBVh0xRXNCtSh4UARbaMCneq8MscDrz50w=;
+  b=Yuy7TRI3vhqhm/09uAwHNtpszTRsyi1+jvcQo9nS1n2lz7K8Iqn4jXFx
+   NwZ6SK7R7vbtl5QHYDuz1lz7q79NhuhwFbF7M/IfAu4SBwoQ739Wt/sX4
+   1BdfDtVCH+vlvzTQ4hw9QwevX1sVTeDQkTB+8AwY7XkLnD0A8CyBoLvU+
+   VcvOOHYRIuG87Bvk/XFwkeQoKX7vyOp6G7bK2ZUWPk8om9ntTvtKWuA/G
+   WxjYfa3fYDblBNXcJOauvSIsfRZvmSGoShQRuj4T6LDPDdrYO3/w6T+mS
+   fqBdEzf7sSSkjbXYgEVJjqqc5t9X/UOVY3YCLp2M546MN0JSuNnAZgz0C
+   A==;
+X-CSE-ConnectionGUID: +n2qw5gMTdGnj4pVUELyUA==
+X-CSE-MsgGUID: ez86HRNzQVqT4NkvUepqgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3737327"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3607159"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 07:52:33 -0800
-X-CSE-ConnectionGUID: nQJGT9vrTBm78WVKeq8c9g==
-X-CSE-MsgGUID: 4jDXrtXFRI22ZtaMHJz+Fw==
+   d="scan'208";a="3737327"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 08:09:44 -0800
+X-CSE-ConnectionGUID: R48YbB6nSZujGKMjG4IOuw==
+X-CSE-MsgGUID: v/9V68TUQ2SSifJ3U8nRlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11682989"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 17 Nov 2026 07:52:30 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10183685"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 17 Nov 2026 08:09:43 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTLTu-00000001Bwd-1doc;
-	Tue, 17 Nov 2026 15:52:26 +0000
-Date: Tue, 17 Nov 2026 23:51:47 +0800
+	id 1xTLka-0000000039i-3G6D;
+	Tue, 17 Nov 2026 16:09:40 +0000
+Date: Tue, 17 Nov 2026 17:09:02 +0100
 From: kernel test robot <lkp@intel.com>
-To: Nylon Chen <nylon.chen@sifive.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Nylon Chen <nylon.chen@sifive.com>
-Subject: Re: [PATCH 1/2] riscv: traps: Add support for vector misalignment
- handler
-Message-ID: <202611172359.8iKyKE2d-lkp@intel.com>
-References: <20261116-riscv-vector-misaligned-v1-1-6c4d0ca905b7@sifive.com>
+To: Aveline Noir <jm5905938@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, SJ Park <sj@kernel.org>
+Subject: [akpm-mm:mm-new 316/342] mm/damon/tests/paddr-kunit.h:37:9:
+ sparse: sparse: cast truncates bits from constant value (ffffffff000 becomes
+ fffff000)
+Message-ID: <20261117170155.fEdeuuhm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,190 +83,40 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116-riscv-vector-misaligned-v1-1-6c4d0ca905b7@sifive.com>
 
-Hi Nylon,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 05441d697f7f9a927264f4058cbbc6a03dfcac9d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nylon-Chen/riscv-traps-Add-support-for-vector-misalignment-handler/20261116-233837
-base:   05441d697f7f9a927264f4058cbbc6a03dfcac9d
-patch link:    https://lore.kernel.org/r/20261116-riscv-vector-misaligned-v1-1-6c4d0ca905b7%40sifive.com
-patch subject: [PATCH 1/2] riscv: traps: Add support for vector misalignment handler
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20261117/202611172359.8iKyKE2d-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611172359.8iKyKE2d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   c37b2f8a996722ec8fbcfadb045f9f787df65510
+commit: 7a983cc1b57309a875a9e07a934c9944bf3d088d [316/342] mm/damon/paddr: add KUnit tests for addr_unit conversion
+config: i386-randconfig-2302-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117170155.fEdeuuhm-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117170155.fEdeuuhm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611172359.8iKyKE2d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117170155.fEdeuuhm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/damon/paddr.c: note: in included file:
+>> mm/damon/tests/paddr-kunit.h:37:9: sparse: sparse: cast truncates bits from constant value (ffffffff000 becomes fffff000)
 
-   arch/riscv/kernel/traps_v_misaligned.c: In function 'misaligned_v_ld_emulator':
->> arch/riscv/kernel/traps_v_misaligned.c:670:17: error: implicit declaration of function 'kernel_vector_begin' [-Wimplicit-function-declaration]
-     670 |                 kernel_vector_begin();
-         |                 ^~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/traps_v_misaligned.c:676:17: error: implicit declaration of function 'riscv_v_enable'; did you mean 'riscv_ipi_enable'? [-Wimplicit-function-declaration]
-     676 |                 riscv_v_enable();
-         |                 ^~~~~~~~~~~~~~
-         |                 riscv_ipi_enable
->> arch/riscv/kernel/traps_v_misaligned.c:768:17: error: implicit declaration of function 'kernel_vector_end'; did you mean 'kernel_cred'? [-Wimplicit-function-declaration]
-     768 |                 kernel_vector_end();
-         |                 ^~~~~~~~~~~~~~~~~
-         |                 kernel_cred
->> arch/riscv/kernel/traps_v_misaligned.c:775:17: error: implicit declaration of function 'riscv_v_disable'; did you mean 'riscv_ipi_disable'? [-Wimplicit-function-declaration]
-     775 |                 riscv_v_disable();
-         |                 ^~~~~~~~~~~~~~~
-         |                 riscv_ipi_disable
+vim +37 mm/damon/tests/paddr-kunit.h
 
-
-vim +/kernel_vector_begin +670 arch/riscv/kernel/traps_v_misaligned.c
-
-   643	
-   644	int misaligned_v_ld_emulator(struct pt_regs *regs, unsigned long insn)
-   645	{
-   646		int ret = 0;
-   647		unsigned long vl, vtype, vlenb, vstart, base, stride;
-   648		unsigned long vd, vs2, view, vsew, vlmul, emul, vemul;
-   649		unsigned long len, nf;
-   650		bool illegal, masked;
-   651		bool is_usermode = user_mode(regs);
-   652		u8 mask[VLEN_MAX / 8];
-   653		u8 bytes[8 * sizeof(u64)];
-   654	
-   655		/*
-   656		 * User mode: IRQs are enabled by do_trap_misaligned(), so we can use
-   657		 * kernel_vector_begin() which saves the user's vector state to datap.
-   658		 * We then read CSRs from the saved vstate (not hardware) because
-   659		 * kernel_vector_begin() -> riscv_v_vstate_save() modifies the hw CSRs.
-   660		 *
-   661		 * Kernel mode: IRQs are disabled (NMI-like context), may_use_simd()
-   662		 * returns false, so kernel_vector_begin() cannot be used. Instead we
-   663		 * enable vector directly and read CSRs from hardware; get_vreg/
-   664		 * set_vreg access individual register elements in place via vstart +
-   665		 * vsetvli(tu), without disturbing the rest of the register file.
-   666		 */
-   667		if (is_usermode) {
-   668			struct __riscv_v_ext_state *vstate = &current->thread.vstate;
-   669	
- > 670			kernel_vector_begin();
-   671			vl = vstate->vl;
-   672			vtype = vstate->vtype;
-   673			vstart = vstate->vstart;
-   674			vlenb = vstate->vlenb;
-   675		} else {
- > 676			riscv_v_enable();
-   677			vl = csr_read(CSR_VL);
-   678			vtype = csr_read(CSR_VTYPE);
-   679			vstart = csr_read(CSR_VSTART);
-   680			vlenb = csr_read(CSR_VLENB);
-   681		}
-   682	
-   683		base = GET_RS1(insn, regs);
-   684		stride = GET_RS2(insn, regs);
-   685		vd = GET_VD(insn);
-   686		vs2 = GET_VS2(insn);
-   687		view = GET_VIEW(insn);
-   688		vsew = GET_VSEW(vtype);
-   689		vlmul = GET_VLMUL(vtype);
-   690		illegal = GET_MEW(insn);
-   691		masked = IS_MASKED(insn);
-   692		len = GET_LEN(view);
-   693		nf = GET_NF(insn);
-   694		vemul = GET_VEMUL(vlmul, view, vsew);
-   695		emul = GET_EMUL(vemul);
-   696	
-   697		if (IS_UNIT_STRIDE_LOAD(insn) || IS_FAULT_ONLY_FIRST_LOAD(insn)) {
-   698			stride = nf * len;
-   699		} else if (IS_WHOLE_REG_LOAD(insn)) {
-   700			vl = (nf * vlenb) >> view;
-   701			nf = 1;
-   702			vemul = 0;
-   703			emul = 1;
-   704			stride = nf * len;
-   705		} else if (IS_INDEXED_LOAD(insn)) {
-   706			len = 1 << vsew;
-   707			vemul = (vlmul + vsew - vsew) & 7;
-   708			emul = 1 << ((vemul & 4) ? 0 : vemul);
-   709			stride = nf * len;
-   710		}
-   711	
-   712		if (illegal || vlenb > VLEN_MAX / 8) {
-   713			if (is_usermode)
-   714				force_sig_fault(SIGILL, ILL_ILLOPC, (void __user *)regs->epc);
-   715			ret = -EFAULT;
-   716			goto out;
-   717		}
-   718	
-   719		if (masked)
-   720			get_vreg(vlenb, 0, 0, vlenb, mask, is_usermode);
-   721	
-   722		do {
-   723			if (!masked || ((mask[vstart / 8] >> (vstart % 8)) & 1)) {
-   724				unsigned long addr = base + vstart * stride;
-   725	
-   726				if (IS_INDEXED_LOAD(insn)) {
-   727					unsigned long offset = 0;
-   728	
-   729					get_vreg(vlenb, vs2, vstart << view, 1 << view,
-   730						 (u8 *)&offset, is_usermode);
-   731					addr = base + offset;
-   732				}
-   733	
-   734				csr_write(CSR_VSTART, vstart);
-   735	
-   736				for (unsigned long seg = 0; seg < nf; seg++) {
-   737					for (unsigned long i = 0; i < len; i++) {
-   738						u8 *src = (u8 *)(addr + seg * len + i);
-   739	
-   740						if (is_usermode) {
-   741							if (get_user(bytes[seg * len + i],
-   742								     (u8 __user *)src)) {
-   743								if (IS_FAULT_ONLY_FIRST_LOAD(insn) &&
-   744								    vstart != 0) {
-   745									vl = vstart;
-   746									break;
-   747								}
-   748								ret = -EFAULT;
-   749								goto out;
-   750							}
-   751						} else {
-   752							bytes[seg * len + i] = *src;
-   753						}
-   754					}
-   755				}
-   756	
-   757				for (unsigned long seg = 0; seg < nf; seg++)
-   758					set_vreg(vlenb, vd + seg * emul, vstart * len, len,
-   759						 &bytes[seg * len], is_usermode);
-   760			}
-   761		} while (++vstart < vl);
-   762	
-   763	out:
-   764		if (ret == 0)
-   765			regs->epc += 4;
-   766	
-   767		if (is_usermode) {
- > 768			kernel_vector_end();
-   769		} else {
-   770			/*
-   771			 * Restore vl/vtype clobbered by get_vreg/set_vreg's vsetvli.
-   772			 * vsetvl also resets vstart to 0 (the correct post-insn state).
-   773			 */
-   774			vsetvl(vl, vtype);
- > 775			riscv_v_disable();
-   776		}
-   777	
-   778		return ret;
-   779	}
-   780	
+    26	
+    27	static void damon_test_pa_addr_over_4g(struct kunit *test)
+    28	{
+    29		unsigned long addr = 0xffffffffUL;
+    30		unsigned long addr_unit = 0x1000;
+    31		u64 pa = 0xffffffff000ULL;
+    32	
+    33		if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
+    34			kunit_skip(test, "phys_addr_t is 32-bit");
+    35	
+    36		KUNIT_EXPECT_EQ(test, damon_pa_phys_addr(addr, addr_unit), pa);
+  > 37		KUNIT_EXPECT_EQ(test, damon_pa_core_addr(pa, addr_unit), addr);
+    38	}
+    39	
 
 -- 
 0-DAY CI Kernel Test Service
