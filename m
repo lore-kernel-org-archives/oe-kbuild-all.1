@@ -1,86 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794948592;
-	b=ns6QqMB0g4lBP3TAWSER2Hpc1V4rETnPonAQc2G8PfH+oMe7O5/jSTud5KRl2yKTf6xa
-	 AJ5JaIGp9xqzmdXHkq/ppcb+HyniyS6h03h5nmxqsncRGsifWWPwHmrJv6sJHoS+Hl9MM
-	 96mu8WsjOunaakUOrHw7zTTYo1szGkkYobak0ff3uuCKDjgZh4syQJH+jfb6lYIx2Ikcs
-	 4+a2sA/dvnXYdb0HJ7QV77ge/X1dcSiTIWovUPx8oXJMnKkKGMRl5P7pWJwYW78KdQRDt
-	 CJiLHTbT1m+IBPcxgscl7BVSquEdtR4iJZsQ/v/hhCyJyNCfi+CMacnQOvG8jRYlF7Q==
+	t=1794948734;
+	b=nsGyPbK+VO0Y1poaqsYzvcJIsXwdJBlTYG3EsA+Ff6YlOG89kvnA6W9cGL8UrmQel7IL
+	 1JZ/9R8pxlHKey/qH4zlv35Ap56sXXUp90QwtOBQRAvsV7fXW4oXoCV42U13MqnBtfg9W
+	 bWCvDnUsoco6qwYG8VzHP3wIyALzrWAsHZXLAbVJVTFWSWHVm7YxeK3GLdv4Hpu6FPTSQ
+	 +T6ZkxevKlzGXNKg3HE4xfRfJbxHxpnj2ecikwxX1pWav45go9gytkpA44arUUpReKPq/
+	 wx7ZVgBK0ELpmOkHSilK8n1AZGJ5qQyK6u1C45t4ZbgF2vUavY2gEtlF8iqlH+Nzlog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794948592;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794948734;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=v0hSV39Jb2qDfvSJoz9AFxEdgVxMR1cH8CYWLrSHRYQ=;
-	b=uLv+qFcpLco06LziTz1jZr3sZG85ERS2+gcxsi8S4EgAtk8X8UtjEgD+OPe25Sw4Fv4H
-	 yXQHljH/HFLwLmnX04L97dZfO7NptTEf/ScLRCcH0GR+kZO3F1xq5l0E/qCmsGmNjMvOO
-	 az0m5QgaSrBNZ+JwRuJIRCrRYxyG6b7hqvF4XkM2NHLQ5gFgOU/LrJ7PnNLdgAo6QP/Tn
-	 VRc9aSYZ34MUH0Npbd/TsS4MGx01Dhqx56dWxXcx43TfIbYBQufjRWD4QcuPfs2NoaStt
-	 M3b1hIVLphLB67k8G/ihN6GjVYynj5INy77R74vvkMB3xnbqQoCcIhda2onlvr7paUA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=D3vK2Q6qudImPWSZNs1UpY6K4AcRgCyu/O/gZPCJo7M=;
+	b=h9fmLgiNPzRhInu1ltZK/wVeYedT7A1q6aSs9eCL0kIJkZMjKe6czz79DsdyKRqeSKtd
+	 Cti4HyEVSA70dkqNJDSrkIBA4mj364k2ciW8Et84xVVRP4X/AuLKXjQmsmmnat5DHvzGF
+	 3La1A3tsiLvjppJYGnVG+Ym1YcfZ1xsljcEk+pDqV60cIGInyP2Y7Qf02IDq5K035HSU+
+	 sf/5LI+ij2hBPz60/9K63BFK0idJfLvB4iW+w0S41iJqqxZeEY7Ek+jqgXkkuag0GzVd1
+	 KfQzQho/hJ6ws4iVKfild/jdKKOXld+MnG8hTnqbs+SQQ+k73cRdFaOrpJJldtEGlSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AO59UyuW;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E2twA284;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F636606A331
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 20:49:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F636606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B760606A334
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 20:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B760606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AO59UyuW
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E2twA284
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794948591; x=1826484591;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=of3OpuqCe+xv7JIj1bArW1EVcNbtu9RMdNaP+TR4vlc=;
-  b=AO59UyuWqa5DK8VeOv8E87tlYMq18l4BUp3viKU8e2UpkP3EaZH3tJ+w
-   48lLPqMw3x+mSB24Fx/z3cws+AjNG2+ddXGc7NePLmLsNx0FL5xxcFdb1
-   i3V2b7oSU4867yBXIbnneLKrv871jFUZWqehGJcJyzczQCdwZc/uSqjO2
-   rQGQb1SWLi05ojzx1X6qk/QNtJZY7mJZYhi1qKN9Ck4ZC0zefT6/E5ZiN
-   8qWf8xwH6HNoMQdGmf75b5bb1rYx1ApNISszLMdjOxo0gdgKp+jiG/Zhi
-   QXC6VB5Q/2dvs79Wo75Cnmx5dTyVVT3qNXB49ACbGsYIj7X0ve3zGsB1t
-   Q==;
-X-CSE-ConnectionGUID: ciOIHFKdSwum+PzdikUXMg==
-X-CSE-MsgGUID: Cjd0FEUvR9u1aKZI+GDXkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3778701"
+  t=1794948734; x=1826484734;
+  h=date:from:to:cc:subject:message-id;
+  bh=JMDc9VXDX4rZeP83be2rJePeIH71EIFa39dxbInANOg=;
+  b=E2twA284p8rvqyaPd2kITTj1v0oIHLB70/Bh772mSdIxo6kOX3R9v8Iy
+   II7e3hU9/XkAl+ztBDVAHHU26zmxc0RZiDfV24NdNUpBkx7BZ6XdTnKuZ
+   4KwchDdUvknWz9mMwzbKJmTHV9b6ppquMBJFfPIEQkK27VgsfJDthah+6
+   iBAcwDE2RtUss/yzBUZDDOiOxjWVUC4Nrp68rZ7s9uW7OCqw/gWRhSQyC
+   UaHrQ5RnWD+/KS9aY6Gju+p/zmmkgZFyNV9ar6moARwC3QBiu7aWzBH6v
+   fn+7Pr5TqgtWQTWyMJGb7MlJhs1iPI1nfrjKRQm3Di0x43D/A5wFETzTt
+   A==;
+X-CSE-ConnectionGUID: +BItcmfjTcqMZfmbCN4pWA==
+X-CSE-MsgGUID: bVAOR7L+SE6auA/cGE6vjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3782096"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3778701"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 12:49:51 -0800
-X-CSE-ConnectionGUID: R4eVa/JyRLWc8eS7YdD0ZQ==
-X-CSE-MsgGUID: KGQHJuGkQBa+z4Sw0p3Mgw==
+   d="scan'208";a="3782096"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 12:52:14 -0800
+X-CSE-ConnectionGUID: nJwnoK7XSaSF0QS/ylGkLg==
+X-CSE-MsgGUID: d+Mg86YvRPukdFDZVr5GEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9716437"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Nov 2026 12:49:48 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="11660003"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 17 Nov 2026 12:52:13 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTQ7d-00000001CRR-27DM;
-	Tue, 17 Nov 2026 20:49:45 +0000
-Date: Wed, 18 Nov 2026 04:49:04 +0800
+	id 1xTQ9x-000000003CM-2fGg;
+	Tue, 17 Nov 2026 20:52:09 +0000
+Date: Tue, 17 Nov 2026 21:51:40 +0100
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie via B4 Relay <devnull+airlied.redhat.com@kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>,
-	Kenneth Feng <kenneth.feng@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 14/19] drm/amd/display: Restrict the dc directory root to
- DC-internal builds
-Message-ID: <202611180455.JKWVPyFi-lkp@intel.com>
-References: <20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2@redhat.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_pre_dir_access 13/13] fs/nfsd/nfsfh.c:422:13:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <20261117214158.e39MaUag-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -89,45 +79,56 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2@redhat.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a6836fcbb5b22968019256025321d655b78bc49c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie-via-B4-Relay/drm-amd-display-Drop-the-dead-vmid-module/20261112-114336
-base:   a6836fcbb5b22968019256025321d655b78bc49c
-patch link:    https://lore.kernel.org/r/20261112-amdgpu-dc-cleanup-v1-14-0fae41718ad2%40redhat.com
-patch subject: [PATCH 14/19] drm/amd/display: Restrict the dc directory root to DC-internal builds
-config: i386-randconfig-1006-20260925 (https://download.01.org/0day-ci/archive/20261118/202611180455.JKWVPyFi-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/202611180455.JKWVPyFi-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fan_pre_dir_access
+head:   cfc22130c59cc87392fe9ce601cd5823dff2781d
+commit: cfc22130c59cc87392fe9ce601cd5823dff2781d [13/13] nfsd: add pre-dir-content fsnotify hooks
+config: alpha-randconfig-r2305-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117214158.e39MaUag-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117214158.e39MaUag-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611180455.JKWVPyFi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117214158.e39MaUag-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfsd/nfsfh.c:422:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted __be32 @@
+   fs/nfsd/nfsfh.c:422:13: sparse:     expected int ret
+   fs/nfsd/nfsfh.c:422:13: sparse:     got restricted __be32
 
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu.h:57,
-                    from drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c:24:
->> drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26:10: fatal error: dm_services_types.h: No such file or directory
-      26 | #include "dm_services_types.h"
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +422 fs/nfsd/nfsfh.c
 
-
-vim +26 drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h
-
-a2dd023a7788ba6 Eric Huang 2017-03-06  25  
-20582319bce482e Rex Zhu    2018-06-20 @26  #include "dm_services_types.h"
-20582319bce482e Rex Zhu    2018-06-20  27  
+   403	
+   404	/**
+   405	 * fh_want_write - Get write access to an export
+   406	 * @fhp: File handle of file to be written
+   407	 *
+   408	 * Caller must invoke fh_drop_write() when its write operation
+   409	 * is complete.
+   410	 *
+   411	 * Returns 0 if the file handle's export can be written to. Otherwise
+   412	 * the export is not prepared for updates, and the returned negative
+   413	 * errno value reflects the reason for the failure.
+   414	 */
+   415	int fh_want_write(struct svc_fh *fhp)
+   416	{
+   417		int ret;
+   418	
+   419		if (fhp->fh_got_write)
+   420			return 0;
+   421	
+ > 422		ret = nfsd_pre_dir_content(fhp);
+   423		if (ret)
+   424			return ret;
+   425	
+   426		ret = mnt_want_write(fhp->fh_export->ex_path.mnt);
+   427		if (!ret)
+   428			fhp->fh_got_write = true;
+   429		return ret;
+   430	}
+   431	
 
 -- 
 0-DAY CI Kernel Test Service
