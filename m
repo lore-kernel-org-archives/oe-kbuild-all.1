@@ -1,75 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794911585;
-	b=tpA4O38UYtOtrrOmkO2qqbNoelJvEPhnuE8Q52xaCTWHEg/N8dYqsn6HGPqN0skQF095
-	 pA3XXBTds6mdeFQ9pv/LoC7Olu7oUgOXDw7QbgQH4GG2jhGDgTE5Tltz8skZic1KM+fbR
-	 EWGkIXUkhA73BJYKSB7q4LmGGvrxnd4nmh7LhtGmM0JUtu4P9yVt2okv6U3ePQwbXIgbx
-	 lCUFe0etAlp2ly/NM6bTM5TWxZKLAEx4N+4Kqf1tTgu91jqPZfktE9IL4boQlNlIOHvMw
-	 ibaG+lNntZFuYusg5yt+Je0TqAYgw7OMmUs+C1gJAZ5maYQhSmwq3Lr1JcuCrqOrX9Q==
+	t=1794916904;
+	b=2i7scc9K15bKW6DupF9AnWNX1yybflIh1yyUmuIIZks8Qrgc6VwJZ21Igtm0cfpcQ/PC
+	 V79QEIgUkuGuxok3QXjKYi7ockY0o/0lW6FLe3yQotOoXd9bg0aTBAkPKNCzw5IwWcADW
+	 RiwpJY8+AA3dmwJ5ZMd2PZOcOW4KGQUOK5BY5jLLffe2WhOKpFORmzmn+MkrKIkGIMmXM
+	 /cJ1GBXCxvSyRsPzbIktjC/WgYO/s91AaQxqg6tQaXEgqTgsHB7kxHkt6clKwcDZ/c7J4
+	 R7Ec+IFuhn+GfvDYNkMQjfR7ZqVvHA9NrHjKpdJT5yjK92xxYaR8f90GfJSslm4u52Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794911585;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794916904;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Le48frlyU3rWNHS8i6SXlDxmpXVEHqa/AXbtWDlTIOs=;
-	b=q2eACluB7fs8NZ6e+3Rag+lluPjxtaGSSvHk1OjSgPEZ0OSVtQZy4wPy3fT+rToEqppS
-	 0CvGPloRQesmwJm8Tizkqev+SmfADiO0kp2zP5LHIAfnPXrUWXIgwWOK2ePaEBhL1QBzf
-	 DReJ+rgIVSwxer9GYdnufXucyjCQe7PlR/zs+7TAyqKeJk567kYhdPmUq1Nsf6eYjQ0Fw
-	 fiG20CUJz3VMfFJqILjlprGEWvEFgxUpN1QXgCoPsb3TxRfszUmOoTzpTdSF53f/KZEY9
-	 qbr6I/pdAXuMYuKb6i59SsundjWDC5j3/ePwIxhIWAiByK8s0tRaCHRzik5xNqymybw==
+	bh=u3RcO+0pvZk44VtJ1yM82hvayEdX/cxZmHc7ECjXG/Y=;
+	b=PCw/R4pjNYpS8k8ro/n5SJ0c/7/MgG2NNhlSR6LFln6ThPlRd0l/296YTBGoaLtB6dBf
+	 Oz9S2DlCUwcx/pnZ2gRgYotP6pIGe0HsXaViwuGIaRl3IGBa4GpGN6odDoz2VWx9E7f2o
+	 2IjQU1gJnzW7l1gxFTw81Fs6UZzNOzuHy7mAgKM5DWjx1DnxYMa5S4mH5uPmNKjdVww9C
+	 HlxCBRBKeToozm9SJwqQ8/0/SifnVHHnVkdL+lv4+A7cozfFrbE9vckMKeOEwkr4P2OYX
+	 mVeZOf7KMmayIIju0Hv4UVz8EMdgyP89HVkkUfJXB5QC4cqstIwhhpeOK07HxH6Iq3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DvfL2EuK;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1u8XyDD;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC94606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 10:33:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BC94606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5E9606A31C;
+	Tue, 17 Nov 2026 12:01:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC5E9606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DvfL2EuK
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1u8XyDD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794911586; x=1826447586;
+  t=1794916904; x=1826452904;
   h=date:from:to:cc:subject:message-id;
-  bh=AuNGzn1xQt4YBfNLrkGXW6k59yATJOdUHZ1EUM3lnYo=;
-  b=DvfL2EuKy3ImK8k//uZgayVL+rFm2md2hxpG4YgpNzvSKARiiG7xwDKq
-   IhXJC1qX5JOHQyHY+JcoQIwN0kRlWDxZm6kjewGLqIPOdVm0v3wTai8DC
-   69Q3IZipp8PFKUI3RGDaP5n0qOVtErBijIzIuw3mYYjc8DLJG4mLK+76i
-   ighsEDf6tP1DcsAvISgDgj0mHWGp5R04Zn+h7yOAxqDhf193uMn8jA8Cd
-   pMP1rTQ9hqZufsDU+dGTD2dFE7KRlRMjX5JrUTD2pkV0A5taHfAn/FuB0
-   7FZNKSKgy5HU+Tar6LtqbaeLIRD3p4wFU1kqIGflzskAMOAnC0LHm/UeP
-   A==;
-X-CSE-ConnectionGUID: 2fKXpXXYQT2mZpYe9UhlZg==
-X-CSE-MsgGUID: g+nq+EOiQbCQJBhvXXYpWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3600080"
+  bh=gj+qpNf1yH/R9r+Xc9pfjmZNLPo5w6HpmJhSTz8esw0=;
+  b=g1u8XyDD40UGtkGKccwptInxdrZmPIo22od+/wwUMQh+rmOQEYa1X7/C
+   Sin0BGCu23Bbf8mANYUDYho82xNDrTM/SGXLQOpOK+zyQ91Uxl94Fa2Pf
+   KcSIwGPo8ITOjl33PoC68xR4LkTF3nIGDoSXum54RE02zBpB4NjkSBecN
+   ttTKjNb0L6Vdx9Rg1QLsZfwi5TmxLYP2M6vLOxEODoK1d25u5wS2HgJcX
+   RP35flySzDM4g38UXv6yrdOP9GX6S1E3YaWjckxtgt+SWfvee1SwxJ1oY
+   oTEuKAZMctLR6+a37fOwo+Bh/9og01/ZVF1TWUBaiTCaNeH1kDP1UFs25
+   Q==;
+X-CSE-ConnectionGUID: +uNKgYH6SiSgzyvgT4p9cA==
+X-CSE-MsgGUID: /3TAwjZnS0Ov1dsCQnMRog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3575292"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3600080"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:32:58 -0800
-X-CSE-ConnectionGUID: ZqYV9TQIQwepvKcSF/m2CQ==
-X-CSE-MsgGUID: ghyD+lsoT4el9rgz3omzYQ==
+   d="scan'208";a="3575292"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 04:01:43 -0800
+X-CSE-ConnectionGUID: 55KJoctbQeOfZJjr46RYsw==
+X-CSE-MsgGUID: DNYeiWC0RWCvgYn0ybxjbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9739816"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2026 02:32:56 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="9665742"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2026 04:01:42 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTGUd-0000000035G-136B;
-	Tue, 17 Nov 2026 10:32:51 +0000
-Date: Tue, 17 Nov 2026 11:32:19 +0100
+	id 1xTHsZ-00000001BPa-1esO;
+	Tue, 17 Nov 2026 12:01:39 +0000
+Date: Tue, 17 Nov 2026 20:00:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-2026-07 0/1]
- drivers/vdpa/vdpa.c:674:19: sparse: sparse: cast from restricted __virtio16
-Message-ID: <20261117110552.zjMOetpw-lkp@intel.com>
+To: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v6 34/89]
+ drivers/iommu/riscv/iommu-ir.c:325:13: error: call to undeclared function
+ 'virt_to_pfn'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202611171945.csZRIh2K-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,43 +83,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-2026-07
-head:   95d994b1eec6d68e972495d175e751b721790175
-commit: 447092100c7e71aa20469a270fcee441d807ed58 [0/1] vdpa: Introduce query of device config layout
-config: i386-randconfig-2301-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117110552.zjMOetpw-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117110552.zjMOetpw-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
+head:   1dab2361933785691d1874856d9e368c5be79b2c
+commit: c5446adf22b458b508a4cb31001bcb0e84c87927 [34/89] iommu/riscv: Add guest file irqbypass support
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261117/202611171945.csZRIh2K-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611171945.csZRIh2K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261117110552.zjMOetpw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611171945.csZRIh2K-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/vdpa/vdpa.c:674:19: sparse: sparse: cast to restricted __le16
->> drivers/vdpa/vdpa.c:674:19: sparse: sparse: cast from restricted __virtio16
-   drivers/vdpa/vdpa.c:690:19: sparse: sparse: cast to restricted __le16
-   drivers/vdpa/vdpa.c:690:19: sparse: sparse: cast from restricted __virtio16
-   drivers/vdpa/vdpa.c:694:19: sparse: sparse: cast to restricted __le16
-   drivers/vdpa/vdpa.c:694:19: sparse: sparse: cast from restricted __virtio16
+All errors (new ones prefixed by >>):
 
-vim +674 drivers/vdpa/vdpa.c
+>> drivers/iommu/riscv/iommu-ir.c:325:13: error: call to undeclared function 'virt_to_pfn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     325 |                 .msiptp = virt_to_pfn(domain->msi_root) |
+         |                           ^
+   drivers/iommu/riscv/iommu-ir.c:325:13: note: did you mean 'virt_to_kpte'?
+   include/linux/pgtable.h:175:22: note: 'virt_to_kpte' declared here
+     175 | static inline pte_t *virt_to_kpte(unsigned long vaddr)
+         |                      ^
+   1 error generated.
 
-   664	
-   665	static int vdpa_dev_net_mq_config_fill(struct vdpa_device *vdev,
-   666					       struct sk_buff *msg, u64 features,
-   667					       const struct virtio_net_config *config)
-   668	{
-   669		u16 val_u16;
-   670	
-   671		if ((features & (1ULL << VIRTIO_NET_F_MQ)) == 0)
-   672			return 0;
-   673	
- > 674		val_u16 = le16_to_cpu(config->max_virtqueue_pairs);
-   675		return nla_put_u16(msg, VDPA_ATTR_DEV_NET_CFG_MAX_VQP, val_u16);
-   676	}
-   677	
+
+vim +/virt_to_pfn +325 drivers/iommu/riscv/iommu-ir.c
+
+   306	
+   307	static void riscv_iommu_ir_msiptp_update(struct riscv_iommu_domain *domain)
+   308	{
+   309		struct pt_iommu_riscv_64_hw_info pt_info, gstage_info;
+   310		struct riscv_iommu_device *iommu, *prev;
+   311		struct riscv_iommu_bond *bond;
+   312		struct riscv_iommu_dc new_dc;
+   313	
+   314		pt_iommu_riscv_64_hw_info(&domain->riscvpt, &pt_info);
+   315		pt_iommu_riscv_64_hw_info(&domain->gstage_riscvpt, &gstage_info);
+   316	
+   317		new_dc = (struct riscv_iommu_dc){
+   318			.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) |
+   319			      RISCV_IOMMU_PC_TA_V,
+   320			.iohgatp = FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_MODE, gstage_info.fsc_iosatp_mode) |
+   321				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_GSCID, domain->gscid) |
+   322				   FIELD_PREP(RISCV_IOMMU_DC_IOHGATP_PPN, gstage_info.ppn),
+   323			.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, pt_info.fsc_iosatp_mode) |
+   324			       FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, pt_info.ppn),
+ > 325			.msiptp = virt_to_pfn(domain->msi_root) |
+   326				  FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
+   327					     RISCV_IOMMU_DC_MSIPTP_MODE_FLAT),
+   328			.msi_addr_mask = domain->msi_addr_mask,
+   329			.msi_addr_pattern = domain->msi_addr_pattern,
+   330		};
+   331	
+   332		/* Like riscv_iommu_ir_msitbl_inval(), synchronize with riscv_iommu_bond_link() */
+   333		smp_mb();
+   334	
+   335		rcu_read_lock();
+   336	
+   337		prev = NULL;
+   338		list_for_each_entry_rcu(bond, &domain->bonds, list) {
+   339			iommu = dev_to_iommu(bond->dev);
+   340			if (iommu == prev)
+   341				continue;
+   342	
+   343			riscv_iommu_iodir_update(iommu, bond->dev, &new_dc);
+   344			prev = iommu;
+   345		}
+   346	
+   347		rcu_read_unlock();
+   348	}
+   349	
 
 -- 
 0-DAY CI Kernel Test Service
