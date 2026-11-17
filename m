@@ -1,83 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794897891;
-	b=ebT/WxD6s1FDcDb2SNGAfUSFB2Y8rMTgU3jzldt4uorSNF87kpVqVLq7qkzPM1Zlfbai
-	 nwrY3nrQjTCnIoKw1/+yQwW5X75GJf7nwZm8whdhIfa2oNXeMUGpE9qHaDIRHCfIqnyh2
-	 Cm/sND1T1Bc6P3grWSqNmW/d6+jn3BKuwXOR8OIGX8ixxI8EIxinvv2M/Ad33L/pScm4L
-	 AwyS60kQOYl0Lrg6dC0KEx4BRI9N5AUJZcx2HEvS5TBzDilD+zAe324ERuSZ+HzTLMY09
-	 5t65axGOY5xKSvRVAaZ3JxMZli18yv6pf5OL26TSqqma8NX6K5FoUNNq8kFZxtH77KQ==
+	t=1794898232;
+	b=1qAuPKsCttYqghOmahRVuX/5rofOuLYmqQaNLSmTrNkLyd56UDdpoUkZN4Yj8vK6YKoU
+	 zoxxRxnhBjOXS6+q32foW2XHsreGFy7Nxj17AXmUCtLa5MvDEi2DbB9/UP5eBWz0moQkE
+	 frpDFZCxVB7zS+z0psw8BN4bsc7spMa+cP/0QRNzJo0gqhu6WTcP1iiIkMamDjH5dewQq
+	 A+ZRXT2P4RPAfPCISwHEZt9r4nHvTyrvlEDk8Gw+lHppHzGRxDH4ej76Y7H8ZGTC4+/pO
+	 7rZqAiViqGLekBF7S29ttSGNVuLfbbBcs6tk7QV8UGE1Id8g/YhKs0LXevvpmplz+AA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794897891;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794898232;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=hOnWhf2UYUafyeK5eqb3reqBBAwOK+jIEmpgbPZ8v1k=;
-	b=xYFPS3sJZW4BKFunfGEBzFjqZTTUgOBQTrdpk3lc9eO1REp8wAsASB2ykwWxCe+0rAoL
-	 jLABjB/yG+qgV83vhSQTajXOYP2Xe5hZTy7yNSpxGXJu2Ga5N7oa1CfTv3/fC+biMtq2k
-	 Y1NneUFV9ZpuUNliI1JgChAekLo7xFghd0+nkYmDDoL453e9QZ/P90BbqsUFtg2zcjjq/
-	 39siFFkGAD+7PjgxEkXxFlF3VICNRwrhJcIoZn+GJHp+QBSxTP65U2PcM3se2FqVZkeN9
-	 IXUb3/Mh4G0ihh6yNncs5J1lUHwjEFRbr/vfPrE+ouvFO7QuYDh5RuFuECDutKR341w==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=eU0pHaZ3IG0B39heoJBZr50Cg8rsubixTrSJpbDGu/M=;
+	b=QDZnI5jmLdxoAIZIsFhHBYiaOTO5VRY8gRaJxAed3Ri38p3Qpub9y79m7jyaydIPe0aJ
+	 oc4w0Y1pslPpG5XU34M3OZHxizKvBLtFExNSe8gf3V3SGhSwcf7jDJfFn/ZNHAUZ+4INl
+	 bKUxpgntHnZU1yfQ/w2AeKW/yVF8dcTxJEGgrKuzxJfmVyTqy7MICx/r4sb6VW7WehML0
+	 ZvvfsmJBK4CfMyf85MtvmmcXeI0ycOVo7aC/NVszY2r9/j6HUvU8D9nhiZuTW8Gzk1CSP
+	 BlXWUmcitDs3F5cUQi2hwsLG4lrk+r9kMkGVWYspyXXXnTP/C9kPLwGTH8Imp9KwlmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gvcYvyi2;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nPlhEJYe;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BD8606A31C;
-	Tue, 17 Nov 2026 06:44:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3BD8606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D34B606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 06:50:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D34B606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gvcYvyi2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nPlhEJYe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794897890; x=1826433890;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ESQjpD8S2LW070yACMHY9t3rIJIM32CEwZ+XZ+1Vu5E=;
-  b=gvcYvyi2Z1tJPBKlvSs3Eu9JbUzgSZQbkeY01iIV7guv1lDKYVbim4oT
-   fCApOSUphr4v7YAW82Hgmi1byDcMVZ5MDFn7BVhTvr0uCTQieiB8oDBGH
-   lheCqJ7kpF6ofSLhmNxAtnN4TL7IHZQKV6cMA2Rnkypc+OXAhwNY1dFsq
-   MhVH4NwXUJTS3rNf1hQ7T7UO6VOS87PEdyoWSgK3baNQonvqGE9EpAobY
-   hht3QGhxXQTLY1QAPryvO6rbAxCvJLrX89HLQQDhHAaP+ADpiYZq5JOnN
-   LGMLGDu1myK8MnH4nbsMdk9D9d3A2CYiUQVu9b8MFaJaHO1iPJeSx/xHQ
-   w==;
-X-CSE-ConnectionGUID: fegcvc3WRzOaf5YUHhfjQA==
-X-CSE-MsgGUID: jpXHJMP1Q+OA0+3OYH72qA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3564576"
+  t=1794898232; x=1826434232;
+  h=date:from:to:cc:subject:message-id;
+  bh=4YF4GBExQUYfXNJstY7DKpePTLaB0uBplq+btaVTmAQ=;
+  b=nPlhEJYetHTbpvNNQt/I6Q6fnqbwKDnUW7P+Ya5Hw/bf/ZQVPu1nbOyW
+   SAA2rooOZ1hB4knYbqK6sGpxzHC6oD4OK6tZq5VTsELjQoy7wjMMAGa/i
+   rOzhRXblcr2bVNJ6q/ES+CWKvkc/wSSYKlLO3+w8JwQdk4mdlwlUhVMIQ
+   CQ+OV2/Wgdgp4i4iPUnlAh2H5EWVvvUWIblcPlF0Kyou6jg1uzYOZ+wgv
+   6Re1OejtBrouYostAn8Y4BS63TdOhclVXsCZAbF+2wzLatNZXURWlSmbK
+   hxxI/WjGEofKuLT9bH+AiCYTjHXTiONS1WhL+XhXHEB7mrph1a3MWdcBO
+   g==;
+X-CSE-ConnectionGUID: W+U1ALNKS2qAW5ojOLVADQ==
+X-CSE-MsgGUID: CG+Rk4ubSMC39AQsIFMyaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3527862"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3564576"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 22:44:49 -0800
-X-CSE-ConnectionGUID: K2ZTOQLqQ36QOI5pE7FNuA==
-X-CSE-MsgGUID: 3W5u5vGJQKGsicfVVW/6ag==
+   d="scan'208";a="3527862"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 22:50:31 -0800
+X-CSE-ConnectionGUID: JykEogqTS0Cvsc9gsecFuQ==
+X-CSE-MsgGUID: gyHUIzJeRjK1o7KWQK/u2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10152989"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Nov 2026 22:44:46 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9653593"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 16 Nov 2026 22:50:28 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTCvr-00000001AAp-04dz;
-	Tue, 17 Nov 2026 06:44:43 +0000
-Date: Tue, 17 Nov 2026 14:44:22 +0800
+	id 1xTD1O-0000000030I-0CUa;
+	Tue, 17 Nov 2026 06:50:26 +0000
+Date: Tue, 17 Nov 2026 07:49:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Hang Nan <2122295973@qq.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev,
-	matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
-	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, kuniyu@google.com,
-	willemb@google.com, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, 2122295973@qq.com
-Subject: Re: [PATCH net v5 2/3] net: mptcp: reject token 0 in
- mptcp_token_get_sock()
-Message-ID: <202611171407.G0WgWRA6-lkp@intel.com>
-References: <tencent_46FC62D4DE8FB8E6C90049F5AB28BDAA8C05@qq.com>
+To: Raghav Sharma <raghav.s@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Peter Griffin <peter.griffin@linaro.org>
+Subject: [linux-next:master 7081/7459]
+ arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000:
+ failed to match any schema with compatible:
+ ['samsung,exynos8855-peric-sysreg', 'syscon']
+Message-ID: <202611170759.pEwFwUBI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,33 +83,22 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_46FC62D4DE8FB8E6C90049F5AB28BDAA8C05@qq.com>
 
-Hi Hang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hang-Nan/net-mptcp-reject-token-0-in-mptcp_token_get_sock/20261116-225828
-base:   net/main
-patch link:    https://lore.kernel.org/r/tencent_46FC62D4DE8FB8E6C90049F5AB28BDAA8C05%40qq.com
-patch subject: [PATCH net v5 2/3] net: mptcp: reject token 0 in mptcp_token_get_sock()
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20261117/202611171407.G0WgWRA6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611171407.G0WgWRA6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   749a4de370409464cf8501ec5b2451df45c84eb4
+commit: 14a87bfb0614d87b04134156e090d7b00590d2b2 [7081/7459] arm64: dts: exynos8855: add cmu_top & cmu_peric clock DT nodes
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261117/202611170759.pEwFwUBI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev6+ged91b647c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170759.pEwFwUBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611171407.G0WgWRA6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170759.pEwFwUBI-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: net/mptcp/mptcp_token_test.ko: symbol 'mptcp_token_exists' undefined!
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000: failed to match any schema with compatible: ['samsung,exynos8855-peric-sysreg', 'syscon']
 
 -- 
 0-DAY CI Kernel Test Service
