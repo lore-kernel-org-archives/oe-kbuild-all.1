@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794882335;
-	b=CXgWH0chG2bZSxBJ2jYL06QK7Qeu325YLJ/4mb69ebQQj7gZ8MI4R65Lg3Bucl2ThNgy
-	 /DHQ5G4XdWCRqvR2GIOOQpB9lLH+G8vziEuk2kwhWAOhJcKpvmlqIcW0GeYaxhM5fFRMP
-	 DIylY0V+myxT1NyJXq4tI3CR6RVXo8fc94cV/4miJI3n5BqsE8CVRAtTsUEAKn984dAiQ
-	 Qwas5SRxCWHfie/S/Bj9TclJMFK7AuO3Qon+lWansaylht1mkzbcnbFqj1GAKV8bUOTrn
-	 XKXxUMG9BXYb7WMr4+PzqagqRVijyRHfoh+c3LpeMbGJJn/ad0GvuFdjhlOIe1UiIkw==
+	t=1794885921;
+	b=ElVnXKDX/P5ZcMSyie0OTm5WptwS9ncaKHDHb6Uq2mZUlJs+DKPwvnAgjno34eWd9r48
+	 J/yvcxmLQ7e/h88xtE8JyZA4b1zyV/7SZl1CBWcPWVnpuffo+P4nlsV30K9BpOnOxOQAH
+	 M6a2kHOYavtnFqRHyyAIt1RrshgMrtjB9c9Yb4UwxTMGVeSIvCooQU4e/xJjPmjQxLMe7
+	 r67lg7EUnDSXO4SynVut+HXcVbnOcE0mlAZzyZtYgf06IFwB0lzHQR1kIN0NMuLt5QOCu
+	 CPaaM8wCv0v5oVDfjSXXUuf+zfx89Gt/N69PQcl57A3N2Twhwgu86iXtScLor3u6vJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794882335;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794885921;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZF7xyzNFcBy7d9AzY6qYBs8OxNayWF4+/CILH1XylB0=;
-	b=5GwM7IowQsiPb/4bKs+XeyBWxhqeoR9Xy6ZK/lnfu74xyVNH1A0iozulIVG+jnkZ5Mqa
-	 OAxvPi5y1fdzmE+YPE26nBv/w4RmZF3lp2hvvTKdlZmPn4L68FtVxV9y8ZqE4p98XooJn
-	 RFBTyd80O3KiY+qn1mRqbMN3UCaqg3PVI5EgcBSNXLompQspuuB9+JB3CYR0gbD/uPJij
-	 iqlL8lPcRC6uOHdwt20X6dOAF7Ub7Q6rpbVX2BFlPkWLpS417ivMWkpsJWddjdPR/VBqn
-	 mbR/f1xf8v3iixRlCKfQ/JhDtwAhUl6V0I1eQ6AxdAkHeXrao1z9Xij4wBL0CC9VzYg==
+	bh=yVDG1Gk7ygQKGUgRUjY7JW0UlA9/38KhGtrgtiZJ6mM=;
+	b=R8pdAfb8REUGaVbgYI1ixLhtiHy0HzJhiZI6et1VUjaso25veoeQWOCe8W2rCFDT1jgR
+	 vyzmuTLlPjxJMlKyWjWgZSI2mtK5JlW2N4RQLEAQpV48Z9pQX5x8uOuSwWT8i1MMWLHko
+	 0JieTk1jVHLZNiSrwpljD0tHDQrSZeNAvqiE/uqBzLJhaVXqj4hVS3YObTyAJHNaRlBGn
+	 TKn1fc+SOaoFP/T/ru6YzQ5C0ISvbyQF52/BjrsNfYHGqFvW8ggVz8FiqkUuGOvpf5OdH
+	 S2qrGGlV9Kz2PWNKhMF3IgQwmhT+luteUyeoZGiDJ7+R/KPK41SFD+aPtliEqqZjjcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KyGiXJaX;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdqskhVY;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC0C606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 02:25:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDC0C606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA720606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 03:25:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA720606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KyGiXJaX
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdqskhVY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794882334; x=1826418334;
+  t=1794885921; x=1826421921;
   h=date:from:to:cc:subject:message-id;
-  bh=mfA5dOTw6xVDqnwlJdRPmJ56b9+7/mi5MpxtUssiTso=;
-  b=KyGiXJaXJh+YcIWVEAfUBEO8A6oG8cbUyZVoOyqfxlfJMCkNfMRtURq6
-   CYnl7pNJP68ydv3tTVhU+DHUVOEUkCJTZzblGvfuEfDO3V0KV0TsFOb65
-   U0kk7C4/ziz/QkwgZYMUDHrTxxRgLqAmAXDGNdqnG/RkW1Ld46XmFKRq9
-   uf1Q/Pelq7yIaepOKjAvmd9OYVvjORSE2EpiUWttoKDsqFLyBXXwWb0Nt
-   o7boNJIC4x2ewD0ToSC53sq/fplHoLvsK4uf4P7ijYonmtwxwgD4gb8lJ
-   PBP3tGz08LOcmy5zBirl1iHDZgXxBnVVsOe+eW80t1ae5c4OBa4ZZWQfp
+  bh=tZjrE0dl/kmueE0aYfePheEESEL2jEBYnOeHoJrTD8c=;
+  b=EdqskhVYFIQx/JlMu+m5hhNHfU8eDwdUGb20SPFJg7RjvZwzdZe3NA3+
+   si3JCQG0Hf0aYLmXeMje0H956XaCDJpdrZ/TBrW3fgOUHrVr46vbp8uyo
+   Hf0f+wB4iBTZSNocCfMxZzC7PWiBgPjimgMeaJ94mOr1dWV67rGpw2LXD
+   QwYvyE/eV8AW+7+s0baHIjPIaojXj+aQ9h/1dxd2KmXxJgW3G/9nTRBJv
+   nPNsDfu+9UibOu5o7MxHD2ZHMamxVofhBZUKYQWyOyhPTuHUTZ+1uenmN
+   hEJEGy46E0naQqZz2dwoj4vjseOVxf3QNpNFHxOmHG7vvy5jKJejfGfbR
    Q==;
-X-CSE-ConnectionGUID: grmTaBeyS26KNBtf2qnA6w==
-X-CSE-MsgGUID: MTZXyLUMTwekDTEu6cFXlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3489142"
-X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="3489142"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 18:25:34 -0800
-X-CSE-ConnectionGUID: MyRAP4nIQrCM7V+mjQc4mg==
-X-CSE-MsgGUID: jAzNh/hdSpCl9FWjbUyq5A==
+X-CSE-ConnectionGUID: NGjJlbmrTeCoRB4G7Xsz1g==
+X-CSE-MsgGUID: vHL6vAhDSCih4JgAB62ujA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3538299"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3538299"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 19:25:15 -0800
+X-CSE-ConnectionGUID: JYDOOPYPT7e7D9B6GC3UZw==
+X-CSE-MsgGUID: z8d8tsxqRgOtibaU7IOrbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
-   d="scan'208";a="9951668"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9507153"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Nov 2026 18:25:31 -0800
+  by orviesa008.jf.intel.com with ESMTP; 16 Nov 2026 19:25:13 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xT8sy-000000002w6-3Y6D;
-	Tue, 17 Nov 2026 02:25:28 +0000
-Date: Tue, 17 Nov 2026 03:24:45 +0100
+	id 1xT9oj-000000002x0-1sCc;
+	Tue, 17 Nov 2026 03:25:09 +0000
+Date: Tue, 17 Nov 2026 04:24:16 +0100
 From: kernel test robot <lkp@intel.com>
-To: Peter Wang <peter.wang@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>
-Subject: drivers/ufs/host/ufs-mediatek.c:1351:32-33: WARNING: Use
- ARRAY_SIZE
-Message-ID: <202611170300.dsQhfOB9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2026-07 1/1] ld.lld: error:
+ undefined symbol: folio_total_mapcount
+Message-ID: <202611170315.a8L5usKO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,55 +80,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   141b164bbe186423e295b139e40e8e2d11cf1341
-commit: 1fd05367d5b1a5edd3d14c966a5f510e5b8a0c5e scsi: ufs: host: mediatek: Adjust sync length for FASTAUTO mode
-date:   1 year, 1 month ago
-config: arm64-randconfig-r2107-20261115 (https://download.01.org/0day-ci/archive/20261117/202611170300.dsQhfOB9-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c0693becb96c1610aeb87445a50df00d58a823cd)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-07
+head:   72c13ffe75dfb4b732147ff48ad7b64d69fead3d
+commit: 093bce68a3d77381073cf569c91da0c78a0fa8c6 [1/1] BACKPORT: mm: vmscan: put rotation-missed folios at the LRU tail
+config: arm-randconfig-2001-20261116 (https://download.01.org/0day-ci/archive/20261117/202611170315.a8L5usKO-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7864c0736a8a09670dfbfc513f1e9649799f2486)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170315.a8L5usKO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1fd05367d5b1 ("scsi: ufs: host: mediatek: Adjust sync length for FASTAUTO mode")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170300.dsQhfOB9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170315.a8L5usKO-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/ufs/host/ufs-mediatek.c:1351:32-33: WARNING: Use ARRAY_SIZE
+All errors (new ones prefixed by >>):
 
-vim +1351 drivers/ufs/host/ufs-mediatek.c
-
-  1334	
-  1335	static void ufs_mtk_adjust_sync_length(struct ufs_hba *hba)
-  1336	{
-  1337		int i;
-  1338		u32 value;
-  1339		u32 cnt, att, min;
-  1340		struct attr_min {
-  1341			u32 attr;
-  1342			u32 min_value;
-  1343		} pa_min_sync_length[] = {
-  1344			{PA_TXHSG1SYNCLENGTH, 0x48},
-  1345			{PA_TXHSG2SYNCLENGTH, 0x48},
-  1346			{PA_TXHSG3SYNCLENGTH, 0x48},
-  1347			{PA_TXHSG4SYNCLENGTH, 0x48},
-  1348			{PA_TXHSG5SYNCLENGTH, 0x48}
-  1349		};
-  1350	
-> 1351		cnt = sizeof(pa_min_sync_length) / sizeof(struct attr_min);
-  1352		for (i = 0; i < cnt; i++) {
-  1353			att = pa_min_sync_length[i].attr;
-  1354			min = pa_min_sync_length[i].min_value;
-  1355			ufshcd_dme_get(hba, UIC_ARG_MIB(att), &value);
-  1356			if (value < min)
-  1357				ufshcd_dme_set(hba, UIC_ARG_MIB(att), min);
-  1358	
-  1359			ufshcd_dme_peer_get(hba, UIC_ARG_MIB(att), &value);
-  1360			if (value < min)
-  1361				ufshcd_dme_peer_set(hba, UIC_ARG_MIB(att), min);
-  1362		}
-  1363	}
-  1364	
+>> ld.lld: error: undefined symbol: folio_total_mapcount
+   >>> referenced by vmscan.c
+   >>>               mm/vmscan.o:(move_folios_to_lru) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
