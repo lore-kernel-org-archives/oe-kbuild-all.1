@@ -1,79 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794951820;
-	b=uZ27okrehgDgjDdrXhDdcrUiClYwnDUdwuwFGBuPsTALjyCfh/eB8sEgTSxmF8ZJrqPN
-	 dNzkH7l73WhyXw5WmFWZX4h2OoKu3E9jmiraYMHoMIaYUDR9Q1jznArBpibnowRqfnJIx
-	 teYSY30oyccjqOYL/KlBjjhexh4YtgrwKuge0WvUx2oAXAsfilgfGVfasYhVR87GMSGii
-	 YISjI2+i9jp4OAqp16jmz4rzxyZ6lyQa9UxzZQNCkUUFCQOSDP3v70Q4Zan+6IppvYeV9
-	 42PQOORjTq5eBmuAT5EbTTSQH7TNmSJvvsT41n8QRxaHRxf7m84W6B4wHpm7wdwPpUA==
+	t=1794952480;
+	b=frDt+jQNnekmnxjRK8ZAv+1Z21+owd/mtk8Muj0r7Y+OsevCm0q8ZG7T+VOOUjjP8BZE
+	 K2wG+N4iPQRITIzE/xWMwBg7AVkX+LDxiJJDI+vScP7YIlI7DsSako68GtA3NSDqauUVz
+	 1FIEr5KieGI2If1HaHDiVt6V9U2tf21wHIcPmnZi7K88Yw6LHjXN+4tYbKaAwx5RM/JI8
+	 2OSHP88zZvqhmqGf81Rlj18zaMpncbKD5uyV3G7TMG9pccHVPJnBemms99nwMKOM2Wrtw
+	 CGtmaxgR96D1bkhEEIBJ8/5lV7cqfeXPqpQyP80OMzKdcWVZ52KOuEjyZjfdRDFFAOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794951820;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794952480;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=OkQcX/sLhnD+8XktysNLCN2HbKwl1MVO2RHoztkjwCk=;
-	b=f2t33xR4NP6Kk9M8J33xBMYsxFyDPLyC34Hdi/0l0fADjdwqozc6tWjCJXn7p+MtKpZk
-	 t9l3X+FoLJ5Lg+9VXK1HK2XictAPB+avHHOQ0xLM5GmFW3FZmjuphSxyDrGNnrL1DnVG0
-	 hHrtXsjQ98SC6V47TXRqwIzRbi4yOKOR/NIlTd+863/hHeI5citAW2jWf0KcF5Ec2pvzK
-	 SMtpGmiFl/QD5SUH36vf0kwA/ktee/kRL4rKtg2DpK+TCkGMd0conduXmU1ikisjBzdf1
-	 /xK8/hJbZD5GEI+7nG09t8aXfO2KPfKRHwQCs8rObeTVsuYXnmMWulT9jAZP3nL3oDQ==
+	bh=x9bRN/a672fUu4HY2jFT2QX2UA+R56scYeVS/YxZ74Q=;
+	b=tiI4LDClYIUB6mlhLGiwFmcwFlaQ+mWbTTjS8KK4AlJTRLzSNlxD+5K8DWgO07sALbqB
+	 zsF0/v0VZBtVShd24kjMbm2mImBh4XuPIakSqlrUXsgzrUFGLWamnRZZFAEaGnROP6K4n
+	 cBwT9DR08FZdE4Z4XL0hPYicYdX29gZqdhlwPKem1+R2pAWns6+g1Q0OKrumxA5Avkl3M
+	 8kpnaXmEyU01yFsHUM417aeKgs3R9jS309ooDbDVFbYBqIb70Ueo/V/NdpOWjtIARaYVl
+	 NLGZrTj9mPWXbOme/lPy31ng9lKZpFNqyZvsJ24eTJ4dTLfnBbSisGoVVTYfBXcI2Tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MwN5K5pZ;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UXgWzVn8;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50C7606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 21:43:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D50C7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235DE606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 21:54:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 235DE606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MwN5K5pZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UXgWzVn8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794951820; x=1826487820;
+  t=1794952480; x=1826488480;
   h=date:from:to:cc:subject:message-id;
-  bh=kWbx5HAbpU65fUdbu06LE9TdpougtXg20AOtUA9zf2k=;
-  b=MwN5K5pZFmTOttK79Zfdwx+PFWePcA32nJtvXU2j6xiHLu7PnCTyNd1k
-   LfTtjlfnTkJU2yGtSQDvVQ/g6RbseOZAXCIEBBRzhAa2kWyuo1uOnMASW
-   gXTpZdGTin0hwvY34csJTgkpWJLsX/+5CgibxEl4JdiuvTK17V7ZSmcJ9
-   vB33CZ8bvg8NqpdkwsK0Uoff5xdkh1o+qeRYUc1Q/N5yRMOtE2sQs8yZs
-   h9TF0u882EjC+Cwg2bEjIcpsTEN9Hl/oRFF729LjNa/K0Ev9/rZQLli27
-   sotin+/WPRiwf3O+gOF8TIPoMgca5apt+BHSNQLabYPezdD6K+RtrKA/M
+  bh=rmNmGm+k5IU447bhgmbmSt+TBicgsRjDVNe1B9UPefw=;
+  b=UXgWzVn8WWbtQW00LwAA1PoUlkp4GTM+3uytqVa6IH2emf6k23blZJnx
+   Kv3qpnX2OvXzTEOsSw3Q20rwT+6oEzzwCeH3Nc7sOJI51Pv6YGcW4NgtL
+   0PoLdjGy5/n4JeDKR9i4qe5MoX6hqdbnLDA3hqavjm9wFJpmJo0tLpaYb
+   BPxBr8kEyZVT6+TJcX+WZVE+x7PZUL++BytgRcL76zzvK74Y2wIvw8oM0
+   r5QGOenhNLAEcThFlqoPMjYjfJV3KqnIRudDy6YxAjZY2P8G1IAMh8DB8
+   q0o4MO8sU2q2vlWitsxYMBj9ETBANav/sfki2+yg/v6DJDgfk9hxX/QJw
    g==;
-X-CSE-ConnectionGUID: Q9sXcEFnQu+j/YJ/Paq/WA==
-X-CSE-MsgGUID: 3n/WD7ojT/6MiQAU3n8iAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3736300"
+X-CSE-ConnectionGUID: YqV75o30SgKkpvKQU5Brrg==
+X-CSE-MsgGUID: Wu7V2GH0S8qjKnckg2QhrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3784220"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3736300"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 13:43:39 -0800
-X-CSE-ConnectionGUID: nfd/XcARQp+c33qYSkfGgQ==
-X-CSE-MsgGUID: DlGEajnpRkSPquieHeV/hg==
+   d="scan'208";a="3784220"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 13:54:39 -0800
+X-CSE-ConnectionGUID: KNPFQ3QNSda/9BmzLN3FIQ==
+X-CSE-MsgGUID: SpWCgOZyQwi301UUuQ4hVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10316349"
+   d="scan'208";a="10201610"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2026 13:43:37 -0800
+  by orviesa009.jf.intel.com with ESMTP; 17 Nov 2026 13:54:38 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTQxi-000000003CU-07gn;
-	Tue, 17 Nov 2026 21:43:34 +0000
-Date: Tue, 17 Nov 2026 22:43:26 +0100
+	id 1xTR8N-000000003Ca-3Mzh;
+	Tue, 17 Nov 2026 21:54:35 +0000
+Date: Tue, 17 Nov 2026 22:54:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Raghav Sharma <raghav.s@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Peter Griffin <peter.griffin@linaro.org>
-Subject: [linux-next:master 7082/7459]
- arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@10020000:
- failed to match any schema with compatible:
- ['samsung,exynos8855-peris-sysreg', 'syscon']
-Message-ID: <20261117224141.yr7rYXK5-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 152/152] htmldocs:
+ ./include/linux/tty_port.h:1: warning: 'tty_port_tty_hangup' not found
+Message-ID: <20261117225000.NKBZQYa1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,22 +80,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   749a4de370409464cf8501ec5b2451df45c84eb4
-commit: 99eb8abc95341047451f5c53d70d044fa4481af0 [7082/7459] arm64: dts: exynos8855: add cmu_peris clock DT nodes
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261117/20261117224141.yr7rYXK5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117224141.yr7rYXK5-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
+commit: 6d1a984afc3ca477dab3e51ec806671d443ad524 [152/152] tty: port: fix tty_port_tty_vhangup() race
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261117/20261117225000.NKBZQYa1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261117224141.yr7rYXK5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117225000.NKBZQYa1-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@10020000: failed to match any schema with compatible: ['samsung,exynos8855-peris-sysreg', 'syscon']
-   arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000: failed to match any schema with compatible: ['samsung,exynos8855-peric-sysreg', 'syscon']
+All warnings (new ones prefixed by >>):
+
+   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_EPRC' not described in enum 'dpll_clock_quality_level'
+   ./drivers/firmware/stratix10-svc.c:180: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+   * svc_mem_lock protects access to the svc_data_mem list for
+   ./include/linux/i3c/master.h:317: warning: Enum value 'I3C_ADDR_SLOT_EXT_STATUS_MASK' not described in enum 'i3c_addr_slot_status'
+   ./drivers/base/core.c:2057: warning: Excess function parameter 'con' description in '__fw_devlink_relax_cycles'
+>> ./include/linux/tty_port.h:1: warning: 'tty_port_tty_hangup' not found
+>> ./include/linux/tty_port.h:1: warning: 'tty_port_tty_vhangup' not found
+   ./include/linux/tty.h:245: warning: Function parameter or struct member 'break_wait' not described in 'tty_struct'
+   ./drivers/usb/dwc3/core.h:804: warning: Function parameter or struct member 'nostream_work' not described in 'dwc3_ep'
+   ./fs/eventpoll.c:2340: warning: Function parameter or struct member 'ep' not described in 'ep_get_upwards_depth_proc'
+   ./fs/eventpoll.c:2340: warning: Function parameter or struct member 'depth' not described in 'ep_get_upwards_depth_proc'
+   ./drivers/gpu/drm/amd/include/amd_shared.h:378: error: Cannot parse struct or union!
+
+
+vim +/tty_port_tty_hangup +1 ./include/linux/tty_port.h
+
+67b94be44771ab Jiri Slaby 2021-07-23 @1  /* SPDX-License-Identifier: GPL-2.0 */
+67b94be44771ab Jiri Slaby 2021-07-23  2  #ifndef _LINUX_TTY_PORT_H
+67b94be44771ab Jiri Slaby 2021-07-23  3  #define _LINUX_TTY_PORT_H
+67b94be44771ab Jiri Slaby 2021-07-23  4  
+
+:::::: The code at line 1 was first introduced by commit
+:::::: 67b94be44771ab99bdbd019e19314f268fa1ff8c tty: move tty_port to new tty_port.h
+
+:::::: TO: Jiri Slaby <jslaby@suse.cz>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
