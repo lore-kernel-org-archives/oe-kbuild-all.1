@@ -1,83 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.201
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794934279;
-	b=VLCyJURwaB8fCS9xmy2+ZZ98xguL7YNqahkchS3b60lsgDmTuC5W+KMkj15lDWbQG4Uq
-	 lKQLjwSAWpH6YYoU/YUeUEfu9sE27BB3Y8ALyrkE4TSuSKLrU+0RtauaaBzekF6l+qMTo
-	 ELccAdM1fJ3OPh2+QFstM5cHydkF66X4HB0IQKmo8ndBAUfmEPiS7WoOxvYTI2k6gr0Ye
-	 tcBRDSXnPnqvFmY3LKFWofQXmiWQp8ys9yzVfefWseTrGh7em9w1BPVS7KNokKeoRfTqq
-	 p5iph6JJawMP51TgoeaoCyFmpne5TjGtMregJvDFXpFBZOUCZdOBN7F3AfaYJoeE5Ig==
+	t=1794935798;
+	b=ZECfGcQuJwTU4j0JBeky7rmh1sUJtFjzH61gaSbK/zDj3OHgZtJ4qpATiGr/IdJ6kd2B
+	 OUgbNpxplPcnKgwQeIabZlFp4dm5poyRDmpLRjBrl5UwHJ4PJE0DAq0vqv1AccngxPj0s
+	 PJl/d1TRxaKNLFZ7P5WBQqR83XM6fofJ2nAemX22FtfUXxpmoAZ2zBWPDU4qI2pqzeEuZ
+	 uuDozxCYnXImvuiH5uMsos8P3sF12pZ/5Y6onxJlng2FbmsuMpjpeHUs7jO00eS+/hM2q
+	 OdripDemiEaivNvSBZR20EYzTc2opfwHo/zW375SuKbuWWjuqBBK6a6wkemskYJ3/Fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794934279;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=RT4X/T0EuH0TmEYOt+HYB/RGMpJQFe8/Bu+i4DTLK/k=;
-	b=WfkQFQtr5WhT3FKS00SuLRaplXlVjEQ459r8Xu+HPk6rctmyPSMskmU2N0Pb5faMWWph
-	 KtFMc/s/20zNv3QeppvOYQgO/N4V7mAVsNfjcYbQlgg7Gy+CewI+e75+zVOElHR99kCXT
-	 aCDEd1WWy1hHR11uIGp8eS+PHaJwqM1XY8EPHLIlUKm+01zUAfzhbozFvKMB6WyCj1108
-	 h5DR0Bv/9QurblJIP7XDwWN5wPm6+C/bqmPG0NX7tsRa+IiCeXYLi59ECGYhXHU8KPNuX
-	 GtmmPe5JVlGulrVv3mws0fRaqQE5BK5FqJU/7GzesYV9o5EyULQkIzSGVEukyNNDR1w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935798;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
+	b=OyjwatFaXK4sJ6QGVTWhwBggrkNfOhhW9RjabAbDcKv11ohO6MduJU+fl2KbBnnZPo/C
+	 OAiA0gT6DxtLN7nZIU3vqvaUWuNwF/ti7PWkfeXUwOskjoKxVPhDcaOUgZBfybka0uX96
+	 FtH8RraZMbLYB8xW8hKW6Oe6r9UgDJKvVcNcwc0CyFuV5cvcZH0h/M1dwsV/WGy/pCY0l
+	 aFDuQ1CEZ6qjWRg+6sPUw9C8We4E1f4JfuzeYCyacA5/8I3+MW4elI37jpYxeoSluU4Zk
+	 Hp7mrFc+c9s6Sn+5Nf6wFvrMnmmFNfT5jMx1J3yibQUkdYiUb9XdkmUIQhBDxOjg2kA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BdqVL2gN;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vBj2l2Xq;
+	arc=none smtp.remote-ip=74.125.227.201
+Received: from mail-pi2-f9.google.com (mail-pi2-f9.google.com [74.125.227.201])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D2E606A32F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 16:51:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5D2E606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B0A606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 17:16:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79B0A606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BdqVL2gN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794934279; x=1826470279;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XgS/tf3vpO0tulClCI8eLPUH78J7AQTbpyP5VYST+vU=;
-  b=BdqVL2gNRomceLMKaZ8A7prEFqHT1Ae5Ex0herHaKl2tccJLESw84b0M
-   OWpSJbaZPyjJdtxV0mLOOZHYwiG9ga+4yi+fzNik4dQWVq6cTiqg30wpE
-   rAqeAGC2TzEgNk8Oai6w8uF+JeVPYMkI7cumUskBmU76vF0qFepdtvPes
-   S7/ZZoQpecyejlGZbbsmkRNkj8MK3HlPThNiu1znu4uCSDatI5iu7NfGc
-   CVC3NG/tHumNbVqUCJaM56DX77aMBisFk6eJk+DD/B86tspeiORUNnScC
-   irTgMbpNMUdhD6VBWLL2i2v76L7Wcu4n+0dXcB1OLpAL/sPxxWI9XfMwq
-   A==;
-X-CSE-ConnectionGUID: Ms2aC9uyQzWbL7NLsCLnSA==
-X-CSE-MsgGUID: BAajp8z3Twy+AIGaYq8dLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3604024"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3604024"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 08:51:18 -0800
-X-CSE-ConnectionGUID: O0tcxq0VQeyK+L9Lp1UEoQ==
-X-CSE-MsgGUID: uCw/BAsQQmWYgbRaBlw6SQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9732926"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2026 08:51:16 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xTMOn-00000001C4R-1v7l;
-	Tue, 17 Nov 2026 16:51:13 +0000
-Date: Wed, 18 Nov 2026 00:50:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: xu.xin@linux.dev, David Hildenbrand <david@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Donet Tom <donettom@linux.ibm.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Xu Xin <xu.xin@linux.dev>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] mm/ksm: do not inherit ksm_zero_pages counter or PTE
- markers on fork
-Message-ID: <202611180030.dC8BHX2Z-lkp@intel.com>
-References: <20261117081821.7211-1-xu.xin@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vBj2l2Xq
+Received: by mail-pi2-f9.google.com with SMTP id 41be03b00d2f7-cdd9d0d40a4so29053a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 09:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794935798; x=1795540598; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
+        b=vBj2l2XqAYfO7wxBHkXYr1CnxoQa0r0tVGyEp3kU8oFex7s1CXXyRIatXfgxXI6O/D
+         Q+qSLJR8/1x12VBbMTAFizNXlSOWZZdYhsELdPykvMTCRuOaFcqJti3Q+6bizlpw4nK7
+         sUdZ/WSydNgr7yxNlf+g32/988MozIhX7iZkBClotj0uNR/G5gDr17PUUliK6Lmym/Y8
+         DjZ3PNW7benJEzrsw86jrpf9PUp4DAeECi4RWZLPtFG9fzb5v9FirNSoLcN/rOrvUq9v
+         I/OqzQynFZvKDm6d+HvfEBNyZqEtzCuPVoz67HqeQ4D00qHu56zA1GuvG0OCzJHfm9/b
+         oozA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794935798; x=1795540598;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
+        b=bQQh4KOLEh/OBFiH4e+edoLxNEwc0ylnFkPAKBmkUVi7jmEQfAMNb+yPhp4Lk/MXS6
+         ImjTDhkdgJ4UGbvhymgHEo5SFCej0U92bqkO+B+m6WIqSRIAHt+al4FFjWdHpf9KMAGP
+         NpkQNXXLuWrCsKDAU+2dUSJf3b+M0Lw9CzVPAnch+FJBKT3O+nfxaP/ZZeZw9lI3UrCL
+         idjVoKVodWuJ5j1Z/LeVttoh6t2sxN/yO1rt6I/Gr0BwEy0zraNMtky9QhgK+x7xmqQ9
+         KA2c3XEqjTgcw7FehM+Euf+kP629ZL1H9Al7IZ6NQw4YMRFBV0e+FAyAZ6foju0T6hpC
+         tHUQ==
+X-Forwarded-Encrypted: i=1; AL+hErHJZkuLuQeZx4PQRF9UhdWakRvkGkCjCuCJ/Wpq89ghLVciJLMQ4BgM4GPHlVzHgSqqr5eWiFjBXJE7JJin@lists.linux.dev
+X-Gm-Message-State: APuU4Z9wrI9ysCA4RSUlBDT5ipgRNAm3tQG8pckbDLuphbYFXNVK2bZ6
+	mtKJncNLiQ2+w+E6q8v1T1nEbsYYOERyzyNOifxobehScF1PPsTET37m
+X-Gm-Gg: AYBFou3fIOCTalo/kRv+3eKecTxNqNA1wt6jcA9Hjm19IBqWFKXqfvOdHhUoXFYYCzw
+	9u61W3ChpCLk2N3t2nYrFFZUp/DXSNX9ncfNFFNZjDCN5hDpCDNEhQiWSnyCJxWiHN7+NiM41H6
+	L9SX/J1QthV0aHZU10S1zH607WjGnB9TNQlkB2YDNMBD+PiysR8LPzT1AanWMU4QtOYMGEPqvpv
+	qXQcqr1A4/zwIQQ7tm6v0yRFs5vmcSf73nSddtQHdvrofWE3X8D9IZHarDMQGjgqzIBAu55Scdh
+	rteXmIt1EI/Wt+77bCX3Ks/QxeMuAzNkHYEY1DjCqdpuy4x6JLeui4CBN2RatoOTbdtGXw7sHje
+	HpwM5x+4955w2lhxyvp1QYIVUmA2bHkOwBmNQsJr5j9i9o7f2lIb12JzLMR/BrZKSGume9NjMK4
+	PUe/7SF2su4vlWf+PEbaKmWOYRZsGO7kkn1Bci/rlW1eQHi9qr5AB+f3WVHdOeu2riyQedrPM+j
+	r0u6AKe1td4BSk0egpJFSth5vVy41zNk0Yrf1gzi+p/3hhIHEgPOvZZj6NtkRFWmSjQX05BoeEV
+	EU2Y35Kuv0Y5ewQ7+l+t/+fCfTBngoqmQNBtPs8wV+o8F9kFvG+9IOLtABKWYqai1ZdadSu3Qsz
+	RT74fKNTF63Un70VnWm086gaqM+r5zss3qIFuHmMY/ojZGSl6HkSHec2kOJZqLVE4077hm50tZH
+	9b+hSQHAk=
+X-Received: by 2002:a05:6a00:3008:b0:855:eb7b:5804 with SMTP id d2e1a72fcca58-8beb374dd2cmr12162924b3a.4.1794935797654;
+        Tue, 17 Nov 2026 09:16:37 -0800 (PST)
+Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c5b38f2c39sm99770b3a.34.2026.11.17.09.16.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 09:16:36 -0800 (PST)
+From: Aveline Noir <jm5905938@gmail.com>
+Date: Wed, 18 Nov 2026 04:04:33 +1100
+Subject: [PATCH] mm/damon/paddr: avoid truncation warning in high-address
+ KUnit test
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,91 +93,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117081821.7211-1-xu.xin@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NOw7CMAyGr1J5xiLJ0AaughicxNAgkVZ2QUhV7
+ 04CAxvj9z9XUJbMCsduBeFn1jyVCnbXQRypXBlzqgzOuN5a6/GSX5joPhWcKSVBnUmU8ecH4w/
+ GDb1PA9SVWbhWPg+n85f1EW4clzbbEoFqPwiVODap4f7PA2zbG7eW2xe2AAAA
+X-Change-ID: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
+To: SJ Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: damon@lists.linux.dev, David Hildenbrand <david@kernel.org>, 
+ Justin Stitt <justinstitt@google.com>, lienze@kylinos.cn, 
+ linux-kernel@vger.kernel.org, 
+ Linux Memory Management List <linux-mm@kvack.org>, 
+ kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+ mm-commits@vger.kernel.org, Bill Wendling <morbo@google.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, oe-kbuild-all@lists.linux.dev, 
+ rdunlap@infradead.org, sashiko-bot@kernel.org, 
+ sashiko-reviews@lists.linux.dev
+X-Mailer: b4 0.16.0
 
-Hi,
+Hi SJ, Andrew,
 
-kernel test robot noticed the following build errors:
+The kernel test robot caught this issue in my earlier addr_unit KUnit
+patch. Feel free to fold this fix into that patch.
 
-[auto build test ERROR on akpm-mm/mm-everything]
+Thanks,
+Aveline Noir
 
-url:    https://github.com/intel-lab-lkp/linux/commits/xu-xin-linux-dev/mm-ksm-do-not-inherit-ksm_zero_pages-counter-or-PTE-markers-on-fork/20261117-161821
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20261117081821.7211-1-xu.xin%40linux.dev
-patch subject: [PATCH] mm/ksm: do not inherit ksm_zero_pages counter or PTE markers on fork
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20261118/202611180030.dC8BHX2Z-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/202611180030.dC8BHX2Z-lkp@intel.com/reproduce)
+-- >8 --
+When phys_addr_t is 32-bit, Sparse warns about truncating the u64 address
+passed to damon_pa_core_addr() in damon_test_pa_addr_over_4g().  The
+runtime kunit_skip() does not prevent Sparse from checking that
+conversion.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611180030.dC8BHX2Z-lkp@intel.com/
+Compile the high-address assertions only with CONFIG_PHYS_ADDR_T_64BIT,
+and keep the test skipped otherwise.
 
-All errors (new ones prefixed by >>):
+Fixes: 7a983cc1b573 ("mm/damon/paddr: add KUnit tests for addr_unit conversion")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/20261117170155.fEdeuuhm-lkp@intel.com/
+Signed-off-by: Aveline Noir <jm5905938@gmail.com>
+---
+The reported warning is gone with the original i386 config, Clang 22.1.8
+and Sparse v0.6.5-rc1-21-g84ec0658. All executed DAMON KUnit tests passed
+on x86_64 and i386 with and without PAE; the high-address case skips
+without PAE.
+---
+ mm/damon/tests/paddr-kunit.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-   mm/memory.c: In function '__copy_present_ptes':
->> mm/memory.c:1168:13: error: implicit declaration of function 'is_ksm_zero_pte' [-Wimplicit-function-declaration]
-    1168 |         if (is_ksm_zero_pte(pte))
-         |             ^~~~~~~~~~~~~~~
+diff --git a/mm/damon/tests/paddr-kunit.h b/mm/damon/tests/paddr-kunit.h
+index 9839cc233071..2b11f0e67a12 100644
+--- a/mm/damon/tests/paddr-kunit.h
++++ b/mm/damon/tests/paddr-kunit.h
+@@ -26,15 +26,16 @@ static void damon_test_pa_core_addr(struct kunit *test)
+ 
+ static void damon_test_pa_addr_over_4g(struct kunit *test)
+ {
++#ifdef CONFIG_PHYS_ADDR_T_64BIT
+ 	unsigned long addr = 0xffffffffUL;
+ 	unsigned long addr_unit = 0x1000;
+ 	u64 pa = 0xffffffff000ULL;
+ 
+-	if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
+-		kunit_skip(test, "phys_addr_t is 32-bit");
+-
+ 	KUNIT_EXPECT_EQ(test, damon_pa_phys_addr(addr, addr_unit), pa);
+ 	KUNIT_EXPECT_EQ(test, damon_pa_core_addr(pa, addr_unit), addr);
++#else
++	kunit_skip(test, "phys_addr_t is 32-bit");
++#endif
+ }
+ 
+ static struct kunit_case damon_paddr_test_cases[] = {
 
+---
+base-commit: 7a983cc1b57309a875a9e07a934c9944bf3d088d
+change-id: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
 
-vim +/is_ksm_zero_pte +1168 mm/memory.c
-
-  1123	
-  1124	static __always_inline void __copy_present_ptes(struct vm_area_struct *dst_vma,
-  1125			struct vm_area_struct *src_vma, pte_t *dst_pte, pte_t *src_pte,
-  1126			pte_t pte, unsigned long addr, int nr)
-  1127	{
-  1128		struct mm_struct *src_mm = src_vma->vm_mm;
-  1129		bool writable;
-  1130	
-  1131		/*
-  1132		 * Snapshot writability before the RWP-disarm rewrite below: when the
-  1133		 * child is not RWP-armed, pte_modify(pte, dst_vma->vm_page_prot) can
-  1134		 * silently drop _PAGE_RW from a resolved (no-marker) writable PTE,
-  1135		 * so a later pte_write(pte) check would skip the COW wrprotect and
-  1136		 * leave the parent writable over a folio shared with the child.
-  1137		 */
-  1138		writable = pte_write(pte);
-  1139	
-  1140		/*
-  1141		 * Child is not RWP-armed: restore accessible protection so the
-  1142		 * inherited PAGE_NONE does not cost a fault on first read. Gate on
-  1143		 * pte_uffd(pte) so unrelated PAGE_NONE markers (e.g. NUMA balancing)
-  1144		 * are not normalised away.
-  1145		 */
-  1146		if (!userfaultfd_protected(dst_vma)) {
-  1147			if (userfaultfd_rwp(src_vma) && pte_uffd(pte))
-  1148				pte = pte_modify(pte, dst_vma->vm_page_prot);
-  1149			pte = pte_clear_uffd(pte);
-  1150		}
-  1151	
-  1152		/* If it's a COW mapping, write protect it both processes. */
-  1153		if (vma_is_cow_mapping(src_vma) && writable) {
-  1154			wrprotect_ptes(src_mm, addr, src_pte, nr);
-  1155			pte = pte_wrprotect(pte);
-  1156		}
-  1157	
-  1158		/* If it's a shared mapping, mark it clean in the child. */
-  1159		if (src_vma->vm_flags & VM_SHARED)
-  1160			pte = pte_mkclean(pte);
-  1161		pte = pte_mkold(pte);
-  1162	
-  1163		/*
-  1164		 * Clear the dirty-bit marker on KSM-placed zero-page PTEs in the
-  1165		 * child so inherited mappings are not accounted against the child or
-  1166		 * unshared by MADV_UNMERGEABLE.  Special PTEs always have nr == 1.
-  1167		 */
-> 1168		if (is_ksm_zero_pte(pte))
-  1169			pte = pte_mkclean(pte);
-  1170	
-  1171		set_ptes(dst_vma->vm_mm, addr, dst_pte, pte, nr);
-  1172	}
-  1173	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
