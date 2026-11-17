@@ -1,79 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794898232;
-	b=1qAuPKsCttYqghOmahRVuX/5rofOuLYmqQaNLSmTrNkLyd56UDdpoUkZN4Yj8vK6YKoU
-	 zoxxRxnhBjOXS6+q32foW2XHsreGFy7Nxj17AXmUCtLa5MvDEi2DbB9/UP5eBWz0moQkE
-	 frpDFZCxVB7zS+z0psw8BN4bsc7spMa+cP/0QRNzJo0gqhu6WTcP1iiIkMamDjH5dewQq
-	 A+ZRXT2P4RPAfPCISwHEZt9r4nHvTyrvlEDk8Gw+lHppHzGRxDH4ej76Y7H8ZGTC4+/pO
-	 7rZqAiViqGLekBF7S29ttSGNVuLfbbBcs6tk7QV8UGE1Id8g/YhKs0LXevvpmplz+AA==
+	t=1794898372;
+	b=Q2/Ur5ekZuxR2RKkTQNngKVnnQzQwWO8Ypw8rToJxTYv8cSU2iM0t0klmd85+a9grT5f
+	 /OU7PWeCoaMzvLZeUx9H+0ZTOehNU1DdNog0X7akofHLzmz+EC90v/RO9iSfi54ul7cpw
+	 M03gycWm8gOUW29vzTZYKb6S0p6n3ZL2QCHX1uAhMXK87rFWrhmZAu5dfLrBpslE8jITQ
+	 IjlxqZx2gRUpvj2pyKPKQ+eqEm2dT12DrJN5avESMrHN0dUtmmq2Ed3Btlr1L4I01ECMJ
+	 jujjp+K77AhJDZleo9QQGuSf2tq7+Id+4QlL42YHjR0MHL4A+om4NKnuKJaWksGePPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794898232;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794898372;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=eU0pHaZ3IG0B39heoJBZr50Cg8rsubixTrSJpbDGu/M=;
-	b=QDZnI5jmLdxoAIZIsFhHBYiaOTO5VRY8gRaJxAed3Ri38p3Qpub9y79m7jyaydIPe0aJ
-	 oc4w0Y1pslPpG5XU34M3OZHxizKvBLtFExNSe8gf3V3SGhSwcf7jDJfFn/ZNHAUZ+4INl
-	 bKUxpgntHnZU1yfQ/w2AeKW/yVF8dcTxJEGgrKuzxJfmVyTqy7MICx/r4sb6VW7WehML0
-	 ZvvfsmJBK4CfMyf85MtvmmcXeI0ycOVo7aC/NVszY2r9/j6HUvU8D9nhiZuTW8Gzk1CSP
-	 BlXWUmcitDs3F5cUQi2hwsLG4lrk+r9kMkGVWYspyXXXnTP/C9kPLwGTH8Imp9KwlmQ==
+	bh=b9RtOVhJ0aYz264UQ4U9o8kmE2pwerMdgMvbjJ/dVzk=;
+	b=S9vQGFSmilB0hr393CA76HXKGFTAWbSPNt1XjHAZxQjaXI8Rm6kSLJvRgj715W1KhNBX
+	 RE1HxVL+s3JGUGJt76BE9iwYQ3tqyWE3tdAt0S/i/FfqqXtwtq64mGxYanpW8qpNbpC6J
+	 TAw86paCTitReckHCrp/78QQ4XCnKlfhpihF4o/RPPWQ9oza6h0sdw26SAvRRMcGdzFBr
+	 E4Rgi2mdV+u8agksM0zTxP0sFrunWADYWIaQ1dbbtBgnTFY4eJqqr1f5YN6+zREWMnM1B
+	 Dm3nkBu9b5BJeiyhkmCckXRIW3xoihBKOSgr95vJkVAjOTb6YQX0bQbcjCT0Ej3qHgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nPlhEJYe;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lzJMIXMC;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D34B606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 06:50:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D34B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31611606A323
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 06:52:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31611606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nPlhEJYe
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lzJMIXMC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794898232; x=1826434232;
+  t=1794898372; x=1826434372;
   h=date:from:to:cc:subject:message-id;
-  bh=4YF4GBExQUYfXNJstY7DKpePTLaB0uBplq+btaVTmAQ=;
-  b=nPlhEJYetHTbpvNNQt/I6Q6fnqbwKDnUW7P+Ya5Hw/bf/ZQVPu1nbOyW
-   SAA2rooOZ1hB4knYbqK6sGpxzHC6oD4OK6tZq5VTsELjQoy7wjMMAGa/i
-   rOzhRXblcr2bVNJ6q/ES+CWKvkc/wSSYKlLO3+w8JwQdk4mdlwlUhVMIQ
-   CQ+OV2/Wgdgp4i4iPUnlAh2H5EWVvvUWIblcPlF0Kyou6jg1uzYOZ+wgv
-   6Re1OejtBrouYostAn8Y4BS63TdOhclVXsCZAbF+2wzLatNZXURWlSmbK
-   hxxI/WjGEofKuLT9bH+AiCYTjHXTiONS1WhL+XhXHEB7mrph1a3MWdcBO
-   g==;
-X-CSE-ConnectionGUID: W+U1ALNKS2qAW5ojOLVADQ==
-X-CSE-MsgGUID: CG+Rk4ubSMC39AQsIFMyaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3527862"
+  bh=2hvFp4fJTvPAv/rPiFHVhChL6L2ahatOyCqNZXfgsE8=;
+  b=lzJMIXMCSOWsoeHOVifO91yTLJehVpByo/lAQ6SaHi9mrMVLPAtiNm1G
+   1g6x16xIJU5P7qDxV1TLnxQTq+weSXBRkF9EQaCifprogKKs8PoKHUTgD
+   ke699qbrIHCiGpDKItA7RUZN9n9vOEoeCS0QuKv8KruVSV31Eb/HX1BAv
+   sfpCZJT7X9JJC+rJBfuggl+hnPWXyX/T5V23jkq3PX9kU95LrwqBSapLw
+   kccxnIXITkG9EJDJFTiIPMdCQr1rfVlYx+ile69+XlzWOsrARf7FKOfeS
+   RBa7BWQCltuzZheKWekIvo1qHlTFXbK/ALib96kwlWgWL9/itUNtEeBHu
+   Q==;
+X-CSE-ConnectionGUID: Hfra/mIbTeufQENYyUcGbw==
+X-CSE-MsgGUID: nioENVdpS2699PEDJHER/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3665728"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3527862"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 22:50:31 -0800
-X-CSE-ConnectionGUID: JykEogqTS0Cvsc9gsecFuQ==
-X-CSE-MsgGUID: gyHUIzJeRjK1o7KWQK/u2Q==
+   d="scan'208";a="3665728"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 22:49:28 -0800
+X-CSE-ConnectionGUID: gSXAM9kQRvSMDQeRw+z70w==
+X-CSE-MsgGUID: iDOoPaN+Tb+ImHTtRgFN0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9653593"
+   d="scan'208";a="9925817"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 16 Nov 2026 22:50:28 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2026 22:49:25 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTD1O-0000000030I-0CUa;
-	Tue, 17 Nov 2026 06:50:26 +0000
-Date: Tue, 17 Nov 2026 07:49:28 +0100
+	id 1xTD0N-0000000030A-0dP7;
+	Tue, 17 Nov 2026 06:49:23 +0000
+Date: Tue, 17 Nov 2026 07:49:13 +0100
 From: kernel test robot <lkp@intel.com>
-To: Raghav Sharma <raghav.s@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Peter Griffin <peter.griffin@linaro.org>
-Subject: [linux-next:master 7081/7459]
- arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000:
- failed to match any schema with compatible:
- ['samsung,exynos8855-peric-sysreg', 'syscon']
-Message-ID: <202611170759.pEwFwUBI-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt_arm64 11/29]
+ include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from
+ constant value (fffffffffffe0 becomes ffffffe0)
+Message-ID: <202611170712.5q1fLePG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,21 +81,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   749a4de370409464cf8501ec5b2451df45c84eb4
-commit: 14a87bfb0614d87b04134156e090d7b00590d2b2 [7081/7459] arm64: dts: exynos8855: add cmu_top & cmu_peric clock DT nodes
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261117/202611170759.pEwFwUBI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev6+ged91b647c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170759.pEwFwUBI-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
+head:   09e964858d505e5bef1d8a8ff5bbdd3b86a626f9
+commit: 045aed2844f081e887e791538d61044b6b0e590b [11/29] iommupt/armv8: Implement the iommu specific components
+config: i386-randconfig-r2306-20261117 (https://download.01.org/0day-ci/archive/20261117/202611170712.5q1fLePG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170712.5q1fLePG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170759.pEwFwUBI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170712.5q1fLePG-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000: failed to match any schema with compatible: ['samsung,exynos8855-peric-sysreg', 'syscon']
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/generic_pt/fmt/iommu_armv8.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
+>> include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
+   include/linux/bitops.h:284:16: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
+>> include/linux/bitops.h:279:19: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
+   include/linux/bitops.h:284:16: sparse: sparse: cast truncates bits from constant value (fffffffffffe0 becomes ffffffe0)
+
+vim +279 include/linux/bitops.h
+
+c320592f3f2a1e6 Wolfram Sang       2025-01-07  267  
+952043ac12a117d Steven Whitehouse  2009-04-23  268  /**
+952043ac12a117d Steven Whitehouse  2009-04-23  269   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117d Steven Whitehouse  2009-04-23  270   * @word: The 64 bit word
+952043ac12a117d Steven Whitehouse  2009-04-23  271   *
+4945cca232ce8bc Geert Uytterhoeven 2021-02-25  272   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117d Steven Whitehouse  2009-04-23  273   * The result is not defined if no bits are set, so check that @word
+952043ac12a117d Steven Whitehouse  2009-04-23  274   * is non-zero before calling this.
+952043ac12a117d Steven Whitehouse  2009-04-23  275   */
+6606c8c7e818865 Kees Cook          2025-08-04  276  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117d Steven Whitehouse  2009-04-23  277  {
+952043ac12a117d Steven Whitehouse  2009-04-23  278  #if BITS_PER_LONG == 32
+952043ac12a117d Steven Whitehouse  2009-04-23 @279  	if (((u32)word) == 0UL)
+952043ac12a117d Steven Whitehouse  2009-04-23  280  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117d Steven Whitehouse  2009-04-23  281  #elif BITS_PER_LONG != 64
+952043ac12a117d Steven Whitehouse  2009-04-23  282  #error BITS_PER_LONG not 32 or 64
+952043ac12a117d Steven Whitehouse  2009-04-23  283  #endif
+952043ac12a117d Steven Whitehouse  2009-04-23  284  	return __ffs((unsigned long)word);
+952043ac12a117d Steven Whitehouse  2009-04-23  285  }
+952043ac12a117d Steven Whitehouse  2009-04-23  286  
+
+:::::: The code at line 279 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
+
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
