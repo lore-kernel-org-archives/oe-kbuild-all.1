@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924250;
-	b=tN04UKdrRJ6fEAwK2eNfKt/EJfm5aj6yZ8J5xtncuJRtSHaZiZZPbj3rQs+El+SWRbpX
-	 fwPF1v2mxvD2SG+JQI/W3s0jYS2ydzsS6CxzPNACTOxA357hzrZshemxFybB4kyPqacmQ
-	 Mv4/tSmJU5Fns7qHg59u5sojVA0Rj46fdPxjCvhFfls8u+fDskjA9fgZVqiOxmpBVwiN1
-	 aHPpI6DaAB0y6LEweGcSJJsFA01V/G/HQpuJ3Z9BT1pUdzbPiF95nbEu/nj8rDcD3Qclj
-	 jJsgp0X0atP8UlYJwCU6D+TOdiWPd5mlSln+kEuQqzI8SrYq5us8+0bvg/dtNL/vRjg==
+	t=1794925888;
+	b=fYNjOGZHdd1ziq4/BlKfdp99nvTmW1+dH38/hSefMUIhtGG32pwixb80ivQMJDa5cSi8
+	 cPY157Jesew4TyKwE4WbUvgHJoNF85yWs7FlI0sa519tr4QiG0JfXDnkrSElDlpKf/TH/
+	 dSAEOoYKLaCyxnf8D7Vw1PNDblGUOV4yTuaeloebTvb5bNWMG96gjNAc6KywvcL7y57i5
+	 hGQHxEP1d3UJ9Mahhsi/vA9hJfaCkDVouafcYkDuT8C4pxkr24FHxGziuBxWREstIeVGe
+	 WMRiSoyMh2oIA8UZlkmTCTX5PFEJ/x4ZMEqdNnAG5yUEq3TCwrXUKxTQ3Ve9ZYN6Pvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924250;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794925888;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=5jGqKMzpHIBt9HmpwpDrqu2DhhE4x8wUp8p1Drn43Ak=;
-	b=xKGftHIZ347dVvf1Ze9Z7TFYTg85SmwtEF8346UDBZ3qDtL7NJlByR3F1pALwfF3QsLu
-	 hl9qJ5Y3LUp4rVxC6o/uHyBsWmuU8yKQhdwlKBXO/kzVe4h6zir2Q1nh39g3+fyhQRsLv
-	 5PdNF4HNWfF2CZVXzXgWd+r25KaoJwpzY4g5MmZU9TXohcoPyS4yevETsZdZnLNfOg3bK
-	 jnpijcpw4nyHV1DIMACH1PXsQaehM79AvLoAni/lg2bvH+TGyTipJEW7aQAxGZhTSepOA
-	 tHZdFGZeO3kIR7aQfykc0HLxW3qJTk87Fe9OPqtIt3napUr1brzEwXOwQdwPRNQ1tgQ==
+	bh=xH9tcZglWaJ1kiuRkFTkQX6gMj5CAyVcpOW6g2tqcJU=;
+	b=e0DMPZfltnPT38srJPSKjQIgoeuhQaDz+GJshP39cLK1Cqq20r0YS0nNS9vk9191quhL
+	 AejUAePgGk5GYUz5NY4IS4Z75w2WrDkU5clwrdxTllEHi8KvU3duxnDt5jb2Hv8KRjv9Y
+	 nXC1pEoNfz2ar9B0JjdVQogv6W5b7IogfDTMYjcDu8cr8yzodhsp8oc/YlwYp3hV6zBHB
+	 UnqD4FRo9yO6B8CydRSGA6uBUsjrgi7VN1BW6BvY24qy5MFKsr1W+8KlI1dLeLHzUCSYg
+	 wRLq+DdCCpr1fscnaFtQ7I42Jgz3OyzwWehPaT11oQNu6KyzrmHAbVU4mJ3q8LJFTDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PUf2W3uw;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A5BwESyG;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E133606A33A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 14:04:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E133606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E669606A32F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 14:31:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E669606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PUf2W3uw
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A5BwESyG
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794924250; x=1826460250;
+  t=1794925888; x=1826461888;
   h=date:from:to:cc:subject:message-id;
-  bh=hQN8welQxv9k4rl4HD+iCMs6hNmuTmKOI3f0qQcpOpg=;
-  b=PUf2W3uwqSyxnCg7hb00qAysF2L8DDjXEOzg/ocglf7HTjEnp2r6bfoz
-   gbX7Oyt7eEVeijDqtFT7d4UR3qv2+cQcqIIazG5eEnL+nke88J3dgZ+fd
-   KwQNLmLUry4fm1gRwBPrAfz8o7/IS7aoYXf8Z4Xahri+hQP8CHujD0XAg
-   c6b9YsQrwmdSGYnbZUxLwvwVivQNKzntYD6VUEWh1taOz9tTsXfY8Zx7X
-   Oqxg40KsAnQSWNv/e6hjWRIaDNgjAXdlcIDCxPNgO3kDdS0oIJyv0jyRl
-   e2zBdqixh86QPSybBR27AJydd6wSgY4Da2XQBNYAOYebmE2C06HHHWoIj
-   Q==;
-X-CSE-ConnectionGUID: x64uyPRlSBG3NpubhsLkvg==
-X-CSE-MsgGUID: C/+j4R/hQQu8UxsEt8EGrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3733224"
+  bh=qESQxRdtI0T0C25IAFaEYDROHtspRo5KVEHHKpLuNpc=;
+  b=A5BwESyG2kHm/OlEItdnZSwUbTti3MMdVRoqq+gaf6Uk54SVB3h1q6Z6
+   zN/Rlg1YEGRmd8UvEFy6kg0N1aHcI6zZn6AvNeq11ttm6vJPdISUefCC8
+   bEgp1KS4rq6VUQzQPooPiH3/KfKba80VqQGyXOGVuzsTcmQxFIz7HpWzy
+   sNx9ImasiOldhQdaxyAq7MnxiViWZDHY1UXJLi9czCkmCA+IslKeydezH
+   5Q32sT9NCs16fULgRaLV7J9fFBR5CfuvfYxaj5ISEuqrHcr4fDKRKxrGp
+   nzG+ep48jB5fW81S1HjX3Mq6KeXxrSXKB+GfEFzMKzugL+yjlydLYq8ZC
+   w==;
+X-CSE-ConnectionGUID: cg1rswKmTQuuon352IDmhg==
+X-CSE-MsgGUID: 9m/2TUwXTK+HFuXHMHxdvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3580055"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3733224"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 06:04:09 -0800
-X-CSE-ConnectionGUID: eAe5XsJiRA29BNDpe+NEcA==
-X-CSE-MsgGUID: tZurIZY4SJWrtowJmB12KQ==
+   d="scan'208";a="3580055"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 06:25:10 -0800
+X-CSE-ConnectionGUID: ourVcQSAQqSIsB/sk5cHgg==
+X-CSE-MsgGUID: vjTNCCnSQledtl0jskpUsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10236403"
+   d="scan'208";a="10108617"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2026 06:04:07 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 17 Nov 2026 06:25:08 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTJn3-00000000386-1TPl;
-	Tue, 17 Nov 2026 14:04:05 +0000
-Date: Tue, 17 Nov 2026 15:03:16 +0100
+	id 1xTK7O-0000000038M-1Jvs;
+	Tue, 17 Nov 2026 14:25:06 +0000
+Date: Tue, 17 Nov 2026 15:24:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [mhiramat:topic/bootconfig-multiple 5/9] htmldocs:
- Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1256: WARNING:
- Block quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <20261117150234.wWb8ZTnT-lkp@intel.com>
+To: Raghav Sharma <raghav.s@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Peter Griffin <peter.griffin@linaro.org>
+Subject: [linux-next:master 7081/7459]
+ arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000:
+ failed to match any schema with compatible:
+ ['samsung,exynos8855-peric-sysreg', 'syscon']
+Message-ID: <20261117151852.s7PLBra6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,34 +84,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/bootconfig-multiple
-head:   1f638abe94c9f0d98d017e0aaf27a76982b7d8b9
-commit: 1646c45f5190170cc1c9eb1379dc94e7e8cabec5 [5/9] bootconfig: Add multi-config ID helpers and xbc_init_configs() support
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261117/20261117150234.wWb8ZTnT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   749a4de370409464cf8501ec5b2451df45c84eb4
+commit: 14a87bfb0614d87b04134156e090d7b00590d2b2 [7081/7459] arm64: dts: exynos8855: add cmu_top & cmu_peric clock DT nodes
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261117/20261117151852.s7PLBra6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117151852.s7PLBra6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261117150234.wWb8ZTnT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117151852.s7PLBra6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1255: ERROR: Unexpected indentation. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1256: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1258: WARNING: Inline strong start-string without end-string. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1258: WARNING: Inline strong start-string without end-string. [docutils]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/exynos/exynos8855-smdk.dtb: /soc@0/syscon@15420000: failed to match any schema with compatible: ['samsung,exynos8855-peric-sysreg', 'syscon']
 
 -- 
 0-DAY CI Kernel Test Service
