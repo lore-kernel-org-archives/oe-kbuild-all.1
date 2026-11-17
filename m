@@ -1,89 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.201
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794935798;
-	b=ZECfGcQuJwTU4j0JBeky7rmh1sUJtFjzH61gaSbK/zDj3OHgZtJ4qpATiGr/IdJ6kd2B
-	 OUgbNpxplPcnKgwQeIabZlFp4dm5poyRDmpLRjBrl5UwHJ4PJE0DAq0vqv1AccngxPj0s
-	 PJl/d1TRxaKNLFZ7P5WBQqR83XM6fofJ2nAemX22FtfUXxpmoAZ2zBWPDU4qI2pqzeEuZ
-	 uuDozxCYnXImvuiH5uMsos8P3sF12pZ/5Y6onxJlng2FbmsuMpjpeHUs7jO00eS+/hM2q
-	 OdripDemiEaivNvSBZR20EYzTc2opfwHo/zW375SuKbuWWjuqBBK6a6wkemskYJ3/Fg==
+	t=1794937324;
+	b=iEUiqhVoF8InKpsHbqqZUBTMk+LHv9upPrnYTj7EFQ/pju2M3gZ+qZt/i1ZBMLbreWpU
+	 KLHjZuk2UlfZ/sMNrxXBF2PrJtq7Mw0RGNp/QaCUkZhcdBxR57TMaThE9ED3ugVGGl3yJ
+	 exl/o6/TtC99WEh2wyRDvy07CGF+UnS5b/GQ3NdSJf/T7J3DxW7kldzAUxUExpjqVk5Gn
+	 HHFMPDgoQJ/ynX3lna06uejg2jaLMacBJhDbb8u3SdDB3WMRFVeeKytg3KJuwMZs9uWUX
+	 gjvWGoaAt3dBEmEwcW6u/WlT9hr+U/GqZ2I3TzVd7GxHIwtI7vicU4U0AgiiGiZITRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794935798;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
-	b=OyjwatFaXK4sJ6QGVTWhwBggrkNfOhhW9RjabAbDcKv11ohO6MduJU+fl2KbBnnZPo/C
-	 OAiA0gT6DxtLN7nZIU3vqvaUWuNwF/ti7PWkfeXUwOskjoKxVPhDcaOUgZBfybka0uX96
-	 FtH8RraZMbLYB8xW8hKW6Oe6r9UgDJKvVcNcwc0CyFuV5cvcZH0h/M1dwsV/WGy/pCY0l
-	 aFDuQ1CEZ6qjWRg+6sPUw9C8We4E1f4JfuzeYCyacA5/8I3+MW4elI37jpYxeoSluU4Zk
-	 Hp7mrFc+c9s6Sn+5Nf6wFvrMnmmFNfT5jMx1J3yibQUkdYiUb9XdkmUIQhBDxOjg2kA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794937324;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=N4cPNHaOSDpQWkmtLolUcw66ohiyV+oJhJiNCIB4ytk=;
+	b=O7it+flPDFmI8WXDual2RdnVKGmdp5s/HmHTic8qBB4pKhcBrei3WTeVe3WkfQRJIqjG
+	 YscQ+TpCz8SFjaCTjasJDbNGHwGZff1mDDQe5AAPZY7GYg30LvNkBrpnrw2jx5qLmNJAA
+	 Wb+31BJENkDx5AAGG9/wWuSVNhfGh1N7vEK55Im2D023N5RzswWmoiXR3p1yygW8XQejx
+	 JRfngeZymrCEeTv6g8LuC/jtqR51GERzQbB5HEWiMFIdywYpAx4s0RGgQIrrRpJj+M839
+	 HnWGmyuhEZl8L50w8YO6Jfa5DkMzCUUGLxb3x+ikU3woO/sdKR+rTx0j8gSShbmcBWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vBj2l2Xq;
-	arc=none smtp.remote-ip=74.125.227.201
-Received: from mail-pi2-f9.google.com (mail-pi2-f9.google.com [74.125.227.201])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XrvuhE2+;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B0A606A32A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 17:16:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79B0A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E30606A32F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 17:42:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33E30606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vBj2l2Xq
-Received: by mail-pi2-f9.google.com with SMTP id 41be03b00d2f7-cdd9d0d40a4so29053a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 09:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794935798; x=1795540598; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
-        b=vBj2l2XqAYfO7wxBHkXYr1CnxoQa0r0tVGyEp3kU8oFex7s1CXXyRIatXfgxXI6O/D
-         Q+qSLJR8/1x12VBbMTAFizNXlSOWZZdYhsELdPykvMTCRuOaFcqJti3Q+6bizlpw4nK7
-         sUdZ/WSydNgr7yxNlf+g32/988MozIhX7iZkBClotj0uNR/G5gDr17PUUliK6Lmym/Y8
-         DjZ3PNW7benJEzrsw86jrpf9PUp4DAeECi4RWZLPtFG9fzb5v9FirNSoLcN/rOrvUq9v
-         I/OqzQynFZvKDm6d+HvfEBNyZqEtzCuPVoz67HqeQ4D00qHu56zA1GuvG0OCzJHfm9/b
-         oozA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794935798; x=1795540598;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ROucTsPnyYTVcMujmRdSC63nWVbZidpBxQo25fxVF2Q=;
-        b=bQQh4KOLEh/OBFiH4e+edoLxNEwc0ylnFkPAKBmkUVi7jmEQfAMNb+yPhp4Lk/MXS6
-         ImjTDhkdgJ4UGbvhymgHEo5SFCej0U92bqkO+B+m6WIqSRIAHt+al4FFjWdHpf9KMAGP
-         NpkQNXXLuWrCsKDAU+2dUSJf3b+M0Lw9CzVPAnch+FJBKT3O+nfxaP/ZZeZw9lI3UrCL
-         idjVoKVodWuJ5j1Z/LeVttoh6t2sxN/yO1rt6I/Gr0BwEy0zraNMtky9QhgK+x7xmqQ9
-         KA2c3XEqjTgcw7FehM+Euf+kP629ZL1H9Al7IZ6NQw4YMRFBV0e+FAyAZ6foju0T6hpC
-         tHUQ==
-X-Forwarded-Encrypted: i=1; AL+hErHJZkuLuQeZx4PQRF9UhdWakRvkGkCjCuCJ/Wpq89ghLVciJLMQ4BgM4GPHlVzHgSqqr5eWiFjBXJE7JJin@lists.linux.dev
-X-Gm-Message-State: APuU4Z9wrI9ysCA4RSUlBDT5ipgRNAm3tQG8pckbDLuphbYFXNVK2bZ6
-	mtKJncNLiQ2+w+E6q8v1T1nEbsYYOERyzyNOifxobehScF1PPsTET37m
-X-Gm-Gg: AYBFou3fIOCTalo/kRv+3eKecTxNqNA1wt6jcA9Hjm19IBqWFKXqfvOdHhUoXFYYCzw
-	9u61W3ChpCLk2N3t2nYrFFZUp/DXSNX9ncfNFFNZjDCN5hDpCDNEhQiWSnyCJxWiHN7+NiM41H6
-	L9SX/J1QthV0aHZU10S1zH607WjGnB9TNQlkB2YDNMBD+PiysR8LPzT1AanWMU4QtOYMGEPqvpv
-	qXQcqr1A4/zwIQQ7tm6v0yRFs5vmcSf73nSddtQHdvrofWE3X8D9IZHarDMQGjgqzIBAu55Scdh
-	rteXmIt1EI/Wt+77bCX3Ks/QxeMuAzNkHYEY1DjCqdpuy4x6JLeui4CBN2RatoOTbdtGXw7sHje
-	HpwM5x+4955w2lhxyvp1QYIVUmA2bHkOwBmNQsJr5j9i9o7f2lIb12JzLMR/BrZKSGume9NjMK4
-	PUe/7SF2su4vlWf+PEbaKmWOYRZsGO7kkn1Bci/rlW1eQHi9qr5AB+f3WVHdOeu2riyQedrPM+j
-	r0u6AKe1td4BSk0egpJFSth5vVy41zNk0Yrf1gzi+p/3hhIHEgPOvZZj6NtkRFWmSjQX05BoeEV
-	EU2Y35Kuv0Y5ewQ7+l+t/+fCfTBngoqmQNBtPs8wV+o8F9kFvG+9IOLtABKWYqai1ZdadSu3Qsz
-	RT74fKNTF63Un70VnWm086gaqM+r5zss3qIFuHmMY/ojZGSl6HkSHec2kOJZqLVE4077hm50tZH
-	9b+hSQHAk=
-X-Received: by 2002:a05:6a00:3008:b0:855:eb7b:5804 with SMTP id d2e1a72fcca58-8beb374dd2cmr12162924b3a.4.1794935797654;
-        Tue, 17 Nov 2026 09:16:37 -0800 (PST)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c5b38f2c39sm99770b3a.34.2026.11.17.09.16.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 09:16:36 -0800 (PST)
-From: Aveline Noir <jm5905938@gmail.com>
-Date: Wed, 18 Nov 2026 04:04:33 +1100
-Subject: [PATCH] mm/damon/paddr: avoid truncation warning in high-address
- KUnit test
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XrvuhE2+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794937324; x=1826473324;
+  h=date:from:to:cc:subject:message-id;
+  bh=PolLErKWN+3Pwgx83/DDn5ZWzyZHcvdGJEXmeahUSXc=;
+  b=XrvuhE2+iLwy8EDZkP8tnbLW1DOPjFIPMNN7Fe5nBsGNyHF4rFCg1HGA
+   LP1lWCDYLNrU9IK/jjToCYKHN2d0Q3/HLqsYzZ5B3Kz0u9hYiikC3mhlE
+   VGXXFPbvp69ud2kEkdtHARHdH4Ln5d2/0srVibIdQ9c7yjS4avyCR1E9L
+   5Fah5JWkKPkz6pKJwe+XVS/pPQID30dYNsTr3vf8w0mrXT1CXnOxTIL2v
+   44PwCbTZAfPSGX32v4N1Nh4Kj8KlfWqpCD15hl9OWW8jFF750cMUejt6q
+   TOaDmEARjLhCFU0SuHIq4EYzNuxCuKCNbJ9BFcOwchkTtqUttUL+ygbDz
+   Q==;
+X-CSE-ConnectionGUID: xvrMWGoLSfyF7vYkwoUZkA==
+X-CSE-MsgGUID: Tq62rBNZTjumW1mdwBxSEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3614913"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3614913"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 09:42:03 -0800
+X-CSE-ConnectionGUID: 4S81nohATkKF4u2ElDhBag==
+X-CSE-MsgGUID: 71IyqGwCQzi6zBliQn/EIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9898047"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 17 Nov 2026 09:42:03 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xTNBw-000000003Ao-0SSB;
+	Tue, 17 Nov 2026 17:42:00 +0000
+Date: Tue, 17 Nov 2026 18:41:56 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-lts 318/318]
+ arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy):
+ clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+Message-ID: <20261117183454.d5Sryg14-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,83 +80,161 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NOw7CMAyGr1J5xiLJ0AaughicxNAgkVZ2QUhV7
- 04CAxvj9z9XUJbMCsduBeFn1jyVCnbXQRypXBlzqgzOuN5a6/GSX5joPhWcKSVBnUmU8ecH4w/
- GDb1PA9SVWbhWPg+n85f1EW4clzbbEoFqPwiVODap4f7PA2zbG7eW2xe2AAAA
-X-Change-ID: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
-To: SJ Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: damon@lists.linux.dev, David Hildenbrand <david@kernel.org>, 
- Justin Stitt <justinstitt@google.com>, lienze@kylinos.cn, 
- linux-kernel@vger.kernel.org, 
- Linux Memory Management List <linux-mm@kvack.org>, 
- kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
- mm-commits@vger.kernel.org, Bill Wendling <morbo@google.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, oe-kbuild-all@lists.linux.dev, 
- rdunlap@infradead.org, sashiko-bot@kernel.org, 
- sashiko-reviews@lists.linux.dev
-X-Mailer: b4 0.16.0
 
-Hi SJ, Andrew,
+tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
+head:   c29a11a6da74fe6ffbc7bc4bbcb21f2e579e814d
+commit: 2469039f0fd687ed351591984622e763196bff32 [318/318] arm64: dts: qcom: lemans: Add eDP ref clock for eDP PHYs
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261117/20261117183454.d5Sryg14-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117183454.d5Sryg14-lkp@intel.com/reproduce)
 
-The kernel test robot caught this issue in my earlier addr_unit KUnit
-patch. Feel free to fold this fix into that patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117183454.d5Sryg14-lkp@intel.com/
 
-Thanks,
-Aveline Noir
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4878.28-4939.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4960.28-5012.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans-evk.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/lemans-evk.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[56, 199], [56, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[253, 11], [253, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[253, 28], [253, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+--
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[56, 199], [56, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[267, 11], [267, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[267, 28], [267, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+--
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[56, 199], [56, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[267, 11], [267, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[267, 28], [267, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+--
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[57, 199], [57, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[268, 11], [268, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[268, 28], [268, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+--
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[57, 199], [57, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[268, 11], [268, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[268, 28], [268, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml
+--
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): 'clock-names', 'power-domains' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: crypto@1d88000 (qcom,sa8775p-inline-crypto-engine): clocks: [[56, 199], [56, 196]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[253, 11], [253, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clocks: [[253, 28], [253, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml
 
--- >8 --
-When phys_addr_t is 32-bit, Sparse warns about truncating the u64 address
-passed to damon_pa_core_addr() in damon_test_pa_addr_over_4g().  The
-runtime kunit_skip() does not prevent Sparse from checking that
-conversion.
-
-Compile the high-address assertions only with CONFIG_PHYS_ADDR_T_64BIT,
-and keep the test skipped otherwise.
-
-Fixes: 7a983cc1b573 ("mm/damon/paddr: add KUnit tests for addr_unit conversion")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/20261117170155.fEdeuuhm-lkp@intel.com/
-Signed-off-by: Aveline Noir <jm5905938@gmail.com>
----
-The reported warning is gone with the original i386 config, Clang 22.1.8
-and Sparse v0.6.5-rc1-21-g84ec0658. All executed DAMON KUnit tests passed
-on x86_64 and i386 with and without PAE; the high-address case skips
-without PAE.
----
- mm/damon/tests/paddr-kunit.h | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/mm/damon/tests/paddr-kunit.h b/mm/damon/tests/paddr-kunit.h
-index 9839cc233071..2b11f0e67a12 100644
---- a/mm/damon/tests/paddr-kunit.h
-+++ b/mm/damon/tests/paddr-kunit.h
-@@ -26,15 +26,16 @@ static void damon_test_pa_core_addr(struct kunit *test)
- 
- static void damon_test_pa_addr_over_4g(struct kunit *test)
- {
-+#ifdef CONFIG_PHYS_ADDR_T_64BIT
- 	unsigned long addr = 0xffffffffUL;
- 	unsigned long addr_unit = 0x1000;
- 	u64 pa = 0xffffffff000ULL;
- 
--	if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
--		kunit_skip(test, "phys_addr_t is 32-bit");
--
- 	KUNIT_EXPECT_EQ(test, damon_pa_phys_addr(addr, addr_unit), pa);
- 	KUNIT_EXPECT_EQ(test, damon_pa_core_addr(pa, addr_unit), addr);
-+#else
-+	kunit_skip(test, "phys_addr_t is 32-bit");
-+#endif
- }
- 
- static struct kunit_case damon_paddr_test_cases[] = {
-
----
-base-commit: 7a983cc1b57309a875a9e07a934c9944bf3d088d
-change-id: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
