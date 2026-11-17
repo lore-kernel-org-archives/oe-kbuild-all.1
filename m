@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794887863;
-	b=XKcLU7KzVHdl0gyTvcL/z5EGDdl+PZQlYsR59W4w8Jp5HvkGXUnhcRdctUPCjqPOr2KH
-	 nQ1WHiV70oKnRj62zhUyj5J0OJpBr0xlBj6k4yFHcyvO1haIHIhOTHASzbQLyX9UFZQnR
-	 f04f/6p0H628fc72mFXD5c0kCuYRrCblZLEEAq+dfqSl0PEXNAofB5FiT+kZsnpQNwqvG
-	 GFiKkmp+739YcvDRt2W/nyb52GvQoAduf/hmSAFSntpO+1x0GMxt9N1xd635QXjM958PM
-	 B4dgck0Ha4Vw2qbdZJm6BbScuuesi0mgQB4jbj1jgydILVyB8VOt7WG5ZAobD+mJZbQ==
+	t=1794888522;
+	b=qANNzSSswdlrJkgdN5ntfKzn0VOaxIcrgTa2KOKWccqFKdHXyqn9DT5u+q9obDslbm6+
+	 F2kMH2CcZ0yu7bF1reXwt2kTNLPpN67sYIYnQUjuMuuTNLAlkUcVq9rSNYLp8pHHJb4++
+	 TiU2VGw1CH1i+1FGkeohqBSpD/fE1aqyQmZsVxGo2cicX1WI/Dj5/1J/tnxMyX0A8AQup
+	 nWWeoeAVc5HCZAEdAzigiaaT69UStTCvoSb5bAVr6ycmk+3WYQ6iUSA1uq/PvM2ufO1yv
+	 QDvrP1sXt3D/Bk2YubW/rD11ZhuNHR046fbexofhObgs3rXnRGsJhFIMSPkIRx90JYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794887863;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794888522;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=5y0+Mt4ZSY7nt5IUHilEY150jS23lZHaY9t/VkHhix8=;
-	b=0N7Pgbves7u2ZpSj4x6T9wN6TbXzsr8/YEHOs1a/dn2bc0QqtY3t9U6005t2dmXlzc+b
-	 hx31mkszh7CaVpsuy9v9uxR8eJ1Z4DZJm5tcmexrf8uhK9xbfqwebTSkL5h9jE7ckza9V
-	 hYF1G4vvfFAPN5hl/ARFIH9Ywea1ly00CiZ4+zPCUWUZ3ppXYnwYiITgq0/bseCVCAPTU
-	 geFihRDaQcaSLPwJfb7X5IttnHvmFV6LGRU0iuWWuf802d0U5TgmjkKFUoSvZLSzQ77Am
-	 fxHYsR/X0rZFI2bu4lTdlD9H+WOwFKrb9cI5zbmne2SZhdmUFef0u/ART6w6QBHf7GA==
+	bh=orpkeALbt+XILUXbfRsHazGdPo0++Qa4+hSwe1P4ERA=;
+	b=YCldFPZQaYukJ4lDJfWmnUPmYsP+qjuibWAKZ1HKz8Np6tq6pDqqvbTScMdsGHcZH2Di
+	 Gnquy3hb57zVuegb3qZ+p2CbiNCJ3QwXVY0VJn4zbmAcRO+TXg7SUSRYpsEoPBKImMoDc
+	 jy3FoB7wf5bmRCi9ic5kBdXUD0G1BOtb5u7oh4PfAJleez+OUL3QnD8fe+RAuIRGg5vwq
+	 VogsBSaFkcUMW6art7EnD+TifyQ2Oqb4y7gxVyaUMgojqcAMpckrktX9HvabqTNDVdTJh
+	 8bHA7Y0DOoWL8TPkZXi3X1CKfLW2Ue62LIoO7H1IpXTGI97y+hhCA2nig8+0FgM8Asg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XFzW8kXV;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sv+8dQKU;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C140606A323
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 03:57:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C140606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A666606A32F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 04:08:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A666606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XFzW8kXV
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sv+8dQKU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794887863; x=1826423863;
+  t=1794888522; x=1826424522;
   h=date:from:to:cc:subject:message-id;
-  bh=NKjrJQS4FiO+BrqwZ3Ua9B6TSHs24e3Svk74LAJL7MY=;
-  b=XFzW8kXVx+e4EbnNul90HVXzZcbnEFojEiMZ3GytWG5o2L4DmYxIXa51
-   O6P51pY7FE9B9esGKVuGAHGHfBHez/SgHoCPT1npFyvfk1x2eQR45etpB
-   whJG+/SkpPtZ2fh0Ozp1uFHKPjvAODqSgYV37cChQIpQU/Qc+x4DPkhXp
-   WspH8uEIb4fPx35ilw5/QwKOYqiaf9eMzkyS4TXhUpoG9Seo5vQzC4vZU
-   Q2ktCZqbSeMCqOufj5Vu+jDfkHNZeysYf3VI6i8bFUnmBaubIgN+BSDBO
-   t9kt+wz01PLXyKXiFP/5+0q4EIuuLoDJpWVmqDlipBx9aIWz4Z/3ynqnJ
-   w==;
-X-CSE-ConnectionGUID: 3UAlEO9STBiI4t1NSyr9Qw==
-X-CSE-MsgGUID: 3WLIgA54S4WQd3ovaT9ySQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3642488"
+  bh=8qKbAwgvhR/QaBGnKdlEorNc6/PAeivG3ln47oxuMYo=;
+  b=Sv+8dQKUGVzUt3wLSzXNoUXiXa9U7aFDh1CGXj2hDEM+mebdl1uZAWUL
+   kWdKMzSYZWt2YdkTzxvqzLLLSSNeGK/m0QIT3wqEG2+9HTOZ5p9A7X+d9
+   Gd+2t63TDEwQGGNpCmVt40DCEN7OcT7CsKzwS+nXuGp+PNnqweMdztbgh
+   clruokf1HrqeyZrzZJ8oVn4R+qkYwIwb/r1BXmzXkNNL2Ak9X+apnnKHw
+   dNXRt0X5Jfw8Zn1JlBXwCwqq9dJMu3RQ6Dnml8dossUtc+NJs9gtu+9Dr
+   K6xgErkvV4e1iy1FHPE2yG36exSR9EjdyNKio3SpH+UPTtp2kuUuPvSEo
+   Q==;
+X-CSE-ConnectionGUID: T5fvKOM5SeqJeG7/QRXY+A==
+X-CSE-MsgGUID: q5mHJQXaS5iJGdngJDNTvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3541321"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3642488"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 19:57:42 -0800
-X-CSE-ConnectionGUID: W8SfkAjMTJ+R9A0Pm7uNMw==
-X-CSE-MsgGUID: mrGS+TJ2Sy+8jYPVtNq88w==
+   d="scan'208";a="3541321"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 20:08:40 -0800
+X-CSE-ConnectionGUID: PhdnKoqVS7yToEUqddEMEQ==
+X-CSE-MsgGUID: bZifgtfiRWiIPm6SshnZ7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="11646821"
+   d="scan'208";a="9847486"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 16 Nov 2026 19:57:41 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 16 Nov 2026 20:08:38 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTAK3-000000002xS-14NQ;
-	Tue, 17 Nov 2026 03:57:31 +0000
-Date: Tue, 17 Nov 2026 04:56:40 +0100
+	id 1xTAUk-000000002xW-2hJE;
+	Tue, 17 Nov 2026 04:08:34 +0000
+Date: Tue, 17 Nov 2026 05:08:12 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-lts 2/2]
- kernel/sys_ni.c:50:1: sparse: sparse: symbol
- '__arm64_compat_sys_io_pgetevents_time64' was not declared. Should it be
- static?
-Message-ID: <202611170441.wI826QTq-lkp@intel.com>
+Subject: [android-common:android16-6.12-lts 152/152] htmldocs:
+ Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a
+ file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
+Message-ID: <202611170530.alvfXK8W-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,158 +81,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-lts
-head:   941c2964a5c9c836e8db51429081fa86ba4b141b
-commit: 16c0403b7dec2b255b5aaf2b6b203aa3b96a1775 [2/2] syscalls: fix compat_sys_io_pgetevents_time64 usage
-config: arm64-randconfig-r2305-20261116 (https://download.01.org/0day-ci/archive/20261117/202611170441.wI826QTq-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7864c0736a8a09670dfbfc513f1e9649799f2486)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170441.wI826QTq-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
+commit: 4949de7846c5e0ddc0de1567876238370ac1515e [152/152] drm/nouveau/bios: skip the IFR header if present
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261117/202611170530.alvfXK8W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611170441.wI826QTq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170530.alvfXK8W-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sys_ni.c:39:1: sparse: sparse: symbol '__arm64_sys_io_setup' was not declared. Should it be static?
-   kernel/sys_ni.c:40:1: sparse: sparse: symbol '__arm64_compat_sys_io_setup' was not declared. Should it be static?
-   kernel/sys_ni.c:41:1: sparse: sparse: symbol '__arm64_sys_io_destroy' was not declared. Should it be static?
-   kernel/sys_ni.c:42:1: sparse: sparse: symbol '__arm64_sys_io_submit' was not declared. Should it be static?
-   kernel/sys_ni.c:43:1: sparse: sparse: symbol '__arm64_compat_sys_io_submit' was not declared. Should it be static?
-   kernel/sys_ni.c:44:1: sparse: sparse: symbol '__arm64_sys_io_cancel' was not declared. Should it be static?
-   kernel/sys_ni.c:45:1: sparse: sparse: symbol '__arm64_sys_io_getevents_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:46:1: sparse: sparse: symbol '__arm64_sys_io_getevents' was not declared. Should it be static?
-   kernel/sys_ni.c:47:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:48:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents' was not declared. Should it be static?
-   kernel/sys_ni.c:49:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents' was not declared. Should it be static?
->> kernel/sys_ni.c:50:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents_time64' was not declared. Should it be static?
-   kernel/sys_ni.c:51:1: sparse: sparse: symbol '__arm64_sys_io_uring_setup' was not declared. Should it be static?
-   kernel/sys_ni.c:52:1: sparse: sparse: symbol '__arm64_sys_io_uring_enter' was not declared. Should it be static?
-   kernel/sys_ni.c:53:1: sparse: sparse: symbol '__arm64_sys_io_uring_register' was not declared. Should it be static?
-   kernel/sys_ni.c:60:1: sparse: sparse: symbol '__arm64_sys_lookup_dcookie' was not declared. Should it be static?
-   kernel/sys_ni.c:61:1: sparse: sparse: symbol '__arm64_compat_sys_lookup_dcookie' was not declared. Should it be static?
-   kernel/sys_ni.c:64:1: sparse: sparse: symbol '__arm64_sys_eventfd2' was not declared. Should it be static?
-   kernel/sys_ni.c:67:1: sparse: sparse: symbol '__arm64_sys_epoll_create1' was not declared. Should it be static?
-   kernel/sys_ni.c:68:1: sparse: sparse: symbol '__arm64_sys_epoll_ctl' was not declared. Should it be static?
-   kernel/sys_ni.c:69:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait' was not declared. Should it be static?
-   kernel/sys_ni.c:70:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait' was not declared. Should it be static?
-   kernel/sys_ni.c:71:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait2' was not declared. Should it be static?
-   kernel/sys_ni.c:72:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait2' was not declared. Should it be static?
-   kernel/sys_ni.c:77:1: sparse: sparse: symbol '__arm64_sys_inotify_init1' was not declared. Should it be static?
-   kernel/sys_ni.c:78:1: sparse: sparse: symbol '__arm64_sys_inotify_add_watch' was not declared. Should it be static?
-   kernel/sys_ni.c:79:1: sparse: sparse: symbol '__arm64_sys_inotify_rm_watch' was not declared. Should it be static?
-   kernel/sys_ni.c:84:1: sparse: sparse: symbol '__arm64_sys_ioprio_set' was not declared. Should it be static?
-   kernel/sys_ni.c:85:1: sparse: sparse: symbol '__arm64_sys_ioprio_get' was not declared. Should it be static?
-   kernel/sys_ni.c:88:1: sparse: sparse: symbol '__arm64_sys_flock' was not declared. Should it be static?
-   kernel/sys_ni.c:101:1: sparse: sparse: symbol '__arm64_sys_quotactl' was not declared. Should it be static?
-   kernel/sys_ni.c:102:1: sparse: sparse: symbol '__arm64_sys_quotactl_fd' was not declared. Should it be static?
-   kernel/sys_ni.c:113:1: sparse: sparse: symbol '__arm64_sys_signalfd4' was not declared. Should it be static?
-   kernel/sys_ni.c:114:1: sparse: sparse: symbol '__arm64_compat_sys_signalfd4' was not declared. Should it be static?
-   kernel/sys_ni.c:123:1: sparse: sparse: symbol '__arm64_sys_timerfd_create' was not declared. Should it be static?
-   kernel/sys_ni.c:124:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime' was not declared. Should it be static?
-   kernel/sys_ni.c:125:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime32' was not declared. Should it be static?
-   kernel/sys_ni.c:126:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime' was not declared. Should it be static?
-   kernel/sys_ni.c:127:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime32' was not declared. Should it be static?
-   kernel/sys_ni.c:132:1: sparse: sparse: symbol '__arm64_sys_acct' was not declared. Should it be static?
-   kernel/sys_ni.c:135:1: sparse: sparse: symbol '__arm64_sys_capget' was not declared. Should it be static?
-   kernel/sys_ni.c:136:1: sparse: sparse: symbol '__arm64_sys_capset' was not declared. Should it be static?
-   kernel/sys_ni.c:144:1: sparse: sparse: symbol '__arm64_sys_clone3' was not declared. Should it be static?
-   kernel/sys_ni.c:147:1: sparse: sparse: symbol '__arm64_sys_futex' was not declared. Should it be static?
-   kernel/sys_ni.c:148:1: sparse: sparse: symbol '__arm64_sys_futex_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:149:1: sparse: sparse: symbol '__arm64_sys_set_robust_list' was not declared. Should it be static?
-   kernel/sys_ni.c:150:1: sparse: sparse: symbol '__arm64_compat_sys_set_robust_list' was not declared. Should it be static?
-   kernel/sys_ni.c:151:1: sparse: sparse: symbol '__arm64_sys_get_robust_list' was not declared. Should it be static?
-   kernel/sys_ni.c:152:1: sparse: sparse: symbol '__arm64_compat_sys_get_robust_list' was not declared. Should it be static?
-   kernel/sys_ni.c:159:1: sparse: sparse: symbol '__arm64_sys_kexec_load' was not declared. Should it be static?
-   kernel/sys_ni.c:160:1: sparse: sparse: symbol '__arm64_compat_sys_kexec_load' was not declared. Should it be static?
-   kernel/sys_ni.c:163:1: sparse: sparse: symbol '__arm64_sys_init_module' was not declared. Should it be static?
-   kernel/sys_ni.c:164:1: sparse: sparse: symbol '__arm64_sys_delete_module' was not declared. Should it be static?
-   kernel/sys_ni.c:169:1: sparse: sparse: symbol '__arm64_sys_syslog' was not declared. Should it be static?
-   kernel/sys_ni.c:176:1: sparse: sparse: symbol '__arm64_sys_setregid' was not declared. Should it be static?
-   kernel/sys_ni.c:177:1: sparse: sparse: symbol '__arm64_sys_setgid' was not declared. Should it be static?
-   kernel/sys_ni.c:178:1: sparse: sparse: symbol '__arm64_sys_setreuid' was not declared. Should it be static?
-   kernel/sys_ni.c:179:1: sparse: sparse: symbol '__arm64_sys_setuid' was not declared. Should it be static?
-   kernel/sys_ni.c:180:1: sparse: sparse: symbol '__arm64_sys_setresuid' was not declared. Should it be static?
-   kernel/sys_ni.c:181:1: sparse: sparse: symbol '__arm64_sys_getresuid' was not declared. Should it be static?
-   kernel/sys_ni.c:182:1: sparse: sparse: symbol '__arm64_sys_setresgid' was not declared. Should it be static?
-   kernel/sys_ni.c:183:1: sparse: sparse: symbol '__arm64_sys_getresgid' was not declared. Should it be static?
-   kernel/sys_ni.c:184:1: sparse: sparse: symbol '__arm64_sys_setfsuid' was not declared. Should it be static?
-   kernel/sys_ni.c:185:1: sparse: sparse: symbol '__arm64_sys_setfsgid' was not declared. Should it be static?
-   kernel/sys_ni.c:186:1: sparse: sparse: symbol '__arm64_sys_setgroups' was not declared. Should it be static?
-   kernel/sys_ni.c:187:1: sparse: sparse: symbol '__arm64_sys_getgroups' was not declared. Should it be static?
-   kernel/sys_ni.c:194:1: sparse: sparse: symbol '__arm64_sys_mq_open' was not declared. Should it be static?
-   kernel/sys_ni.c:195:1: sparse: sparse: symbol '__arm64_compat_sys_mq_open' was not declared. Should it be static?
-   kernel/sys_ni.c:196:1: sparse: sparse: symbol '__arm64_sys_mq_unlink' was not declared. Should it be static?
-   kernel/sys_ni.c:197:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend' was not declared. Should it be static?
-   kernel/sys_ni.c:198:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:199:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive' was not declared. Should it be static?
-   kernel/sys_ni.c:200:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:201:1: sparse: sparse: symbol '__arm64_sys_mq_notify' was not declared. Should it be static?
-   kernel/sys_ni.c:202:1: sparse: sparse: symbol '__arm64_compat_sys_mq_notify' was not declared. Should it be static?
-   kernel/sys_ni.c:203:1: sparse: sparse: symbol '__arm64_sys_mq_getsetattr' was not declared. Should it be static?
-   kernel/sys_ni.c:204:1: sparse: sparse: symbol '__arm64_compat_sys_mq_getsetattr' was not declared. Should it be static?
-   kernel/sys_ni.c:207:1: sparse: sparse: symbol '__arm64_sys_msgget' was not declared. Should it be static?
-   kernel/sys_ni.c:208:1: sparse: sparse: symbol '__arm64_sys_old_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:209:1: sparse: sparse: symbol '__arm64_sys_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:210:1: sparse: sparse: symbol '__arm64_compat_sys_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:211:1: sparse: sparse: symbol '__arm64_compat_sys_old_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:212:1: sparse: sparse: symbol '__arm64_sys_msgrcv' was not declared. Should it be static?
-   kernel/sys_ni.c:213:1: sparse: sparse: symbol '__arm64_compat_sys_msgrcv' was not declared. Should it be static?
-   kernel/sys_ni.c:214:1: sparse: sparse: symbol '__arm64_sys_msgsnd' was not declared. Should it be static?
-   kernel/sys_ni.c:215:1: sparse: sparse: symbol '__arm64_compat_sys_msgsnd' was not declared. Should it be static?
-   kernel/sys_ni.c:218:1: sparse: sparse: symbol '__arm64_sys_semget' was not declared. Should it be static?
-   kernel/sys_ni.c:219:1: sparse: sparse: symbol '__arm64_sys_old_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:220:1: sparse: sparse: symbol '__arm64_sys_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:221:1: sparse: sparse: symbol '__arm64_compat_sys_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:222:1: sparse: sparse: symbol '__arm64_compat_sys_old_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:223:1: sparse: sparse: symbol '__arm64_sys_semtimedop' was not declared. Should it be static?
-   kernel/sys_ni.c:224:1: sparse: sparse: symbol '__arm64_sys_semtimedop_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:225:1: sparse: sparse: symbol '__arm64_sys_semop' was not declared. Should it be static?
-   kernel/sys_ni.c:228:1: sparse: sparse: symbol '__arm64_sys_shmget' was not declared. Should it be static?
-   kernel/sys_ni.c:229:1: sparse: sparse: symbol '__arm64_sys_old_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:230:1: sparse: sparse: symbol '__arm64_sys_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:231:1: sparse: sparse: symbol '__arm64_compat_sys_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:232:1: sparse: sparse: symbol '__arm64_compat_sys_old_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:233:1: sparse: sparse: symbol '__arm64_sys_shmat' was not declared. Should it be static?
-   kernel/sys_ni.c:234:1: sparse: sparse: symbol '__arm64_compat_sys_shmat' was not declared. Should it be static?
-   kernel/sys_ni.c:235:1: sparse: sparse: symbol '__arm64_sys_shmdt' was not declared. Should it be static?
-   kernel/sys_ni.c:238:1: sparse: sparse: symbol '__arm64_sys_socket' was not declared. Should it be static?
-   kernel/sys_ni.c:239:1: sparse: sparse: symbol '__arm64_sys_socketpair' was not declared. Should it be static?
-   kernel/sys_ni.c:240:1: sparse: sparse: symbol '__arm64_sys_bind' was not declared. Should it be static?
-   kernel/sys_ni.c:241:1: sparse: sparse: symbol '__arm64_sys_listen' was not declared. Should it be static?
-   kernel/sys_ni.c:242:1: sparse: sparse: symbol '__arm64_sys_accept' was not declared. Should it be static?
-   kernel/sys_ni.c:243:1: sparse: sparse: symbol '__arm64_sys_connect' was not declared. Should it be static?
-   kernel/sys_ni.c:244:1: sparse: sparse: symbol '__arm64_sys_getsockname' was not declared. Should it be static?
-   kernel/sys_ni.c:245:1: sparse: sparse: symbol '__arm64_sys_getpeername' was not declared. Should it be static?
-   kernel/sys_ni.c:246:1: sparse: sparse: symbol '__arm64_sys_setsockopt' was not declared. Should it be static?
-   kernel/sys_ni.c:247:1: sparse: sparse: symbol '__arm64_compat_sys_setsockopt' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__arm64_compat_sys_io_pgetevents_time64 +50 kernel/sys_ni.c
-
-    32	
-    33	/*
-    34	 * This list is kept in the same order as include/uapi/asm-generic/unistd.h.
-    35	 * Architecture specific entries go below, followed by deprecated or obsolete
-    36	 * system calls.
-    37	 */
-    38	
-    39	COND_SYSCALL(io_setup);
-    40	COND_SYSCALL_COMPAT(io_setup);
-  > 41	COND_SYSCALL(io_destroy);
-    42	COND_SYSCALL(io_submit);
-    43	COND_SYSCALL_COMPAT(io_submit);
-    44	COND_SYSCALL(io_cancel);
-    45	COND_SYSCALL(io_getevents_time32);
-    46	COND_SYSCALL(io_getevents);
-    47	COND_SYSCALL(io_pgetevents_time32);
-    48	COND_SYSCALL(io_pgetevents);
-    49	COND_SYSCALL_COMPAT(io_pgetevents);
-  > 50	COND_SYSCALL_COMPAT(io_pgetevents_time64);
-    51	COND_SYSCALL(io_uring_setup);
-    52	COND_SYSCALL(io_uring_enter);
-    53	COND_SYSCALL(io_uring_register);
-    54	
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
+   Using alabaster theme
+   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_PRC' not described in enum 'dpll_clock_quality_level'
+   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_SSU_A' not described in enum 'dpll_clock_quality_level'
+   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_SSU_B' not described in enum 'dpll_clock_quality_level'
+   ./include/uapi/linux/dpll.h:103: warning: Enum value 'DPLL_CLOCK_QUALITY_LEVEL_ITU_OPT1_EEC1' not described in enum 'dpll_clock_quality_level'
+--
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c references a file that doesn't exist: Documentation/gpu/nova/core/vbios.rst
 
 -- 
 0-DAY CI Kernel Test Service
