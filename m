@@ -1,53 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794932946;
-	b=wiYCRVG9hy+3n+sqhxcdDAP8F8w/XMwxMaFSIn2qRTbf54RqkRME9wCreXrRA7eJlSmW
-	 EtphLakMjns3Gnh+ef1RHwmz+IeXyfHibXriOw7tJ8c9JJa1aWAm7dw1CmnyMQJnHQJ6i
-	 ++f4La4qv7tRMbRzgbW+PN9Hm6Qo4QfCrgWwZrtnphdlpyamqbpCwpE2W1GZc/lGXtZ18
-	 CNeqzugX+ztbhFcuBbk7mMNdSSIRhHIFlqBTSWZ/nLsSmD7c5EWQRqGzoeVr5nO+ZyUty
-	 ep0brjW+TcaraA+b/f/+RxhtgYBJrleoj/evEipvdQzsSU60QuMoCeGrFr6a0TPnT/Q==
+	t=1794933048;
+	b=dv3kyrfcpRxXye2DvFSgxno2yH2WoRPIHL3JsXvWG+BV9ICoXOO+gbSvhrJ1q7CzTCDV
+	 sKBRuOFBKd1QaGq2WZz7L+AwhdbnZy7i3BgySBfWQ5GdzB1ZJWJpUWPGd1Maf7g+tI8+e
+	 n5n76ZcfrKosZxzOMheNolqfrn53O/yxPFYYExECJCcOv+M/pirbPYcZ4F1iBDgXRgRJY
+	 aOzgXmDIC2qscPQC3W0/sms/tZkl0qDR2oLcXR6pZrje7eTCOjvDrSq4joG3C6/EEhesc
+	 3H2y90lTzMTJwSfg7zN/PgJRTlj6/OPnuDOCDSdNmEGeepoQLtAcisxcCRhQeELa05g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794932946;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=CF8lS9H/c3zvRH+a3DJEmtDKcArebc2vYl0zflxy/ns=;
-	b=tWmN9H9ZMcpFRqENcQGqH6jomfUIxzw025/kJ/AUnO6cEIPiCsU7jhlPXScU+QkZaLEK
-	 8VJQyga84fcpskdcufTu/2L2yxANRqjwI9/HPnCTCxKKekMVrgXBHsv/07IhA5Dj+pXUZ
-	 y/DcdpcpthRq+S/D31PIR0p4bdBbS/B81cWWrJSRG1tfkJ7XvbpCFI4rnFlqO8E+Cpt0w
-	 LkHcM3IRxumkB/NU1OR4bPwmKWlvopZxMlGSrjnz5zEGp6x+S+lGPR2WX1BWaVEshb5kX
-	 GyLjgOg6WUIq1CZ5ywmJRA+uvjbKLDJ2gKwFWI4b3bx7hI0GS4mpLTQ5gjrv0O0/lfg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794933048;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=bWwJVvvllQi1bVRABZh/BEGf/BAPJktRc+5PFvbO2NY=;
+	b=l6Xw/w8mm7Qlh5xyQBlqbktYZoXQgeGcKjpOn+eXSKgMke2cCocuttfQt6G9WGFVkgAY
+	 sZm7rZml9GaWWW6faaABhMDYcULimGf1Kax+5L4FkLXb79wTE1P670T9t/MwD/ld103RS
+	 TAezBzMjmvucISJJLduPSYZgsaLOGyPal0EWcrqLVksFfunR9dQEZsVvBsLQnHTjk97cU
+	 ZXvd8SYI+E2MEXk9YujjHlvUa/QYi1WIHK+3FG2yyena3lr/x0kxTvAhFOpG3yNom0xC9
+	 8oNpUFjyr3Zow3Hr+VMeCh1fp07jEjMgFQudJP4Fy7CNuXGI0Xv6I7CpZeXcvUCAcHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="OmBQAb/D";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=abLLVPLs;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B936606A31C;
-	Tue, 17 Nov 2026 16:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEF6606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 16:30:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CEF6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OmBQAb/D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B80A31F000C8;
-	Tue, 17 Nov 2026 16:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794932945;
-	bh=CF8lS9H/c3zvRH+a3DJEmtDKcArebc2vYl0zflxy/ns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OmBQAb/DWCQkVAtZlfBCt9BCEJMsIcgunR8wdVWUMBAcc8ijQdJtg7kdarEWoa0Au
-	 ELjgSrXFd5VmzMHcRwPT0ZEzwqlDfVz0Dl2DUGMiHvKTOZRYu5GNumGmEen7aKTkvv
-	 h5Zc0xVqu7D4VfrUlKXM76tOpmM5BEHIBJ+8pgHmJcTkzrMDjc2Tq20kwN4GdObfxE
-	 nwe9DiyVZQufVJDy2Pf79EIMBPM3pkRN3NLK+oy7fDK7Xvqh+Mky3hm3UTBObWqRji
-	 dT6nyOB0cvmj1SgeGGwlxvLersy4TDpatNsrJ6JlA8FCs5h0XmY1T5ScSCcQ8vophr
-	 +KRw7Xlo/GXuQ==
-Date: Wed, 18 Nov 2026 00:08:51 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [broonie-spi:for-7.5 2/6] drivers/spi/spi-cadence-xspi.c:438:43:
- sparse: sparse: unsigned value that used to be signed checked against zero?
-Message-ID: <avx8E8akqQw5ByZJ@xhacker>
-References: <202611170617.CCFgmq6H-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=abLLVPLs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794933047; x=1826469047;
+  h=date:from:to:cc:subject:message-id;
+  bh=7zSSvo/YsAJpaba7CfIGBsZvv4st7r2dt8C761+aEkk=;
+  b=abLLVPLsBz2oP7m9Nj2nlNzabjnj4MBbiW0aeqxTNK+mA4So4efNmrnU
+   2NIq7hQ7ZsLPAddF4M1tLOagAJjUwi3ahYqh0C+b3/9G6Vl5K/t3dIYb1
+   KYSsofkuPQdElS1k3kh9K5a56cU7EzNdn20u6uffi57JgxcMk65C91FmY
+   xF0PoDGekbzKOjvcsPscmzyPa7q0DwSK1pl5t6h4EMx4a3r5T8uw65HJb
+   Th36A2qUXKGQpUUc9aZYEiRBABGxGJdHjns6iTtHZ6WhS5VpEuMAcj71t
+   vZmk3WlNydqkScoucPTzMToRj0YgDcXh9ILd7bArzdmd6A7TT2NJ/Hqoc
+   w==;
+X-CSE-ConnectionGUID: Ty9MbA+RQ2G/5g2KG4bRGw==
+X-CSE-MsgGUID: 6UltqFSoRTqKV2W3UqyghA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3705926"
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="3705926"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 08:30:46 -0800
+X-CSE-ConnectionGUID: wG/N5oLISNeIaI+ziN5iOg==
+X-CSE-MsgGUID: lBKwn97FTQy+eRCJZdHWiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
+   d="scan'208";a="9940462"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2026 08:30:45 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xTM4w-0000000039y-3pos;
+	Tue, 17 Nov 2026 16:30:42 +0000
+Date: Tue, 17 Nov 2026 17:30:18 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-p3s 22/22]
+ drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:13: error:
+ implicit declaration of function 'xfrm_input_state'; did you mean
+ 'xfrm_init_state'?
+Message-ID: <20261117172050.5s0U6IML-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -56,102 +81,137 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202611170617.CCFgmq6H-lkp@intel.com>
 
-On Tue, Nov 17, 2026 at 06:23:56AM +0100, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.5
-> head:   9b2d7c8736a6fd27ceda93bd67529758c139e24f
-> commit: b7d724ff0f4ab6b5d3392938076f5914ecec12fd [2/6] spi: cadence-xspi: Support dmaengine for sdma io copy
-> config: m68k-randconfig-r2308-20261117 (https://download.01.org/0day-ci/archive/20261117/202611170617.CCFgmq6H-lkp@intel.com/config)
+Hi Mike,
 
-This is NOMMU.
+First bad commit (maybe != root cause):
 
-> compiler: m68k-linux-gcc (GCC) 10.5.0
-> sparse: v0.6.5-rc1-21-g84ec0658
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170617.CCFgmq6H-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611170617.CCFgmq6H-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/spi/spi-cadence-xspi.c:438:43: sparse: sparse: unsigned value that used to be signed checked against zero?
->    drivers/spi/spi-cadence-xspi.c:430:59: sparse: signed value source
+tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
+head:   5966612bfc8614d7e2cd447ea586ee426cb2f822
+commit: 3e1da3739d68558bacc60ea5f469fbddaf529c32 [22/22] ANDROID: GKI: Add GKI_HIDDEN_XFRM_OFFLOAD_CONFIGS
+config: arm64-randconfig-r2308-20261117 (https://download.01.org/0day-ci/archive/20261117/20261117172050.5s0U6IML-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/20261117172050.5s0U6IML-lkp@intel.com/reproduce)
 
-All virt_addr_valid() users have the same issue, for example, I can
-reproduce the same sparse warning with exsiting cadence qspi driver + arm nommu
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261117172050.5s0U6IML-lkp@intel.com/
 
-The correct fix should be fixing the arch nommu code. But I doubt patching
-nommu arch code deserves the effort.
+All errors (new ones prefixed by >>):
 
-> 
-> vim +438 drivers/spi/spi-cadence-xspi.c
-> 
->    422	
->    423	/* -EAGAIN means no DMA was issued, so the caller can use the CPU path. */
->    424	static int cdns_xspi_dma_transfer(struct cdns_xspi_dev *cdns_xspi,
->    425					  size_t len, bool read)
->    426	{
->    427		struct dma_chan *chan = cdns_xspi->dma_chan;
->    428		dma_addr_t port_addr = cdns_xspi->dma_addr;
->    429		enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
->    430		void *buf = read ? cdns_xspi->in_buffer : (void *)cdns_xspi->out_buffer;
->    431		struct dma_async_tx_descriptor *desc;
->    432		struct device *dma_dev;
->    433		dma_addr_t buf_addr;
->    434		dma_cookie_t cookie;
->    435		int ret = -EAGAIN;
->    436	
->    437		if (!chan || len < cdns_xspi->dma_data_width ||
->  > 438		    len > cdns_xspi->sdmasize || !virt_addr_valid(buf))
->    439			return -EAGAIN;
->    440	
->    441		dma_dev = dmaengine_get_dma_device(chan);
->    442		buf_addr = dma_map_single(dma_dev, buf, len, dir);
->    443		if (dma_mapping_error(dma_dev, buf_addr))
->    444			return -EAGAIN;
->    445		if (!is_dma_copy_aligned(chan->device, port_addr, buf_addr, len))
->    446			goto unmap;
->    447	
->    448		desc = dmaengine_prep_dma_memcpy(chan, read ? buf_addr : port_addr,
->    449						 read ? port_addr : buf_addr, len,
->    450						 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
->    451		if (!desc)
->    452			goto unmap;
->    453	
->    454		reinit_completion(&cdns_xspi->dma_complete);
->    455		cdns_xspi->dma_error = false;
->    456		desc->callback_result = cdns_xspi_dma_callback;
->    457		desc->callback_param = cdns_xspi;
->    458		cookie = dmaengine_submit(desc);
->    459		if (dma_submit_error(cookie)) {
->    460			dmaengine_terminate_sync(chan);
->    461			goto unmap;
->    462		}
->    463		dma_async_issue_pending(chan);
->    464	
->    465		if (!wait_for_completion_timeout(&cdns_xspi->dma_complete,
->    466						msecs_to_jiffies(CDNS_XSPI_DMA_TIMEOUT_MS))) {
->    467			dmaengine_terminate_sync(chan);
->    468			dev_err(cdns_xspi->dev, "SDMA %s DMA timeout\n", read ? "read" : "write");
->    469			ret = -ETIMEDOUT;
->    470		} else if (cdns_xspi->dma_error) {
->    471			dmaengine_terminate_sync(chan);
->    472			ret = -EIO;
->    473		} else {
->    474			ret = 0;
->    475		}
->    476	
->    477	unmap:
->    478		dma_unmap_single(dma_dev, buf_addr, len, dir);
->    479		return ret;
->    480	}
->    481	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:7:
+   include/net/xfrm.h: In function 'xfrm_dst_offload_ok':
+   include/net/xfrm.h:2088:35: error: 'struct dst_entry' has no member named 'xfrm'
+    2088 |         struct xfrm_state *x = dst->xfrm;
+         |                                   ^~
+   include/net/xfrm.h:2095:51: error: 'struct dst_entry' has no member named 'xfrm'
+    2095 |         if (!x->xso.offload_handle && !xdst->child->xfrm)
+         |                                                   ^~
+   include/net/xfrm.h:2098:25: error: 'struct dst_entry' has no member named 'xfrm'
+    2098 |             !xdst->child->xfrm)
+         |                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c: In function 'cn10k_ipsec_transmit':
+>> drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:13: error: implicit declaration of function 'xfrm_input_state'; did you mean 'xfrm_init_state'? [-Werror=implicit-function-declaration]
+     954 |         x = xfrm_input_state(skb);
+         |             ^~~~~~~~~~~~~~~~
+         |             xfrm_init_state
+   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c:954:11: warning: assignment to 'struct xfrm_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     954 |         x = xfrm_input_state(skb);
+         |           ^
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=y] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+
+vim +954 drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c
+
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  929  
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  930  bool cn10k_ipsec_transmit(struct otx2_nic *pf, struct netdev_queue *txq,
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  931  			  struct otx2_snd_queue *sq, struct sk_buff *skb,
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  932  			  int num_segs, int size)
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  933  {
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  934  	struct cpt_inst_s inst;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  935  	struct cpt_res_s *res;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  936  	struct xfrm_state *x;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  937  	struct qmem *sa_info;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  938  	dma_addr_t dptr_iova;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  939  	struct sec_path *sp;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  940  	u8 encap_offset;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  941  	u8 auth_offset;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  942  	u8 gthr_size;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  943  	u8 iv_offset;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  944  	u16 dlen;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  945  
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  946  	/* Check for IPSEC offload enabled */
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  947  	if (!(pf->flags & OTX2_FLAG_IPSEC_OFFLOAD_ENABLED))
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  948  		goto drop;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  949  
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  950  	sp = skb_sec_path(skb);
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  951  	if (unlikely(!sp->len))
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  952  		goto drop;
+6a77a158848a8c6 Bharat Bhushan 2024-12-04  953  
+6a77a158848a8c6 Bharat Bhushan 2024-12-04 @954  	x = xfrm_input_state(skb);
+
+:::::: The code at line 954 was first introduced by commit
+:::::: 6a77a158848a8c68930df27b8840660db8531222 cn10k-ipsec: Process outbound ipsec crypto offload
+
+:::::: TO: Bharat Bhushan <bbhushan2@marvell.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
