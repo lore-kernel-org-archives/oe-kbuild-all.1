@@ -1,77 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927986;
-	b=OL0TtHTcDpxcuOZDzQFOsdmIbno2WLSJ7EXGK1ebYWgKj0vnE9tDxccH+KhPjmDQXZRw
-	 HdhcXCwHT+yhi6SMH7YJIy+RP2XHmMxmkLJwpeQEyatQ48vtHbxrCVcPXUNzXg075inPJ
-	 L0KrqvDhEhmEXMcYSBUT3oipuA7Wx3C1ZxAfPpIoXge0WFYz2KzZf+PjyOIhglQ23UXcB
-	 CFG9DqxTbZf0vj7Os+PpVqHRnG3uFnpXBqno9g78ry4SvNMPtrrzqq6zxG2HecMhGm0lj
-	 u5v3RLHpyZQOFmE8xdLWDRIOutLfku/wXnXzuR54m3A5DyyaaVfyw2SHAd5aGhtI+vQ==
+	t=1794930754;
+	b=WGuciBKo5pFgYRXC0cC+uAHz/zJ5O4bkAuOMfAJo1TQ4KwUDK/VnaZwTHECNDuuJgTaH
+	 L5v+LjE2yeg4mCc7yT+9DIxVvXYRJQkJjAGt+27SK3vbInEekuzNnwVgF/TjI5M/VxsCf
+	 GeCF1fEXLT6dW8nYW12xoxtbl+wOmSeOeVyRsHd+NfH6gDRPpXXX16n8cv7ofzASWnqxt
+	 8wpS+g05YfLbjS01je0KgjYSDtwChVteHn85WuCS9U4sG2x2FV0FKBUPweypUAceXcBCL
+	 PR6FUiJ6k5RlS04ZlBZbAzi8HJ7PJwaU8GUcW7F2D4S/lQvLh2nc/cYuPmrMYRLOm8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927986;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794930754;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=ua+INsmy4uhlQErQcxDGsb1d1oetenRoWNHuRrVHb0Y=;
-	b=zuU7zhhVg04Bltso+k8piP+gfFIb9hC3Xx5fh9IXK7HMR9B986lF2v1klKgrKWM1011y
-	 HD5ot673qFdCc2lHUb4NVVMuuFUuIEj4mcnG4IT735JTgrcfbIsCW3hnhiefOQ/LCSVOh
-	 +7IgUv9pN8+2G3fIPhSvp/BdKKsALk18qjgYYD6sStJRWQeffzgK2yelt73bAZaSZOvzb
-	 bjjPt4MdsOx75/DLiAYX27++U8x6st/PhsLv6jiH3lsydBiZsOF2tALYccozHA8aV97ls
-	 0gyZpI4bjHGkpMViGwLUz+mgPxtnC3FlbPtUmpIeOKZ9HYPjfeUsXYTCeMzwyS1oRCQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=uO1DEpX/Sdk0AbUa13aZ6W/TOYUzfkDuzHxFvUxx8t4=;
+	b=N5EI/0A1MOk91AYzolcFOW5YQrbTx/Fm7AXf2//CNSrjtbnlbF4ESbWscclUzDBNzz+J
+	 pYROJi865VBruR0eIC1sZKpxaHiwL6335nan0G/XHZsyY2O46JuRYdlzijNlAorm6ua3Z
+	 BcMN4PV6x16/i6l2wFw4L8uP/U3e+G14R88UjwVy87Bbb9Hix6jNmQVGGphQ8jtyOyzBv
+	 IyETy1Wi9R+6AAwRYfKLUzLnrKRL33HcPwEoKacNhef8FnRJ7Vwk1fRNMrKXZYrtgnI58
+	 5RDN3hj2i01Vq319bWz3m5TM6+4gtYVkzRmvyVXeO7IkigTbSsS0/uIlMrIBcwn2VNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hzsnpH+V;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HH+m7oiu;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB3606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Nov 2026 15:06:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07AB3606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A004C606A32C;
+	Tue, 17 Nov 2026 15:52:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A004C606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hzsnpH+V
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HH+m7oiu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794927984; x=1826463984;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q0xYGDHNETOUqB/QHbEJguMLOAs6v1zmKrmjlcI07uI=;
-  b=hzsnpH+V+bNWDgmX0DFKAuVgx5fp7BxmP8Q7n91TTfkWV52qy4B9VR03
-   SBr7nQyz/uwk+YltXEB7pYQIR8gzMGdtXRBuhHnv61XVrnvmRiL3avfJv
-   uM6VkoDkLdpE29dPuol4TXqjhUtnaf19Skk9LWb5mVqwAJO/PJ3BjzoFs
-   Ae1Zxb4SG1hsc7o4Cs2ISThA6Mc6VeQBRdy5698XMXzL1ZtNTkrl4uhge
-   Mjnw/eiM2lIIfMQtjn5H27IqXURiGlgaDPmd5XH1FCgDT9OFGH9yWCgfv
-   sAz32n1/hfZ30rem/khdajXBLmfzUFCRyaGaTinCw8coQDPdco2i1Rq1r
-   w==;
-X-CSE-ConnectionGUID: uIqu3NufQRaxonHVSOvjgQ==
-X-CSE-MsgGUID: B1xMo+qpTk+36q3tncA4Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3600351"
+  t=1794930752; x=1826466752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3CdFWivnZIGgdKSr6ahNFtljVOdDNHvNk1RCwFrBiFU=;
+  b=HH+m7oiuJejRG7yUCyxsD99zqTxqSwKbeG6nB6Qo294C5nLw99lqQ1cF
+   t+ar+d7MGRwoRiy20TCfHCpEdsobsKvOeqEPFDBLOrP2OWgO83Hku89Qr
+   jrC5INyZlfa/dRb6AachYTSZGl/21rAOth3bZB6IirkNa5IKwuYRB4Dst
+   9J0nzh7uAujZuS3fmQ1x4B6tgmhBFdYSDYp1BjmmHKbCIbnWULU3tJ/HB
+   V9OTFDbHl4HyIS1M/C9drS1Enwc/sebNwRO9ar9WrDH8MUJfaGRNQbqEQ
+   hDOdW3E5vI1efNns6Z5l19NWWcOIAr3emFViPR9vNjZMQtgNeUq9QGzIe
+   Q==;
+X-CSE-ConnectionGUID: 7NBi9WU2RtWj8WcvicwXzg==
+X-CSE-MsgGUID: 1rnOmitqRX2ikBo19/E2xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3742666"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3600351"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 07:06:23 -0800
-X-CSE-ConnectionGUID: boyGYROLRnWkAXxfrj0zfg==
-X-CSE-MsgGUID: yFXtow2IQjSNvjcnXYHwVg==
+   d="scan'208";a="3742666"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 07:52:32 -0800
+X-CSE-ConnectionGUID: toWrsmohT4m0OWvmH/CRZA==
+X-CSE-MsgGUID: sMFT57sMSEOce1NigVoc/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10038394"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2026 07:06:22 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="10189662"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2026 07:52:30 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTKlH-0000000038o-3SrS;
-	Tue, 17 Nov 2026 15:06:19 +0000
-Date: Tue, 17 Nov 2026 16:05:45 +0100
+	id 1xTLTu-00000001Bwf-2maE;
+	Tue, 17 Nov 2026 15:52:26 +0000
+Date: Tue, 17 Nov 2026 23:51:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: drivers/soc/mediatek/mtk-dvfsrc.c:524:2-3: Unneeded
- semicolon
-Message-ID: <20261117160346.MCgJLmbK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yang Siyuan <hsyysy@163.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] watchdog: sunxi_wdt: stop the watchdog across system
+ suspend
+Message-ID: <202611172344.RbQl66xu-lkp@intel.com>
+References: <20261117092036.12192-1-hsyysy@163.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,84 +84,69 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117092036.12192-1-hsyysy@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-commit: 75cf308fee7e4b3038741f96fd90afc3bd871e64 soc: mediatek: mtk-dvfsrc: Add support for DVFSRCv4 and MT8196
-date:   10 months ago
-config: arm64-randconfig-r2109-20261116 (https://download.01.org/0day-ci/archive/20261117/20261117160346.MCgJLmbK-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5637411ce5dc86d0b7f87cde0f7ee47406d29db6)
+Hi Yang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on aebb7274476403040d582c61478df8f4a7bf9cd3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Siyuan/watchdog-sunxi_wdt-stop-the-watchdog-across-system-suspend/20261117-172036
+base:   aebb7274476403040d582c61478df8f4a7bf9cd3
+patch link:    https://lore.kernel.org/r/20261117092036.12192-1-hsyysy%40163.com
+patch subject: [PATCH] watchdog: sunxi_wdt: stop the watchdog across system suspend
+config: csky-randconfig-1001-20261117 (https://download.01.org/0day-ci/archive/20261117/202611172344.RbQl66xu-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611172344.RbQl66xu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 75cf308fee7e ("soc: mediatek: mtk-dvfsrc: Add support for DVFSRCv4 and MT8196")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261117160346.MCgJLmbK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611172344.RbQl66xu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/soc/mediatek/mtk-dvfsrc.c:524:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +524 drivers/soc/mediatek/mtk-dvfsrc.c
+>> drivers/watchdog/sunxi_wdt.c:245:12: warning: 'sunxi_wdt_resume' defined but not used [-Wunused-function]
+     245 | static int sunxi_wdt_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~
+>> drivers/watchdog/sunxi_wdt.c:235:12: warning: 'sunxi_wdt_suspend' defined but not used [-Wunused-function]
+     235 | static int sunxi_wdt_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~
 
-   475	
-   476	static int dvfsrc_get_hw_opps_v4(struct mtk_dvfsrc *dvfsrc)
-   477	{
-   478		struct dvfsrc_opp *dvfsrc_opps;
-   479		struct dvfsrc_opp_desc *desc;
-   480		u32 num_opps, gear_info;
-   481		u8 num_vcore, num_dram;
-   482		u8 num_emi;
-   483		int i;
-   484	
-   485		num_opps = dvfsrc_get_opp_count_v4(dvfsrc);
-   486		if (num_opps == 0) {
-   487			dev_err(dvfsrc->dev, "No OPPs programmed in DVFSRC MCU.\n");
-   488			return -EINVAL;
-   489		}
-   490	
-   491		/*
-   492		 * The first 16 bits set in the gear info table says how many OPPs
-   493		 * and how many vcore, dram and emi table entries are available.
-   494		 */
-   495		gear_info = dvfsrc_readl(dvfsrc, DVFSRC_GEAR_INFO_L);
-   496		if (gear_info == 0) {
-   497			dev_err(dvfsrc->dev, "No gear info in DVFSRC MCU.\n");
-   498			return -EINVAL;
-   499		}
-   500	
-   501		num_vcore = FIELD_GET(DVFSRC_V4_GEAR_INFO_VCORE, gear_info) + 1;
-   502		num_dram = FIELD_GET(DVFSRC_V4_GEAR_INFO_DRAM, gear_info) + 1;
-   503		num_emi = FIELD_GET(DVFSRC_V4_GEAR_INFO_EMI, gear_info) + 1;
-   504		dev_info(dvfsrc->dev,
-   505			 "Discovered %u gears and %u vcore, %u dram, %u emi table entries.\n",
-   506			 num_opps, num_vcore, num_dram, num_emi);
-   507	
-   508		/* Allocate everything now as anything else after that cannot fail */
-   509		desc = devm_kzalloc(dvfsrc->dev, sizeof(*desc), GFP_KERNEL);
-   510		if (!desc)
-   511			return -ENOMEM;
-   512	
-   513		dvfsrc_opps = devm_kcalloc(dvfsrc->dev, num_opps + 1,
-   514					   sizeof(*dvfsrc_opps), GFP_KERNEL);
-   515		if (!dvfsrc_opps)
-   516			return -ENOMEM;
-   517	
-   518		/* Read the OPP table gear indices */
-   519		for (i = 0; i <= num_opps; i++) {
-   520			gear_info = dvfsrc_get_opp_gear(dvfsrc, num_opps - i);
-   521			dvfsrc_opps[i].vcore_opp = FIELD_GET(DVFSRC_V4_GEAR_INFO_VCORE, gear_info);
-   522			dvfsrc_opps[i].dram_opp = FIELD_GET(DVFSRC_V4_GEAR_INFO_DRAM, gear_info);
-   523			dvfsrc_opps[i].emi_opp = FIELD_GET(DVFSRC_V4_GEAR_INFO_EMI, gear_info);
- > 524		};
-   525		desc->num_opp = num_opps + 1;
-   526		desc->opps = dvfsrc_opps;
-   527	
-   528		/* Assign to main structure now that everything is done! */
-   529		dvfsrc->curr_opps = desc;
-   530	
-   531		return 0;
-   532	}
-   533	
+
+vim +/sunxi_wdt_resume +245 drivers/watchdog/sunxi_wdt.c
+
+   228	
+   229	/*
+   230	 * The hardware watchdog has a maximum timeout of 16 seconds.  A system
+   231	 * suspend easily lasts longer than that, and the watchdog core only cancels
+   232	 * its ping worker during suspend; it does not stop the timer.  Stop the
+   233	 * watchdog explicitly while suspended and re-arm it on resume.
+   234	 */
+ > 235	static int sunxi_wdt_suspend(struct device *dev)
+   236	{
+   237		struct sunxi_wdt_dev *sunxi_wdt = dev_get_drvdata(dev);
+   238	
+   239		sunxi_wdt->running_at_suspend = sunxi_wdt_is_running(&sunxi_wdt->wdt_dev);
+   240		sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
+   241	
+   242		return 0;
+   243	}
+   244	
+ > 245	static int sunxi_wdt_resume(struct device *dev)
+   246	{
+   247		struct sunxi_wdt_dev *sunxi_wdt = dev_get_drvdata(dev);
+   248	
+   249		if (sunxi_wdt->running_at_suspend)
+   250			sunxi_wdt_start(&sunxi_wdt->wdt_dev);
+   251	
+   252		return 0;
+   253	}
+   254	
 
 -- 
 0-DAY CI Kernel Test Service
