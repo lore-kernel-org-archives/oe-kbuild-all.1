@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794970636;
-	b=aQcw8gbH9amIc800GkgOdR5X8nA6ADB2MsPCV1SAJDHcYM3GMQAMI6OqX9MihgVYp9Uz
-	 asGjW1wZVjrKdFFDaQbZPCpU3g6bJwrI4K+4ErJz3XHq0ICR2YZFMdC3kgwL/dhPB1fwI
-	 3gS5ZJcUmbyL2QkCNSq10b2DeQrEKTLu2XIGCCHfYDIOOR0r81AKKedmu3QC9JvFAHV0L
-	 AdLGY59X2D6V7tHz5eMXs9wsaqWUd9Fa1J7d5UnXbLTAYtZt/ntixoZB59/2qYjzjKt9W
-	 y981kWlVKs4g0JD5reyR/iFR3pOt8B5ZxGdxBGH/dFxhzbVfpBS6IhOtFprnlX2p8Aw==
+	t=1794971304;
+	b=Flu8zUYibW7buw9xFu173veaeiV1LUHn0/ibQkcliKtlhp50pUYq1PSHWjh8kkdfZrNt
+	 YzlPLIY6tjQ4Yexy4HdtsX3O14pQ4sDbKLD9hl2KnJSBxxd9t7QD+yUUr2W7XAnqwtIfF
+	 9s0vJX2xSI5dw2kkKVOFHC67Af+Rwp5L7gCswfULH64Y+K1XJwrb3taGuXzkBx+izCSHg
+	 +C3DlsjQhwhbSCm3F59JSbBmkOrTkhM5jEKcw8vr82owH4hzCdNmyfO5eWMT77lh7dJFK
+	 XsZps2hmScu6cVBhKBzVUTvP2g/pAcVdbQMZGrDSVdjPafifAolevIlCbLyfnZ9ojpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794970636;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794971304;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZGBm5T/q7/joNe1mUQ7O+cDLsklQzfDmFcY+94EhKjE=;
-	b=jYDSan2mL2qbEVH9eqLeWZLh6PCNaZ+OrIRYLdvetwZCOfKk9/+ISkE6jm8oQut6DzIl
-	 16R++EQX2hvJORXMp8zx6Lu+W+CUEXxpUd1d1Go7uVW0W+Jcyu0f+25yUQsTOLdbUB4wb
-	 q6OIUMzv52C5GCY2iezHEODCAiPEbc0lLYtwBfgN/lyLWqULp67F815d2m3DIUxfb7PCO
-	 u3MvJ/QCipv2D3Mb8wmIz8GUZbkAbhHGgGCLB57+zwg/OXQpOVPuykYzlITIw6eypbGhX
-	 5Cun14Dr+tjqChg5ojD4lMsmLFss7dSe+oNv1Tdyn3+aUOFmmy6WhCJZGKIYD6xvgGg==
+	bh=AU3qt+EL/+CSZxwUvF61zs7wOL+rwjAYzL7U5imcl84=;
+	b=sQtCpErroootZFTuR6u6z4DRyi6s8+f1nTcUh9PJTJtvsA1QhUV1Sm1fSryTsZ6qODfK
+	 zxyX+WxRs4TWrEgyWUxRHckMFwQYwoPXacSjZin8TmXMv8SG0WbjAyVHo08mZWrVNkfYQ
+	 ag+KQxijQgkQuvv8xo4N7Ege7ebflxzpVgX9DujuzvyFLOITx2ZXf+nypWoGQZ6iQs8US
+	 OaW0v4eK/04sT6GPImoTeXIr9BgkmIHMJ1yUV3WxdXtfXG2BFPgh+TPx9aaIRGQ8Frxnm
+	 ixm0HK5FJbl51PCVHRYSMndz9VU5S6QBvz2CemvCuea8HFTVlh/O2H7/d5pMLIQ7W0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fgh0qfJG;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz0pzUr5;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521FC606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 02:57:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 521FC606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D672606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 03:08:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D672606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fgh0qfJG
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz0pzUr5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794970636; x=1826506636;
+  t=1794971303; x=1826507303;
   h=date:from:to:cc:subject:message-id;
-  bh=b32hZ8vcRdHOCvMM1YO1znOYJTpSWa0o3SlcqVfR1hM=;
-  b=Fgh0qfJG0nOkcPLINnPqya9WafUlHspFXKtgWoIvdRYtfHy6o4p6RVhb
-   z1MU+oRd4tZ4aZM2FmEwg0wmRk8XOEKkY1v7Hui5pHQDrc46jjOjFhvoy
-   c96+yS7N792T/3pB35bA/101IPK6Jc5fCva3XmWzS3AfY62d478svfxkA
-   qG+LyxlV81jJX+uNw8cZoBbBT0GBozBqx7ysEenPWeQO/gUyt7ImHogPH
-   E5z8pqKQZQf7nV/90qN4k/bnAQa9jyF01ZR/3lVfubKRKA/31qQHY+RUp
-   UIEoNC3UJYUuTCntvs3GYlftCkX4Sin4KyouJFlwfVC3iB/GO1jTk5Nqa
-   g==;
-X-CSE-ConnectionGUID: kCnjg0S/Qd6ckXojWRKO5Q==
-X-CSE-MsgGUID: 0JaSI7vBTFCkt8228n1NaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3655184"
+  bh=5NcY/NjGbmg6ZzLYwiwEzfhjWn5EUpb+vT9IxncB3wo=;
+  b=Fz0pzUr5LipPP65VLkJzRj/0sANQSwPwuFfQYZ2GR2cr/Dhqxe1D6iI9
+   8TWDAPGbf8tST8yegDwX+u8QrurDDoqP/6fv93eehX0huX/S4voRYXtuq
+   ffoyL/+ux3M+VBr1LO+0+x6DCH2NWfBOTvttfMxwWgp6I84Z1cXKsCDXa
+   SOd+/nviY63H++K51GkmQbjuxD8V03yEFsfFqV4z6If4K15jUd/V/tam/
+   QGi2zlxCIUyOltMMB0CmFxVv/STmzSoKS7oo5QKcNlDwIKBdjQsaw3QnX
+   7BJMVmd4oPqhp+mVFS1uK4AWWLOyrN9pfLqew3EI843ogfucuqKMRxdmA
+   Q==;
+X-CSE-ConnectionGUID: bgF7sqA7R8ibeJEJK4bRMQ==
+X-CSE-MsgGUID: XwruH3HiRb28Ull5tB3tQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3844318"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3655184"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 18:57:16 -0800
-X-CSE-ConnectionGUID: H4z/B+mYSKGOi/OVQTzs0g==
-X-CSE-MsgGUID: WBkzbGOeSl2DrY0Nf8FBMA==
+   d="scan'208";a="3844318"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 19:08:23 -0800
+X-CSE-ConnectionGUID: VJzecCxMQmmT3mC0LV7xoQ==
+X-CSE-MsgGUID: 3E3tDQnOTtO0164YMINAKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10523360"
+   d="scan'208";a="9995972"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Nov 2026 18:57:14 -0800
+  by orviesa006.jf.intel.com with ESMTP; 17 Nov 2026 19:08:21 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTVrD-000000003JE-3wVg;
-	Wed, 18 Nov 2026 02:57:11 +0000
-Date: Wed, 18 Nov 2026 03:56:58 +0100
+	id 1xTW1w-000000003JU-38xQ;
+	Wed, 18 Nov 2026 03:08:16 +0000
+Date: Wed, 18 Nov 2026 04:07:29 +0100
 From: kernel test robot <lkp@intel.com>
-To: Drew Fustini <fustini@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
- Sunil V L <sunilvl@oss.qualcomm.com>
-Subject: [avpatel:riscv_iommu_irqbypass_v3 18/43] ld.lld: error:
- undefined symbol: resctrl_arch_preconvert_bw
-Message-ID: <20261118035455.moSKytAE-lkp@intel.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:cf-serial 1/4] drivers/tty/serial/mcf.c:586
+ mcf_probe() warn: unsigned 'port->irq' is never less than zero.
+Message-ID: <20261118040014.eslSkj4U-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,24 +81,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/avpatel/linux.git riscv_iommu_irqbypass_v3
-head:   8fd19d27f3e2aa4eea0b2e4b4615f575affcf3ff
-commit: a51896fa0a5fd957681699fb8d57a005931412ed [18/43] riscv_cbqri: Make RESCTRL_FS available on RISC-V
-config: riscv-randconfig-2200-20261117 (https://download.01.org/0day-ci/archive/20261118/20261118035455.moSKytAE-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 51d7f08b16b68285b1a400f413215b69f07a65e3)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git cf-serial
+head:   13e7fc3bb9e0e6b9de008260d6925af530c79882
+commit: 93cb854f633956fd1e5df8744a9e27695b2e8cd8 [1/4] serial: mcf: convert to use proper platform resources
+config: m68k-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118040014.eslSkj4U-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.5.0
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118035455.moSKytAE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261118035455.moSKytAE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261118040014.eslSkj4U-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/tty/serial/mcf.c:586 mcf_probe() warn: unsigned 'port->irq' is never less than zero.
 
->> ld.lld: error: undefined symbol: resctrl_arch_preconvert_bw
-   >>> referenced by ctrlmondata.c:51 (fs/resctrl/ctrlmondata.c:51)
-   >>>               vmlinux.o:(parse_bw)
+vim +586 drivers/tty/serial/mcf.c
+
+   570	
+   571	static int mcf_probe(struct platform_device *pdev)
+   572	{
+   573		struct uart_port *port;
+   574		struct resource *res;
+   575	
+   576		if (pdev->id >= MCF_MAXPORTS)
+   577			return -ENODEV;
+   578		port = &mcf_ports[pdev->id].port;
+   579	
+   580		port->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+   581		if (IS_ERR(port->membase))
+   582			return PTR_ERR(port->membase);
+   583		port->mapbase = res->start;
+   584	
+   585		port->irq = platform_get_irq(pdev, 0);
+ > 586		if (port->irq < 0)
+   587			return port->irq;
+   588	
+   589		port->line = pdev->id;
+   590		port->type = PORT_MCF;
+   591		port->dev = &pdev->dev;
+   592		port->iotype = SERIAL_IO_MEM;
+   593		port->uartclk = MCF_BUSCLK;
+   594		port->ops = &mcf_uart_ops;
+   595		port->flags = UPF_BOOT_AUTOCONF;
+   596		port->rs485_config = mcf_config_rs485;
+   597		port->rs485_supported = mcf_rs485_supported;
+   598		port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_MCF_CONSOLE);
+   599	
+   600		uart_add_one_port(&mcf_driver, port);
+   601		return 0;
+   602	}
+   603	
 
 -- 
 0-DAY CI Kernel Test Service
