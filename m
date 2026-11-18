@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795038412;
-	b=3GjpfPbnkvVaMW1caLT7Du6mRGdNPYDqGY4UPDzlKMcNzm/raEVv0l5mWrj/bb9stgqK
-	 TGnmuEii6vRS3ce/WN/b0uBeFXuJnOvOMvSZZ5OJZ+fZdjYxvP7N9F5Cp6d+AJ+jOKJts
-	 O545QNTmm8HGAu1yIh8wFjJcgiJ3SQj1Hm3fUetxinQf+qZNziJS3TGIXJV5xUUvV3tC3
-	 9R++LJOQL8NH92XWXUFe6yWwrrdk3RY/ZvsnycjNdxoDPwUMg2D1559i0XQ9UYG1VWH/n
-	 hs/eJ8DmufHJVkQNwwcImwt7Ll7l4Sb1VWLvRNEpP7XOhRRDc0ex/FP8lkKbhyFyuDA==
+	t=1795039070;
+	b=vtM0QOtRFYXGWvNoo0r2pj0A2+Vuvo6nkVHJPXpTBzvawyMZntUV3a+BScx3JJQa8z80
+	 6hoOwbvcPcLs2yQjDry2EhIrMwVQ5Kkk+xwaWaa0koWKutGOvtS6kxfEpTgT04y06bEuV
+	 4WdIeEYuWQ9ibAxwuYe6bmzzDIz+Eb9lKuY9sud/p3+jb3bfcoB/UlYYqOtvkedDvac6D
+	 HlKePBLFCtf50aMUFfT6NLTdl9aQxlGLCONtY3YYPz9k02wbx7AxMS66J8wsjQZe953vF
+	 Ow8fWv4r/GUI4V5CS3bMZMTJjcpvEQkmij9vAJPjpfx8W0mlvbEnNMrwb7syOP6HgUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795038412;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795039070;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=PybvpR63NqGKXrOMM4ngBoXZn7tNUuaTgPsB+LzWVEY=;
-	b=0qfEZ9dnpdRVFUEa3WAzgVEPQyUWEAL0APff1RllsDCcOQcCh6CzH0/axwy1n9fDKL8T
-	 VFEEtfTabBaYAqpVoKg53l188EdJbzDhAI7PFudthPTixefG1YHcluAd+lpGTINGEkAD3
-	 IMqvf5UFXKen2RVj6LgSPPYtKgjdm+uyHox3O7pQF7VeGn2RiMEupCMEIItXtDwGoUYwC
-	 aa0XTtI68TdcgUxRoAMBUKPq7xPcLM/pwYK5vsh4LkBwvK/W/NziWWGWLpyXy8tr7hzba
-	 SHwJMSTL2poi+qvn8SdhJgd+KuEtF+t+jt6QcziGfRinEfmNoEGleN8NS0uO9poW5wQ==
+	bh=4wzU8MiSrCQx5FDXdYWHBWEVLA7CEiGWIUqxy7xZdCE=;
+	b=iqrAknOX2a6dZ0HR+eIia8nhVMUga15rCJ4BlDooDyhSXoWZrLWNah+kieqhK0gQ+EcZ
+	 MOznLYTVg1Y9WWqWgCCUcCM4w9Q/KN52V7PujrEVy6ltEib3ShBnJoInMWZvr8BgQv4s/
+	 NxDkuaNr4YbJ8wij0WuuLK8ka1T1/gyKXW2n8wsjTTd6cWmTm7z2Gw0/nhoope8VzyUg3
+	 KsCgM/vy2xoRJEqKomeycfzx2vJgNx931ReeP417ky94lX9JcNIH/+5grwcwAGbvGvAp4
+	 6j23mj3ZSH54Seu7hokiBVtX8CcobpMRB9L7Sc90MPXu0AogpNGhYSfXIFoSjOSSW9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FbVuy+4V;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J0etxtzc;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB81F606A325
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 21:46:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB81F606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A579606A338
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 21:57:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A579606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FbVuy+4V
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J0etxtzc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795038412; x=1826574412;
+  t=1795039070; x=1826575070;
   h=date:from:to:cc:subject:message-id;
-  bh=yqK5Kete8gBY5H+il85DfdEK1fcAVh/GZTxLTRLv4so=;
-  b=FbVuy+4V8vJQUAuZl7CW9rpi4xiP0wkdt0HBfSyROc+tdBhr2QuMRnOK
-   2uDPaTJ2JO6j4OD6/0dp+1aVfuy/OsSMU+ZX/CcFyqSgDf71xubCd/IC7
-   xSxp9jb1HbArr7Ulz2SlWACHcYKAF1lsIrh8H6b4RHeJ1Jq/GVBImSN0I
-   VT5VlAsZemTrqybHCTzwlQtXxVg8FMNwUV4UtWa7WkZ/OaZASJwBjgRm/
-   gTaE6rlVwdbbtq3EDr+IIdTCc5QcO59dh6HeWTwAi+L1fiaxU4yHF2FYF
-   Lwhn4hJkiC49kB/xe7k2RMP0TM2d9h151eLhzCJ5noAI7sdKE83dDC4ZF
-   g==;
-X-CSE-ConnectionGUID: dpzre6OMRtKMYkNRZcIiOQ==
-X-CSE-MsgGUID: kw3Vkif8R7+buL4aFEAIrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3763798"
+  bh=Jy2lBgAwSryV18Q022S+29meawayo2bmVhgw3uts3wk=;
+  b=J0etxtzcDObx0a90tbH3nHiKLSFG7en/y+xVWm9THD4Pc7HBwfB/nqAV
+   kmJ85N33dhXQ+cUh3nSGn5VEQzWtO8k1wz0B5e+2qcu8Chw82UcTnGmMe
+   9D0edMMh2vB/bPo7Nd1sA4ry/kid2fTYDwoVdDXAA6FVfd6RtXpt/aMTQ
+   WT2x71nDWumBslnlkb79D7danNpHy0nlizSgJuz1VexUyGyMvVrV9TdAB
+   4WW0fwEZbrNt7r/G3BtGE5Rt8pdCqWc85BIO6ZAHsu0+3+14nVnhnBuzO
+   9S63BOsSElQ9w/iN/cqc4UoSOKdv623srUP60XzGuhaWgi9Av2iNVBO6L
+   w==;
+X-CSE-ConnectionGUID: OMIftPfgRrOf0gSWshGxfQ==
+X-CSE-MsgGUID: MdSQZFDCTw6+YcgPzmFiqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3887614"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3763798"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:46:52 -0800
-X-CSE-ConnectionGUID: hrUzONshTLaPh1icpXrQjg==
-X-CSE-MsgGUID: yIeuUPG2RMaUaeJbVqrV5w==
+   d="scan'208";a="3887614"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:57:49 -0800
+X-CSE-ConnectionGUID: 0OjnPqXaRWaux6xzRJptsw==
+X-CSE-MsgGUID: Hn7ZY0s3TEOGmuc2ggMFIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10142829"
+   d="scan'208";a="10158808"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 18 Nov 2026 13:46:50 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2026 13:57:48 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTnUK-000000003U1-1S3c;
-	Wed, 18 Nov 2026 21:46:44 +0000
-Date: Wed, 18 Nov 2026 22:46:28 +0100
+	id 1xTnez-000000003UH-1q4S;
+	Wed, 18 Nov 2026 21:57:45 +0000
+Date: Wed, 18 Nov 2026 22:57:40 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-10 5/5]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:797:5: warning: no previous
- prototype for 'kvm_arm_smmu_suspend'
-Message-ID: <20261118223856.Jr04Ws0t-lkp@intel.com>
+Subject: [android-common:android14-6.1-lts 200/200]
+ kernel/trace/trace_osnoise.c:62:15: sparse: sparse: symbol 'osnoise_options'
+ was not declared. Should it be static?
+Message-ID: <20261118225518.pssZ4K4q-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,196 +81,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Mostafa,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-10
-head:   570899ac400e4a0326d7e8529cb5c383b5a602a5
-commit: aea998ed10e7eb8357e2902a1c5e0b58154c2e96 [5/5] ANDROID: KVM: arm64: Remove HYP_SPIN_LOCK from generated code
-config: arm64-randconfig-r2104-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118223856.Jr04Ws0t-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118223856.Jr04Ws0t-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-lts
+head:   32c8e7bb8f634f61dd3c764ccd86ac57794bb9f5
+commit: 87465e52eefcd532f22ae8b81865e3818d508e54 [200/200] tracing/osnoise: Add osnoise/options file
+config: i386-randconfig-2302-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118225518.pssZ4K4q-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118225518.pssZ4K4q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261118223856.Jr04Ws0t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261118225518.pssZ4K4q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/trace_osnoise.c:62:15: sparse: sparse: symbol 'osnoise_options' was not declared. Should it be static?
+   kernel/trace/trace_osnoise.c:328:14: sparse: sparse: symbol 'interface_lock' was not declared. Should it be static?
+   kernel/trace/trace_osnoise.c:2191:5: sparse: sparse: symbol 'timerlat_min_period' was not declared. Should it be static?
+   kernel/trace/trace_osnoise.c:2192:5: sparse: sparse: symbol 'timerlat_max_period' was not declared. Should it be static?
 
-   cc1: warning: arch/arm64/kvm/: No such file or directory [-Wmissing-include-dirs]
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c: In function 'kvm_arm_smmu_domain_free':
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:210:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     int ret;
-         ^~~
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c: At top level:
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:797:5: warning: no previous prototype for 'kvm_arm_smmu_suspend' [-Wmissing-prototypes]
-    int kvm_arm_smmu_suspend(struct device *dev)
-        ^~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:807:5: warning: no previous prototype for 'kvm_arm_smmu_resume' [-Wmissing-prototypes]
-    int kvm_arm_smmu_resume(struct device *dev)
-        ^~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:865:5: warning: no previous prototype for 'smmu_put_device' [-Wmissing-prototypes]
-    int smmu_put_device(struct device *dev, void *data)
-        ^~~~~~~~~~~~~~~
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:922:15: warning: no previous prototype for 'kvm_arm_smmu_v3_id' [-Wmissing-prototypes]
-    pkvm_handle_t kvm_arm_smmu_v3_id(struct device *dev)
-                  ^~~~~~~~~~~~~~~~~~
+vim +/osnoise_options +62 kernel/trace/trace_osnoise.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-
-
-vim +/kvm_arm_smmu_suspend +797 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c
-
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  796  
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11 @797  int kvm_arm_smmu_suspend(struct device *dev)
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  798  {
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  799  	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  800  	struct host_arm_smmu_device *host_smmu = smmu_to_host(smmu);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  801  
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  802  	if (host_smmu->hvc_pd)
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  803  		return pkvm_iommu_suspend(dev);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  804  	return 0;
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  805  }
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  806  
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11 @807  int kvm_arm_smmu_resume(struct device *dev)
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  808  {
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  809  	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  810  	struct host_arm_smmu_device *host_smmu = smmu_to_host(smmu);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  811  
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  812  	if (host_smmu->hvc_pd)
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  813  		return pkvm_iommu_resume(dev);
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  814  	return 0;
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  815  }
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  816  
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  817  static const struct dev_pm_ops kvm_arm_smmu_pm_ops = {
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  818  	SET_RUNTIME_PM_OPS(kvm_arm_smmu_suspend, kvm_arm_smmu_resume, NULL)
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  819  };
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  820  
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  821  static const struct of_device_id arm_smmu_of_match[] = {
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  822  	{ .compatible = "arm,smmu-v3", },
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  823  	{ },
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  824  };
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  825  
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  826  static struct platform_driver kvm_arm_smmu_driver = {
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  827  	.driver = {
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  828  		.name = "kvm-arm-smmu-v3",
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  829  		.of_match_table = arm_smmu_of_match,
-94d1b3e12c9636 Jean-Philippe Brucker 2022-10-11  830  		.pm = &kvm_arm_smmu_pm_ops,
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  831  	},
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  832  	.remove = kvm_arm_smmu_remove,
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  833  };
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  834  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  835  static int kvm_arm_smmu_array_alloc(void)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  836  {
-be3195fe7b08b0 Mostafa Saleh         2023-10-17  837  	int smmu_order;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  838  	struct device_node *np;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  839  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  840  	kvm_arm_smmu_count = 0;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  841  	for_each_compatible_node(np, NULL, "arm,smmu-v3")
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  842  		kvm_arm_smmu_count++;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  843  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  844  	if (!kvm_arm_smmu_count)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  845  		return 0;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  846  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  847  	/* Allocate the parameter list shared with the hypervisor */
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  848  	smmu_order = get_order(kvm_arm_smmu_count * sizeof(*kvm_arm_smmu_array));
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  849  	kvm_arm_smmu_array = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  850  						      smmu_order);
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  851  	if (!kvm_arm_smmu_array)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  852  		return -ENOMEM;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  853  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  854  	return 0;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  855  }
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  856  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  857  static void kvm_arm_smmu_array_free(void)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  858  {
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  859  	int order;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  860  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  861  	order = get_order(kvm_arm_smmu_count * sizeof(*kvm_arm_smmu_array));
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  862  	free_pages((unsigned long)kvm_arm_smmu_array, order);
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  863  }
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  864  
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10 @865  int smmu_put_device(struct device *dev, void *data)
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  866  {
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  867  	pm_runtime_put_noidle(dev);
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  868  	return 0;
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  869  }
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  870  
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  871  /**
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  872   * kvm_arm_smmu_v3_init() - Reserve the SMMUv3 for KVM
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  873   * Return 0 if all present SMMUv3 were probed successfully, or an error.
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  874   *   If no SMMU was found, return 0, with a count of 0.
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  875   */
-5d6af2ce0093f6 Mostafa Saleh         2023-05-01  876  static int kvm_arm_smmu_v3_init(void)
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  877  {
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  878  	int ret;
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  879  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  880  	/*
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  881  	 * Check whether any device owned by the host is behind an SMMU.
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  882  	 */
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  883  	ret = kvm_arm_smmu_array_alloc();
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  884  	if (ret || !kvm_arm_smmu_count)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  885  		return ret;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  886  
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  887  	ret = platform_driver_probe(&kvm_arm_smmu_driver, kvm_arm_smmu_probe);
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  888  	if (ret)
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  889  		goto err_free;
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  890  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  891  	if (kvm_arm_smmu_cur != kvm_arm_smmu_count) {
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  892  		/* A device exists but failed to probe */
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  893  		ret = -EUNATCH;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  894  		goto err_free;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  895  	}
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  896  
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  897  	/*
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  898  	 * These variables are stored in the nVHE image, and won't be accessible
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  899  	 * after KVM initialization. Ownership of kvm_arm_smmu_array will be
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  900  	 * transferred to the hypervisor as well.
-f6758993ba0dc8 Jean-Philippe Brucker 2022-11-23  901  	 *
-f6758993ba0dc8 Jean-Philippe Brucker 2022-11-23  902  	 * kvm_arm_smmu_memcache is shared between hypervisor and host.
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  903  	 */
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  904  	kvm_hyp_arm_smmu_v3_smmus = kvm_arm_smmu_array;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  905  	kvm_hyp_arm_smmu_v3_count = kvm_arm_smmu_count;
-bb65953ff665bb David Brazdil         2023-08-09  906  
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  907  	ret = kvm_iommu_init_hyp(kern_hyp_va(lm_alias(&kvm_nvhe_sym(smmu_ops))), 0);
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  908  
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  909  	WARN_ON(driver_for_each_device(&kvm_arm_smmu_driver.driver, NULL,
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  910  				       NULL, smmu_put_device));
-842ddd77ef926e Jean-Philippe Brucker 2022-10-10  911  	return ret;
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  912  err_free:
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  913  	kvm_arm_smmu_array_free();
-58d165ce27ff4b Jean-Philippe Brucker 2022-02-09  914  	return ret;
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  915  }
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  916  
-5d6af2ce0093f6 Mostafa Saleh         2023-05-01  917  static void kvm_arm_smmu_v3_remove(void)
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  918  {
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  919  	platform_driver_unregister(&kvm_arm_smmu_driver);
-d4519820851b1d Jean-Philippe Brucker 2022-02-09  920  }
-5d6af2ce0093f6 Mostafa Saleh         2023-05-01  921  
-9d5e57d93b40eb Mostafa Saleh         2023-08-19 @922  pkvm_handle_t kvm_arm_smmu_v3_id(struct device *dev)
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  923  {
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  924  	struct arm_smmu_device *smmu = dev_get_drvdata(dev);
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  925  	struct host_arm_smmu_device *host_smmu = smmu_to_host(smmu);
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  926  
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  927  	return host_smmu->id;
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  928  }
-9d5e57d93b40eb Mostafa Saleh         2023-08-19  929  
-
-:::::: The code at line 797 was first introduced by commit
-:::::: 94d1b3e12c96365344527059d9fc1570856dc06e ANDROID: iommu/arm-smmu-v3-kvm: Use HOST_HVC PD if possible
-
-:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
-:::::: CC: Mostafa Saleh <smostafa@google.com>
+    60	
+    61	#define OSN_DEFAULT_OPTIONS	0
+  > 62	unsigned long osnoise_options	= OSN_DEFAULT_OPTIONS;
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
