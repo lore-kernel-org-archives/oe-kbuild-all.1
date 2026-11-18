@@ -1,62 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007921;
-	b=dbMQNTwZXzuf1L0tFt87dXLD1BPHcJ1aKKjLh9Uzu/8Of1z2vgr2fJIZMlQUDnaEaCEY
-	 +xeoFbb3gUncy+AVaZPCKAnpdwRaKpZQ+fxkep+aRcSRYev73L3A8FbFFqJsemY1HsZ2A
-	 +R2utvmjDo6B7weOotUIzLy9rxXs9ePDsY2u0+X2P0GPg6rTt+YgeDdaFtEjvvo55II/Z
-	 gg7q8ZK/8BkO/+xbBVZpFEzzCVL61jAfU4/BHdJHIKVXoLoDqX8/nIGIAc9MjPqTGnvvp
-	 CPgRZeC16X6whyuP24s7IrD/6fbkfOOBDUEVIkeHcLSgHy4AerBP095cgMlCPvVvzHA==
+	t=1795017966;
+	b=KFOFwbCC4xLaoVldbLg2oUQaifqyTxPXA/PgcBzEasnGbCGrUUFh37eMMQraiq9mT1d5
+	 ff5RP0F9447dIRHlAtCMP9+7RWbkhCXGxNyFsVGEblC+5+dyvTLteSgsksGAeq13FuVGC
+	 LOjAz3E8M9lSq7YlyeY+a7NFMfWYeI/jwguaT1qnWMJxXr9L4Xg4hhEIN2B700ztMo7PZ
+	 yT61d69WHhWIl8Q1pXOnmeR2S+n6YO5nAZ2+JdjaXZoa3/zdLmQPlgLjtEm8TM8kXRgdl
+	 muAccjNHxTJ10H9oMQ4U3YKCISc+va6Yuz20Xygj/tDY3Qbn7cxKIo6o6spitzIB4tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007921;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:X-CID-META:
-	 X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=upd0IxCj2792Sd+Vd6lDIAbHvUW1f3kpvaia8Zd/3Ck=;
-	b=KXuDf4RgRuLb8rFPAeHaHPLlB5rqBbnURJWBY8g3+xU6bjsM4bUkQqBq1rvYdrhuJoEs
-	 5VnpwljVvsbQSqlRMVac/Jk9RXfpbGv2VeUFrpZTG1PaEcGmgaIVYhM+k2yf2i0QK7Tib
-	 zbtBId9ILcBI+MvCpl9ogjh+Vb8gKgUYOFrCeVw7EJqIvFtUqsOlcBCIEG9PAUTDzlM0s
-	 P3JiXaUBHrlQmRx9HNB9QhazvllayH2UQu0CavGgIG/k+FaYKnC4ck8Zm+VHAl5YILbIX
-	 lNTv20jGy2Xb9G39ZxUEw7cMtdOcIV9U2a4AQgk3e5HcnB/gwTIbihpPLDGbKXM8oGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017966;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=TzCfIZixRQmaszpi1CHXES2rA3JRIbMRc4P2ibJAU1s=;
+	b=bvTtL2a9hXMmG43lFAy2VvbrlEFx6IzlszqbVTbRzve4N7oAD2wVi9JdhacqEjUL7YHe
+	 8SCJu0ErSl9BFHAkdqAdZ+Ng2LPtiuo1zntQrmWayIGsw94vlwfsDIYBXRg5Ak257KAxf
+	 b0rJ/85SD1mdk1dEU96+NqGLSA25Zrv1aEV1KC/JM/ZG13fjLYoik3zgQa17EQCijurpO
+	 NH/3t+8P8FnEvVrrzgsyCBA1eFk641Le/39lMT8RLXCHp1li3a7ql6clS8jrO8ZOVljzA
+	 zU6v2VnduVRt9AcY3qXRe5ihQFdMNgxdGeSfK2CI3pbLPYgTop8SBDT6x1nK+PoW1Tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mv1H9mXz;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BED606A332;
-	Wed, 18 Nov 2026 13:18:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6BED606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 8c311e00e35211f19a56ed5b684f684d-20261118
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:8e9c81ca-96b8-4040-b02f-cb5bf20b073f,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:8e9c81ca-96b8-4040-b02f-cb5bf20b073f,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:590b889ced8d4f83e2e07ffedd64af85,BulkI
-	D:261118093247FQF070YS,BulkQuantity:2,SF:17|19|38|64|66|78|80|81|82|83|102
-	|127|136|153|841|865|898,TC:nil,Content:0|15|16|50|99,EDM:-3|-100,IP:-2,UR
-	L:99|1,File:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1
-	,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 8c311e00e35211f19a56ed5b684f684d-20261118
-X-User: lienze@kylinos.cn
-Received: from [192.168.3.106] [(111.193.136.161)] by mailgw.kylinos.cn
-	(envelope-from <lienze@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 603697062; Wed, 18 Nov 2026 21:18:30 +0800
-Message-ID: <06e16d01-328b-4267-902b-1b4821139029@kylinos.cn>
-Date: Wed, 18 Nov 2026 21:18:26 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33989606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 16:06:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33989606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mv1H9mXz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795017966; x=1826553966;
+  h=date:from:to:cc:subject:message-id;
+  bh=rnSajuY2/46tPLBL6ecMQzQ2v7HUhhZPM1wCCVRN6J4=;
+  b=Mv1H9mXz1KyrFydxn+52awx+mKscpuSQm73gr0EFXdVCw5dPLgl71BdI
+   Rxz8PEU6fDAnKYwE1f0jGWaoBJjR33G0FGRqiw4tTUQUmJofSV6epinxc
+   9nhSS5/J7gxspHFVvbOTZxshS1lNfQ6dA2l8MiQI8QfzsdsCHgstj26Rc
+   G1xwwpKpS80zRMo7ls70pk9NGOUF8Bc0JsD4rgmZf8ApxZexAi2KHwc8k
+   CV4AwUvhJfVcxtqDyPH0Yax5V2340pBlcxgqL/gCBlVHgtfGoBA7wSyul
+   PAjq+UYmpejnUAsTlFbah27Q3fgIZgxL9L8Ob/S4U3AmrVoCHJEb2K5gQ
+   w==;
+X-CSE-ConnectionGUID: r80jRhhMRWGGiIJMILy9Dg==
+X-CSE-MsgGUID: zPi1vjWVQ4+kz6YC9PVTNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3826239"
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="3826239"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 08:06:04 -0800
+X-CSE-ConnectionGUID: PMO1CinQQLmZ3otMOqyjDQ==
+X-CSE-MsgGUID: Ztq/VeV7REWF5EKPB3HOPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="10573438"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2026 08:06:03 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xTiAb-000000003QU-0TR2;
+	Wed, 18 Nov 2026 16:06:01 +0000
+Date: Wed, 18 Nov 2026 17:05:32 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 24/44] drivers/tty/tty_jobctrl.c:81:9:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <20261118165552.hIqx6N4d-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -65,93 +79,62 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/damon/paddr: avoid truncation warning in high-address
- KUnit test
-To: Aveline Noir <jm5905938@gmail.com>, SJ Park <sj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: damon@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- mm-commits@vger.kernel.org, Bill Wendling <morbo@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, oe-kbuild-all@lists.linux.dev,
- rdunlap@infradead.org, sashiko-bot@kernel.org,
- sashiko-reviews@lists.linux.dev
-References: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
-Content-Language: en-US
-From: Enze Li <lienze@kylinos.cn>
-In-Reply-To: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   1efe42321ef5d10bbcc545a533befa0ee30acfa5
+commit: 232e9ffc112aa965cbd3857c61f71acc2d0ae673 [24/44] tty_jobctrl: use guard
+config: powerpc-randconfig-r2306-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118165552.hIqx6N4d-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118165552.hIqx6N4d-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261118165552.hIqx6N4d-lkp@intel.com/
 
-On 2026/11/18 01:04, Aveline Noir wrote:
-> Hi SJ, Andrew,
-> 
-> The kernel test robot caught this issue in my earlier addr_unit KUnit
-> patch. Feel free to fold this fix into that patch.
-> 
-> Thanks,
-> Aveline Noir
-> 
-> -- >8 --
-> When phys_addr_t is 32-bit, Sparse warns about truncating the u64 address
-> passed to damon_pa_core_addr() in damon_test_pa_addr_over_4g().  The
-> runtime kunit_skip() does not prevent Sparse from checking that
-> conversion.
-> 
-> Compile the high-address assertions only with CONFIG_PHYS_ADDR_T_64BIT,
-> and keep the test skipped otherwise.
-> 
-> Fixes: 7a983cc1b573 ("mm/damon/paddr: add KUnit tests for addr_unit conversion")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/20261117170155.fEdeuuhm-lkp@intel.com/
-> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tty/tty_jobctrl.c:81:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:81:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:81:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:124:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:124:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:124:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:134:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:134:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:134:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:160:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:160:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:160:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:198:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:198:25: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:198:25: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:209:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:209:51: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:209:51: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:285:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:285:17: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:285:17: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:314:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:314:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:314:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:20:41: sparse: sparse: dereference of noderef expression
 
-Reviewed-by: Enze Li <lienze@kylinos.cn>
+vim +81 drivers/tty/tty_jobctrl.c
 
-Thanks,
-Enze
+    76	
+    77	void proc_clear_tty(struct task_struct *p)
+    78	{
+    79		struct tty_struct *tty;
+    80	
+  > 81		scoped_guard(spinlock_irqsave, &p->sighand->siglock) {
+    82			tty = p->signal->tty;
+    83			p->signal->tty = NULL;
+    84		}
+    85		tty_kref_put(tty);
+    86	}
+    87	
 
-> ---
-> The reported warning is gone with the original i386 config, Clang 22.1.8
-> and Sparse v0.6.5-rc1-21-g84ec0658. All executed DAMON KUnit tests passed
-> on x86_64 and i386 with and without PAE; the high-address case skips
-> without PAE.
-> ---
->  mm/damon/tests/paddr-kunit.h | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/damon/tests/paddr-kunit.h b/mm/damon/tests/paddr-kunit.h
-> index 9839cc233071..2b11f0e67a12 100644
-> --- a/mm/damon/tests/paddr-kunit.h
-> +++ b/mm/damon/tests/paddr-kunit.h
-> @@ -26,15 +26,16 @@ static void damon_test_pa_core_addr(struct kunit *test)
->  
->  static void damon_test_pa_addr_over_4g(struct kunit *test)
->  {
-> +#ifdef CONFIG_PHYS_ADDR_T_64BIT
->  	unsigned long addr = 0xffffffffUL;
->  	unsigned long addr_unit = 0x1000;
->  	u64 pa = 0xffffffff000ULL;
->  
-> -	if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
-> -		kunit_skip(test, "phys_addr_t is 32-bit");
-> -
->  	KUNIT_EXPECT_EQ(test, damon_pa_phys_addr(addr, addr_unit), pa);
->  	KUNIT_EXPECT_EQ(test, damon_pa_core_addr(pa, addr_unit), addr);
-> +#else
-> +	kunit_skip(test, "phys_addr_t is 32-bit");
-> +#endif
->  }
->  
->  static struct kunit_case damon_paddr_test_cases[] = {
-> 
-> ---
-> base-commit: 7a983cc1b57309a875a9e07a934c9944bf3d088d
-> change-id: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
