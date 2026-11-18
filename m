@@ -1,79 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794998260;
-	b=SKARM86dwfjpz4GJzqyKIAoj7PjiqKm9DTg/nz4o+fDQtgJ/eKStcUYy7ev8UU9hXUr2
-	 z5MObUOSMl8kCvV9q2h2YW9Va2H77bV5IEWTM4MCNNsh1HPyeiZk2F4+2ygR9vaYvFMEO
-	 5QgtziJU7HQ1xQwLw7DoX+5ABuMlcGYNRGCquEawhRw2viGTjezgsr4RoUWgEYP/MeCOF
-	 Fcq6rQcA3q3BMgHtq1/kWlji5inI81bhT9oAZfAhvKp4CvHSQfXHUpP50rNcwU6+FK+s2
-	 u+FIwjqwTK7F/kWxsdttoWxZS1dh6MS76lmAtw8JrpsS9gjMIE2TeifGOOeVXTjcA2A==
+	t=1795007921;
+	b=dbMQNTwZXzuf1L0tFt87dXLD1BPHcJ1aKKjLh9Uzu/8Of1z2vgr2fJIZMlQUDnaEaCEY
+	 +xeoFbb3gUncy+AVaZPCKAnpdwRaKpZQ+fxkep+aRcSRYev73L3A8FbFFqJsemY1HsZ2A
+	 +R2utvmjDo6B7weOotUIzLy9rxXs9ePDsY2u0+X2P0GPg6rTt+YgeDdaFtEjvvo55II/Z
+	 gg7q8ZK/8BkO/+xbBVZpFEzzCVL61jAfU4/BHdJHIKVXoLoDqX8/nIGIAc9MjPqTGnvvp
+	 CPgRZeC16X6whyuP24s7IrD/6fbkfOOBDUEVIkeHcLSgHy4AerBP095cgMlCPvVvzHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794998260;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=lNUe9D0tAvTXbSeXT4QdQdAtKhb2ErmRf9u/Zj1eqV4=;
-	b=Y+n3j/IVZyKGAowOaPkb2aWbinifqX5S+7hN6LSlFxzzcQvkHQ3SNdMrebbvmSBqpUpE
-	 Eb4F1VOt8YltTqjF/g9x8YWu2M0oHZi18grWhZNNd0yvKenvfqYX9kgi5HtpImBxQIaIU
-	 fSHq/gRMiIMigvfeRBdCFFr3RrfHBv+/zWzp8epr12DEFKqx0yc1AM9ITLD19ldTuZcvl
-	 Ox4nMiy5W6NimQPccaUEimAe1CHQ2hqiLY4QAg41rxf+iCtFxWiemD4wCLi9SFATyidU2
-	 0oxTHmAHL5ghfDJHoVH0yKafnnGTsJ2dfq2e457NoY8ToGUR3PpMG2pdtVBp3d+kBPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007921;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:X-CID-META:
+	 X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=upd0IxCj2792Sd+Vd6lDIAbHvUW1f3kpvaia8Zd/3Ck=;
+	b=KXuDf4RgRuLb8rFPAeHaHPLlB5rqBbnURJWBY8g3+xU6bjsM4bUkQqBq1rvYdrhuJoEs
+	 5VnpwljVvsbQSqlRMVac/Jk9RXfpbGv2VeUFrpZTG1PaEcGmgaIVYhM+k2yf2i0QK7Tib
+	 zbtBId9ILcBI+MvCpl9ogjh+Vb8gKgUYOFrCeVw7EJqIvFtUqsOlcBCIEG9PAUTDzlM0s
+	 P3JiXaUBHrlQmRx9HNB9QhazvllayH2UQu0CavGgIG/k+FaYKnC4ck8Zm+VHAl5YILbIX
+	 lNTv20jGy2Xb9G39ZxUEw7cMtdOcIV9U2a4AQgk3e5HcnB/gwTIbihpPLDGbKXM8oGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IcqymisB;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E17606A31C;
-	Wed, 18 Nov 2026 10:37:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13E17606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IcqymisB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794998259; x=1826534259;
-  h=date:from:to:cc:subject:message-id;
-  bh=OUE3SY7pM9LftOSaq19Eift+RAvxn90/c1v7e4CjF+4=;
-  b=IcqymisBHn1K8pztjqHZusqdbHzFWJZ2uK+eoQ/todMzSC5X7JL0heng
-   xHw+FQoNFLRGhTpAcq1rp8kTEHNBGcXftKrsbJ1akjYjIIjoSIvy6WL3X
-   wJs+ivXArIW18XubCWwqRFLRWuNTsFtnZTl05qlvt3bbM2W1NF2wvlPOf
-   S8O/A+v9HU7hlsJg8FJCiXsUl+aYngl2RF3br16NDEsMXX8m+A3vH+Xuh
-   CgVCYLpOCmd6PIUX/PHK2ZgW3ml4gzvQwPxgK5sCUB91TB4FsQPGRiAjI
-   m5e8DEsR6+VHC54Zwo4mq7GdQmac+hYVP+DXOF45f7pWnNyjmY0f3zUPg
-   A==;
-X-CSE-ConnectionGUID: 7ByE/F4fT9iieKqWxBP2lg==
-X-CSE-MsgGUID: ExA4Mn9lQ3eeAavg1HM5ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3689476"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3689476"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:37:39 -0800
-X-CSE-ConnectionGUID: ByNqyMsFRvqKXvmdFBwhlQ==
-X-CSE-MsgGUID: +Iw0iMLCR+2tmofKsN267A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10445549"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 02:37:37 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xTd2k-000000003Ni-1V0I;
-	Wed, 18 Nov 2026 10:37:34 +0000
-Date: Wed, 18 Nov 2026 11:36:38 +0100
-From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <andrew.jones@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Anup Patel <anup@brainfault.org>, Nutty Liu <nutty.liu@hotmail.com>
-Subject: [avpatel:riscv_trace_acpi_support_v1 41/110]
- drivers/iommu/iommufd/driver.c:445:28: warning: result of comparison of
- constant 4503599627370495 with expression of type 'unsigned int' is always
- false
-Message-ID: <20261118113355.UnrCVHUq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BED606A332;
+	Wed, 18 Nov 2026 13:18:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6BED606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8c311e00e35211f19a56ed5b684f684d-20261118
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:8e9c81ca-96b8-4040-b02f-cb5bf20b073f,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:8e9c81ca-96b8-4040-b02f-cb5bf20b073f,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:590b889ced8d4f83e2e07ffedd64af85,BulkI
+	D:261118093247FQF070YS,BulkQuantity:2,SF:17|19|38|64|66|78|80|81|82|83|102
+	|127|136|153|841|865|898,TC:nil,Content:0|15|16|50|99,EDM:-3|-100,IP:-2,UR
+	L:99|1,File:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1
+	,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 8c311e00e35211f19a56ed5b684f684d-20261118
+X-User: lienze@kylinos.cn
+Received: from [192.168.3.106] [(111.193.136.161)] by mailgw.kylinos.cn
+	(envelope-from <lienze@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 603697062; Wed, 18 Nov 2026 21:18:30 +0800
+Message-ID: <06e16d01-328b-4267-902b-1b4821139029@kylinos.cn>
+Date: Wed, 18 Nov 2026 21:18:26 +0800
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,128 +65,93 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/damon/paddr: avoid truncation warning in high-address
+ KUnit test
+To: Aveline Noir <jm5905938@gmail.com>, SJ Park <sj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: damon@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ mm-commits@vger.kernel.org, Bill Wendling <morbo@google.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, oe-kbuild-all@lists.linux.dev,
+ rdunlap@infradead.org, sashiko-bot@kernel.org,
+ sashiko-reviews@lists.linux.dev
+References: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
+Content-Language: en-US
+From: Enze Li <lienze@kylinos.cn>
+In-Reply-To: <20261118-fix-damon-paddr-sparse-20261118-v1-1-3a0e943406d5@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
-head:   d07ed174c556320cd195cf52564791f94027154c
-commit: aec5f4d0efc3d8957d00479a79a3489b2eebcd9b [41/110] irqchip/riscv-imsic: Support IOMMU MSI address lists
-config: riscv-randconfig-2001-20261118 (https://download.01.org/0day-ci/archive/20261118/20261118113355.UnrCVHUq-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 51d7f08b16b68285b1a400f413215b69f07a65e3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261118/20261118113355.UnrCVHUq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261118113355.UnrCVHUq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/iommu/iommufd/driver.c:445:28: warning: result of comparison of constant 4503599627370495 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
-     445 |         if (!nr_addrs || nr_addrs > SIZE_MAX / PAGE_SIZE)
-         |                          ~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
 
 
-vim +445 drivers/iommu/iommufd/driver.c
+On 2026/11/18 01:04, Aveline Noir wrote:
+> Hi SJ, Andrew,
+> 
+> The kernel test robot caught this issue in my earlier addr_unit KUnit
+> patch. Feel free to fold this fix into that patch.
+> 
+> Thanks,
+> Aveline Noir
+> 
+> -- >8 --
+> When phys_addr_t is 32-bit, Sparse warns about truncating the u64 address
+> passed to damon_pa_core_addr() in damon_test_pa_addr_over_4g().  The
+> runtime kunit_skip() does not prevent Sparse from checking that
+> conversion.
+> 
+> Compile the high-address assertions only with CONFIG_PHYS_ADDR_T_64BIT,
+> and keep the test skipped otherwise.
+> 
+> Fixes: 7a983cc1b573 ("mm/damon/paddr: add KUnit tests for addr_unit conversion")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/20261117170155.fEdeuuhm-lkp@intel.com/
+> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
 
-8d0711b39587717 Andrew Jones 2026-09-25  421  
-dde0a62fb11c017 Andrew Jones 2026-09-25  422  /*
-dde0a62fb11c017 Andrew Jones 2026-09-25  423   * Called by the irq code if the platform translates the MSI addresses through the
-dde0a62fb11c017 Andrew Jones 2026-09-25  424   * IOMMU. phys_addrs are the physical addresses of the MSI pages. iommufd will
-dde0a62fb11c017 Andrew Jones 2026-09-25  425   * allocate contiguous fd global iovas for the physical pages that are the same on
-dde0a62fb11c017 Andrew Jones 2026-09-25  426   * all domains and devices.
-dde0a62fb11c017 Andrew Jones 2026-09-25  427   */
-dde0a62fb11c017 Andrew Jones 2026-09-25  428  int iommufd_sw_msi(struct iommu_domain *domain, struct msi_desc *desc,
-dde0a62fb11c017 Andrew Jones 2026-09-25  429  		   const phys_addr_t *phys_addrs, unsigned int nr_addrs, size_t granule)
-ec031e1b35ded5a Nicolin Chen 2025-03-24  430  {
-ec031e1b35ded5a Nicolin Chen 2025-03-24  431  	struct device *dev = msi_desc_to_dev(desc);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  432  	struct iommufd_hwpt_paging *hwpt_paging;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  433  	struct iommu_attach_handle *raw_handle;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  434  	struct iommufd_attach_handle *handle;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  435  	struct iommufd_sw_msi_map *msi_map;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  436  	struct iommufd_ctx *ictx;
-bcb9505734cfe46 Andrew Jones 2026-09-25  437  	LIST_HEAD(new_msi_maps);
-8d0711b39587717 Andrew Jones 2026-09-25  438  	struct list_head *msi_maps;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  439  	unsigned long iova;
-8d0711b39587717 Andrew Jones 2026-09-25  440  	unsigned int i;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  441  	int rc;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  442  
-8d0711b39587717 Andrew Jones 2026-09-25  443  	if (granule != PAGE_SIZE)
-8d0711b39587717 Andrew Jones 2026-09-25  444  		return -EOPNOTSUPP;
-8d0711b39587717 Andrew Jones 2026-09-25 @445  	if (!nr_addrs || nr_addrs > SIZE_MAX / PAGE_SIZE)
-8d0711b39587717 Andrew Jones 2026-09-25  446  		return -EINVAL;
-8d0711b39587717 Andrew Jones 2026-09-25  447  	for (i = 0; i < nr_addrs; i++)
-8d0711b39587717 Andrew Jones 2026-09-25  448  		if (!IS_ALIGNED(phys_addrs[i], PAGE_SIZE))
-8d0711b39587717 Andrew Jones 2026-09-25  449  			return -EINVAL;
-8d0711b39587717 Andrew Jones 2026-09-25  450  
-ec031e1b35ded5a Nicolin Chen 2025-03-24  451  	/*
-ec031e1b35ded5a Nicolin Chen 2025-03-24  452  	 * It is safe to call iommu_attach_handle_get() here because the iommu
-ec031e1b35ded5a Nicolin Chen 2025-03-24  453  	 * core code invokes this under the group mutex which also prevents any
-ec031e1b35ded5a Nicolin Chen 2025-03-24  454  	 * change of the attach handle for the duration of this function.
-ec031e1b35ded5a Nicolin Chen 2025-03-24  455  	 */
-ec031e1b35ded5a Nicolin Chen 2025-03-24  456  	iommu_group_mutex_assert(dev);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  457  
-ec031e1b35ded5a Nicolin Chen 2025-03-24  458  	raw_handle =
-ec031e1b35ded5a Nicolin Chen 2025-03-24  459  		iommu_attach_handle_get(dev->iommu_group, IOMMU_NO_PASID, 0);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  460  	if (IS_ERR(raw_handle))
-ec031e1b35ded5a Nicolin Chen 2025-03-24  461  		return 0;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  462  	hwpt_paging = find_hwpt_paging(domain->iommufd_hwpt);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  463  
-ec031e1b35ded5a Nicolin Chen 2025-03-24  464  	handle = to_iommufd_handle(raw_handle);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  465  	/* No IOMMU_RESV_SW_MSI means no change to the msi_msg */
-19f1ed2187db401 Andrew Jones 2026-09-25  466  	if (handle->idev->igroup->sw_msi_range.start == PHYS_ADDR_MAX)
-ec031e1b35ded5a Nicolin Chen 2025-03-24  467  		return 0;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  468  
-ec031e1b35ded5a Nicolin Chen 2025-03-24  469  	ictx = handle->idev->ictx;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  470  	guard(mutex)(&ictx->sw_msi_lock);
-8d0711b39587717 Andrew Jones 2026-09-25  471  	msi_map = iommufd_sw_msi_get_map(ictx, phys_addrs, nr_addrs,
-8d0711b39587717 Andrew Jones 2026-09-25  472  					 &handle->idev->igroup->sw_msi_range);
-8d0711b39587717 Andrew Jones 2026-09-25  473  	if (msi_map) {
-8d0711b39587717 Andrew Jones 2026-09-25  474  		msi_maps = &ictx->sw_msi_list;
-8d0711b39587717 Andrew Jones 2026-09-25  475  	} else {
-8d0711b39587717 Andrew Jones 2026-09-25  476  		msi_map = iommufd_sw_msi_alloc_map(ictx, phys_addrs, nr_addrs,
-bcb9505734cfe46 Andrew Jones 2026-09-25  477  						   &handle->idev->igroup->sw_msi_range,
-bcb9505734cfe46 Andrew Jones 2026-09-25  478  						   &new_msi_maps);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  479  		if (IS_ERR(msi_map))
-ec031e1b35ded5a Nicolin Chen 2025-03-24  480  			return PTR_ERR(msi_map);
-8d0711b39587717 Andrew Jones 2026-09-25  481  		msi_maps = &new_msi_maps;
-8d0711b39587717 Andrew Jones 2026-09-25  482  	}
-ec031e1b35ded5a Nicolin Chen 2025-03-24  483  
-8989aec42f50fb3 Andrew Jones 2026-09-25  484  	rc = iommufd_sw_msi_maps_ensure(&handle->idev->igroup->required_sw_msi,
-8d0711b39587717 Andrew Jones 2026-09-25  485  					msi_map->id + nr_addrs - 1);
-8989aec42f50fb3 Andrew Jones 2026-09-25  486  	if (rc)
-bcb9505734cfe46 Andrew Jones 2026-09-25  487  		goto err_free;
-8989aec42f50fb3 Andrew Jones 2026-09-25  488  
-8d0711b39587717 Andrew Jones 2026-09-25  489  	rc = __iommufd_sw_msi_install_range(ictx, hwpt_paging, msi_maps, msi_map, nr_addrs);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  490  	if (rc)
-bcb9505734cfe46 Andrew Jones 2026-09-25  491  		goto err_free;
-8d0711b39587717 Andrew Jones 2026-09-25  492  
-8d0711b39587717 Andrew Jones 2026-09-25  493  	iommufd_sw_msi_set_required(handle->idev->igroup, msi_maps, msi_map, nr_addrs);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  494  
-bcb9505734cfe46 Andrew Jones 2026-09-25  495  	if (!list_empty(&new_msi_maps)) {
-bcb9505734cfe46 Andrew Jones 2026-09-25  496  		list_splice_tail_init(&new_msi_maps, &ictx->sw_msi_list);
-8d0711b39587717 Andrew Jones 2026-09-25  497  		ictx->sw_msi_id += nr_addrs;
-bcb9505734cfe46 Andrew Jones 2026-09-25  498  	}
-bcb9505734cfe46 Andrew Jones 2026-09-25  499  
-ec031e1b35ded5a Nicolin Chen 2025-03-24  500  	iova = msi_map->sw_msi_start + msi_map->pgoff * PAGE_SIZE;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  501  	msi_desc_set_iommu_msi_iova(desc, iova, PAGE_SHIFT);
-ec031e1b35ded5a Nicolin Chen 2025-03-24  502  	return 0;
-bcb9505734cfe46 Andrew Jones 2026-09-25  503  
-bcb9505734cfe46 Andrew Jones 2026-09-25  504  err_free:
-bcb9505734cfe46 Andrew Jones 2026-09-25  505  	while (!list_empty(&new_msi_maps)) {
-bcb9505734cfe46 Andrew Jones 2026-09-25  506  		msi_map = list_first_entry(&new_msi_maps, typeof(*msi_map), sw_msi_item);
-bcb9505734cfe46 Andrew Jones 2026-09-25  507  		list_del(&msi_map->sw_msi_item);
-bcb9505734cfe46 Andrew Jones 2026-09-25  508  		kfree(msi_map);
-bcb9505734cfe46 Andrew Jones 2026-09-25  509  	}
-bcb9505734cfe46 Andrew Jones 2026-09-25  510  	return rc;
-ec031e1b35ded5a Nicolin Chen 2025-03-24  511  }
-8d0711b39587717 Andrew Jones 2026-09-25  512  
+Reviewed-by: Enze Li <lienze@kylinos.cn>
 
-:::::: The code at line 445 was first introduced by commit
-:::::: 8d0711b39587717e085ec90b822dd4bc4995dfcf iommufd: Prepare software MSI installation for address lists
+Thanks,
+Enze
 
-:::::: TO: Andrew Jones <andrew.jones@oss.qualcomm.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+> ---
+> The reported warning is gone with the original i386 config, Clang 22.1.8
+> and Sparse v0.6.5-rc1-21-g84ec0658. All executed DAMON KUnit tests passed
+> on x86_64 and i386 with and without PAE; the high-address case skips
+> without PAE.
+> ---
+>  mm/damon/tests/paddr-kunit.h | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/damon/tests/paddr-kunit.h b/mm/damon/tests/paddr-kunit.h
+> index 9839cc233071..2b11f0e67a12 100644
+> --- a/mm/damon/tests/paddr-kunit.h
+> +++ b/mm/damon/tests/paddr-kunit.h
+> @@ -26,15 +26,16 @@ static void damon_test_pa_core_addr(struct kunit *test)
+>  
+>  static void damon_test_pa_addr_over_4g(struct kunit *test)
+>  {
+> +#ifdef CONFIG_PHYS_ADDR_T_64BIT
+>  	unsigned long addr = 0xffffffffUL;
+>  	unsigned long addr_unit = 0x1000;
+>  	u64 pa = 0xffffffff000ULL;
+>  
+> -	if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
+> -		kunit_skip(test, "phys_addr_t is 32-bit");
+> -
+>  	KUNIT_EXPECT_EQ(test, damon_pa_phys_addr(addr, addr_unit), pa);
+>  	KUNIT_EXPECT_EQ(test, damon_pa_core_addr(pa, addr_unit), addr);
+> +#else
+> +	kunit_skip(test, "phys_addr_t is 32-bit");
+> +#endif
+>  }
+>  
+>  static struct kunit_case damon_paddr_test_cases[] = {
+> 
+> ---
+> base-commit: 7a983cc1b57309a875a9e07a934c9944bf3d088d
+> change-id: 20261118-fix-damon-paddr-sparse-20261118-fb08902768d7
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
