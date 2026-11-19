@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075621;
-	b=QJJOCi5Toz2jZNTcPgsH/cOHcbcgMdBv7Ck8BvMChmQptFawtEjDWq10dyyawZMBc+nS
-	 60ZvXBfdaK/NbCve7oFaLDXeTvxXRS/u+j2M618luKnUVWedHPZNOWYSF/7PdMjVI0mbh
-	 1tRI12GY61g9p+AOfsECO101o2lzMsFIyR2mRP4Rsf31euZVa1tMGcnJUSVHQkeO50c9K
-	 nDhGEu5TO49Y3ImYtcztHyPChU1vPXMH7xiW5GJG4b/fPGGnT9KlIENUxen3PzhbY8OH5
-	 ujJHhSmJUdGTd2DpHGmDi+UfxmNWsr8hxeGDPbfvM0aAT3X5/6/cpsZvz+3ykBQjP4Q==
+	t=1795076286;
+	b=Jobadch4qKLkBFTEHT7Tpx/fnIWv1Raiu2myKjLfVlwejod0pxI+ndqsjF7zpNFG1jHd
+	 YZ2jEx/Kasmsa0pfWcIFSm2fSjymFC6ATrrsLpYBJfnOflUFKeJDOErokVshRl6RZkoew
+	 NUPH5TF1PUCK6Lzt8i9Z04oKionoeyMPnDIpN9a+J+gjLmx0MNimPkDE46XzxsqfzGHE/
+	 3cca4IAO/kBCvuV5psvC15CpGzZJDaxdLIBsgTB/wtYfxwcYOGlRKw6mEiVMVGD1XVXfd
+	 zYzap39YIo4XuXlA/3MlOg3VY5S1mr6I3GVr2GxuwqldYRRTGSN1NUgPB6Qql1J00tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795076286;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=StE3VVHJsYp6wnm+9HT5oHZ7qCvJxag9tpiXe/owFvI=;
-	b=Lvy+3rLPCCUK7Sd7HXSlQPMz2Z+fo+8JFInsSA9YygQd/GwBwLK8v7iEE1mwReVHLoqX
-	 I6+VXmQF19yYrKaHm0kAN90lX8GoJRvz+TwBH0W1n2kzRit1K3AQ7iXKwdxc8V7n4vE4U
-	 fINHCuYtzpshf4mhycgT0Ihg2AcVuOu+8iKlDKFyPWcj1WPDf3dX1PCWaYDa6deH4/Hh5
-	 PSib/c4gGhWJDc+JFqziAHRVqppzk2tVbeqykMuCCFD5Y4ByaZkcfuW/k5t2HKU4DbSCS
-	 i/MiAQSu08pDiWW8iW1Yl8vElQdWaYTu7j8NeQyL4tvh209hKCexMwWOSB7ypYrw2aQ==
+	bh=6FTHoVEZsx/FhNmubs3VkkRbIKjhyZE3BvnXnn+uoyM=;
+	b=T5KHFnvFyGxwznblB4SshQpcbSYqApiu7IyGlrVZWUQc9J/y/nn1chGIN4zmtE+TQGdU
+	 cnRJTvtBZqTnp1BcwNai6EkAwSRQRtn1lS73zxaFGE0G2lDvpWFpWTG2KKLdWsn0vzo8S
+	 znTpDR1Xo3ri0TjGLjcDTb9uaKgWH4JUSTNjrYCtWI4KKDMO/ubJot7zFTag1YShfTnZV
+	 60UwiMyiHFjeIoqODziglEIdkARIu7GNmOv/24I3SIqrzkXzh81EY/R41t2+ie55Wldqk
+	 fYoxoQn9KLI+V5kUXaNyizgjZZNtKTDrAgyeqeEj3RtpuZtioabZxSqITgbmLPRf38g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cvP6D6+N;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XUAYSttn;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A62606A320
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 08:07:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22A62606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886DA60A2601
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 08:18:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 886DA60A2601
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cvP6D6+N
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XUAYSttn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795075621; x=1826611621;
+  t=1795076285; x=1826612285;
   h=date:from:to:cc:subject:message-id;
-  bh=FWeFrG7k6ZuI8I/z0EeXyE2J6XLl657zc1VrlZWfe7c=;
-  b=cvP6D6+NsbhKtky08wGqRqxDCZ3vA9dnzf5TvmB5OvzRNa4wBEJ3xI6t
-   PjHl8mvxwwj/vIHMfK7vrSjB3F/IzOQN8miH9BlYP38qTQU+YMJSIv2wQ
-   XzPGjCZEyI5mXu76j3V3Qpw2764FgyQnhGj8M8cLzMSJ7jrlMd0dsoF5G
-   Cf/+n/ZPTnvoad78KBnZZdCvlLO2oh/vJlESMK36DmxfF2/L7XzqZRnDh
-   f5Oax1nvGrVSzHQ2u8WYZjNYVEk36IT01rXlkMRQexFtWX0KBwJAon5De
-   lvYn8SPYdKfu95GyNGcCb3p7vc1vzvcePa6XFAek2Ulqnso4z2FJUhM2P
-   A==;
-X-CSE-ConnectionGUID: YRh0tqSrTyOZ4YDj8u0Khw==
-X-CSE-MsgGUID: F5CDR5fCTkOSPSaP0PjiqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3835116"
+  bh=Eixj7d1EBjhDnb31eSYedCZeku3EzSqyeyFix0tlmoQ=;
+  b=XUAYSttnomDTc81DSMBvuhIyz+vpSmGUFcfLgwolckQf5CgMY9cexYIc
+   GelvRaH/qC0AmycJJQBC6p7ILMbkr5goqu0mOj8oO3Gk1qyjB9qCBsyk7
+   8YleYHxZNSvwbvBQa1tO6sWgbaKRDPkhCL2kmSUQbdTmSXASOqiiaAzDG
+   h6K9OhafbaHq3Ii7++PYgfPgN1zp0mGRGzDV17alcDldbk552xb9qkidV
+   sOy+1P30/fH5sQbEpAMT4sjAz3ak2MbL1wsA8WY995seCf2+ivpRPfTHq
+   +Ywa2PLra5o7Nsla52TzkwdDvtVCVb9IB153/rQCMwxO2LmqtQ6Vdya1x
+   g==;
+X-CSE-ConnectionGUID: XOpCkUjKQFewSm2vpHXqiw==
+X-CSE-MsgGUID: 08x52PEiR5qBTKQrh+Qn9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3965762"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3835116"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 00:07:00 -0800
-X-CSE-ConnectionGUID: mAweswseQkOXU/L6fP465w==
-X-CSE-MsgGUID: KNCKkjR8Tqq1lBSbI9GgOg==
+   d="scan'208";a="3965762"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 00:18:02 -0800
+X-CSE-ConnectionGUID: 0c1lY4xGQdymUTtAGVWo+Q==
+X-CSE-MsgGUID: ofKSfb6VT9mPplaWjyc3vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10362403"
+   d="scan'208";a="10515907"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2026 00:06:59 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 19 Nov 2026 00:17:59 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTxAW-000000003ix-451R;
-	Thu, 19 Nov 2026 08:06:56 +0000
-Date: Thu, 19 Nov 2026 09:06:33 +0100
+	id 1xTxLB-000000003j3-1TiL;
+	Thu, 19 Nov 2026 08:17:57 +0000
+Date: Thu, 19 Nov 2026 09:17:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alexander Mikhalitsyn <alex@amutable.com>
-Subject: [linux-next:master 6831/9180]
- arch/sh/kernel/crash_dump.c:26:43: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <20261119085855.FAscxfBS-lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:ovl-pseudo-lower 10/10] ERROR: modpost:
+ fs/overlayfs/overlay.ko: symbol '.__file_real' undefined!
+Message-ID: <20261119090638.afJuMl5A-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,44 +80,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Christian,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e8017d29067fd1310a65c3494ce1a1b492adbac6
-commit: e69501a923a5f2c6995a57a1f2ef9c723b66a78c [6831/9180] crash_dump: use copy_oldmem_to_iter() everywhere
-config: sh-randconfig-r2304-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119085855.FAscxfBS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119085855.FAscxfBS-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux ovl-pseudo-lower
+head:   4853b8cf9d686f8b7c44ee0d9978a3c3bd36392c
+commit: 4853b8cf9d686f8b7c44ee0d9978a3c3bd36392c [10/10] fs: add ->f_real() file operation
+config: powerpc64-randconfig-2000-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119090638.afJuMl5A-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119090638.afJuMl5A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261119085855.FAscxfBS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119090638.afJuMl5A-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/sh/kernel/crash_dump.c:26:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *src @@     got void [noderef] __iomem * @@
-   arch/sh/kernel/crash_dump.c:26:43: sparse:     expected void const *src
-   arch/sh/kernel/crash_dump.c:26:43: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +26 arch/sh/kernel/crash_dump.c
-
-    13	
-    14	ssize_t copy_oldmem_page(struct iov_iter *iter, unsigned long pfn,
-    15				 size_t csize, unsigned long offset)
-    16	{
-    17		void  __iomem *vaddr;
-    18	
-    19		if (!csize)
-    20			return 0;
-    21	
-    22		vaddr = ioremap(pfn << PAGE_SHIFT, PAGE_SIZE);
-    23		if (!vaddr)
-    24			return -ENOMEM;
-    25	
-  > 26		csize = copy_oldmem_to_iter(vaddr + offset, csize, iter);
+>> ERROR: modpost: fs/overlayfs/overlay.ko: symbol '.__file_real' undefined!
 
 -- 
 0-DAY CI Kernel Test Service
