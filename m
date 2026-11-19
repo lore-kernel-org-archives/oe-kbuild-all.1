@@ -1,83 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795057599;
-	b=YPkqsEOgBlkmV4y05uazt4DKNrJE66CE005ibMt8jSu2k3ahMutYgzkHWwYzfOmYtWS7
-	 F1nXpjBWw3jojYvvGw7osmSDzmxAhv5E9u4fW78nN9uZm5+cMY2j2gJz1lypuBPDwyHoI
-	 aw08e475ou8/imr67h2dfywVqbdiPj4aIShlwJYwtkyu70D78BfUmw16JDK6snDUTYe0F
-	 r1m2/LAf/1UV+By2WiguBr4Lum+foUAle0VjQHJNaREuHo4OM51Z5QThjaHFx0/UTI033
-	 RJUpwHMpp8Mb7cyPKmrB8ANej0Jui0NOlaQoLIaXLHVrLwBAlO2jODEOV1tZDRqA2iA==
+	t=1795057931;
+	b=Q9VqWkHRsMINO0gzG2bfeAOuCg82Q3Kg+QEy3wFC6NHfhsnx3NsOBCVh75q02yj/tk9e
+	 I5nYPVip/EdCkowh80FnVy7KRqUvW+yIBqN6DG+REK9pPN7Nwm0XKKPYlDRzAvGTJ7zKU
+	 rqpK2HbGn4qcG5KYMI92UjlS15HVxis6sC8qluygKkTC0Z53CTPAiH8iWXiHlpizl2lPj
+	 +32QfCuA9ZYpzKPkWp9q1FLgja+uQi7/FfVEUNPgA4cv9sqtYuj8IueOFb/I2omMFjopQ
+	 kyXjk/rh4zSk86jw/fbrZYT14T5ttilruBe4wu7cAbJaufJbp7Uhtvk9ClQRb8N7l3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795057599;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795057931;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=gR1qLIaMHhI3YBZAln/1xyLff0Ct3bEmnohy1kd4w4Q=;
-	b=sSyIAPiWxxPeI6DeH3ggx0t4sdzJNS7gmZ2ofThHMeFG+4mybX4c7p8rXUwiEPgvzBZG
-	 qVo21+Ad9ACHgTAKYabHk3bcm/UJDD5HcSHJiH0VN/0M20XAqZ/xuiQh5Q5IMbiKDSn9x
-	 NCGZ/IzH1tQGp0Vwpr7/BU4hpaolL7d3ukBdyVzd5uByGP08EP/xZA0aRvOfEWptUba8a
-	 WwSN4ky95OvCJdc86cNFaOd8zUkFlOtMifc9cc0KjKOTkKBRnoCZSTOzXAMCtGeVCXUBi
-	 nsDi6aiOhSZO3LS6iybY7Ewz3KCopppRfzc0lzcHwzQmGQ7gdSg+moIlX+p5CneG9uA==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=+msONQK+FIotKQbcp+5c4ACD39IaScwBArd9wTVGrkk=;
+	b=HRmm1lFbmMKBcn4SYOIKB7ol39vf5ky9eZEqQADI5ExEgB7NJQdak6iXBhc6TzeBgXqD
+	 rU8+uINgdO64Xe4kDudJG1fkM67S/QQpxkoqkFITDY8TP41Qw8/NIEMBfIhFDGUvNkWV8
+	 WcbJwBZnRSl0Rmvu1oZRYWfniJaaXBotPfIdPWrf+7iGmLkVKYMntSIamHt6Bl0X6b898
+	 EeLDcMaLPhtFvaNs5BkvuureH+xzZMaxZlFZEowaRzSeuhBy7jcrV09nLK/kikq633T9f
+	 OR0jTD1nGNVz5s66NCl7ouZLxotWtyW23fplcU3SN9cgXc/TawNqwCcwqbF5ZcIFfww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aGtI849h;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=deCsmzUw;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914C560A2601;
-	Thu, 19 Nov 2026 03:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 914C560A2601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755C0606A330
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 03:12:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 755C0606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aGtI849h
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=deCsmzUw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795057597; x=1826593597;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EfvJartN0GQTYOS8WukorNhnfCAqMp3jN6Awhu42mQU=;
-  b=aGtI849hLB/ANrmA/q18GSw9grdCF44Im+zOhkNUJJsxDTHmB1WuhNwK
-   9Mm9hO1PmxvqqWnaFq9o80FrE+P2H/VZXc6QfXDcp3/KvEnWrImqeFfFK
-   jtyVDRunGV0ujAj0AjcjTjMxrkZJMFqgPr0f9X2lBZcGSCVAbxc4rKiJb
-   NM/g75H1uPKKCxnvDhWmM5o9Ug+oteRRtefMyf7Z4WyIVySzZWI0UN9UD
-   cH0g6+Uvre7R2glMR22/Br7RlcNAfAjY1CoNRAL6Lu8eae9pvSuD1018L
-   y5YJPsZA94VjFNcruhKJfBmf7sDTRLea+7L2Hgi6ivSRGfcts9bD0S9qw
-   g==;
-X-CSE-ConnectionGUID: yk3Acm3vSZinLjU4AkTCFQ==
-X-CSE-MsgGUID: A+oUn+vQRPWs0rH4xCvVKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3906185"
+  t=1795057930; x=1826593930;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OQ0drdubYAt5QbZ/lZnKTwEYMR4OIpi4i8zeF4MR5QU=;
+  b=deCsmzUwMsXc2wYah5nE9TERn3jEG4ivIy94JzgMUpG35lZud2nsnMAF
+   OA3RAlZqN79iaIySCJROW0lxYn7XFohJIv3330RraJhgj7gYwx7K7SDjC
+   d7V7o8/VxdYZWIKvVL27dLdII8/a8he+mbkO5RHMFlLL++UfNbGpDYtKN
+   KozBoy7O6x3TDtVUT/nmD2Nl207SKVGKX9tc3/v5DzoZ1ecilhn5Bg+E+
+   2VWG4wNdtd2RyzmDCiEKqu0idE3Si5k7R/flGvRCFi/+R3xvX3khUpYlA
+   VPYBmz6tNmLWtG2XBXOWF2IR5pepBEstmozm3TT+xKc0gX+UbuakGKjox
+   Q==;
+X-CSE-ConnectionGUID: 6nfXbxvbQ3miNvCBtSxwHQ==
+X-CSE-MsgGUID: ekcunowhR6qyVwULd+HBYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3818821"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3906185"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 19:06:36 -0800
-X-CSE-ConnectionGUID: t+eZmWpVQtWw0a8Ltad/lg==
-X-CSE-MsgGUID: cTqBNtlNTRSr8YPa6eNoPw==
+   d="scan'208";a="3818821"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 19:12:10 -0800
+X-CSE-ConnectionGUID: yQCt1ndLSxiEdGNdDTRT7g==
+X-CSE-MsgGUID: oQVzcP99SJKp3WFGtBXGvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10190438"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Nov 2026 19:06:34 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10882023"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 18 Nov 2026 19:12:09 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTsTn-00000001Ev8-1pXM;
-	Thu, 19 Nov 2026 03:06:31 +0000
-Date: Thu, 19 Nov 2026 11:06:26 +0800
+	id 1xTsZB-000000003bv-46p9;
+	Thu, 19 Nov 2026 03:12:05 +0000
+Date: Thu, 19 Nov 2026 04:11:56 +0100
 From: kernel test robot <lkp@intel.com>
-To: Michal Simek <monstr@monstr.eu>, linux-kernel@vger.kernel.org,
-	michal.simek@amd.com, git@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] media: xilinx: vip: Make use of the
- devm_clk_get_enabled()
-Message-ID: <202611191027.Md4LUs3M-lkp@intel.com>
-References: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 272/460]
+ drivers/hwmon/adcxx.c:49:47: sparse: sparse: incorrect type in initializer
+ (different modifiers)
+Message-ID: <20261119040629.WdWULxhO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,69 +83,336 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michal,
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   754c0efaaee1c85b67fd7f8a45f7be89900b661f
+commit: b92d6bdb8a97a9e35c1baf80d282833e714e75de [272/460] spi: Convert to_=
+spi_device() into an inline function
+config: i386-randconfig-2301-20261118 (https://download.01.org/0day-ci/arch=
+ive/20261119/20261119040629.WdWULxhO-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
+e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261119/20261119040629.WdWULxhO-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v7.4-rc3]
-[also build test ERROR on linus/master next-20261116]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Simek/media-xilinx-vip-Make-use-of-the-devm_clk_get_enabled/20261118-103132
-base:   v7.4-rc3
-patch link:    https://lore.kernel.org/r/abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek%40amd.com
-patch subject: [PATCH] media: xilinx: vip: Make use of the devm_clk_get_enabled()
-config: loongarch-randconfig-1001-20261119 (https://download.01.org/0day-ci/archive/20261119/202611191027.Md4LUs3M-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 67ab6538dff0ed2593b90166214d93e992c74905)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611191027.Md4LUs3M-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611191027.Md4LUs3M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119040629.WdWULxhO-lkp=
+@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/adcxx.c: note: in included file:
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/hwmon/adcxx.c:49:47: sparse: sparse: incorrect type in initializ=
+er (different modifiers) @@     expected struct spi_device *spi @@     got =
+struct spi_device const * @@
+   drivers/hwmon/adcxx.c:49:47: sparse:     expected struct spi_device *spi
+   drivers/hwmon/adcxx.c:49:47: sparse:     got struct spi_device const *
+   drivers/hwmon/adcxx.c:93:47: sparse: sparse: incorrect type in initializ=
+er (different modifiers) @@     expected struct spi_device *spi @@     got =
+struct spi_device const * @@
+   drivers/hwmon/adcxx.c:93:47: sparse:     expected struct spi_device *spi
+   drivers/hwmon/adcxx.c:93:47: sparse:     got struct spi_device const *
+   drivers/hwmon/adcxx.c:111:47: sparse: sparse: incorrect type in initiali=
+zer (different modifiers) @@     expected struct spi_device *spi @@     got=
+ struct spi_device const * @@
+   drivers/hwmon/adcxx.c:111:47: sparse:     expected struct spi_device *spi
+   drivers/hwmon/adcxx.c:111:47: sparse:     got struct spi_device const *
+--
+   drivers/mfd/ocelot-spi.c: note: in included file:
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/mfd/ocelot-spi.c:150:13: sparse: sparse: incorrect type in assig=
+nment (different modifiers) @@     expected struct spi_device *spi @@     g=
+ot struct spi_device const * @@
+   drivers/mfd/ocelot-spi.c:150:13: sparse:     expected struct spi_device =
+*spi
+   drivers/mfd/ocelot-spi.c:150:13: sparse:     got struct spi_device const=
+ *
+>> drivers/mfd/ocelot-spi.c:173:47: sparse: sparse: incorrect type in initi=
+alizer (different modifiers) @@     expected struct spi_device *spi @@     =
+got struct spi_device const * @@
+   drivers/mfd/ocelot-spi.c:173:47: sparse:     expected struct spi_device =
+*spi
+   drivers/mfd/ocelot-spi.c:173:47: sparse:     got struct spi_device const=
+ *
+--
+   drivers/mfd/mc13xxx-spi.c: note: in included file:
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/mfd/mc13xxx-spi.c:65:47: sparse: sparse: incorrect type in initi=
+alizer (different modifiers) @@     expected struct spi_device *spi @@     =
+got struct spi_device const * @@
+   drivers/mfd/mc13xxx-spi.c:65:47: sparse:     expected struct spi_device =
+*spi
+   drivers/mfd/mc13xxx-spi.c:65:47: sparse:     got struct spi_device const=
+ *
+   drivers/mfd/mc13xxx-spi.c:90:47: sparse: sparse: incorrect type in initi=
+alizer (different modifiers) @@     expected struct spi_device *spi @@     =
+got struct spi_device const * @@
+   drivers/mfd/mc13xxx-spi.c:90:47: sparse:     expected struct spi_device =
+*spi
+   drivers/mfd/mc13xxx-spi.c:90:47: sparse:     got struct spi_device const=
+ *
+--
+   drivers/gpio/gpio-max3191x.c: note: in included file:
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/gpio/gpio-max3191x.c:114:47: sparse: sparse: incorrect type in i=
+nitializer (different modifiers) @@     expected struct spi_device *spi @@ =
+    got struct spi_device const * @@
+   drivers/gpio/gpio-max3191x.c:114:47: sparse:     expected struct spi_dev=
+ice *spi
+   drivers/gpio/gpio-max3191x.c:114:47: sparse:     got struct spi_device c=
+onst *
+--
+   drivers/usb/host/max3421-hcd.c: note: in included file:
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/usb/host/max3421-hcd.c:344:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:344:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:344:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:369:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:369:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:369:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:393:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:393:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:393:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:419:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:419:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:419:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:525:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:525:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:525:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:631:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:631:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:631:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:766:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:766:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:766:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:852:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:852:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:852:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:941:47: sparse: sparse: incorrect type in=
+ initializer (different modifiers) @@     expected struct spi_device *spi @=
+@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:941:47: sparse:     expected struct spi_d=
+evice *spi
+   drivers/usb/host/max3421-hcd.c:941:47: sparse:     got struct spi_device=
+ const *
+   drivers/usb/host/max3421-hcd.c:1136:47: sparse: sparse: incorrect type i=
+n initializer (different modifiers) @@     expected struct spi_device *spi =
+@@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:1136:47: sparse:     expected struct spi_=
+device *spi
+   drivers/usb/host/max3421-hcd.c:1136:47: sparse:     got struct spi_devic=
+e const *
+   drivers/usb/host/max3421-hcd.c:1285:47: sparse: sparse: incorrect type i=
+n initializer (different modifiers) @@     expected struct spi_device *spi =
+@@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:1285:47: sparse:     expected struct spi_=
+device *spi
+   drivers/usb/host/max3421-hcd.c:1285:47: sparse:     got struct spi_devic=
+e const *
+   drivers/usb/host/max3421-hcd.c:1374:47: sparse: sparse: incorrect type i=
+n initializer (different modifiers) @@     expected struct spi_device *spi =
+@@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:1374:47: sparse:     expected struct spi_=
+device *spi
+   drivers/usb/host/max3421-hcd.c:1374:47: sparse:     got struct spi_devic=
+e const *
+   drivers/usb/host/max3421-hcd.c:1501:47: sparse: sparse: incorrect type i=
+n initializer (different modifiers) @@     expected struct spi_device *spi =
+@@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:1501:47: sparse:     expected struct spi_=
+device *spi
+   drivers/usb/host/max3421-hcd.c:1501:47: sparse:     got struct spi_devic=
+e const *
+   drivers/usb/host/max3421-hcd.c:1674:47: sparse: sparse: incorrect type i=
+n initializer (different modifiers) @@     expected struct spi_device *spi =
+@@     got struct spi_device const * @@
+   drivers/usb/host/max3421-hcd.c:1674:47: sparse:     expected struct spi_=
+device *spi
+   drivers/usb/host/max3421-hcd.c:1674:47: sparse:     got struct spi_devic=
+e const *
+--
+   drivers/mtd/spi-nor/sysfs.c: note: in included file (through include/lin=
+ux/spi/spi-mem.h, include/linux/mtd/spi-nor.h):
+   include/linux/spi/spi.h:290:33: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:284:33: sparse:  the previous one is here
+   include/linux/spi/spi.h:296:39: sparse: sparse: multiple definitions for=
+ function 'to_spi_device'
+   include/linux/spi/spi.h:290:33: sparse:  the previous one is here
+>> drivers/mtd/spi-nor/sysfs.c:13:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:13:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:13:47: sparse:     got struct spi_device con=
+st *
+   drivers/mtd/spi-nor/sysfs.c:24:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:24:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:24:47: sparse:     got struct spi_device con=
+st *
+   drivers/mtd/spi-nor/sysfs.c:35:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:35:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:35:47: sparse:     got struct spi_device con=
+st *
+   drivers/mtd/spi-nor/sysfs.c:56:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:56:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:56:47: sparse:     got struct spi_device con=
+st *
+   drivers/mtd/spi-nor/sysfs.c:75:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:75:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:75:47: sparse:     got struct spi_device con=
+st *
+   drivers/mtd/spi-nor/sysfs.c:92:47: sparse: sparse: incorrect type in ini=
+tializer (different modifiers) @@     expected struct spi_device *spi @@   =
+  got struct spi_device const * @@
+   drivers/mtd/spi-nor/sysfs.c:92:47: sparse:     expected struct spi_devic=
+e *spi
+   drivers/mtd/spi-nor/sysfs.c:92:47: sparse:     got struct spi_device con=
+st *
 
->> drivers/media/platform/xilinx/xilinx-vip.c:215:14: error: call to undeclared function 'devm_clk_get_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
-         |                     ^
-   drivers/media/platform/xilinx/xilinx-vip.c:215:14: note: did you mean 'devm_clk_get_enabled'?
-   include/linux/clk.h:632:13: note: 'devm_clk_get_enabled' declared here
-     632 | struct clk *devm_clk_get_enabled(struct device *dev, const char *id);
-         |             ^
->> drivers/media/platform/xilinx/xilinx-vip.c:215:12: error: incompatible integer to pointer conversion assigning to 'struct clk *' from 'int' [-Wint-conversion]
-     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
-         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+vim +49 drivers/hwmon/adcxx.c
 
+d42139a3fbd979 Marc Pignat           2008-08-15  44 =20
+d42139a3fbd979 Marc Pignat           2008-08-15  45  /* sysfs hook function=
+ */
+b0c130fdaac18b Guenter Roeck         2018-12-10  46  static ssize_t adcxx_s=
+how(struct device *dev,
+d42139a3fbd979 Marc Pignat           2008-08-15  47  			  struct device_att=
+ribute *devattr, char *buf)
+d42139a3fbd979 Marc Pignat           2008-08-15  48  {
+d42139a3fbd979 Marc Pignat           2008-08-15 @49  	struct spi_device *sp=
+i =3D to_spi_device(dev);
+d42139a3fbd979 Marc Pignat           2008-08-15  50  	struct sensor_device_=
+attribute *attr =3D to_sensor_dev_attr(devattr);
+95de3b257516d2 Jean Delvare          2011-05-25  51  	struct adcxx *adc =3D =
+spi_get_drvdata(spi);
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  52  	u8 tx_buf[2=
+];
+d42139a3fbd979 Marc Pignat           2008-08-15  53  	u8 rx_buf[2];
+d42139a3fbd979 Marc Pignat           2008-08-15  54  	int status;
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  55  	u32 value;
+d42139a3fbd979 Marc Pignat           2008-08-15  56 =20
+d42139a3fbd979 Marc Pignat           2008-08-15  57  	if (mutex_lock_interr=
+uptible(&adc->lock))
+d42139a3fbd979 Marc Pignat           2008-08-15  58  		return -ERESTARTSYS;
+d42139a3fbd979 Marc Pignat           2008-08-15  59 =20
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  60  	if (adc->ch=
+annels =3D=3D 1) {
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  61  		status =3D =
+spi_read(spi, rx_buf, sizeof(rx_buf));
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  62  	} else {
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  63  		tx_buf[0] =
+=3D attr->index << 3; /* other bits are don't care */
+d42139a3fbd979 Marc Pignat           2008-08-15  64  		status =3D spi_write=
+_then_read(spi, tx_buf, sizeof(tx_buf),
+d42139a3fbd979 Marc Pignat           2008-08-15  65  						rx_buf, sizeof(r=
+x_buf));
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  66  	}
+d42139a3fbd979 Marc Pignat           2008-08-15  67  	if (status < 0) {
+5748150eabdacd Jos=C3=A9 Miguel Gon=C3=A7alves 2010-03-05  68  		dev_warn(d=
+ev, "SPI synch. transfer failed with status %d\n",
+d42139a3fbd979 Marc Pignat           2008-08-15  69  				status);
+d42139a3fbd979 Marc Pignat           2008-08-15  70  		goto out;
+d42139a3fbd979 Marc Pignat           2008-08-15  71  	}
+d42139a3fbd979 Marc Pignat           2008-08-15  72 =20
+d42139a3fbd979 Marc Pignat           2008-08-15  73  	value =3D (rx_buf[0] =
+<< 8) + rx_buf[1];
+d42139a3fbd979 Marc Pignat           2008-08-15  74  	dev_dbg(dev, "raw val=
+ue =3D 0x%x\n", value);
+d42139a3fbd979 Marc Pignat           2008-08-15  75 =20
+d42139a3fbd979 Marc Pignat           2008-08-15  76  	value =3D value * adc=
+->reference >> 12;
+d42139a3fbd979 Marc Pignat           2008-08-15  77  	status =3D sprintf(bu=
+f, "%d\n", value);
+d42139a3fbd979 Marc Pignat           2008-08-15  78  out:
+d42139a3fbd979 Marc Pignat           2008-08-15  79  	mutex_unlock(&adc->lo=
+ck);
+d42139a3fbd979 Marc Pignat           2008-08-15  80  	return status;
+d42139a3fbd979 Marc Pignat           2008-08-15  81  }
+d42139a3fbd979 Marc Pignat           2008-08-15  82 =20
 
-vim +/devm_clk_get_enable +215 drivers/media/platform/xilinx/xilinx-vip.c
+:::::: The code at line 49 was first introduced by commit
+:::::: d42139a3fbd9793cf3747287e8f5c1ae06e06942 hwmon: ADC124S501 generic d=
+river
 
-   206	
-   207	int xvip_init_resources(struct xvip_device *xvip)
-   208	{
-   209		struct platform_device *pdev = to_platform_device(xvip->dev);
-   210	
-   211		xvip->iomem = devm_platform_ioremap_resource(pdev, 0);
-   212		if (IS_ERR(xvip->iomem))
-   213			return PTR_ERR(xvip->iomem);
-   214	
- > 215		xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
-   216		if (IS_ERR(xvip->clk))
-   217			return PTR_ERR(xvip->clk);
-   218	
-   219		return 0;
-   220	}
-   221	EXPORT_SYMBOL_GPL(xvip_init_resources);
-   222	
+:::::: TO: Marc Pignat <marc.pignat@hevs.ch>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
