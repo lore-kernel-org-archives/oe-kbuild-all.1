@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795051677;
-	b=xLkUjZ6p66IJWczB/8sMYnLmlZYZP0vaG4dN12TZcnxrHkTktrQ1KksgZ6RI6Aw/XVev
-	 0Ho9JlDDPjpTSZyv0zdkEv9SKms5FpSZaCqbZz9qvo7g3EEyWvnc1Aklieo5pPsQRtZ0y
-	 JREv5oRB5iuimqH3+t04DuPlPlFLH1aH3fpwYNTZddhNDz2v3eb74kuBEcH9pcz+OLm9e
-	 779WMbwlmJpUMzvNUqLmlgFZdAdpm0A6Gu8oZiPPIMyLuILPcDWLcGofl61G1m/ZTyceQ
-	 mHrCxpZotQB/j2khx0wxMWqVyKEJH5+0uIrTgQOqUmdxw5wG2Y/CpVZBZyW82LrJM/Q==
+	t=1795051791;
+	b=gaZDKeetCbv6rrQLC24hzF/V0kNXwRdHdnW4bPzBJhokcfGk7E2nIA17+rDstki1rGMq
+	 s8nnQSopaAUnB7urvG1LdQylOd7TV8+Q531w2ienhpVGLBZh5F2QE6iwsVeotO2E3gufN
+	 r8DtyJtk13RRsA+IeYWOzM3JDJTLtNorvJDiTiCdpK5wrYeNWYsYugT+7kU/4yf+5CQW3
+	 z6+lO6S/V+k3Pzn0sYnTEoIjD7we4w3IZDrWnReI1AIFND9Olf4KiVUBca5iLX/4NlTj7
+	 PO218IMs6YNp75Hdlg3vtAO2PDKcwih95KY9245DP6ut0JF0aD5x6rUhULfr0CQCQlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795051677;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795051791;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=RHCPUTIPEaUx74C8qF6Jt1azv5P0hC3lmRUMfUoIPVY=;
-	b=Iek5SVVq0oT7dNpaUsotUylQKaQQbIWoB+xHjXFmCZwds+LuATXG53wZH0pm+nIIqGAw
-	 mhxcP+Ogz2Ush1viTSNcY7QCuBi0GjTmrAH+ncDf9BTXUdgWwHEBkD4AsmnC4CArYVqAX
-	 P1EwYahZ3GgNX72/ghQmtjULTDJC7SjQCuAzU+B844uaEwcf72vUwZw+ChGhmOvLza7A+
-	 ZSAxScfusbsdUNjJrxAY7mnOJh4RTX9k0/9PAklj7SFQQuPIe/GQrUGjXcotQI+HtRSiL
-	 VtXVumSwwB093TMBiHpIiwAexOYaGy8GHdECG5b8fJBjQcBxAcGVtBfl5iDDaMB6gNQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=x4fAcRoJ2YTGq9ddQwXxO1AMt8z5W7KBXaV1qNqSSsc=;
+	b=T4qu5C4QDKqQo2O9c+6U88Bk6d0TzygtrMeZLKa6XL0bPKrleHxYlJgTqk6kx03L6Mdc
+	 NtNf96vWH+VKHhBxXWXZT3o571xMlNOwp9KD2nPKCXgowX1OyJrE3PlITaP257R5clEdu
+	 QmVgervqFveM0AdI2bkbfAe7QL/WVBPg/ybnnWqTzE9Uhg15EVcrBvK4hPbmP/UgaheGp
+	 rX7gsAecZK4/w6PNS1w3InZeYgz1GsDtwjKZnOayVk/LqunJiA1psP401lD4aNDx79E/T
+	 NmR9tGWiOPvyryqvp1Hp+8ZDIy7AtROEvURXkfXx1XfE7T7UfipQFtFwwn6iYWh45JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FIQ2uOzd;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Flv8VXJM;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17A4606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 01:27:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D17A4606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EA2606A338
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 01:29:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3EA2606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FIQ2uOzd
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Flv8VXJM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795051677; x=1826587677;
-  h=date:from:to:cc:subject:message-id;
-  bh=wrcB0vxDGMz2bUAFR3YnOGSNM6uW3F5+We2HDfPXiCM=;
-  b=FIQ2uOzdtYGgAm3wHEdcwZcXVU1J7f1ji7beuc+9OmpM9IO5+N1cvZuF
-   LnY9m+JFv8QGzrNILl3UXhV6x2EIPpLO4YhEK0btD3QG3KOzVgG+m41mN
-   cGepdyCBhE1tL6BpT2z//iLuiiH08eJ4RUAcpRHRMmNEtrRVv3jW368s1
-   IBIqTGgFc0+g3iTq2CPC9QygMGGChS2VzatT9m/Ni2/k+pIi8Qt8lPF+u
-   U7fVLnivISLnZVQhE+JmJ8/aGkIFWDo2HFCz/w17mEeKEETlHgdgRviiE
-   TQKP5QzLlBjt3zUffnUuJ99LLjANeqsprr3otjAfFZnxHbFDkvDfn8/za
-   w==;
-X-CSE-ConnectionGUID: yj2EA8QnSBeflUZASwwFIg==
-X-CSE-MsgGUID: jgMZAO8/T5CAwq1hJHvJ1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3782211"
+  t=1795051791; x=1826587791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nEwdCDBlkKdiY4PZlmFX9Tey5suWOxV9KHgcjcIGKAU=;
+  b=Flv8VXJMzGuwvTyypSdrBQlCx4inOvO7AKAb5nDEB6fLcosuArcudGgs
+   24/rDID9WvQ75OJ2JvyWyvXX5M+r5d9FSIUqeJhExAsJiZO9ACsx8JndI
+   HlMX6lXz+5TT/x8uLNcPOMLFGKX50En6Fd1OtP8I/1I1WMStxKCwl+mgL
+   n7eXmzE5ssvHlBk/qWnFV4pw2FnDKJJhJhJ0ucrLbJ7CzYiSEWmE6xJPt
+   Ir2quAzsJqTnV75LdUpET4E1eCfPpYlJ6eePhtqyT2DDPpzl8F49mRvmz
+   zsUgyr6F4pSK1blGlnNhhADV8Y7gVlfyt9vAsiIQcrsOLHw2eJQLrTXmK
+   A==;
+X-CSE-ConnectionGUID: ZKiOrhV2QUiKg9NByQwaHA==
+X-CSE-MsgGUID: nSMvbYMVS/yb1dSyrorq3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3775564"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3782211"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 17:27:56 -0800
-X-CSE-ConnectionGUID: mHL7LCbTRMG7149eBY08Yg==
-X-CSE-MsgGUID: QLYTl9riRkCi6XzQ/rB5wQ==
+   d="scan'208";a="3775564"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 17:29:51 -0800
+X-CSE-ConnectionGUID: dx7/84LIQbWLRaPWHrkw0w==
+X-CSE-MsgGUID: l61BKaPPTcCGoHoGTqv/fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10564840"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 18 Nov 2026 17:27:55 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="10431095"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2026 17:29:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTqwK-000000003Zd-46vo;
-	Thu, 19 Nov 2026 01:27:52 +0000
-Date: Thu, 19 Nov 2026 02:27:10 +0100
+	id 1xTqy9-00000001EjY-1jg5;
+	Thu, 19 Nov 2026 01:29:45 +0000
+Date: Thu, 19 Nov 2026 09:28:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 7/460] kernel/locking/mutex.o:
- warning: objtool: ww_mutex_trylock+0x300: stack state mismatch: reg1[23]=-1+0
- reg2[23]=-2-16
-Message-ID: <20261119022212.6zXoaSfi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Michal Simek <monstr@monstr.eu>, linux-kernel@vger.kernel.org,
+	michal.simek@amd.com, git@amd.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] media: xilinx: vip: Make use of the
+ devm_clk_get_enabled()
+Message-ID: <202611190940.8mpjaLm0-lkp@intel.com>
+References: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,27 +86,66 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   754c0efaaee1c85b67fd7f8a45f7be89900b661f
-commit: 82057f525ccda9968f71806f9926072ab7071ad0 [7/460] locking/mutex: Annotate the trylock helpers for context analysis
-config: loongarch-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119022212.6zXoaSfi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119022212.6zXoaSfi-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v7.4-rc3]
+[also build test ERROR on linus/master next-20261116]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Simek/media-xilinx-vip-Make-use-of-the-devm_clk_get_enabled/20261118-103132
+base:   v7.4-rc3
+patch link:    https://lore.kernel.org/r/abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek%40amd.com
+patch subject: [PATCH] media: xilinx: vip: Make use of the devm_clk_get_enabled()
+config: arm-randconfig-1000-20261119 (https://download.01.org/0day-ci/archive/20261119/202611190940.8mpjaLm0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611190940.8mpjaLm0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261119022212.6zXoaSfi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611190940.8mpjaLm0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/locking/mutex.o: warning: objtool: ww_mutex_trylock+0x300: stack state mismatch: reg1[23]=-1+0 reg2[23]=-2-16
-   kernel/locking/mutex.o: warning: objtool: _mutex_trylock_nest_lock() falls through to next function mutex_lock_io_nested()
-   kernel/locking/mutex.o: warning: objtool: mutex_lock_io_nested() falls through to next function __mutex_lock()
->> kernel/locking/mutex.o: warning: objtool: __mutex_lock+0x7a0: stack state mismatch: reg1[22]=-2-16 reg2[22]=-1+0
->> kernel/locking/mutex.o: warning: objtool: __ww_mutex_lock.constprop.0+0x7e0: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
+   drivers/media/platform/xilinx/xilinx-vip.c: In function 'xvip_init_resources':
+>> drivers/media/platform/xilinx/xilinx-vip.c:215:21: error: implicit declaration of function 'devm_clk_get_enable'; did you mean 'devm_clk_get_enabled'? [-Wimplicit-function-declaration]
+     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     devm_clk_get_enabled
+>> drivers/media/platform/xilinx/xilinx-vip.c:215:19: error: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+         |                   ^
+
+
+vim +215 drivers/media/platform/xilinx/xilinx-vip.c
+
+   206	
+   207	int xvip_init_resources(struct xvip_device *xvip)
+   208	{
+   209		struct platform_device *pdev = to_platform_device(xvip->dev);
+   210	
+   211		xvip->iomem = devm_platform_ioremap_resource(pdev, 0);
+   212		if (IS_ERR(xvip->iomem))
+   213			return PTR_ERR(xvip->iomem);
+   214	
+ > 215		xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+   216		if (IS_ERR(xvip->clk))
+   217			return PTR_ERR(xvip->clk);
+   218	
+   219		return 0;
+   220	}
+   221	EXPORT_SYMBOL_GPL(xvip_init_resources);
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
