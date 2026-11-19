@@ -1,93 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795070521;
-	b=hno8SIzJfcIZzXiD4Do0bppox/+ULQotvpF1dw1yJq8WSkY8DaVxqJWJ1Wf5XfTknBDf
-	 Yt41JopCm7Et0ZNKb2VoaABufnkXM+xC516xBzf1DVPWsQfepODgOnPUdOA+F9xcFuU8n
-	 FxbXOI1m/3mrHDBcZxgtqcA2v5eCsV1lp9VrEnC0KEwr7nXIw2JkCQbH/4FxkBwtwiD5P
-	 R1VpKPG+A1o4ShfYwboyNL7R0EammpIqhB6uG6Qc0v7264fBGeHlhWDb7vj4BbjsqULYx
-	 46aMzjiPFvBkFWAnIe6nuxy6P57gSVRe3tRJDxGK+HszgT4B33CVJAkBVyyR/QVA2hQ==
+	t=1795070562;
+	b=WjzzPCaXkQycxZFm7Fc3rUoAT2r4BCQv4QiyNcFeMtT1Ee/WsiPSLZCBbUiu3vNmrxEr
+	 qm3nmWZaSlolUQltyQDi5wOJVYnw5koxjSfJjAIt1u3jTsVSmuFLFrNl2ciWB5IpRSdQV
+	 UPYOH3CIfTVPOTJPuORTNhNiyQ6rK8hCrtuigQDziKF0H4WKVIKSsVTtEfMDRB92HBN9a
+	 cpqe+t8sFoV/8D4AvEG9Sx1cujz7kT2PMhanZVDCbmuqbGRZ4GBZfJ9yUwMt6NbKKVYms
+	 KhNFK1ul684aM5FuX1BraUo1GOXLmkNsfg3NPnZEIfH9/xpqjOPpwzqWIxRiQdhbC1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795070521;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=CbrQrYPj864sNBPbTz+UkOUsiRLn26jjLzWGOh/hKj0=;
-	b=AVOFsn4PbCE3C+SnOziY980oza8rvQ03OvzKnp25bHza/mPqqnai1eB4Kkz2dfP15ANI
-	 g2k2X5jFhBB30L2YeetaO1eH2k50c5LOLxzrWuYsjn+Hp7zya0mi6cU0xss2t4pqYq8dz
-	 Zk1s/JtNG3Dv8CXEOzw1MEi696ugBH0HrLcVOO0QPp6R0ofzeEC5nicmypiWC1r0Uv/Qa
-	 IEIiCV3vqJnklCa0rzbGqI+KadyJJ2Qfk6Kxu3lt7Adu8mBor3Hbl5kzRcihhrpTlXqTB
-	 8TBAsYgZx0iMJrJilDG1ekG+P2y23vF4NxPoLrxMH9WFqHsAti3g7wNQpbKag4l7dNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795070562;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=ra0jJFg2rLBnpyjZI3vp/qEopGKNTn3oOysk8aqDYh4=;
+	b=iya8QKw/k7z94IEooU2WqthfJsOKppDE3UFCcab7rKBfnAp2eZD3MCUwP8BclWgVuCBr
+	 vH6y4q/tD6RgvgFTAwZ9SbWA/yJyR0YvFNou5cEPQxvCmxCDaSxwvZ30+kd0u+cEYEivs
+	 FqL0CJu4NCPlcCG5hp/YbRl1cxZv7EaJldRrIfr0UIGQVyqYoFTbxzMbwmnFUmdP0ZaN9
+	 IaKkV+zrZLmUxUUDWXe9AXzRbj9IiqYJAkCTp97ZhEcxXSHyqQNI7pMYfMWRTFvwbUQGV
+	 VyCmTl78c2VtLgHHFEq4CA19oPzTPICicRIiLYhGgWrU/jSSTfI9VRUQxTKKqmk5QOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZnjV95BK;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ay68REvo;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222E3606A325
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 06:42:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 222E3606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6C5606A325;
+	Thu, 19 Nov 2026 06:42:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA6C5606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZnjV95BK
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-497614c95f0so1103857f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Nov 2026 22:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795070519; x=1795675319; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CbrQrYPj864sNBPbTz+UkOUsiRLn26jjLzWGOh/hKj0=;
-        b=ZnjV95BKpCpUNLqUKiT3b8bXbSijZVADl2KKgIXMoe4fxfAKYAF09isDmvq+dfZ3Kg
-         iwuNvNmjc8vPOwZcnGZzivea/d9J4R8CHw2L8v2LBioFNfebBQZhhStWFOa81y7lIJQR
-         JKGisdJT5t7ucgDEa9rB3dbiwu3yL9e7MBwT6PP2T9XdWUs5f2zPSbRtpqz5XMlR113C
-         rAN0Om79FHvTlqIQhGB2ZrCcFBmsTh9nbJVG27dFctGlw3i6+k7JdX7Aenk8C9bVOU58
-         bNAS5JxCHW9fAvI40h7/eH2E+y5xwzmdhYKyzBYGSrMkIAgKeaKxzWayge07vqkF47nW
-         q4ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795070519; x=1795675319;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CbrQrYPj864sNBPbTz+UkOUsiRLn26jjLzWGOh/hKj0=;
-        b=STYkXPCaSdH9kL5TEyyphwqmAOGGiFRsmiIP60NVYIUP0XDLWf2dD+VO9TEnfsKoTh
-         eodIZO0BBFsLHK9y33ESIwikYetp3LJUXJwwnRSMYcpYEEnsNb+TvHYH2JSYOQzfz+3l
-         tmm8jsvQrgr+8DXPP3M4Q6xrcRgq9q2D5ZNsTHy2BaNtbWLN9XZ14+GpsJ9TEDI9dYbg
-         X7sYtReJNLEECAUZIN6WYdwMEozFCQtqwcyW1T0IVOHJOs2JFm6OjYPTjduVahOMep05
-         q/cqIL7Iwg2Gk/aOvNWCXPIU2By//8TsL8KilBMaBx/0pIR+xGyfsnwqb5URGQwJHr5J
-         uxGg==
-X-Forwarded-Encrypted: i=1; AL+hErH0Hgtu0R8ZtY2LqGczk80BMz+TWuVRkpJOAOvpByquxc+cKtNIvp+iiWcJG1PJf4nlxopLLjZLoDLSGW+p@lists.linux.dev
-X-Gm-Message-State: APuU4Z/TXdLb26DPs3K9RPwUp25a3+oxBHrnHCs+fF8yYQWT9aCGRQa4
-	P4oT9iOpcrqWQyrL75IHdEwbl/UzqENrUDxNZ4BE3C67izwQqYc7cAO2
-X-Gm-Gg: AZFdTZfFJIumbE+9H/aR88k9fqzsWEgjfMqSJdie5aDnZxojUT3Y7cfePxnq8DgQyLM
-	33Bv28O/zeQddTAjHp/6VdF0Te/YHHa+9s2ZAJ0xTS+9eJvftvnadBohsbCh8jnLOLdubDn1ph0
-	NCV0ZYhPXxXetabhvNkQ2byqUv3saOGFPkfxCTss/7GHqfpXX3Z1SKzx8pSdLsDtN34vCLIMctL
-	EDz/gsQxWUTxuSqNISCjTkj/Oq6lZxpgcSNJPlsIxYA3JEsAZRvOZ0lkbjb5j5LC46gXBGi2IQH
-	TmN/7WnY1EJLyHwcmHPNXULViP5nVXAnqKcFsjuXSKPClSWwfniNiYNyMPzbcIetTSGqDJYLVSR
-	c6MNxZkKe/XyD2x39gPHMiA2QFAJCqUFwWs8/TslsZbe9x5Swv2lLyaGBdsAeoyR/MFvvAAS52k
-	RPiENVGo0xmY+5mbUNs1h4ouYLiFG7qjIiJ0ima+TWuP8+xcmu5+U1uoexXJ0TQEG+t8eob8yDG
-	k6L31y7kyvb6mSA0GKExVGwliSGCYrKAGCvHwsfctUBhVBZ74bRdNlgNEOjXcBGfq4nc/Laazpg
-	lPM1Ci5PeA+cL92FG7CV08RwlDpMY/cc/csi1qMvUL0XxbotmDyWZdf3HZodiLl8WcGp2kbbdBk
-	FySTA3PFWkx/UIfroIegmmSN39Dwv8XrKX6YyAfWfTEaa1Dzmqvwnt0FoOARWf5+IL9o=
-X-Received: by 2002:a05:6000:4b1e:b0:498:bc2a:8f31 with SMTP id ffacd0b85a97d-4a6389ece92mr10513314f8f.19.1795070519350;
-        Wed, 18 Nov 2026 22:41:59 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65560882asm9271363f8f.27.2026.11.18.22.41.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 22:41:58 -0800 (PST)
-Date: Thu, 19 Nov 2026 09:41:55 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-lts 200/200]
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_hwss_hpo_dp.c:142
- reset_hpo_dp_stream_encoder() error: we previously assumed 'dccg' could be
- null (see line 140)
-Message-ID: <20261119055333.15uYya1M-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ay68REvo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795070561; x=1826606561;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZQY2lgHCzyGRl8yFvLsb5a4GHsBXWlwP2RwNQ4NyDoE=;
+  b=Ay68REvoORPnEG+EZq+Cl705ioPV1LBRBN8zb7Yz1hKIw2IFA7cbiSfW
+   PBGkauIao3uNr9wLlgNwTIzJXtIW1HjYRxg8JoLR8y/kghVCCOxEM9K85
+   UZOSLuUAX0eTVikzcwKnh/xZCmPqWYQOMbM5LwYAE86wa1q3+NLokbw+9
+   hKBaV2ImizBQElOQc3RCDjs3C8q5bsvMTz+6o3jAetidSwKXu2dfzd+KZ
+   Oud88UaPD+d5fyVjjJmCHoip2fBwQGUryHV3wwES7SPV2doDI8tb1hALd
+   vRcaCu9mrHD4Kg51LZtYC8Sn9Vh8LlLJbbAFN74fbQTtVLcU2cbiwQ4F2
+   A==;
+X-CSE-ConnectionGUID: 5H6IdqMcRDyrfzRG+AHvBQ==
+X-CSE-MsgGUID: 29KHBSnMRvaCBP6pl+hpYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3827578"
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="3827578"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 22:42:41 -0800
+X-CSE-ConnectionGUID: LMBOrTQoT4yzVyo1QKAIuw==
+X-CSE-MsgGUID: qzqpxI7xSGucEDwR5TaBGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="10689664"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 22:42:37 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xTvqr-00000001FDC-47nC;
+	Thu, 19 Nov 2026 06:42:33 +0000
+Date: Thu, 19 Nov 2026 14:42:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Frank.sae" <frank.sae@motor-comm.com>, andrew@lunn.ch,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, kuba@kernel.org,
+	pabeni@redhat.com, edumazet@kernel.org, davem@davemloft.net,
+	netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lingyu.zou@motor-comm.com, xiaoyong.li@motor-comm.com,
+	jie.han@motor-comm.com
+Subject: Re: [PATCH net-next v3] net: phy: motorcomm: add YT8831 2.5G PHY
+ support
+Message-ID: <202611191438.hJl6vCfi-lkp@intel.com>
+References: <20261118033539.36633-1-frank.sae@motor-comm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -99,50 +89,91 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261118033539.36633-1-frank.sae@motor-comm.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-lts
-head:   32c8e7bb8f634f61dd3c764ccd86ac57794bb9f5
-commit: 967ebae13e206b90c2ef57b917adceaee1fa5390 [200/200] drm/amd/display: Prevent crash when disable stream
-config: arm64-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119055333.15uYya1M-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 51d7f08b16b68285b1a400f413215b69f07a65e3)
-smatch: v0.5.0-9187-g5189e3fb
+Hi Frank.sae,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-sae/net-phy-motorcomm-add-YT8831-2-5G-PHY-support/20261118-033539
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20261118033539.36633-1-frank.sae%40motor-comm.com
+patch subject: [PATCH net-next v3] net: phy: motorcomm: add YT8831 2.5G PHY support
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261119/202611191438.hJl6vCfi-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611191438.hJl6vCfi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261119055333.15uYya1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611191438.hJl6vCfi-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_hwss_hpo_dp.c:142 reset_hpo_dp_stream_encoder() error: we previously assumed 'dccg' could be null (see line 140)
+All warnings (new ones prefixed by >>):
 
-vim +/dccg +142 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_hwss_hpo_dp.c
+>> drivers/net/phy/motorcomm.c:2782:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    2782 |         if (old_page < 0) {
+         |             ^~~~~~~~~~~~
+   drivers/net/phy/motorcomm.c:2802:44: note: uninitialized use occurs here
+    2802 |         return phy_restore_page(phydev, old_page, ret);
+         |                                                   ^~~
+   drivers/net/phy/motorcomm.c:2782:2: note: remove the 'if' if its condition is always false
+    2782 |         if (old_page < 0) {
+         |         ^~~~~~~~~~~~~~~~~~~
+    2783 |                 phydev_err(phydev, "Failed to select page: %d\n",
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2784 |                                 old_page);
+         |                                 ~~~~~~~~~~
+    2785 |                 goto err_restore_page;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~
+    2786 |         }
+         |         ~
+   drivers/net/phy/motorcomm.c:2779:19: note: initialize the variable 'ret' to silence this warning
+    2779 |         int old_page, ret;
+         |                          ^
+         |                           = 0
+   1 warning generated.
 
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  128  static void reset_hpo_dp_stream_encoder(struct pipe_ctx *pipe_ctx)
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  129  {
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  130  	struct dc *dc = pipe_ctx->stream->ctx->dc;
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  131  	struct hpo_dp_stream_encoder *stream_enc = pipe_ctx->stream_res.hpo_dp_stream_enc;
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  132  	struct dccg *dccg = dc->res_pool->dccg;
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  133  	struct timing_generator *tg = pipe_ctx->stream_res.tg;
-0ec744084793db drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Leung, Martin 2022-05-10  134  	struct dtbclk_dto_params dto_params = {0};
-0ec744084793db drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Leung, Martin 2022-05-10  135  
-0ec744084793db drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Leung, Martin 2022-05-10  136  	dto_params.otg_inst = tg->inst;
-0ec744084793db drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Leung, Martin 2022-05-10  137  	dto_params.timing = &pipe_ctx->stream->timing;
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  138  
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  139  	stream_enc->funcs->disable(stream_enc);
-967ebae13e206b drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Chris Park    2024-03-05 @140  	if (dccg && dccg->funcs->set_dtbclk_dto)
 
-This line assumes dccg can be NULL
+vim +2782 drivers/net/phy/motorcomm.c
 
-0ec744084793db drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c Leung, Martin 2022-05-10  141  		dccg->funcs->set_dtbclk_dto(dccg, &dto_params);
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28 @142  	dccg->funcs->disable_symclk32_se(dccg, stream_enc->inst);
-
-The next line doesn't
-
-9af611f29034dd drivers/gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c George Shen   2022-08-10  143  	dccg->funcs->set_dpstreamclk(dccg, REFCLK, tg->inst, stream_enc->inst);
-9d8033d6beca43 drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c     Wenjing Liu   2022-01-28  144  }
+  2770	
+  2771	/**
+  2772	 * yt8831_serdes_init() - serdes init
+  2773	 * @phydev: a pointer to a &struct phy_device
+  2774	 *
+  2775	 * Returns: 0 or negative errno code
+  2776	 */
+  2777	static int yt8831_serdes_init(struct phy_device *phydev)
+  2778	{
+  2779		int old_page, ret;
+  2780	
+  2781		old_page = phy_select_page(phydev, YT8831_RSSR_FIBER_SPACE);
+> 2782		if (old_page < 0) {
+  2783			phydev_err(phydev, "Failed to select page: %d\n",
+  2784					old_page);
+  2785			goto err_restore_page;
+  2786		}
+  2787	
+  2788		ret = ytphy_write_ext(phydev, YT8831_SDS_WRITE_PROTECT_REG, 0x1);
+  2789		if (ret < 0)
+  2790			goto err_restore_page;
+  2791	
+  2792		ret = ytphy_write_ext(phydev, YT8831_SDS_SGMII_OUTPUT_REG, 0xc4);
+  2793		if (ret < 0)
+  2794			goto err_restore_page;
+  2795	
+  2796		/* softreset sds space */
+  2797		ret = __phy_modify(phydev, MII_BMCR, BMCR_RESET, BMCR_RESET);
+  2798		if (ret < 0)
+  2799			goto err_restore_page;
+  2800	
+  2801	err_restore_page:
+  2802		return phy_restore_page(phydev, old_page, ret);
+  2803	}
+  2804	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
