@@ -1,81 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083465;
-	b=IyD69qmtYYsBFItGWLYO68wM7+iu8i/aJKVPOMYwNUPufoHJAHSIoDp3Vl82464H+v3v
-	 7nyf03BjJUnOxz5b4RB27ZZwSS2mABnoA6ZwKFUPUFnJoGV17/16SKsYB0ZQu3goIfz5Y
-	 +Mw83+QcYhJh+Slr0koc0z/zsccfvhua9t9QAG0kbyx9l05oA/ZiJDvVBv+/csePakixR
-	 LYu1QdlU6Uro0trcKQ+IAs0bECAo2r/D7rfUKZFJNT7CZ2wYx/MQOOVvUzsBHC1JNNQsd
-	 KouPLqrJjyv+NZKZdfegrfKn+90291PO4EBRZtvud6KLWnuzOdOSQLGbikk7MmG0IXQ==
+	t=1795087275;
+	b=wWQZgCbYeGev3A4SOfBPLSV91q6082CjoNIX8jyIoEhX+lk7h8/eD/ZGzVQPG7dPRqIZ
+	 f0ZXq4kj9lnAzpi4tbIudLm6FfJr+svgdVZxNPWa0mwnU45gNU/R9AqkusH84vNE5AKMT
+	 ASznFtTS8Cr9JqLiqCMk9qnnPFAaht+0c86zSq8VHot03LP7kdbJs11Gq/WxVNCCgTmad
+	 UcDd7TFP6dXjaUTlUVntDx5iQC1ZFtnhQibxibNB7j60MXqnVr+g5/ghD7yE2LbA80qgK
+	 qALV6EqsmE5Yp5gn+zcquNMUw7D3yiWg+O+zZrBFr9KSt9sH+eF9QlQJ0CuLZSGTacA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083465;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795087275;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=YLbvNwXomZ1kjJ/SjFYvxqjXtTddAASHXNo4m3c9M6c=;
-	b=GDhb0ZL9vG9w/p3M5iJAnttxJVk2GuRFZwPpO2CvJDIwgmgT8+Wr6I4jnprdJ0rl4iWI
-	 CLI+FtZ9GuEkeynoXtlU76cIfG6glgXz7nqy7XvSjmbUZ/ZwueRnpY2Zm0uREmrZDhBtG
-	 4lZTINFKnLOoPgG6U8YIOITKnJaZHeEvPHXQ7qfVPmVSd/nioPlSxE8h0DBOG02p/7EcV
-	 xBY6WU4z0+nTzsbUGN8I/nF/yiQlOJimt3IA6+tgtj0oUJYI4iCDcJQ0TdkJdvWLV51dB
-	 VymwlKk82prL00D/pvznLMzncE2VyW3k6SR+YzHxTF5qSebmBnTpPmxhDFlNcqmYmOA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=rs/WCZDTzYteKnoXIrlLHLIS24y19yotFKn81Nik2RI=;
+	b=LY1pIUMmR6SBiDpr7lnUYwa15aqwMtij5G3HXY3nAyZkTR7PjyhpQ4OeEzyzbV4D4mT5
+	 WnwOyUOFKEgYgfK+nDlgGzXIOGyJuTHbTis4C34iF43JFFK5Ecp6K8dhLbNkrySIpNQ/C
+	 DRdIv0o0KQssGk536jWeHdaIQnCY+cr184H+0BkA3zS6ZeE9qXfOoLjr6tM+m8L8TFe22
+	 iKSs+Mv3QCR0/E11dTMaGOEu5d+b128yK+EgtfTCc8BDr6EkyEh/ZEoi87s/sY6ELWRBU
+	 xG9QQNky8DO8ROWjPh9vN0ms38dotujrsv7JjRPSnlBhWa4AH1Vq6uOoFMa6pqMQOdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TReKLBWA;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l3xz9P1F;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED81606A325;
-	Thu, 19 Nov 2026 10:17:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0ED81606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63425606A330
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 11:21:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63425606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TReKLBWA
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l3xz9P1F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795083465; x=1826619465;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pglddyPb0xpIoawjV4nwgjwEKnfIEBybfDmilNLNYx8=;
-  b=TReKLBWAf0lJxWmadmMNoj6QlENoC3qdQflgXmvKgTEOFEiapE0sCOha
-   st/MDjWKnEuXGweVPk4LGBKyFi/b+B9oEu5MSflLgnwzJQBhQc8Y0EsJn
-   kiy93SLLgCe3mXcvQgAmXMrgfH/4MPLakVkYNApwaGPnga0/dKHmdzqZS
-   jvc2VieH3JYFmCNan1Ue+FFqJX4e9XuKaQWzBlGfRc7xDkYChi0fvUNjK
-   S6X5E9wv1raCHf9FMdA/bY5jIKfEnV3g1CJZgG3IiTB0j/5Os8/mHKd5m
-   gHnPbBpi+VoxmDXN/Z2gbBhSEfwHniGIISA9OB/lpKxzVGMn2K4ui76Br
-   Q==;
-X-CSE-ConnectionGUID: eQNhoqtBRECWTKNSATqM8A==
-X-CSE-MsgGUID: gqgOveqBT3qVrs5unMM6pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3933695"
+  t=1795087275; x=1826623275;
+  h=date:from:to:cc:subject:message-id;
+  bh=fu9GyfTuxE+DS4g1it6wpmVlCQXAAk3SGbeWMw9ziXI=;
+  b=l3xz9P1FBmop8B4ffSoqoZRZmO5yPOWyk3oRKjiqAt+uQKVXVnWuxZHR
+   fgctSdIfpQTGl/w9jvPLQMC2NSoHAqd3pXLQLr8fULR1kakabnoIMi1FD
+   ocCPTIHGfvTTidilkh0KHrOskLB6DyGptp6+KBqDQZ4yV3KYkt8QH7lf0
+   wHa+FQcS0OBvg4BbF8Z7chP8uo4fX/RjSyaIHQ4AUOpnf6tyWIhcW/b96
+   CzlgFd0UFdAlelOJAW22CeLfmzajZliXdvzuIZsFUCpTPeE6itz10QItJ
+   M0Bqfhyi+auIzXY1BkYHNirP9tyVLxSWCcEOgdtou10CHsX6+RHcdnfX9
+   A==;
+X-CSE-ConnectionGUID: h6EhxuyYQXGaxnCR4iQhBA==
+X-CSE-MsgGUID: NNMWzD1ZSCWg3Slx099ccQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3961893"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3933695"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 02:17:44 -0800
-X-CSE-ConnectionGUID: jc+EjIA1RY+Jsl+CIkVdYg==
-X-CSE-MsgGUID: zsPt8qBYQdC27rssbK7aXg==
+   d="scan'208";a="3961893"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 03:21:14 -0800
+X-CSE-ConnectionGUID: kY3FVk9FT6yknB0P+tVpLw==
+X-CSE-MsgGUID: iHPGeomnTqChuGlIg5Rmrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10437221"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 19 Nov 2026 02:17:42 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="12362412"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 19 Nov 2026 03:21:12 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTzD1-00000001FcQ-3D5l;
-	Thu, 19 Nov 2026 10:17:39 +0000
-Date: Thu, 19 Nov 2026 18:16:46 +0800
+	id 1xU0CU-000000003lF-1BfN;
+	Thu, 19 Nov 2026 11:21:10 +0000
+Date: Thu, 19 Nov 2026 12:20:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Rong Xu <xur@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: vmlinux.o: warning: objtool:
- =?us-ascii?Q?=5FRINvXs=5FNtNtNtCsjYlAz7NZ3Sw=5F4core4iter8adapters5chain?=
- =?us-ascii?Q?INtB5=5F5ChainINtNtNtB9=5F7sources4once4OnceONtNtBb=5F3ffi?=
- =?us-ascii?Q?6c=5FvoidEINtNtB15=5F7from=5Ffn6FromFnNCNvMNtCsbuTvttuFvbr?=
- =?us-ascii?Q?=5F6kernel6xarrayINtB2f=5F6XArrayINtNtNtB2h=5F5alloc4kbox3?=
- =?us-ascii?Q?BoxlNtNtB32=5F9allo...?=
-Message-ID: <202611191706.LTrVZMWY-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 152/152]
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: video-codec@aa00000
+ (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx']
+ is too long
+Message-ID: <20261119121822.ucjpPic7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,50 +81,155 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   63fdb511c27afcebce797e3db580b3534ddfa639
-commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 kbuild: distributed build support for Clang ThinLTO
-date:   6 months ago
-config: x86_64-buildonly-randconfig-1004-20261119 (https://download.01.org/0day-ci/archive/20261119/202611191706.LTrVZMWY-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611191706.LTrVZMWY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
+commit: 152a20d3b2f1bb5aadaf4eb9e2b26a51743324a2 [152/152] arm64: dts: qcom: sm8250: sort out Iris power domains
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261119/20261119121822.ucjpPic7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119121822.ucjpPic7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611191706.LTrVZMWY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119121822.ucjpPic7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCsbuTvttuFvbr_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated35rust_doctest_kernel_alloc_kbox_rs_34main45__doctest_main_rust_kernel_alloc_kbox_rs_276_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsjYlAz7NZ3Sw_4core7convert10InfallibleINtNtCsdamrQDJyPhn_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB5M_6OpaqueNtNtCsfEUfFhcFrsI_8bindings12bindings_raw8spinlockE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3q_E3newB15_E00E0B5X_B44_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCsbuTvttuFvbr_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main52__doctest_main_rust_kernel_sync_lock_spinlock_rs_34_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsjYlAz7NZ3Sw_4core7convert10InfallibleINtNtCsdamrQDJyPhn_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB61_6OpaqueNtNtCsfEUfFhcFrsI_8bindings12bindings_raw8spinlockE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3F_E3newB15_E00E0B6c_B4j_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCsbuTvttuFvbr_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main49__doctest_main_rust_kernel_sync_lock_mutex_rs_36_05InnerNtNtB8_5mutex12MutexBackendE5stateNtNtCsjYlAz7NZ3Sw_4core7convert10InfallibleINtNtCsdamrQDJyPhn_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB5P_6OpaqueNtNtCsfEUfFhcFrsI_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3z_E3newB15_E00E0B60_B47_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs4FileINtNtNtBa_4sync6atomic6AtomicmEEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB36_10___internal11InitClosureNCINvYIBH_B1L_B2D_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB4m_NCINvMB1O_NtB1O_3Dir11create_fileB26_B5R_B26_Es0_0B1L_B5R_EE0B1L_B42_EECsdPKRummocL6_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_04main43__doctest_main_rust_kernel_revocable_rs_25_07ExampleEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB52_10___internal11InitClosureNCINvYIBH_B1L_B4z_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6i_NCINvMs0_B1O_B1L_3newB7N_B2d_Es_0B1L_B7N_EE0B1L_B5Y_EEB2l_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_14main43__doctest_main_rust_kernel_revocable_rs_46_07ExampleEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB52_10___internal11InitClosureNCINvYIBH_B1L_B4z_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6i_NCINvMs0_B1O_B1L_3newB7N_B2d_Es_0B1L_B7N_EE0B1L_B5Y_EEB2l_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main42__doctest_main_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5L_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6D_EEB2Z_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCsdPKRummocL6_25doctests_kernel_generated37rust_doctest_kernel_time_hrtimer_rs_04main47__doctest_main_rust_kernel_time_hrtimer_rs_167_019ArcIntrusiveHrTimerEEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5r_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6j_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated37rust_doctest_kernel_time_hrtimer_rs_34main46__doctest_main_rust_kernel_time_hrtimer_rs_78_019BoxIntrusiveHrTimerENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB4S_10___internal11InitClosureNCINvYIBH_B1L_B4p_EINtNtBa_4init11InPlaceInitB1L_E8pin_initB5O_IB68_NCNvMs_B1N_B1L_3news_0B1L_B5O_EE0B1L_B5O_EEB1T_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main49__doctest_main_rust_kernel_sync_lock_mutex_rs_36_07ExampleENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB4L_10___internal11InitClosureNCINvYIBH_B1L_B4i_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB61_NCNvMB1N_B1L_3news_0B1L_B7w_EE0B1L_B5H_EEB1T_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main52__doctest_main_rust_kernel_sync_lock_spinlock_rs_34_07ExampleENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB4R_10___internal11InitClosureNCINvYIBH_B1L_B4o_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB67_NCNvMB1N_B1L_3news_0B1L_B7C_EE0B1L_B5N_EEB1T_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs_NtNtNtCsjYlAz7NZ3Sw_4core4iter8adapters5chainINtB5_5ChainINtNtNtB9_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB15_7from_fn6FromFnNCNvMNtCsbuTvttuFvbr_6kernel6xarrayINtB2f_6XArrayINtNtNtB2h_5alloc4kbox3BoxlNtNtB32_9allocator7KmallocEE4iter0EENtNtNtB9_6traits8iterator8Iterator8try_folduNCINvXs0_NtB7_9map_whileINtB4P_8MapWhileBO_NCB2c_s_0EB3Y_8try_folduNCINvMs0_NtNtBb_3ops9try_traitINtB5U_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB1t_ENCINvNvB3Y_8for_each4callB6U_NCNvXs5_B2f_B2J_NtCsdamrQDJyPhn_8pin_init10PinnedDrop4drop0E0E0B6f_E0INtNtB5W_12control_flow11ControlFlowB6f_EECsdPKRummocL6_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main42__doctest_main_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4S_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initB5O_IB68_NCNvMB1S_B1P_3news1_0B1P_B5O_EE0B1P_B5O_EEB2x_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main44__doctest_main_rust_kernel_workqueue_rs_136_08MyStructEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4g_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5w_NCNvMB1R_B1P_3news_0B1P_B73_EE0B1P_B5c_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_14main43__doctest_main_rust_kernel_workqueue_rs_35_08MyStructEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4f_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5v_NCNvMB1R_B1P_3news_0B1P_B72_EE0B1P_B5b_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_54main43__doctest_main_rust_kernel_workqueue_rs_77_08MyStructEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4f_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5v_NCNvMB1R_B1P_3news_0B1P_B72_EE0B1P_B5b_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated37rust_doctest_kernel_time_hrtimer_rs_04main47__doctest_main_rust_kernel_time_hrtimer_rs_167_019ArcIntrusiveHrTimerEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4y_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5O_NCNvMB1R_B1P_3news_0B1P_B7l_EE0B1P_B5u_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated37rust_doctest_kernel_time_hrtimer_rs_24main47__doctest_main_rust_kernel_time_hrtimer_rs_315_06SharedEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4k_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5A_NCNvMB1R_B1P_3news_0B1P_B77_EE0B1P_B5g_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated37rust_doctest_kernel_time_hrtimer_rs_34main46__doctest_main_rust_kernel_time_hrtimer_rs_78_06SharedEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4j_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5z_NCNvMB1R_B1P_3news_0B1P_B76_EE0B1P_B5f_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCsdPKRummocL6_25doctests_kernel_generated40rust_doctest_kernel_sync_completion_rs_04main49__doctest_main_rust_kernel_sync_completion_rs_18_06MyTaskEEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4p_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5F_NCNvMB1R_B1P_3news_0B1P_B7c_EE0B1P_B5l_EEB1X_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RNvXs1_NtNtNtCsjYlAz7NZ3Sw_4core3ops8function5implsQNCINvXs0_NtNtNtBb_4iter8adapters9map_whileINtBX_8MapWhileINtNtBZ_5chain5ChainINtNtNtB11_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB28_7from_fn6FromFnNCNvMNtCsbuTvttuFvbr_6kernel6xarrayINtB3j_6XArrayINtNtNtB3l_5alloc4kbox3BoxlNtNtB46_9allocator7KmallocEE4iter0EENCB3g_s_0ENtNtNtB11_6traits8iterator8Iterator8try_folduNCINvMs0_NtB9_9try_traitINtB64_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB2x_ENCINvNvB5c_8for_each4callB6Y_NCNvXs5_B3j_B3N_NtCsdamrQDJyPhn_8pin_init10PinnedDrop4drop0E0E0B6j_E0INtB7_5FnMutTuB2w_EE8call_mutCsdPKRummocL6_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCsbuTvttuFvbr_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsjYlAz7NZ3Sw_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCs6vhAHS3kb6q_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocEEB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCsdamrQDJyPhn_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6OpaqueNtNtCsfEUfFhcFrsI_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3Z_E3newB15_E00E0B6b_B4x_EEB2G_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCs6vhAHS3kb6q_19rust_debugfs_scoped10DeviceDataEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCsbuTvttuFvbr_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCs6vhAHS3kb6q_19rust_debugfs_scoped10ModuleDataEENtNtB8_9allocator7KmallocEINtCsdamrQDJyPhn_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[218, 0], [218, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[218, 0], [218, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[186, 0], [186, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[186, 0], [186, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[198, 0], [198, 2], [53, 8], [53, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x04\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[194, 0], [194, 2], [53, 8], [53, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[189, 0], [189, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[189, 0], [189, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: cpu@300 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: cpu@400 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: cpu@500 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: cpu@600 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: cpu@700 (qcom,kryo485): qcom,freq-domain: b'\x00\x00\x00\x02\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domain-names: ['venus', 'vcodec0', 'mx', 'mmcx'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
+>> arch/arm64/boot/dts/qcom/sm8250-xiaomi-pipa.dtb: video-codec@aa00000 (qcom,sm8250-venus): power-domains: [[190, 0], [190, 2], [52, 8], [52, 6]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml
 
 -- 
 0-DAY CI Kernel Test Service
