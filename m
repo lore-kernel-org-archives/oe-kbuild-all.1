@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795055403;
-	b=YU8kixd3VyLYJV2sZVphXhRKcloyILsdOOvPTbjXuqRV6SZtuawV7tebZVuPLkWG7ijC
-	 04VXLWMHOSS8LQgDNIUHDOkjnp4fn7eZK0x693uyY6koC9b+Y13/B+iXQ7eI873lMYO0I
-	 dw/+BFVkeZyQvHRb81dYoK9v/PLnmVfE1QcYtnTkyjMTRyOPqrDvOL3S8dsm9Lq+in8FI
-	 G5x0pq0FR9yOKZbbxtkh0ftBLZGPSZ4Lkb0DKrNkG4UkC1YtwyUvNmLJ4Ihd26WmOUodF
-	 KABUYXbXUBUVxrkLtyfMK1XciyjjlACAh1GpesNuP/0EZgQ9X9/J6tmfqhfxBNH1x3A==
+	t=1795057270;
+	b=4XLHZUX56RSsbNUM5+rrRXtz4j8uGovv7pw6d+sPLafp4rBuno63w4hpbcmIrHNL3wDQ
+	 ADusrnQ5GilfD5Rkpi6P/nUtAi/G+PwjRzXUTjjvwjRFctmzCPzS0ObqUFR68mooD/oKs
+	 5xyoqa8WovUOHTsqHt/RbWqb300ESnWVOMqiJxVMqC1cZck5Gug4suxPpFs3IaxyTKSkv
+	 EI35mbHVkoNgSKiF0/UXhlq3hQMLA4SN2xaJ2wpJl41fj60W9Tdb9nehowyiFhoSvJhKt
+	 hsFrcHTytKQiqUQRlbbprhXjE6zv8fBMyI6UMNUFzSnLjpv/beqD2sBjlpKpoBvnbpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795055403;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795057270;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=teG0iBbDYT4e1Y0k66pxozwJD/q8U23GQUoomAaw+qE=;
-	b=Tl6Cig5TiHnUwhBvB1HnCBAGBc8HU6uRKnVsn61H7cW085qpb1SRUfdhinbmAGWEQamY
-	 6sOXFao1O5jbTHfGe4eaOXGDvwWyNxnaAmMwuROUfhmd++mCmRtQTU7SWOrEdszOjH2vJ
-	 Cc0/wrGr3wEiOssVqIbuVVnP8pnIVwyvEvL6Qg0jJtzCgYdPSkQiKV872hgxZ3s9jZPOD
-	 Zm4Q4tltNNw0BKE9FiIRXk0F/oXUFfhnOpuwh9VTkowH+WeGTrT4ri2Kqwp/GF0aFOruu
-	 Mlkwbu9tZGTclqqZsFViErZ4BEy8ntINP/rx0m+ztssmyDl5O+Hs/NdPqQ3jEvksx6w==
+	bh=fyD54+TZXyAvAwoOdvMPt3+fHLrtkT2OYi5cYRINn8Q=;
+	b=GvXjJkSlbFjIPweQP+YsFW3hIrd6kiRghsyDjK5pwGoaq/cFh+SU5KfMLaylQE3Lcr0U
+	 +JkokhtGW0hVAgSWoJwM6M5zvFa582AWj0VqvCjufu1a0wy3szQ8Sh8/mb0QPvPLDWgU3
+	 GiWhgEWTf0YVOFRHmShe+nc5M29hBY27O8EoHvfvF/fdgLOlw9NsamSZ7bSdXM+yVFfZn
+	 18AVrYHE6s86j/On8QNQ6IIkYIqBKe0zoDlVEOK/ERp2ViJ8g5imyZJQ32v2p62kBOIFB
+	 K0Ds3xiv4JULEri16I7oe3SnZYv0mFaHqjhyCTEcbhbkY+miRtw3+utIQ2tMj2XJi/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=faFxwjNk;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AloqPnds;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4214E606A32A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 02:30:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4214E606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C711A606A339
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 03:01:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C711A606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=faFxwjNk
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AloqPnds
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795055403; x=1826591403;
+  t=1795057269; x=1826593269;
   h=date:from:to:cc:subject:message-id;
-  bh=8g9nd7Tk9a/RAApEkgKSGj44wDrhmMcxT+zd9C++Vio=;
-  b=faFxwjNkQHawsOGsInxUrhnvY4sts1DTbNyAGolJQvfR9qfEVsJjq4FI
-   STk0wHA5wAEpX69E5yh8U3Y9j7BDkoCq+wdNe2izZcxufiRGEOk7ZC+HT
-   R6MGI7Qo4v/TpJPPDyc3EuiehwNV4da1nOjrMT66ChvdOHCNpWsHSbUeb
-   s7N6SzHzmSpGBdr/BWikGbOSutykYoEoWd81eal3ALGVONMjiYXsRpWH2
-   VZjFNN4Ov6hfJVRxIYWNcDrTXpxek93FQESUBdkbg/UrPXyqmQfoFcUDU
-   GYUnIxIQe2GWw6h9GN4M8dsl+sCBIVJOxosVcwDS3lYxsY/NRWHWV88KS
+  bh=ZcLObOLViAskcE9Yyj1flqp8MUg4VaAyFk0GubN0nWM=;
+  b=AloqPnds6EprlW8Lfu3R0zZn5+czvmrCTC2iVI8vHscaHqE78K3YJ2zv
+   HTB2M2LeMxv7iihOpwp7/jTlE7d32fzf3PviBmH1CiBnk0tHByn5/4WbD
+   ojqCa6utxu9QC/F+G9fvHko0O8vLUnJK+HlSGz2f7s91ZSgnUr5MelIUy
+   p2VO+J17/ktYGyF7PWYGT9ooNtD8GQFdVkp8J+EV03A0SFwPUFO37zw+S
+   QCKADaES27FRC29dDaRr18v5kpTmtsAHwMmG1CokQJfC2ie8NntWIhpct
+   BZxD4/M1IJzFqthVT8xVR/P0vZZaUyn5HNtB7361DDP0aVmSYJz5/9pq4
    g==;
-X-CSE-ConnectionGUID: MgJSNaCKTOaU/uyhPUe7zA==
-X-CSE-MsgGUID: ChQFQcaCT2CdT4kR1tLRUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3920178"
+X-CSE-ConnectionGUID: EYyXkEclRkatjgncBsJb5w==
+X-CSE-MsgGUID: Z0ZbIvoFS123YAwxiXUKAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3905717"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3920178"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 18:30:01 -0800
-X-CSE-ConnectionGUID: eztrgNBLTdiaOqYRQ8bFAA==
-X-CSE-MsgGUID: GsRg/qMOTmuv+2KEGskUIg==
+   d="scan'208";a="3905717"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 19:01:07 -0800
+X-CSE-ConnectionGUID: Ozt7oaEuSUekhTOclNxnyw==
+X-CSE-MsgGUID: hMzA1s2IS+eR0EyECEHX8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10402816"
+   d="scan'208";a="10189929"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2026 18:30:00 -0800
+  by orviesa004.jf.intel.com with ESMTP; 18 Nov 2026 19:01:06 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTruP-000000003bB-45NN;
-	Thu, 19 Nov 2026 02:29:57 +0000
-Date: Thu, 19 Nov 2026 03:29:34 +0100
+	id 1xTsOV-000000003bl-301x;
+	Thu, 19 Nov 2026 03:01:03 +0000
+Date: Thu, 19 Nov 2026 04:00:49 +0100
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:type2-revoke 2/13] drivers/cxl/mem.c:239:27: error:
- called object type 'void *' is not a function or function pointer
-Message-ID: <20261119032008.STPYTJ9x-lkp@intel.com>
+Subject: [kkdwivedi:xdp-tcp 94/107] net/core/xdp.c:1180:18: sparse:
+ sparse: symbol 'bpf_xdp_frame_dtor' was not declared. Should it be static?
+Message-ID: <20261119035554.mYtmA3xj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,51 +80,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git type2-revoke
-head:   73f29beb504173aa2e12857fddba3a039f6922d9
-commit: b081168db6af34744459599b374441b4b2be5a63 [2/13] cxl: Notify Type2 drivers before their region is torn down
-config: loongarch-randconfig-2200-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119032008.STPYTJ9x-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 51d7f08b16b68285b1a400f413215b69f07a65e3)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119032008.STPYTJ9x-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux xdp-tcp
+head:   a80dbed970ebe4f7d8b2f6be334b64b30cfc5014
+commit: c1ffc7ccc416e1208cf3c2a5471789df7185c0f7 [94/107] xdp: Let a program take a frame out of XDP and keep it
+config: powerpc-randconfig-r2306-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119035554.mYtmA3xj-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119035554.mYtmA3xj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261119032008.STPYTJ9x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119035554.mYtmA3xj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/xdp.c:907:17: sparse: sparse: symbol 'bpf_xdp_metadata_rx_timestamp' was not declared. Should it be static?
+   net/core/xdp.c:929:17: sparse: sparse: symbol 'bpf_xdp_metadata_rx_hash' was not declared. Should it be static?
+   net/core/xdp.c:962:17: sparse: sparse: symbol 'bpf_xdp_metadata_rx_vlan_tag' was not declared. Should it be static?
+>> net/core/xdp.c:1180:18: sparse: sparse: symbol 'bpf_xdp_frame_dtor' was not declared. Should it be static?
 
->> drivers/cxl/mem.c:239:27: error: called object type 'void *' is not a function or function pointer
-     239 |                 cxl_memdev_attach_disarm(attach->cxlmd);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~^
-   1 error generated.
+vim +/bpf_xdp_frame_dtor +1180 net/core/xdp.c
 
-
-vim +239 drivers/cxl/mem.c
-
-   221	
-   222	static int cxl_attach_unbind_notify(struct notifier_block *nb,
-   223					    unsigned long action, void *data)
-   224	{
-   225		struct cxl_attach_region *attach =
-   226			container_of(nb, struct cxl_attach_region, unbind_nb);
-   227	
-   228		if (data != attach->host)
-   229			return NOTIFY_DONE;
-   230		if (action != BUS_NOTIFY_UNBIND_DRIVER &&
-   231		    action != BUS_NOTIFY_DRIVER_NOT_BOUND)
-   232			return NOTIFY_DONE;
-   233	
-   234		/*
-   235		 * Sent before remove(), or before devres unwind on probe failure:
-   236		 * wait out an in-flight revoke, block new ones.
-   237		 */
-   238		if (attach->cxlmd)
- > 239			cxl_memdev_attach_disarm(attach->cxlmd);
-   240		return NOTIFY_OK;
-   241	}
-   242	
+  1178	
+  1179	/* The destructor of a kptr field holding a frame. */
+> 1180	__bpf_kfunc void bpf_xdp_frame_dtor(void *frame)
+  1181	{
+  1182		bpf_xdp_frame_put(frame);
+  1183	}
+  1184	CFI_NOSEAL(bpf_xdp_frame_dtor);
+  1185	
 
 -- 
 0-DAY CI Kernel Test Service
