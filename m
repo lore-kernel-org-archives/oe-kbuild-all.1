@@ -1,83 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795070562;
-	b=WjzzPCaXkQycxZFm7Fc3rUoAT2r4BCQv4QiyNcFeMtT1Ee/WsiPSLZCBbUiu3vNmrxEr
-	 qm3nmWZaSlolUQltyQDi5wOJVYnw5koxjSfJjAIt1u3jTsVSmuFLFrNl2ciWB5IpRSdQV
-	 UPYOH3CIfTVPOTJPuORTNhNiyQ6rK8hCrtuigQDziKF0H4WKVIKSsVTtEfMDRB92HBN9a
-	 cpqe+t8sFoV/8D4AvEG9Sx1cujz7kT2PMhanZVDCbmuqbGRZ4GBZfJ9yUwMt6NbKKVYms
-	 KhNFK1ul684aM5FuX1BraUo1GOXLmkNsfg3NPnZEIfH9/xpqjOPpwzqWIxRiQdhbC1w==
+	t=1795070997;
+	b=T2SOXCoFTqEWNr3EqAV1uEwx1XsaXFKJV9JKzJqRfyTtdRWz8nX+pdCpVUxbUSav5pqq
+	 pOvltu0E6/xBgmLoMCHLmOjeV6Iid+1+7x1tX9suO7ElywIUxAQeHfNtX/Bnj0oBDCouV
+	 sIGqQggTnYFx0hM5aNAK37ZTgiIjbCKIVRRbTZB9dUeFUBVQYSZmugqR36fMbfsTrJeqG
+	 rAH3S3lxeBgZVjPzX/R3jmI1O9tHDHEj0sClSXgPO3Z1nSmn1LG/XnzkUz+A8Y1IFkVN7
+	 OyqL4Fib34xVDqJbXTkR6i6EU39zMdW2BFj4D6N+cDo9px2MvNLcWrd6urKqsWwbgGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795070562;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795070997;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=ra0jJFg2rLBnpyjZI3vp/qEopGKNTn3oOysk8aqDYh4=;
-	b=iya8QKw/k7z94IEooU2WqthfJsOKppDE3UFCcab7rKBfnAp2eZD3MCUwP8BclWgVuCBr
-	 vH6y4q/tD6RgvgFTAwZ9SbWA/yJyR0YvFNou5cEPQxvCmxCDaSxwvZ30+kd0u+cEYEivs
-	 FqL0CJu4NCPlcCG5hp/YbRl1cxZv7EaJldRrIfr0UIGQVyqYoFTbxzMbwmnFUmdP0ZaN9
-	 IaKkV+zrZLmUxUUDWXe9AXzRbj9IiqYJAkCTp97ZhEcxXSHyqQNI7pMYfMWRTFvwbUQGV
-	 VyCmTl78c2VtLgHHFEq4CA19oPzTPICicRIiLYhGgWrU/jSSTfI9VRUQxTKKqmk5QOg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=na6CmjoEWnRN1pnPcWXFG6g/Wg/h6lgoRHQAayVmCn0=;
+	b=zfSCBosC25luqOW2QSMmokU3IzXrUivDEKRlZVsBPg5ykzv5DgLmYdkzJ9ft62oYTmnA
+	 sBFtROTK0T5meDzh0sNz3QZWQnbTk/4Hp51qzdcyijxNcPiDSsbEzH/po2TsHx4Ym/I87
+	 I12/F3r32+0rDx5H+IiEAJK5qz6eUTt/7Lf/G/qAaDNYJ7eZuiLR/49pxbDcDGf24FyEu
+	 t/CWXAeH1L4bA8uNKNhBiosAokQBIAEJT90GJYwM50HMYsR9CDT3FpjfUo/WrdlA+toP6
+	 6a+zs2eh1pqbwvR19+49Q/+LDNIkVjS5hbvp8WWNlumN3yCYTQ6c67ug4V7W9xoVkCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ay68REvo;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bgThC3Wh;
 	arc=none smtp.remote-ip=198.175.65.10
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6C5606A325;
-	Thu, 19 Nov 2026 06:42:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA6C5606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76454606A334
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 06:49:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76454606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ay68REvo
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bgThC3Wh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795070561; x=1826606561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZQY2lgHCzyGRl8yFvLsb5a4GHsBXWlwP2RwNQ4NyDoE=;
-  b=Ay68REvoORPnEG+EZq+Cl705ioPV1LBRBN8zb7Yz1hKIw2IFA7cbiSfW
-   PBGkauIao3uNr9wLlgNwTIzJXtIW1HjYRxg8JoLR8y/kghVCCOxEM9K85
-   UZOSLuUAX0eTVikzcwKnh/xZCmPqWYQOMbM5LwYAE86wa1q3+NLokbw+9
-   hKBaV2ImizBQElOQc3RCDjs3C8q5bsvMTz+6o3jAetidSwKXu2dfzd+KZ
-   Oud88UaPD+d5fyVjjJmCHoip2fBwQGUryHV3wwES7SPV2doDI8tb1hALd
-   vRcaCu9mrHD4Kg51LZtYC8Sn9Vh8LlLJbbAFN74fbQTtVLcU2cbiwQ4F2
-   A==;
-X-CSE-ConnectionGUID: 5H6IdqMcRDyrfzRG+AHvBQ==
-X-CSE-MsgGUID: 29KHBSnMRvaCBP6pl+hpYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3827578"
+  t=1795070997; x=1826606997;
+  h=date:from:to:cc:subject:message-id;
+  bh=aBINvnL5iZI+RGxS7zdBju4eFiyPvjzkh/TrtHaM4os=;
+  b=bgThC3WhKiwRU956Z8d6nKMP2YjAu2lJ2Z9LaN/bFDUyMKBlZrnS8HXN
+   zrtjLLfZXKmzklYpe1r7URdzc/wAvs8o5pcRn+36i9c4pLxTRn2mNvbL/
+   9u2R3f2WQYORiY0iGhlJk3bWwxhXBefh8TIAIQ5smJZUoEmoVEppxVktR
+   uIYjn/HgJjIpDYmmeJ8ZZJamdsww0e09GGWFtK1clTVFcMq3u7sYnBiNy
+   kVxBOL4deH0m2fxKfikwxqlsjGw+rRk+PzmUt2FqjZbUaJE4mah2wUBgi
+   XOSlifjbcFujnbLIFoTHc/F9udhQ2AHoNHlzL8HS1DvpiUnTTXhtsqVtJ
+   g==;
+X-CSE-ConnectionGUID: 9PNasbmnT8KZ4/8VELAEew==
+X-CSE-MsgGUID: KO1ydlZIQlWPxJ6MRyDVag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3828242"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3827578"
+   d="scan'208";a="3828242"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 22:42:41 -0800
-X-CSE-ConnectionGUID: LMBOrTQoT4yzVyo1QKAIuw==
-X-CSE-MsgGUID: qzqpxI7xSGucEDwR5TaBGQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 22:49:56 -0800
+X-CSE-ConnectionGUID: 3c96Hjh8SYSc/DoljEXl7w==
+X-CSE-MsgGUID: BbmGNgiqR922cnRUcTburQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10689664"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 22:42:37 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10691307"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2026 22:49:55 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTvqr-00000001FDC-47nC;
-	Thu, 19 Nov 2026 06:42:33 +0000
-Date: Thu, 19 Nov 2026 14:42:13 +0800
+	id 1xTvxw-000000003hT-1avz;
+	Thu, 19 Nov 2026 06:49:52 +0000
+Date: Thu, 19 Nov 2026 07:49:39 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Frank.sae" <frank.sae@motor-comm.com>, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@kernel.org, davem@davemloft.net,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lingyu.zou@motor-comm.com, xiaoyong.li@motor-comm.com,
-	jie.han@motor-comm.com
-Subject: Re: [PATCH net-next v3] net: phy: motorcomm: add YT8831 2.5G PHY
- support
-Message-ID: <202611191438.hJl6vCfi-lkp@intel.com>
-References: <20261118033539.36633-1-frank.sae@motor-comm.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/resched_ipi_for_non_waiting_req 1/6]
+ arch/s390/kernel/smp.c:534:1: warning: parameter names (without types) in
+ function declaration
+Message-ID: <20261119073955.8OHVqLSu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,93 +80,43 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118033539.36633-1-frank.sae@motor-comm.com>
 
-Hi Frank.sae,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-sae/net-phy-motorcomm-add-YT8831-2-5G-PHY-support/20261118-033539
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20261118033539.36633-1-frank.sae%40motor-comm.com
-patch subject: [PATCH net-next v3] net: phy: motorcomm: add YT8831 2.5G PHY support
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261119/202611191438.hJl6vCfi-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611191438.hJl6vCfi-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/resched_ipi_for_non_waiting_req
+head:   769450d587b91613f4275a4be6cae3418f32bb17
+commit: 2cc0d8d1272ddf4c03128471342b6cfadd7d6311 [1/6] s390/smp: Export arch_smp_send_reschedule() for KVM when kvm.ko is a module
+config: s390-randconfig-2000-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119073955.8OHVqLSu-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119073955.8OHVqLSu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611191438.hJl6vCfi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119073955.8OHVqLSu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/motorcomm.c:2782:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2782 |         if (old_page < 0) {
-         |             ^~~~~~~~~~~~
-   drivers/net/phy/motorcomm.c:2802:44: note: uninitialized use occurs here
-    2802 |         return phy_restore_page(phydev, old_page, ret);
-         |                                                   ^~~
-   drivers/net/phy/motorcomm.c:2782:2: note: remove the 'if' if its condition is always false
-    2782 |         if (old_page < 0) {
-         |         ^~~~~~~~~~~~~~~~~~~
-    2783 |                 phydev_err(phydev, "Failed to select page: %d\n",
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2784 |                                 old_page);
-         |                                 ~~~~~~~~~~
-    2785 |                 goto err_restore_page;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~
-    2786 |         }
-         |         ~
-   drivers/net/phy/motorcomm.c:2779:19: note: initialize the variable 'ret' to silence this warning
-    2779 |         int old_page, ret;
-         |                          ^
-         |                           = 0
-   1 warning generated.
+   arch/s390/kernel/smp.c:534:1: warning: data definition has no type or storage class
+    EXPORT_SYMBOL_FOR_KVM(arch_smp_send_reschedule);
+    ^~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kernel/smp.c:534:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL_FOR_KVM' [-Werror=implicit-int]
+>> arch/s390/kernel/smp.c:534:1: warning: parameter names (without types) in function declaration
+   cc1: some warnings being treated as errors
 
 
-vim +2782 drivers/net/phy/motorcomm.c
+vim +534 arch/s390/kernel/smp.c
 
-  2770	
-  2771	/**
-  2772	 * yt8831_serdes_init() - serdes init
-  2773	 * @phydev: a pointer to a &struct phy_device
-  2774	 *
-  2775	 * Returns: 0 or negative errno code
-  2776	 */
-  2777	static int yt8831_serdes_init(struct phy_device *phydev)
-  2778	{
-  2779		int old_page, ret;
-  2780	
-  2781		old_page = phy_select_page(phydev, YT8831_RSSR_FIBER_SPACE);
-> 2782		if (old_page < 0) {
-  2783			phydev_err(phydev, "Failed to select page: %d\n",
-  2784					old_page);
-  2785			goto err_restore_page;
-  2786		}
-  2787	
-  2788		ret = ytphy_write_ext(phydev, YT8831_SDS_WRITE_PROTECT_REG, 0x1);
-  2789		if (ret < 0)
-  2790			goto err_restore_page;
-  2791	
-  2792		ret = ytphy_write_ext(phydev, YT8831_SDS_SGMII_OUTPUT_REG, 0xc4);
-  2793		if (ret < 0)
-  2794			goto err_restore_page;
-  2795	
-  2796		/* softreset sds space */
-  2797		ret = __phy_modify(phydev, MII_BMCR, BMCR_RESET, BMCR_RESET);
-  2798		if (ret < 0)
-  2799			goto err_restore_page;
-  2800	
-  2801	err_restore_page:
-  2802		return phy_restore_page(phydev, old_page, ret);
-  2803	}
-  2804	
+   524	
+   525	/*
+   526	 * this function sends a 'reschedule' IPI to another CPU.
+   527	 * it goes straight through and wastes no time serializing
+   528	 * anything. Worst case is that we lose a reschedule ...
+   529	 */
+   530	void arch_smp_send_reschedule(int cpu)
+   531	{
+   532		pcpu_ec_call(per_cpu_ptr(&pcpu_devices, cpu), ec_schedule);
+   533	}
+ > 534	EXPORT_SYMBOL_FOR_KVM(arch_smp_send_reschedule);
+   535	
 
 -- 
 0-DAY CI Kernel Test Service
