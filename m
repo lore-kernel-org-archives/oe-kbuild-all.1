@@ -1,84 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795123839;
-	b=uInuUNR83wzrE8yGAtoCO35AC8QnYfAnJjbtDvZmZX5CuCccMqVonp7ONp2uzCFg2Z/4
-	 lCGJZRGsf+Q8nIGRRz3CmsTn45BacR5XRM0pRs+oBwDsj0kR1jlmxbStivHYRnFRJ8vBQ
-	 UL/qCyq+5/k5SQmdLRXnqov3hmrDJS9q56yOmXPs4f1kEE0RWEgWujIGefhx6fQ6JvWle
-	 Jccw52EOMHcpe4oU1m0xeJMcHaUFWSECfWDluNlu3MTeEnHdeJ8RvatuiZG05ndaa2SK2
-	 AASkX8HUT/hUGCy8Pl/Gi15+mAvJ7GbLuvxqZgyl89exXDr9CBsyKLFUZzlKuG2uDyQ==
+	t=1795126603;
+	b=YbKg0taNRau+Kzu5Fnf7st02HwOHicgzmqXN6Vjn6Bbv575q5PgCnolXQr7aZ0G3y3dA
+	 I04VzQV0M5OWUnfdlefM70hAXmllNOnzyU/xc9kFPJvR0QNdp1GjBbdVll4Kj7f7KFUAl
+	 J89CqOk0WttNSVWgZZ7QotXm8w88YeDApIZL//f2ht4bHp5KCutwausZS8cHnKs1DIbY7
+	 dGXmZl+9XvJJ/4rZYECQe98IG0i1h0C9mOSbp/f3CB/1oLmOp6TMluaecth3y3q3xkU4P
+	 NYTvtr7rO/eWyjrwNhsxIH8p20i+JIb2N5elk/a/SXU6M8m59by2kZ2I0RE0XFqZOcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795123839;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795126603;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=0oZlDx8Vv+0nCck+Zhk2G9X4wk2IXUKlcAG+gSxafiY=;
-	b=zH1+zlpFe4QZ3DYoLlduuBmP4wi5pPUEsdJqWKyiIRuESVtjbyubfQJpMWquEgOiEx2V
-	 kadkvNSaOZweuoHKtk5P07RAIQOxNv/GJqTMzTS60Tyc7OSL7Qi7cYY05wpDfH1ZSr0Gt
-	 CZFU7xIovZqa0uujq6NenZ/kVj9DcYxg+ojW3/plCQOmkw8t0Yl449DGrLne6RxG4erqO
-	 sexFR8imCu7j2gGDT3DrR6IBVsmofZtXlvYINQxh4LS00LQ6G8g5y9/Q5qSplHBk+HPP+
-	 66GohwuvdTvp61UQzOyR2NMN880dmTx0zkDABLyUC9+j+IXer3HTLGtssGS1R3aHIGQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=91RB5iiiOsE2f4rF73tJ97rmZZjyGA0SCODrP/VZoR0=;
+	b=cul+krWLi6wTyENb2yzaqsAAgYunLmTL6Cj9R81eBfwHM9Hpo1w0sjjauT/tMd/rJd9o
+	 3ei8x9gkNczq/EM5tQcf6HRPkvqljwhWfGf8M9eJ5Mx88J96FKicIQtBL9qh6oUsZp5KL
+	 yHrWoCkMji4uV0LlO+g5174xXnydvj3T1Ts9AFOv6vrf65ivKNpXCl9l0GU/JEuijiG72
+	 cUk/7igrN6qJMETGOmc1aB1uCd8eAtcfPtDxCImj/kt/Y0ErEEB4p05RR8ekSnbEXdMG/
+	 hcHW/miyqJbFIy7VXTB0FBn0KuC//ptoYa3hH8hr8fJmlldgdLbKNEvIHAvP+EwC7Ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GfhE6Xad;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aZ85JaUs;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD11606A325
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 21:30:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BD11606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E95606A320;
+	Thu, 19 Nov 2026 22:16:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98E95606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GfhE6Xad
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aZ85JaUs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795123838; x=1826659838;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mogHG+qkA4LZoztNkMUoZeinOmAAZ6RrtIKMGQTKNCI=;
-  b=GfhE6XadhsQAWq0NaOAc0qhCC7CwyGPBB9wBWbNxWRzXyH1C7A3XsFoX
-   MeupyXceQutM45VPYEGSi3pLRxyI5v9v6Pgt15Biyokezi5i9taxnxSN7
-   IaYMBreRlbPHd+rf8yd832lLWNzliio+yKkrXldPncL45ul7VyaI2EFwK
-   EgFgE1OxvC0H8j+Yxe+sm71aW3EQW5y2xIOzWrr8/KcvDj/R4/jWYOsuh
-   X+yEnfOc0o6EpjUb4bcT3RrdicnbzQwgKQN3bFci6vsPda0lK+TVVszyo
-   ILyw2ypwaH9p4C6C7GrgFIKSK88DnQqTZLAa+x7gUy++REc2Di0QX0Z35
-   Q==;
-X-CSE-ConnectionGUID: ejhKwmewQC6VbL/t+y+6SA==
-X-CSE-MsgGUID: wrbhnsR5RayHTgm9K2M0Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3880869"
+  t=1795126601; x=1826662601;
+  h=date:from:to:cc:subject:message-id;
+  bh=+jyhNbcOejthPr+w0NK5SGH+7ftmI1GVbAEjHJVViy0=;
+  b=aZ85JaUsx1Bnikb+14OQyQx9tr9AZNYQ+ompTklq0cfbXI47sC37iBPV
+   MRAEe4t64VSh/2imTebMAZRBkyATVo/yllcRD8LoC9DAetxkf2JCZ8+ra
+   YxJ8k6VMr/YgCYhoGzDVM8O6b/I+I7HjcPZlamEkeyeOGHPeSAZcioegH
+   hZyy/rEXpXmh/b13SgNoPZoVfzxz6WOPM6tkosmr9v/StxwAH3z1B7GW8
+   Ofv9a2V2r7THhuZlm26GrhpqsLzM7FP5ME9Gk1BLaoGJzZD30tZ2ZuXpi
+   cyPnyvAs8NcBAtDEP/0IgVazwuHHiZYm5Uwb3H45rsk3l2mpqO/nFbHPx
+   g==;
+X-CSE-ConnectionGUID: JDVshQ1GSuCDPh/7A2UY3A==
+X-CSE-MsgGUID: rzkV5YZLSFa7tQht7oRW4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3887906"
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3880869"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 13:30:37 -0800
-X-CSE-ConnectionGUID: ayvu9HVvTmaAM6/6QPPqcQ==
-X-CSE-MsgGUID: 51LNhAD2TfeB6SnxF/DqhA==
+   d="scan'208";a="3887906"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 14:16:41 -0800
+X-CSE-ConnectionGUID: n0oEfzN4RNOrgVWdV3d+xg==
+X-CSE-MsgGUID: nKqPnLa2RHmx2afsbrfBrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10434913"
+   d="scan'208";a="10799708"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Nov 2026 13:30:15 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 19 Nov 2026 14:16:39 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xU9ht-00000001GbD-0pE8;
-	Thu, 19 Nov 2026 21:30:13 +0000
-Date: Fri, 20 Nov 2026 05:29:29 +0800
+	id 1xUAQn-00000001Gf9-0xPj;
+	Thu, 19 Nov 2026 22:16:37 +0000
+Date: Fri, 20 Nov 2026 06:15:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prakriti Sharma <Prakriti.Sharma@synopsys.com>,
-	Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org,
-	Siddhant Kumar <Siddhant.Kumar@synopsys.com>,
-	Prakriti Sharma <Prakriti.Sharma@synopsys.com>
-Subject: Re: [PATCH 6/6] spi: dw-g2: Add XIP support
-Message-ID: <202611200501.mzDpyxlW-lkp@intel.com>
-References: <20261119100513.433044-7-prakriti@synopsys.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-11-13 351/351] Warning:
+ sound/soc/soc-pcm.c:349 function parameter 'update' not described in
+ 'snd_soc_runtime_stream_user_update'
+Message-ID: <202611200548.qRqh5vJm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,44 +80,25 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119100513.433044-7-prakriti@synopsys.com>
 
-Hi Prakriti,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on robh/for-next linus/master v7.4-rc3 next-20261116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prakriti-Sharma/dt-bindings-spi-Add-Synopsys-DWC-SSI-v2-02a-binding/20261119-153508
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20261119100513.433044-7-prakriti%40synopsys.com
-patch subject: [PATCH 6/6] spi: dw-g2: Add XIP support
-config: sh-randconfig-1000-20261120 (https://download.01.org/0day-ci/archive/20261120/202611200501.mzDpyxlW-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611200501.mzDpyxlW-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-11-13
+head:   437686bf7c08c92113908bda25c90a3a7761459c
+commit: 37ee356977d8ce942467c69246be762a83e12750 [351/351] ASoC: soc-pcm: tidyup snd_soc_runtime_action()
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261120/202611200548.qRqh5vJm-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611200548.qRqh5vJm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611200501.mzDpyxlW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611200548.qRqh5vJm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/spi/spi-dw-g2-core.c:588 Incorrect use of kernel-doc format:  * dw_spi_g2_cmd_only_setup - Configure controller for command-only operation
->> Warning: drivers/spi/spi-dw-g2-core.c:596 function parameter 'dws' not described in 'dw_spi_g2_cmd_only_setup'
->> Warning: drivers/spi/spi-dw-g2-core.c:596 function parameter 'op' not described in 'dw_spi_g2_cmd_only_setup'
->> Warning: drivers/spi/spi-dw-g2-core.c:596 expecting prototype for Command(). Prototype was for dw_spi_g2_cmd_only_setup() instead
->> Warning: drivers/spi/spi-dw-g2-core.c:895 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Indirect read operations
-   Warning: drivers/spi/spi-dw-g2-core.c:1082 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Indirect write operations (Page Program)
+>> Warning: sound/soc/soc-pcm.c:349 function parameter 'update' not described in 'snd_soc_runtime_stream_user_update'
+>> Warning: sound/soc/soc-pcm.c:349 Excess function parameter 'action' description in 'snd_soc_runtime_stream_user_update'
+>> Warning: sound/soc/soc-pcm.c:349 function parameter 'update' not described in 'snd_soc_runtime_stream_user_update'
+>> Warning: sound/soc/soc-pcm.c:349 Excess function parameter 'action' description in 'snd_soc_runtime_stream_user_update'
 
 -- 
 0-DAY CI Kernel Test Service
