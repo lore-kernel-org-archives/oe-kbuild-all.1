@@ -1,76 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795098500;
-	b=qRHdbPs0dfGWsXISFRSJeRFFZXiyybaW/VRs19ZXuEBPxack6zRTdmUAPPQgAyjZI8ZU
-	 gnqs1FxhBhKhb0VdlYsb/iZ6CuL/2LisVeZokPi50SHCJ0q/BDv3CE00KAPXUv0rxvjbG
-	 e2xI85WQPwm0Fw4CqgMNN6eU9DYfXASKjqpu3e5vbE6d5rxwBy0znebPTWKO8XJfczqpk
-	 w+YJ1U9OWTpqJsxm7qFxozK2TYes1ZClSq94rRe+/PnIHVNWXce0haAtEkuGmjaCqYhwd
-	 4lW4lJ13ttNzcRPvn8py74plR+HdouHxOtoXuYlbRl6UUDKur5mG4bNGZ+VouKmnn0Q==
+	t=1795099594;
+	b=jQf1Qw2n8N+09RclIVNkyPANlbdZ3R16NP4LC0EtEe+uV0PTdrrsBjKfrDDy+MHO3R1t
+	 ZyjgkYVt2rF15nyNEK4QLcMiyWAqQd9wNIBnDXtGsy3j9ueue8fJEw5zbc8fW7iDd0oYL
+	 1Wmlpf32604GI6WeCTVtKBNPPPYXnS0oNWs1UWa3zNAduRbqK7fhTAiIsvg9wAbxI1rcT
+	 pA3jRPmQSgr8MiaAmUjW/IiJRc/WvY2jwpTfc09/g+OY8Tm5n9tLbllLnWF0eRugmzKtC
+	 NojzcushHLAJEdFuHfYY8tYe0kb3AO5LigXjtJ6HxPIxBWgT4XjbvvYHmn5X+LZSt6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795098500;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795099594;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=mkGn9FuH9MQOrL7Cdo54J7xbcYz+n2CDJjlJqbA6lb4=;
-	b=H09KCVGke07PtLBufYty8nzu0lTTAzX9yQbynwYj800ywnqI3wXjB3rPA2aMunjki8lX
-	 dW6rzlTXZlevmoEWa7jvfbI7u8RXJeGade2bb1y00MlGsb8VC0mtCvBC45lkl6TFiDuFD
-	 0WzrVgpKIS6y76YGPttff6OcAtvwywFRA7cBLfNc35EWqUOXvQafYNSXwxhrIp/rGppBN
-	 sNIug11SlsYCO+e/rAhTKa4AFHugb0hx7T7gvk7czPo3VINRBnuhuCxQaMq/I5lUd/3aI
-	 6cbu7W2TC0m7glQV/A+TpavtdqWNtw5yUMIWuXdB3tcew1Fhw/jR+KyQ2+cRzV3Nqqg==
+	bh=y6v+PFr6skZ5xdRBnnd/TjpKISVZx46uJih7Vz1eK9s=;
+	b=HnfanY8oxw8jgZFtQ+A9XTcEBV7rpLWQVIEfV94v4LbPR83+a50Zv3FXOhaUIeKbleK0
+	 K+yI1rxWsQNQR8PYxWY/mBJlY73Qm93Ho2Z0LA17hED3lDuKV7YXheJJHLBN4PuNl0sZ5
+	 1ktcg76ld1X83V4pcbGAEXSw/Z1Bai2Fia+DpY2hHQlDy1wNn4vTf/4aykH9jdFixe0o6
+	 tXoiaikXu1HeWO4evkKjaKp7pu5oiJsCW5oh+SluiQbcG5IW8nCdQd30ijSxTvZXbq//O
+	 IKNEABwmluFozxkcgEHXGiHuNXOTA8gydARL7H/G+x0vu4OrP4duY5viLBzGcyud8Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kGNMVSkp;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S9eRYg9Z;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AD1606A325
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 14:28:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76AD1606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76FF606A320
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 14:46:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E76FF606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kGNMVSkp
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S9eRYg9Z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795098499; x=1826634499;
+  t=1795099594; x=1826635594;
   h=date:from:to:cc:subject:message-id;
-  bh=WUoijuKQfpfoGqb2i1jAKizgFmciPmQNQZc8uoH8epw=;
-  b=kGNMVSkpxOjLjota1PQxbQ4lqll3yBHi6oc42UAMBBUwx9JCE6gN2RUh
-   LBxn/jDfwlc3BZhFW2kEMscSfKo8eaZoTaLXYuc/978rqqYe4JxU2gHhS
-   5B9GwtTn4gCgZBiB0aftvnoIBChWKDPeLnPqwHl4URZEFGjpztuQpvKn5
-   ycp/iW7nBRpaG8m4sldDtVv/lv5MQiUrNBIVNktjHH3x9j1JeLkbxiWfY
-   Zg5k82ON8DSCm3mjLoF6HD4g0YJcCXjEqw2P3yjFG/ZuZVuWLasEmOXhg
-   1aKZ7qpzpCQ736Mrzp/egf/8ICi9OlMpa4CtKxSMnnKDiGuJaY9CrwqyA
+  bh=QEGn9T7sKW5Dz5OE48gwqytnI6JgofnM/RnQSH0tfV0=;
+  b=S9eRYg9ZepNapl8agvK374AYJYWwHvLIF/0w/uD3XbAU8AXmsauOH01s
+   dIv/7sRk0AHobZCRH9dBkjaXqpnlD1Rhtycr4VBedUEcMC214aipFzmF4
+   9Dw5basr9pXbK+eUBDPD9efVAjSiD1UXLpB170YNC+jtHhaDgdsoLpbU4
+   zD/iBmAMtLTlJztCstWRX46VXg4lPdUdfCWA92RhRYXPefWgjsi7Iv64w
+   /xzhz49DMMiy7zlJj2aW4Md7vgzIUMASVFKCpnsMeQiRi4e1PHeobpcnj
+   mkM6Zcbb6EPzGFxNjo/xTToJNDYDl9UZZSOI/YezEE3+J2k6VRddcnmRz
    Q==;
-X-CSE-ConnectionGUID: uLkZA2lwTh2/jKXFNFABIg==
-X-CSE-MsgGUID: 3PtWculPRPu9P43QHLAb5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3798048"
+X-CSE-ConnectionGUID: jmc9YXpvQDikHW0PylEtGA==
+X-CSE-MsgGUID: SfLr5wFPTwe/jI6LtJLvew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3839281"
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3798048"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:28:18 -0800
-X-CSE-ConnectionGUID: w5VEHed8Te6078OSsFSisA==
-X-CSE-MsgGUID: g7a1EQZaTxqNNNcSyF0rOA==
+   d="scan'208";a="3839281"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:46:34 -0800
+X-CSE-ConnectionGUID: teDQ1cONTSeVfIIaJRQlZg==
+X-CSE-MsgGUID: XJCIikQMSXWt+Yy3jGtj3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10352881"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Nov 2026 06:28:16 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10830574"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 19 Nov 2026 06:46:32 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xU37V-00000001FvW-3h5D;
-	Thu, 19 Nov 2026 14:28:13 +0000
-Date: Thu, 19 Nov 2026 22:27:52 +0800
+	id 1xU3PB-000000003nd-2HCG;
+	Thu, 19 Nov 2026 14:46:29 +0000
+Date: Thu, 19 Nov 2026 15:45:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 2/2]
- sound/soc/ux500/ux500_msp_i2s.h:152:38: warning: suggest parentheses around
- arithmetic in operand of '^'
-Message-ID: <202611192217.VJiUUNzC-lkp@intel.com>
+To: Andrew Gigena <mail@andrewgigena.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Martin K. Petersen (Oracle)" <mkp@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 8726/9180]
+ arch/arm64/boot/dts/qcom/sa8155p-adp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc):
+ clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro',
+ 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk',
+ 'ice_core_clk'] is too long
+Message-ID: <20261119154129.ToDSkHo1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,71 +85,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   2bb8202ab6272d47b6e380f53f01ff95f6fdc50e
-commit: eef9bbcab498891d862d3b79f8ea190f6cdae9d2 [2/2] ASoC: ux500: Validate MSP DAI configuration
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261119/202611192217.VJiUUNzC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611192217.VJiUUNzC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e8017d29067fd1310a65c3494ce1a1b492adbac6
+commit: 08fec21faae44fe002467976befd68e6e62969b5 [8726/9180] scsi: ufs: qcom: dt-bindings: Classify sm8150-ufshc as standalone ICE
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261119/20261119154129.ToDSkHo1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119154129.ToDSkHo1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611192217.VJiUUNzC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119154129.ToDSkHo1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:16,
-                    from sound/soc/ux500/ux500_msp_i2s.c:13:
-   include/linux/mmzone.h: In function 'movable_only_nodes':
-   include/linux/mmzone.h:1136:13: warning: variable 'nid' set but not used [-Wunused-but-set-variable=]
-    1136 |         int nid;
-         |             ^~~
-   In file included from sound/soc/ux500/ux500_msp_i2s.c:22:
-   sound/soc/ux500/ux500_msp_i2s.c: In function 'configure_protocol':
->> sound/soc/ux500/ux500_msp_i2s.h:152:38: warning: suggest parentheses around arithmetic in operand of '^' [-Wparentheses]
-     152 | #define MSP_TX_CLKPOL_BIT(n)     ((n & TCKPOL_MASK) << TCKPOL_SHIFT)
-   sound/soc/ux500/ux500_msp_i2s.c:206:21: note: in expansion of macro 'MSP_TX_CLKPOL_BIT'
-     206 |         temp_reg |= MSP_TX_CLKPOL_BIT(!protdesc->tx_clk_pol ^
-         |                     ^~~~~~~~~~~~~~~~~
-   sound/soc/ux500/ux500_msp_i2s.h:151:38: warning: suggest parentheses around arithmetic in operand of '^' [-Wparentheses]
-     151 | #define MSP_RX_CLKPOL_BIT(n)     ((n & RCKPOL_MASK) << RCKPOL_SHIFT)
-   sound/soc/ux500/ux500_msp_i2s.c:210:21: note: in expansion of macro 'MSP_RX_CLKPOL_BIT'
-     210 |         temp_reg |= MSP_RX_CLKPOL_BIT(protdesc->rx_clk_pol ^
-         |                     ^~~~~~~~~~~~~~~~~
-   sound/soc/ux500/ux500_msp_i2s.c: At top level:
-   sound/soc/ux500/ux500_msp_i2s.c:751:1: error: expected identifier or '(' before '{' token
-     751 | {
-         | ^
-   sound/soc/ux500/ux500_msp_i2s.c:749:12: warning: 'ux500_msp_i2s_of_init_msp' used but never defined
-     749 | static int ux500_msp_i2s_of_init_msp(struct platform_device *pdev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_CURVE25519_NEON
-   Depends on [n]: CRYPTO [=y] && ARM_CRYPTO [=y] && KERNEL_MODE_NEON [=y] && !CPU_BIG_ENDIAN [=y]
-   Selected by [y]:
-   - WIREGUARD [=y] && NETDEVICES [=y] && NET_CORE [=y] && NET [=y] && INET [=y] && (IPV6 [=y] || !IPV6 [=y]) && ARM [=y] && KERNEL_MODE_NEON [=y]
-
-
-vim +152 sound/soc/ux500/ux500_msp_i2s.h
-
-3592b7f69a54388 Ola Lilja 2012-05-08  147  
-3592b7f69a54388 Ola Lilja 2012-05-08  148  #define RCKPOL_MASK		BIT(0)
-3592b7f69a54388 Ola Lilja 2012-05-08  149  #define TCKPOL_MASK		BIT(0)
-3592b7f69a54388 Ola Lilja 2012-05-08  150  #define SPICKM_MASK		(BIT(1) | BIT(0))
-3592b7f69a54388 Ola Lilja 2012-05-08  151  #define MSP_RX_CLKPOL_BIT(n)     ((n & RCKPOL_MASK) << RCKPOL_SHIFT)
-3592b7f69a54388 Ola Lilja 2012-05-08 @152  #define MSP_TX_CLKPOL_BIT(n)     ((n & TCKPOL_MASK) << TCKPOL_SHIFT)
-3592b7f69a54388 Ola Lilja 2012-05-08  153  
-
-:::::: The code at line 152 was first introduced by commit
-:::::: 3592b7f69a5438812381ff0aacdea1725ffa1c1c ASoC: Ux500: Add MSP I2S-driver
-
-:::::: TO: Ola Lilja <ola.o.lilja@stericsson.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sa8155p-adp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sa8155p-adp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[46, 157], [46, 3], [46, 156], [46, 169], [42, 0], [46, 168], [46, 166], [46, 167], [46, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sa8155p-adp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sa8155p-adp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:163.9-178.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8150-hdk.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-hdk.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[46, 157], [46, 3], [46, 156], [46, 169], [42, 0], [46, 168], [46, 166], [46, 167], [46, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-hdk.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-hdk.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:163.9-178.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[46, 157], [46, 3], [46, 156], [46, 169], [42, 0], [46, 168], [46, 166], [46, 167], [46, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:163.9-178.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8150-mtp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-mtp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[46, 157], [46, 3], [46, 156], [46, 169], [42, 0], [46, 168], [46, 166], [46, 167], [46, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-mtp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-mtp.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:163.9-178.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-bahamut.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-bahamut.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[2, 157], [2, 3], [2, 156], [2, 169], [43, 0], [2, 168], [2, 166], [2, 167], [2, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-bahamut.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-bahamut.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+--
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:3983.27-4057.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8150.dtsi:4078.27-4133.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8150b.dtsi:163.9-178.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-griffin.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-griffin.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): clocks: [[2, 157], [2, 3], [2, 156], [2, 169], [43, 0], [2, 168], [2, 166], [2, 167], [2, 160]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-griffin.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg: [[0, 30949376, 0, 9472], [0, 30998528, 0, 32768]] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
+>> arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-griffin.dtb: ufshc@1d84000 (qcom,sm8150-ufshc): reg-names: ['std', 'ice'] is too long
+   	from schema $id: http://devicetree.org/schemas/ufs/qcom,sc7180-ufshc.yaml
 
 -- 
 0-DAY CI Kernel Test Service
