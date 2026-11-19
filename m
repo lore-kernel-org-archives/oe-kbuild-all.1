@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795049091;
-	b=422S8eueCYqLwqH8AI5QVfq3FDyk3e3NrKGR7/1gqw4pp+T9FeXhMoz9Ma24PpDrRcer
-	 0g3Qbl66qqNFTx1fBNEKn9lJLkPOLnTTAw5TDigSiw6L3+mv81Kyu8ldz49PyxISRoUx8
-	 ffl2OOAJ2w+X85Hj2eMSC4vqZXfNESZsfHpLye8Bh2MUEZcdYtHuo5UkmFXche8/K1KyV
-	 b9K9VkSe/Z69K4lCWQ9NgsgqztpVpdlRXMyWCROVPdpwTegSexYKEGadv01pBk0SoaPBa
-	 p1i/VNvUM+mdh/ZLWCDbZf+eBT3enoPSL+DKzabiWEFP+tHMqZt/vzDjlr05flnEQCQ==
+	t=1795049692;
+	b=5bFyUxEtgLl1IY0kBywz4SUYj7jEO6UdOWfeG190dABZhQURHNW0jd8dBes73CtjFbG8
+	 f7Zd75+w55MnJH6c/ezFpqVT20c1FHD95UejaonUdcllzyqljqfV6u6lbSPQg5vQNKEcN
+	 +CqmX4AfyanOpKmIf9ANfrqSo/vdmSxCoILGRY4z1i3r/3FEBRDjloqS22eHO8e+i0j84
+	 Fn8HFO3cBYNb0H8cEFKOq8GbaTi0r4lc8+2rNVnu292NAT7wbhJ6yns4IfaQGYuFWbWyM
+	 N11jpwwHl4l8hyW+cX1WLgGVI4ZNwNMCuzZZUUvP7yXGkHxClM4TE6d1nFWwk6T/p3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795049091;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795049692;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=NZCUNtQIf94mvsD1meKr12kavbJie+rPhrKVuxqjlW0=;
-	b=i1sxJbWOsowp8MAg2v4GFgp1tMF57GDAGTKP+SV4VvCQ9joOprM0P5vAyeNT3KIeFFZJ
-	 tXU6xYpd4xpzUxH9Jdu+Y9l1PAX5c4CrKvZyLm5ryAXanfP8e4nMt87dH4rso5y4iHPGP
-	 ZPoRQmH2XzuzpM3NarDO+M4mt90QfpZxPSOqOL/m5btAfZE/gBNbLOvQ9JzKDBSMsQQfX
-	 o5HEo6nrXlCDJ4zFw0DXLXyG6FYI44ikTMCmoRn7jww3v5T4iyCK6uUAeHEvzYZTBt4uZ
-	 ClWDZfJ7TR5XgRYY0GyJ0OikZuQlLlH9pKg/y0T4sr1IDC+IVYoOi/pZK9jxx+mstfw==
+	bh=CfjJelpWEALiwd+SioXH2RodsFB9qvuactp+axrsWUA=;
+	b=UgLFmc39G1wPQi1XlDcZxevbG1d2SSxbeu0q4sm8JxMIJRZ3PnpH7BOCINXmCOEMMJu6
+	 o1LHUQwx9PYRiZxaR/LZ0XZK4Wsq3j/BAqsOr5bHbA6t/IT8d1YwS/l5j8MhZ0WFeGONZ
+	 A4jWhM4hwfCgjjrqiWudr/KgI8Rs57xK9jLOKjYkXBX/Q2rHdE9w6JksiL5dr/p5mWnW6
+	 OkDiNWdRA1Ta0wY3g5t1tmfBiraDHnYWo/kTvGs1IbEp87dR8Oc2FE/eTtSZpdHYY1+iG
+	 JgPNAFZM35poWp0Jvko1nd2mG0CihVqFe1uVqahItNAxyyMXK14rKr8Hr7TjUgPHQXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="L6kMB9/N";
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kl5Dr9KK;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91095606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 00:44:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91095606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC72606A320
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 00:54:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FC72606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L6kMB9/N
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kl5Dr9KK
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795049091; x=1826585091;
+  t=1795049692; x=1826585692;
   h=date:from:to:cc:subject:message-id;
-  bh=PdbKXiGy/8rXfz7VZmHKdIXiNSEM66x14CTkHSLYits=;
-  b=L6kMB9/N0YElwDwUwqDYAzZCY1/3fefkFY3z8pxlc7LwXFAwGtrzYGE9
-   thAlX0+8RLS4Q69HAEnoMbNA+ylgVuS6Qg0ttm7isq5BuXjDwFyfJOg74
-   DtMZ2tjsLJemmui3VuPue593i/r6/4QzJOv5M2BGB1ljNjJp7KrXN7fQt
-   bMDRrdDK6x/J6jtk9sO2U6zX5/MLsmQM+xDdnndWZwv9fn/k6T0euMu/a
-   RraKFZ1N3qPZJxFrbnQhSQKbpFvbV/Jr+bzdkIfp4awP2Rc1ZSdziZ9YY
-   K9mGgEbzy4mXVhz0svpuioksSG3Sx1C99Tc0Hintp9Z0PRQWnQOKYo4j9
-   A==;
-X-CSE-ConnectionGUID: FF3eoBMvR8ytXzRZ605U2Q==
-X-CSE-MsgGUID: Akby9AQuRAaWQb1dh86Brg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3878376"
+  bh=gP8OxqIjBhhMJa/zSwzmEO70qnSlzMUcq9WQxjSW9LA=;
+  b=kl5Dr9KKT0+M78M8mnh+fl+/66zwmCSrA3veDxbW1mSyFFqvR8CG+WTO
+   W7Jj/WfNj4PggVUkRL+syn/wsdcx4xrZQ2xmlQR3lPRLrZaW/PBfVf/Gp
+   83zCnbj062OjLgLpkj5FCZjmN8YxtHUtm10BvV98wb3DsfZEKyVtbr5Zw
+   UM8O4tiKVnPadsCYUwRxZIc7CoONxfoAAnsJJQQd6dJ8t8K/IPePSgedk
+   4XXaH1KhhsK+I0SFZ1TR2jO12cFq54jj4ZCmKRLMd+18VAV+zz8Auj9O6
+   s7rIjInSw5KtHcpu2dB3JzNX5RrKtbGOK/bxztctjVcqiQLLpJWPuh/WA
+   Q==;
+X-CSE-ConnectionGUID: +tBiaOsiR8yKYGEtDx7cwg==
+X-CSE-MsgGUID: 3yWBB02+RT2e4sYsxkbU4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3987802"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3878376"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 16:44:50 -0800
-X-CSE-ConnectionGUID: yKgikM5ISFK15+Tr2KpY9A==
-X-CSE-MsgGUID: AWM9tlltS6e+BTLUgz0Ipg==
+   d="scan'208";a="3987802"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 16:54:52 -0800
+X-CSE-ConnectionGUID: 7kxQQL5PTAKm7iEGDRXiVQ==
+X-CSE-MsgGUID: RY1mYTejRGCiWDae807cQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="10369131"
+   d="scan'208";a="10196461"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Nov 2026 16:44:49 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2026 16:54:50 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTqGb-000000003YT-3BSs;
-	Thu, 19 Nov 2026 00:44:45 +0000
-Date: Thu, 19 Nov 2026 01:44:09 +0100
+	id 1xTqQK-000000003Yb-1WKz;
+	Thu, 19 Nov 2026 00:54:48 +0000
+Date: Thu, 19 Nov 2026 01:54:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ding Feng <dingf3ng@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>
-Subject: [dlemoal-zonefs:for-7.4-fixes 2/2] fs/zonefs/file.c:406
- zonefs_write_check_limits() warn: always true condition '(limit <= ((~0 >>
- 1))) => (0-u32max <= s64max)'
-Message-ID: <20261119014002.7BsmIpI9-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 272/460]
+ sound/soc/codecs/cs35l56-shared.c:515:27: error: implicit declaration of
+ function 'to_spi_device'; did you mean 'to_rtc_device'?
+Message-ID: <20261119015135.HKvs0tsR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,54 +81,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs.git for-7.4-fixes
-head:   8de358df7785d9c8b3e6640cef2418eecc3d4a94
-commit: 8de358df7785d9c8b3e6640cef2418eecc3d4a94 [2/2] zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in zonefs_write_check_limits()
-config: sh-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119014002.7BsmIpI9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.5.0
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   754c0efaaee1c85b67fd7f8a45f7be89900b661f
+commit: b92d6bdb8a97a9e35c1baf80d282833e714e75de [272/460] spi: Convert to_spi_device() into an inline function
+config: nios2-randconfig-2200-20261118 (https://download.01.org/0day-ci/archive/20261119/20261119015135.HKvs0tsR-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119015135.HKvs0tsR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261119014002.7BsmIpI9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261119015135.HKvs0tsR-lkp@intel.com/
 
-smatch warnings:
-fs/zonefs/file.c:406 zonefs_write_check_limits() warn: always true condition '(limit <= ((~0 >> 1))) => (0-u32max <= s64max)'
+All error/warnings (new ones prefixed by >>):
 
-vim +406 fs/zonefs/file.c
+   In file included from sound/soc/codecs/cs35l56-shared.c:20:
+   include/linux/spi/spi.h:284:1: error: attributes should be specified before the declarator in a function definition
+    static inline struct spi_device *to_spi_device(struct device *dev)
+    ^~~~~~
+   include/linux/spi/spi.h:290:1: error: attributes should be specified before the declarator in a function definition
+    static inline struct spi_device *to_spi_device(void *dev)
+    ^~~~~~
+   include/linux/spi/spi.h:296:1: error: attributes should be specified before the declarator in a function definition
+    static inline const struct spi_device *to_spi_device(const struct device *dev)
+    ^~~~~~
+   sound/soc/codecs/cs35l56-shared.c: In function 'cs35l56_spi_system_reset':
+>> sound/soc/codecs/cs35l56-shared.c:515:27: error: implicit declaration of function 'to_spi_device'; did you mean 'to_rtc_device'? [-Werror=implicit-function-declaration]
+     struct spi_device *spi = to_spi_device(cs35l56_base->dev);
+                              ^~~~~~~~~~~~~
+                              to_rtc_device
+>> sound/soc/codecs/cs35l56-shared.c:515:27: warning: initialization of 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
 
-   392	
-   393	/*
-   394	 * Do not exceed the LFS limits nor the file zone size. If pos is under the
-   395	 * limit it becomes a short access. If it exceeds the limit, return -EFBIG.
-   396	 */
-   397	static loff_t zonefs_write_check_limits(struct file *file, loff_t pos,
-   398						loff_t count)
-   399	{
-   400		struct inode *inode = file_inode(file);
-   401		struct zonefs_zone *z = zonefs_inode_zone(inode);
-   402		unsigned long limit = rlimit(RLIMIT_FSIZE);
-   403		loff_t max_size = z->z_capacity;
-   404	
-   405		/* No file position reaches a limit above LLONG_MAX. */
- > 406		if (limit != RLIM_INFINITY && limit <= LLONG_MAX) {
-   407			if (pos >= (loff_t)limit) {
-   408				send_sig(SIGXFSZ, current, 0);
-   409				return -EFBIG;
-   410			}
-   411			count = min(count, (loff_t)limit - pos);
-   412		}
-   413	
-   414		if (!(file->f_flags & O_LARGEFILE))
-   415			max_size = min_t(loff_t, MAX_NON_LFS, max_size);
-   416	
-   417		if (unlikely(pos >= max_size))
-   418			return -EFBIG;
-   419	
-   420		return min(count, max_size - pos);
-   421	}
-   422	
+
+vim +515 sound/soc/codecs/cs35l56-shared.c
+
+769c1b79295c38 Richard Fitzgerald 2025-02-25  512  
+769c1b79295c38 Richard Fitzgerald 2025-02-25  513  static void cs35l56_spi_system_reset(struct cs35l56_base *cs35l56_base)
+769c1b79295c38 Richard Fitzgerald 2025-02-25  514  {
+769c1b79295c38 Richard Fitzgerald 2025-02-25 @515  	struct spi_device *spi = to_spi_device(cs35l56_base->dev);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  516  	unsigned int val;
+769c1b79295c38 Richard Fitzgerald 2025-02-25  517  	int read_ret, ret;
+769c1b79295c38 Richard Fitzgerald 2025-02-25  518  
+769c1b79295c38 Richard Fitzgerald 2025-02-25  519  	/*
+769c1b79295c38 Richard Fitzgerald 2025-02-25  520  	 * There must not be any other SPI bus activity while the amp is
+769c1b79295c38 Richard Fitzgerald 2025-02-25  521  	 * soft-resetting.
+769c1b79295c38 Richard Fitzgerald 2025-02-25  522  	 */
+f7a7818d7c687b Bart Van Assche    2026-11-02  523  	spi_bus_lock(spi->controller);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  524  
+769c1b79295c38 Richard Fitzgerald 2025-02-25  525  	cs35l56_spi_issue_bus_locked_reset(cs35l56_base, spi);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  526  	spi_bus_unlock(spi->controller);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  527  
+769c1b79295c38 Richard Fitzgerald 2025-02-25  528  	/*
+769c1b79295c38 Richard Fitzgerald 2025-02-25  529  	 * Check firmware boot by testing for a response in MBOX_2.
+769c1b79295c38 Richard Fitzgerald 2025-02-25  530  	 * HALO_STATE cannot be trusted yet because the reset sequence
+769c1b79295c38 Richard Fitzgerald 2025-02-25  531  	 * can leave it with stale state. But MBOX is reset.
+769c1b79295c38 Richard Fitzgerald 2025-02-25  532  	 * The regmap must remain in cache-only until the chip has
+769c1b79295c38 Richard Fitzgerald 2025-02-25  533  	 * booted, so use a bypassed read.
+769c1b79295c38 Richard Fitzgerald 2025-02-25  534  	 */
+007699d278a655 Richard Fitzgerald 2026-06-11  535  	val = 0;
+769c1b79295c38 Richard Fitzgerald 2025-02-25  536  	ret = read_poll_timeout(regmap_read_bypassed, read_ret,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  537  				(val > 0) && (val < 0xffffffff),
+769c1b79295c38 Richard Fitzgerald 2025-02-25  538  				CS35L56_HALO_STATE_POLL_US,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  539  				CS35L56_HALO_STATE_TIMEOUT_US,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  540  				false,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  541  				cs35l56_base->regmap,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  542  				CS35L56_DSP_VIRTUAL1_MBOX_2,
+769c1b79295c38 Richard Fitzgerald 2025-02-25  543  				&val);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  544  	if (ret) {
+769c1b79295c38 Richard Fitzgerald 2025-02-25  545  		dev_err(cs35l56_base->dev, "SPI reboot timed out(%d): MBOX2=%#x\n",
+769c1b79295c38 Richard Fitzgerald 2025-02-25  546  			read_ret, val);
+769c1b79295c38 Richard Fitzgerald 2025-02-25  547  	}
+769c1b79295c38 Richard Fitzgerald 2025-02-25  548  }
+769c1b79295c38 Richard Fitzgerald 2025-02-25  549  
+
+:::::: The code at line 515 was first introduced by commit
+:::::: 769c1b79295c38d60fde4c0a8f5f31e01360c54f ASoC: cs35l56: Prevent races when soft-resetting using SPI control
+
+:::::: TO: Richard Fitzgerald <rf@opensource.cirrus.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
