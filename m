@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795107118;
-	b=wzymVS9K+NSAHtraCWqUDk11YtHCx4n94gBnkrnIM0iZ93e0h5R5/qLwLC1UvhOGuffi
-	 lEqjXRoMhq9lZGjtD85bPXTBJ7y63022yNxD9Jf/2iORDM9A8nz2j575CvOu7mkzvQsMS
-	 //2c2PVf7I8WjhGgmaJVXK9DE3MUjH/+pnAxFBalypIYF/HdIsdQY8SR/v1URB+WzamEs
-	 rKataG64LFmKQXLW/WLF5Oh9j9Il6+RPN0AfzamEiPs/3Ko3HPU2GCzVrdrEcMYfSyGir
-	 HqF24yNU1mJ5mp5g1/m9nHaN7FPYUZ2FolYnSbWVt9d0bcl/hR6R1m+rH9Ua4r0QDtA==
+	t=1795107119;
+	b=zQrZKjDXE0ce7mBjl3CYw1W4E2p+GrYsH/rDoKJjOmojpGHoqahbMvdeq0id09BzhqBT
+	 l6oSd1zZ7WXGOSEP6C8ryVfos99xB5pbRFd+KT3sqm3dLJIdUtF6K8fpFbtyQJuRWJyXG
+	 dhodFAK5GRPRJQvNva3gEB51CBxn656KeWjjveZMxzHbpEcTXVYfmU0CI2IAaz4XyZYyW
+	 JFlo9zWr4qK3klXh24sQmgM3dp5djLUBjV6VbwkPWwLTzrWm0TmOrhY5TEICl8R45YNGd
+	 WqVsz08Ee5o0t1rWuc5S4PYKdvC7jQEqKAdcZegbZFCm+eHtqHxd0zld1duh1yRZ3IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795107118;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795107119;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=B/6DH3FFwvRnKAIbOA9Jvsbx865824E9HffR4ETwzIo=;
-	b=2XLqZVsW7xenU8NvQqOIFhiOcJtSUXqMj5WC3L041BkUb2pGW80/ZfZsiM51frYNzYsp
-	 mzsULw4Ig9/Kz+tDi0qkQKUglK8qRNM295VC8mv0yokG0IWgPnwnUvnndeV7SoyVuvMw9
-	 Wkne+hZV3QRCxVBUMUBtTX5Yh49JuJgtfXCrWx77bey9iXQvMYmjnX/g6kXvMwXUris4U
-	 WQs6zCiLhXN1gy7BGhDWUQ+rgNl4vijCovzelxiiAO0hrk9RrXevl5Nr/1KmXnpV7ZgYk
-	 D7k1oLYaX+NXaVJAAL4VygZdK7fMGPmQIVqNHYUSjvq2oki1wtZPCFtbLhIhqKIBj5Q==
+	bh=jOmSWaH0NoseM7eEQor0PCauI2FtvndXKKCrHJYdp5Y=;
+	b=bHX6KLobBNm57TrGkFTg1j9Ei5cc4EsZ7YlTv5wpITtH5V35AmhFbQM7zuH3IgwopeVH
+	 e8PSPRtI5wnIzLeXDdE0lAqomkSt8u1VdNIT/bWA+IuIvHL9YLK3/qi0YUHXwKkX1T7+f
+	 +xFDQcEe2BSIIt0vZIKbAIsPZVBsh4MAq6eSPziOiJWs6ZDAuZqBK+kdkzklE7v0dovC1
+	 zMDqbYoKG9CGo4Sz0GTNyyK6JOShFJldAXaffJ7KqPnuANghpXBk6d6PQ6XcWd5ysJ/Ja
+	 hug//RY6e4nr48XEfhAC2WMIzH9qs3IFPk0wCHx/qzWjTehkx9jflouGfe0guvUSIvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kE4K+Ftw;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="dzTM/3T7";
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09B2606A326
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 16:51:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E09B2606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65D3606A326;
+	Thu, 19 Nov 2026 16:51:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A65D3606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kE4K+Ftw
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dzTM/3T7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795107118; x=1826643118;
+  t=1795107119; x=1826643119;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=alpKBfZVPL/sOG9hyOB2rfC3cwy67Mmj2pXdbSblBqE=;
-  b=kE4K+Ftw6QgX/pBvi2Os8ZcsIB9+Kc9EWmCoKWG3dmoI39jeHFjZvFNq
-   fITSl+x8+H9kebTGzAI5BIpzOdcnPs5Wzr+RxhryjjUoNfRNAyPLX41vN
-   FxpMixJsq4FNaDRSN85ZE8UaBdqqRst5pcsab6nghU38+XR/4Pr86dm6o
-   bEfc9LEyTP1F2CrrJO3/KpG/+9ubeoD6BPB95/vGtlMlbartM3l5gj1yh
-   7ScgCtnj55eXbu0yrUWHYCeV9JDLYkWokBGxxoxhsI0vYNYuiEX6DMSjn
-   X16uzXRMm6/mxb0LiDlMiN+RKQwUOqW694D0v6c/Hr3RcJn2L/BpDGOth
+  bh=6Ypv7CUPwYDm+rPJoVRIsIBp43C79oWLpiPYtRb+HX8=;
+  b=dzTM/3T7y8rsOZ6LtE1ril6PTClhrR0tFLQZcquS0lG4D/xy5IHYNU/q
+   94hoQ6/YJyLQC6zFufFwxPjOKOJQY3ITa4qHQd250qxZt8Z+R2ptCCwb9
+   WSkljkidZctIZ5LYbOorlQXxmL5FJSI2sJaRNiB3lKSV8t0d492nDIXFc
+   cFh5FPgOZESME1PlLrS9ra+1Z6VV9D2J8wn6N4Xw8SMRSJ9rfTmRNN4Ex
+   NxiWSVjqAt9CxqGpIpAbpgjN+qH9MaXRhF5yRCH3Sks7Sl6uvPXC4FLYO
+   zj9YuDN69x94fAQv7RJ+A504kXhDpsZ4qIRNe1rySB1Fk25N7PSJWcs9+
    w==;
-X-CSE-ConnectionGUID: Fkw4Gen1TimQUqy9sxASiA==
-X-CSE-MsgGUID: LHvw6h9bQPq9gobQVOynpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3972908"
+X-CSE-ConnectionGUID: HFFGpaYYRL+U6WsTHBpF1Q==
+X-CSE-MsgGUID: ACz3n2RUROGT65I8XF7yjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3886043"
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3972908"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:51:57 -0800
-X-CSE-ConnectionGUID: ix55b9qhQo6NvrkZ3L/Vxw==
-X-CSE-MsgGUID: cM8nOYnpT0+ilSSf+e7fkw==
+   d="scan'208";a="3886043"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:51:58 -0800
+X-CSE-ConnectionGUID: 47DHlI57QH+bfQ+a9JbaIA==
+X-CSE-MsgGUID: /NxNv2KZTm+aJAcr17dwOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10361290"
+   d="scan'208";a="10811352"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Nov 2026 08:51:51 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 19 Nov 2026 08:51:52 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xU5MR-00000001G9u-21E4;
+	id 1xU5MR-00000001G9s-1vGF;
 	Thu, 19 Nov 2026 16:51:47 +0000
-Date: Fri, 20 Nov 2026 00:51:47 +0800
+Date: Fri, 20 Nov 2026 00:51:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alex Williamson <alex@shazbot.org>,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Williamson <alex@shazbot.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alex Williamson <alex@shazbot.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
@@ -96,7 +97,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Alex Williamson <alex@shazbot.org>,
 	Pnina Feder <pnina.feder@mobileye.com>,
 	Mete Durlu <meted@linux.ibm.com>
 Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
-Message-ID: <202611200009.RQOE0yny-lkp@intel.com>
+Message-ID: <202611200005.ynk0zwGb-lkp@intel.com>
 References: <20261118235645.2907908-2-alex@shazbot.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -126,39 +127,38 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Williamson/vfio-Allo
 base:   https://github.com/awilliam/linux-vfio.git next
 patch link:    https://lore.kernel.org/r/20261118235645.2907908-2-alex%40shazbot.org
 patch subject: [PATCH] vfio: Allow untainted use of driver_override
-config: arm-randconfig-1000-20261119 (https://download.01.org/0day-ci/archive/20261120/202611200009.RQOE0yny-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611200009.RQOE0yny-lkp@intel.com/reproduce)
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261120/202611200005.ynk0zwGb-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611200005.ynk0zwGb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611200009.RQOE0yny-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611200005.ynk0zwGb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/vfio/platform/vfio_platform.c:119:18: error: 'struct device_driver' has no member named 'support_driver_override'
-     119 |                 .support_driver_override = true,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/vfio/platform/vfio_platform.c:119:44: error: initialization of 'const struct bus_type *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     119 |                 .support_driver_override = true,
-         |                                            ^~~~
-   drivers/vfio/platform/vfio_platform.c:119:44: note: (near initialization for 'vfio_platform_driver.driver.bus')
+>> drivers/vfio/pci/vfio_pci.c:264:9: error: field designator 'support_driver_override' does not refer to any field in type 'struct device_driver'
+     264 |                             .support_driver_override = true },
+         |                             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +119 drivers/vfio/platform/vfio_platform.c
+vim +264 drivers/vfio/pci/vfio_pci.c
 
-   113	
-   114	static struct platform_driver vfio_platform_driver = {
-   115		.probe		= vfio_platform_probe,
-   116		.remove		= vfio_platform_remove,
-   117		.driver	= {
-   118			.name	= "vfio-platform",
- > 119			.support_driver_override = true,
-   120		},
-   121		.driver_managed_dma = true,
-   122	};
-   123	
+   255	
+   256	static struct pci_driver vfio_pci_driver = {
+   257		.name			= "vfio-pci",
+   258		.id_table		= vfio_pci_table,
+   259		.probe			= vfio_pci_probe,
+   260		.remove			= vfio_pci_remove,
+   261		.sriov_configure	= vfio_pci_sriov_configure,
+   262		.err_handler		= &vfio_pci_err_handlers,
+   263		.driver		= { .pm = pm_ptr(&vfio_pci_pm_ops),
+ > 264				    .support_driver_override = true },
+   265		.driver_managed_dma	= true,
+   266	};
+   267	
 
 -- 
 0-DAY CI Kernel Test Service
