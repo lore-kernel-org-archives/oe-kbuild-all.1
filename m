@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795060463;
-	b=SZwpQcUvzonniB85RwIMLWcZNiNueTpNjLg3Gcblxw7sFpdMQDlu452IbT/Sz4+HG1dx
-	 thLr+2pQDVwby5okBQT/DfD3961TSleOhRje3By3Uc7QV2nznIRZiIFdPaU5rUi0bRyvC
-	 h5j6jYs8SvwQC4Iv0aLgYoZdZ7Fvcdq2VRt9unRE/LMikZ6QfV8hxN9TvWYVafiyWt+NL
-	 YVmqqQA+6HYUtFQ/iD8rVYot0C3dyxfZRYC/IzlOjJVIIR/DU3Z373yE/5C4o7A3xeNMb
-	 ucYPcBhn21IWP84wgSEZXffPTBGgkidIBVJkh6nj2c9qTHYk0JEU0weyr8hubJlZoqA==
+	t=1795063171;
+	b=QG+LRgwR4xUCjp0ZQNNFvYmAGKUcc987n88tr3aDxIhDEVa6Gn2e6uVZuKbFZKNjghoR
+	 4IEBviUkBJ0vTwt4qg2DgIIVJysGf2wRNeYWG34/NBhAosRXvpWYex3RVmMCD5WJgtHL/
+	 RWXJAUT/iSlfv8scT8nPNP2R+zQsisQsX+SejHRaX80jWG43bHlhwKcM/KPfO4ja4w43f
+	 b2sL/uA3y6Glx568aBdHxCx9RqNBym/railLzwf/ya3JoFdly/XfQpiyW4qi1SuaAuu0f
+	 bjsTLdl1ICnfrIvWVgMLtj6rKgvAd2P0Zbkrzz63WQfv6rFtpl0wlpxWON7ugP7W9Ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795060463;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795063171;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=pxZIQ5xgwD8rAO1EmbYJx813Q5ZbSRBW6tSHMA+qwFY=;
-	b=H3bFiYwn7AZ0ERY2zuugCw+4si+6M2H6WFtF4nuHMbt9CBeOzYu2ml6k+zpUGpTASGci
-	 5SETbm16UCxfvAaDGV0hZ+yhmBGO1EC3Jvs9BTi7GHlv20dw64DRJ6VCBbysTUhHjt7xa
-	 fIuitb2vr6WftKuCddqyVZoUkraCsU4OzJdlf6YWStlbbjefnXmgOUgx1zIpV0wvo+L+U
-	 7X24THiJ/S0cA/p3I5RI0CTMEed9egBOLXSoEW3ScSZD3c1iHmAJwa+UtGIfKylKaaBK2
-	 Q7gOP+oMFRxhLd03v5uWs0vs1DxdhmdVujLYqQQyU9+a7dgTF/gM41M+9oI0iVdT9/g==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=HGoYUoEJLo2pINrnesL8crVvN61TGPT9mU4EfzF0THk=;
+	b=tWYh+s0nxnYPeB0aW3ATMxWbPqVLGW5wQlH0BPj8g0vZ3sP/mVnQfuu+QRQzBSw1R2og
+	 FvanEmbVjGdQNGJ+h/UziJsUgPacl4n+GyVREDVoeWbJo6Tb2Mp6ONJfSZV3DDKhBZ62S
+	 lp0Ai1aOioTxzsdKy1WlDPSXJkw09KNSLFsTZx40gp4lCGpzgjNdi0Z/vTw9CF+g8kdpm
+	 iyIEV7Pz8XNhA0Z7sC0MJdtabIeA6EgV1bLroh/RGXgIjaAJ3poHSup91dfFBy7Rfs4E3
+	 a5FlKb7XEloyPSruIubNQVm0FvnvDVSF1JiKO1qdMz0J+4TzNu6Lxmc0SEVLBOwSgvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lHywC3Jd;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YUHt80YU;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881D606A320
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 03:54:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8881D606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E17D606A320
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Nov 2026 04:39:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E17D606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lHywC3Jd
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YUHt80YU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795060462; x=1826596462;
-  h=date:from:to:cc:subject:message-id;
-  bh=3iBIinYxcfujzJWq9U8pfSdMtbJzb+IAiSM+IL7rYls=;
-  b=lHywC3JduAn4QxN6ULqQMLen0gqx42YhN/rj77i7c17c/zHgPGS1zUUl
-   Y6XM/kIS7StHqPAF9ao0kFNsE/q8iDxM9Qe/fIsi+F0zvLNqSmH30wXto
-   fV6s2xJ6fsYWHiuYTnnENr4X61eX71yqsA0E1RBousFX7CkOS+ljU4Yi5
-   113ibHbgXPca09sGz4BlPj9dN1wm0h0vgvJPlmfH27jHnibP055WC8HKe
-   RY+3koIw5PesTEfi5qdaQskrn0EMYyHbiE17ibrnhUZVqOu+LX7XoESdR
-   gcqlVUuMlzD/xtoA0gOGvl6ye+iRciFCEaIoJ4hWPEJdKIBWyiR+c9HNe
-   g==;
-X-CSE-ConnectionGUID: sgvhDm2ZRiKX/GG/X46iBQ==
-X-CSE-MsgGUID: M/URoKYqT6WBcupkXMsgyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3784825"
+  t=1795063171; x=1826599171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VBCEgYy/crUpata0T6Lh38Ywa1dQP48mANWtNkE9c5A=;
+  b=YUHt80YUWRyTPdFptMKz7Ga8RFpYaTP5x/wP5mu2YPbui7H1V7L63gtb
+   K2jIOvm+uimgGQzr54XReyGT1z7egqwKbzG7dmj1AFC3P01Boe5SQGutR
+   cf02v7OuZzT44Ee2QXFAJW48T/6KMj1/+K7wY1izAxfk9C4OYjeUaV0hM
+   P7lgypLaj3nUHxM6AGAGiVwgqTuwloJUqggQ3enXAKr6poqs7ImkBKLV6
+   cqXsxLocQdGQzKfBi41KoKlmA+UgmB5F+2zfMJWwFmUreBNVj09Y37RfQ
+   lnudbqlOlsU4ozz4IXfWE9C94QrFY3RiO3vKzXsv0XAkHBhUZWxH+YVo6
+   w==;
+X-CSE-ConnectionGUID: a5nUivQcQZGFLFUcxWTROA==
+X-CSE-MsgGUID: NHLyeVWgTD6DYPoxaHpJBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3794304"
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="3784825"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 19:54:21 -0800
-X-CSE-ConnectionGUID: uXqqQJpVTFGNzMYTtuHfIw==
-X-CSE-MsgGUID: pJ3ehPTwR9KS499HEC5xEQ==
+   d="scan'208";a="3794304"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 20:39:30 -0800
+X-CSE-ConnectionGUID: vYsccUheT8694vW4J44aRg==
+X-CSE-MsgGUID: 46E1PlnTQwmWvXMi7zO6cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
-   d="scan'208";a="12067009"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 18 Nov 2026 19:54:21 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="10324470"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Nov 2026 20:39:28 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xTtE2-000000003eP-2QhE;
-	Thu, 19 Nov 2026 03:54:18 +0000
-Date: Thu, 19 Nov 2026 04:53:53 +0100
+	id 1xTtvg-00000001F1a-3Cyw;
+	Thu, 19 Nov 2026 04:39:24 +0000
+Date: Thu, 19 Nov 2026 12:39:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-2026-04 3/3]
- arch/x86/coco/pkvm/pkvm.c:130:12: warning: 'pkvm_wakeup_secondary_cpu'
- defined but not used
-Message-ID: <20261119044923.fUbTuLCw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Michal Simek <monstr@monstr.eu>, linux-kernel@vger.kernel.org,
+	michal.simek@amd.com, git@amd.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] media: xilinx: vip: Make use of the
+ devm_clk_get_enabled()
+Message-ID: <202611191243.pxt5RLKL-lkp@intel.com>
+References: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,71 +86,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek@amd.com>
 
-Hi Dmytro,
+Hi Michal,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
-head:   27f779baaddd321c63f19185111710213af49961
-commit: 171a0f6163b37c35a8ef394153bce28ba6206f71 [3/3] ANDROID: x86/pkvm: Use hypercall to start CPUs
-config: i386-randconfig-r2308-20261119 (https://download.01.org/0day-ci/archive/20261119/20261119044923.fUbTuLCw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/20261119044923.fUbTuLCw-lkp@intel.com/reproduce)
+[auto build test WARNING on v7.4-rc3]
+[also build test WARNING on linus/master next-20261116]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Simek/media-xilinx-vip-Make-use-of-the-devm_clk_get_enabled/20261118-103132
+base:   v7.4-rc3
+patch link:    https://lore.kernel.org/r/abfe9f93f9f93d256b0d60d081e6111d7169c08f.1794994290.git.michal.simek%40amd.com
+patch subject: [PATCH] media: xilinx: vip: Make use of the devm_clk_get_enabled()
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261119/202611191243.pxt5RLKL-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261119/202611191243.pxt5RLKL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261119044923.fUbTuLCw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611191243.pxt5RLKL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/coco/pkvm/pkvm.c:130:12: warning: 'pkvm_wakeup_secondary_cpu' defined but not used [-Wunused-function]
-     130 | static int pkvm_wakeup_secondary_cpu(u32 apic_id, unsigned long start_ip, unsigned int cpu)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/coco/pkvm/pkvm.c:123:13: warning: 'pkvm_mmio_writeq' defined but not used [-Wunused-function]
-     123 | static void pkvm_mmio_writeq(u64 v, volatile void __iomem *addr)
-         |             ^~~~~~~~~~~~~~~~
-   arch/x86/coco/pkvm/pkvm.c:93:12: warning: 'pkvm_mmio_readq' defined but not used [-Wunused-function]
-      93 | static u64 pkvm_mmio_readq(const volatile void __iomem *addr)
-         |            ^~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   drivers/media/platform/xilinx/xilinx-vip.c: In function 'xvip_init_resources':
+   drivers/media/platform/xilinx/xilinx-vip.c:215:21: error: implicit declaration of function 'devm_clk_get_enable'; did you mean 'devm_clk_get_enabled'? [-Werror=implicit-function-declaration]
+     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     devm_clk_get_enabled
+>> drivers/media/platform/xilinx/xilinx-vip.c:215:19: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     215 |         xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+         |                   ^
+   cc1: some warnings being treated as errors
 
 
-vim +/pkvm_wakeup_secondary_cpu +130 arch/x86/coco/pkvm/pkvm.c
+vim +215 drivers/media/platform/xilinx/xilinx-vip.c
 
-   129	
- > 130	static int pkvm_wakeup_secondary_cpu(u32 apic_id, unsigned long start_ip, unsigned int cpu)
-   131	{
-   132		return kvm_hypercall2(PKVM_GHC_START_CPU, apic_id, start_ip);
-   133	}
-   134	
+   206	
+   207	int xvip_init_resources(struct xvip_device *xvip)
+   208	{
+   209		struct platform_device *pdev = to_platform_device(xvip->dev);
+   210	
+   211		xvip->iomem = devm_platform_ioremap_resource(pdev, 0);
+   212		if (IS_ERR(xvip->iomem))
+   213			return PTR_ERR(xvip->iomem);
+   214	
+ > 215		xvip->clk = devm_clk_get_enable(xvip->dev, NULL);
+   216		if (IS_ERR(xvip->clk))
+   217			return PTR_ERR(xvip->clk);
+   218	
+   219		return 0;
+   220	}
+   221	EXPORT_SYMBOL_GPL(xvip_init_resources);
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
