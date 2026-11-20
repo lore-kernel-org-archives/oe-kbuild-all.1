@@ -1,53 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795204297;
-	b=bqqb2lTQnwBVsOoajfZo/b2CDE0VB5dxga/g3DKtZlWJnNv9ZZRP7xF7nwTmEaH2YfWH
-	 PnPYAh5vak8qlX6p2KEpJEFcJo1+sZ6w7hRXGHxIQTtThjLz5a8dHGcmumihXIKE/wQAR
-	 Hm+lQbbE5vSC2wJ3Xp3wvIeo983EiWtURXhq3NNnWLHoG3Xz3R/SxXODqcIzO7gjptigN
-	 UmUnffx9Kj8pKoODLR6TS1rLxH24i3e8LJG3fdfr0g9y+5ZdOwX7ACzMQuxHvAhZlFPx2
-	 HAARj0Veou52D3DMQcps8r4j9oZXO6KRkP+0+4q9eTGWWDyo5XjeAGK+nSJ9JzpcgQQ==
+	t=1795205513;
+	b=maQFTlvy3X25nYYXTLX62Ot5sFPDZGi8/jr8Bk2fyaHwjnUHjJ/hl/nGa4YipH5UoWJO
+	 3X9r8OAwln7w2Fg8X6qzDVf3mHcQ42nNgb+iXdNX5HJ7J9OHkl4Bs4KSrjYHevhymKDXp
+	 RkBvxak2ZZ8SbK7+jJTpUwM8ekkRxe8Uc3Ds1KL8li8bY3iCxQJkdT7buO02bJw+6EhOU
+	 j/awtGnom6TuupoeG54kqBZ7El4YPzBE7rj3WvpPMt3s9E97lGhQi13JgtxALQXQLKvKV
+	 V1Pvc25InMZ9Vu6D8/JH9bE/1u4Cp3ygnzX/WT6kv0MUrWdDuuoQpi16BT4fYhog/gA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795204297;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=vAGrw9tEAGm8z9R7foOuoAQAbjSzUhL5memr9dSJwbY=;
-	b=I6Btau4o8S0SFQgQiUopCTDqLa0w9n9G0Pa9NRFEqwqEuUM4oUtXCuk8XjDB8Kh1w0t4
-	 cwigKRKddK+p+iPUXP0DJBkZ85hX/2/LPG6eAD0eUtfZ1i2yyF47omqIJoLimZEWDQ2/J
-	 Pl/8aIvZI3mUaxxbWaq+hFZOF8PwkI+dwOLnEDjLyIzG1RF2iqyyzIt1L6tYMN94jnQl1
-	 11rPGKu4W8JzuQelVm4oRb7W+w0zVQFxc3rHhu2uKawmpJv+18H0Rk4inNhLOH9e0CBal
-	 aAdg+8wZMVmE0CbcmuWdHBxnZUAbK4RDS7j1+3kGlDN1Hcytqk6D0wL4hwYIlD1WPhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795205513;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=syyZAgghFB2yjz7QtPWEK++I+aqJL7nnvgK0Mbb84ng=;
+	b=k1f28id4jwkX4N9Iywm/TBAj6Orv7L6jGu93Qq+yHAcZd8VcGROVKJ0hi1g8bbWLy2nz
+	 OrKh9kU/GfVSvAoIiwylU6exGnkQp9CPzp7Mh53fGMthNm0yKxcoAzALB9U52colQNeye
+	 0XhQjksrLQH3ZPMvBio/6bXsz9nid9NrvHa3f2C0BZYpOTsE3nH/2mS5k1E9nxGY3yCyY
+	 TXfmzVxz+1T1c41Ygq5NU7KF8rdwDIE1EBxZyufldYestJQEvFU01dpsCLafYFY+glLXV
+	 Qy5XwwxuGrVB8rE9exv/43KI1k5UgoGLSEWZmbm+Y9Nx1w5+a/RzFSMZkP+Mt4rDoyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bU38sA++;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bq2och5C;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903BE606A6C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 19:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE24B606A6CF;
+	Fri, 20 Nov 2026 20:11:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE24B606A6CF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bU38sA++
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35A21F000C6;
-	Fri, 20 Nov 2026 19:51:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795204297;
-	bh=vAGrw9tEAGm8z9R7foOuoAQAbjSzUhL5memr9dSJwbY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bU38sA++qlXY91Kek0OjLMo9a65hj0q0PQHMYqCeF5WHNWq/2Pmcv68zQL98x0hiz
-	 FQiXonp8EHSDWQwyYCSuKVZWx7c9XFe+GCoppcQYWuXY7okS4VW4MGkGRE2Wt/Z7vD
-	 peZFJwMj4MzRBJhsBJW6h+sNmVXyJpAkpBZW+yYHTl36Xk487hTZ0ub+/uoP9qNy5V
-	 3u0Cp74A6fHi9iTXk3t9oC/ictVF2WCxVrKSvz/wliDPrVb0Qc/4IDmTIHmED5G05f
-	 Yft/fYtJ4G9VQhPhWhFi98J0f7QyvFQ7jOXhfnZNjROgx1lFuk+ERPxHixY4yo/8uo
-	 2xSInGnV5Su3g==
-From: Sasha Levin <sashal@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [PATCH linus-next] platform profile: Use PLATFORM_PROFILE in the asus drivers
-Date: Fri, 20 Nov 2026 14:51:34 -0500
-Message-ID: <20261120195135.613480-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261120181059.GypXyRIq-lkp@intel.com>
-References: <20261120181059.GypXyRIq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bq2och5C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795205511; x=1826741511;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lRCQ9KCfOnRrOzZOd8tvpwzEbJUwz8+OaC9XkgymjfQ=;
+  b=bq2och5CbOt5tJkZblQQO7beFY/CobrsDFllopZZraur8ipX3xtiop3z
+   If06HnpeUgQ0Lf7q1ksbaSlw7UU2sY/tCiyn27TdX5VX9iZ1lVbWIRqOn
+   mHIS3Bi/qTPFn14ZZxgCMNttWMgfKfXHiXEOtwBkEbqRZlajTgG4jz1QC
+   WUszg1P7WOD8JYrMFRPXqOaRlkgdB1Ysql2N3JGksvv0eOABVBB8+VMy2
+   Q8WLTt4W7iW6Xwm3q9rPJxWv9FYq/4wKrpDuM99VXpv40Lv/aWkBF3i5P
+   D/QsXgBnD+o/QVHhF8Pv88bMl7yq9AB8z5xXnvZFdnlw1sOFozEX/RFSA
+   Q==;
+X-CSE-ConnectionGUID: GBC+CdXwSJS4pYIrl5itFw==
+X-CSE-MsgGUID: CjA4VTx9SKupyBRQV6noTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3974428"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3974428"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 12:11:50 -0800
+X-CSE-ConnectionGUID: /kkF4C2URWe94BSTH3GAQw==
+X-CSE-MsgGUID: FsYu6pzwR4i9zVs7DyEr0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="11042550"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Nov 2026 12:11:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xUUxU-00000001ISg-2ph0;
+	Fri, 20 Nov 2026 20:11:44 +0000
+Date: Sat, 21 Nov 2026 04:11:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/9] nvme-keyring: add 'dhchap' key type
+Message-ID: <202611210348.KYpQPgoE-lkp@intel.com>
+References: <20261120-dhchap-keyring-v4-v4-2-5f8c7d9926ee@kernel.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -57,69 +85,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-dhchap-keyring-v4-v4-2-5f8c7d9926ee@kernel.org>
 
-Commit 699041135f75 ("platform profile: Extract the core from ACPI") in
-the pm tree renames ACPI_PLATFORM_PROFILE to PLATFORM_PROFILE. Two users
-from other trees still have the old name:
+Hi Hannes,
 
-commit ef696e89f836 ("platform/asus: Move ASUS platform drivers out of
-drivers/platform/x86") in the pdx86 tree moves ASUS_WMI with "select
-ACPI_PLATFORM_PROFILE", so a config where nothing else selects
-PLATFORM_PROFILE fails to link:
+kernel test robot noticed the following build warnings:
 
-  ERROR: modpost: drivers/platform/asus/asus-wmi.ko: symbol 'devm_platform_profile_register' undefined!
-  ERROR: modpost: drivers/platform/asus/asus-wmi.ko: symbol 'platform_profile_cycle' undefined!
+[auto build test WARNING on 68099cf27253a8c89d703a282d3d811446d9453b]
 
-commit d220bf485598 ("HID: asus: Cycle the platform profile from the
-Zenbook Duo profile key") in the hid tree checks
-IS_REACHABLE(CONFIG_ACPI_PLATFORM_PROFILE), which is now always false,
-so the profile key does nothing.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/nvme-auth-modify-nvme_auth_transform_key-to-return-status/20261120-121400
+base:   68099cf27253a8c89d703a282d3d811446d9453b
+patch link:    https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-2-5f8c7d9926ee%40kernel.org
+patch subject: [PATCH v4 2/9] nvme-keyring: add 'dhchap' key type
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20261121/202611210348.KYpQPgoE-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210348.KYpQPgoE-lkp@intel.com/reproduce)
 
-Fixes: fc099de5a4ac ("Merge branch 'pm-next' into all-next")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/20261120181059.GypXyRIq-lkp@intel.com/
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-asus.c        | 4 ++--
- drivers/platform/asus/Kconfig | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611210348.KYpQPgoE-lkp@intel.com/
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index dcb3d50f9288e..aca4ab6ab2391 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -438,7 +438,7 @@ static int asus_platform_profile_cycle(struct asus_drvdata *drvdata)
- 	struct asus_worker *worker = drvdata->worker;
- 	struct asus_work_action *action, *pending;
- 
--	if (!IS_REACHABLE(CONFIG_ACPI_PLATFORM_PROFILE))
-+	if (!IS_REACHABLE(CONFIG_PLATFORM_PROFILE))
- 		return 0;
- 
- 	guard(spinlock_irqsave)(&worker->lock);
-@@ -870,7 +870,7 @@ static void asus_work(struct work_struct *work)
- 		asus_kbd_wmi_fan(worker->hdev, &action->data.fan_hid_data);
- 		break;
- 	case PLATFORM_PROFILE_CYCLE:
--		if (!IS_REACHABLE(CONFIG_ACPI_PLATFORM_PROFILE))
-+		if (!IS_REACHABLE(CONFIG_PLATFORM_PROFILE))
- 			break;
- 		ret = platform_profile_cycle();
- 		if (ret)
-diff --git a/drivers/platform/asus/Kconfig b/drivers/platform/asus/Kconfig
-index 4b79957f045fc..0219418ce3523 100644
---- a/drivers/platform/asus/Kconfig
-+++ b/drivers/platform/asus/Kconfig
-@@ -127,7 +127,7 @@ config ASUS_WMI
- 	select INPUT_SPARSEKMAP
- 	select LEDS_CLASS
- 	select NEW_LEDS
--	select ACPI_PLATFORM_PROFILE
-+	select PLATFORM_PROFILE
- 	help
- 	  Say Y here if you have a WMI aware Asus laptop (like Eee PCs or new
- 	  Asus Notebooks).
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/common/keyring.c:348:19: warning: variable 'keylen' is uninitialized when used here [-Wuninitialized]
+     348 |         prep->quotalen = keylen;
+         |                          ^~~~~~
+   drivers/nvme/common/keyring.c:310:40: note: initialize the variable 'keylen' to silence this warning
+     310 |         size_t datalen = prep->datalen, keylen;
+         |                                               ^
+         |                                                = 0
+   1 warning generated.
+
+
+vim +/keylen +348 drivers/nvme/common/keyring.c
+
+   293	
+   294	/**
+   295	 * nvme_dhchap_psk_preparse - prepare DH-HMAC-CHAP key data
+   296	 * @prep: preparsed payload of the key data
+   297	 *
+   298	 * Decode the DH-HMAC-CHAP key data passed in @prep and
+   299	 * store the resulting binary data. The binary data includes
+   300	 * space for the CRC, the version, and the hmac identifier,
+   301	 * but the data length is just the key data without the CRC.
+   302	 * This allows the user to read the key data via the
+   303	 * 'user_read()' function. The additional 'version' ahd 'hmac'
+   304	 * data is used in the ->read() callback to generate the
+   305	 * base64 encoded key.
+   306	 */
+   307	static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
+   308	{
+   309		struct user_key_payload *upayload;
+   310		size_t datalen = prep->datalen, keylen;
+   311		int ret;
+   312		u32 crc;
+   313		u8 version, hmac;
+   314	
+   315		if (!prep->data) {
+   316			pr_debug("%s: Empty data", __func__);
+   317			prep->payload.data[0] = NULL;
+   318			prep->quotalen = 0;
+   319			return -EINVAL;
+   320		}
+   321	
+   322		if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%*s",
+   323			   &version, &hmac) != 2) {
+   324			pr_debug("%s: invalid key data '%s'\n", __func__,
+   325				 (char *)prep->data);
+   326			prep->payload.data[0] = NULL;
+   327			prep->quotalen = 0;
+   328			return -EINVAL;
+   329		}
+   330	
+   331		/* skip header and final ':' character */
+   332		datalen -= 11;
+   333	
+   334		/*
+   335		 * payload is < key | version | hmac >
+   336		 * base64 decode will always return less data
+   337		 * than the encoded data, so allocating the size
+   338		 * of the encoded data will be large enough.
+   339		 */
+   340		upayload = kzalloc(sizeof(*upayload) + datalen, GFP_KERNEL);
+   341		if (!upayload) {
+   342			prep->payload.data[0] = NULL;
+   343			prep->quotalen = 0;
+   344			return -ENOMEM;
+   345		}
+   346	
+   347		/* decode the data */
+ > 348		prep->quotalen = keylen;
+   349		prep->payload.data[0] = upayload;
+   350		ret = base64_decode(prep->data + 10, datalen, upayload->data,
+   351				    true, BASE64_STD);
+   352		if (ret < 0) {
+   353			pr_debug("%s: Failed to decode key %s\n",
+   354				 __func__, (char *)prep->data + 10);
+   355			return ret;
+   356		}
+   357		ret -= 4;
+   358		crc = ~crc32(~0, upayload->data, ret);
+   359		if (get_unaligned_le32(upayload->data + ret) != crc) {
+   360			pr_debug("%s: CRC mismatch for key\n", __func__);
+   361			/* CRC mismatch */
+   362			return -EKEYREJECTED;
+   363		}
+   364		/* append version and hmac to the payload */
+   365		upayload->data[ret + 4] = version;
+   366		upayload->data[ret + 5] = hmac;
+   367		upayload->datalen = ret;
+   368		return 0;
+   369	}
+   370	
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
