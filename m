@@ -1,76 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795216921;
-	b=aPTEOkWQA0sBx9IMvMjR8huQVIJbf6Unn9eQPHKa9NEMikuiv4fjKUAJFAuhIOKxdoJ4
-	 Y3wW2TCi3YR/bB4WCvBoQ0kpdkREKxJRdRADKBCJfVtCDIscB81bkYSKKUlt42vt0HdiR
-	 WE+hre9qeX2CA8yDUGybAvoIIz9S1kEB5A59LNEO1WWXbjBR6K5kdxNLaLjj6+OhuUCM9
-	 WdQSragYI9TYE0PlvxJqs1k3GWvz9IpjGVQKji1qVboNw/6Fxna9HCw/OO69sPka+sR9v
-	 d8pSKvjLyJc1GTEdHpwVRtCHnX3SQNbSAngbPYa8unZQ3qVGqnVonnSFfCb/ZtkSJbg==
+	t=1795217179;
+	b=hkyYxCei3cm8KLcgDD4rl9HKxYbhW3ywtfdDDIKoQHpaSeM/waAI4xmzbg0Jy0T4XizD
+	 qHVD/eIi+FcRNxsI2hYpyUMcElphjbw5BHpQw9yDtCK63adSYxq98mr2BIzcldOkFuiDG
+	 gRSolbPL5uKiIg2xkBuj8pKMHr4mXHPYS21ctJoR8T4H7li5nZdq0NR5sbP9eJCwFsapk
+	 7Tz00HnPeme6utvjcKYW3k0S82Iv92UqS5dKINfGZjsiNzEvwKsZHaOTHxkVeKiAxUBvu
+	 xqhI2RjawGerF65mQGqNB/CqmevvLfehKHrK72oX6KUHEu4te3yfqWlH1Ok1dWQ37+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795216921;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795217179;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=BNRdMXPe/2X/wVaqnzQo1CIQw4o6jkqBUaeCyZSzn2s=;
-	b=K5xP8L20j4kkI4yTxn4d8QKXBSxep6drEkdb4/Y+q8pY2TPVWbjz52RN0zxnOmpgVxeT
-	 Iy1X6c4AA2l0vyoZQWhQzfTaW7d/BMd0VVmK3oxQIaJjXCbaacQaMuhk/uZe1zaDduhsk
-	 ncsXx55MzltjO4POuWtnDeravEOQmm1vuYyIL+DKDnRqRQSsDxa4aO08FzxQpDPkVA42V
-	 gv8FV9fXQZSz+ybSsTfejl+aAYgrE2jAFemd2X7KqWjKcAFoK2xnXJQjeSCTtm01Z6Hrs
-	 Y2Bk5RjXI02o4BUb9cephtTB2ZWbcmpQWHuGVd+qVk5BFRIV9V/AcqUZw0m05gFkgrg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=HxNGyJ35hri0geA+PjED9R6TVp4HHaU3ucvR7577Fks=;
+	b=42oo3x4Tfh2/Y+A398PuCZaNFTmgpv33Uhla1UHcKFoocC4Cka8TphTCkoeGhm4xefu6
+	 lMOFDluDReolAKPkvMa/jfMgTlhG0w+OFcW/CcSJHRziXPa8+XQLCsUUsX6O+QhGmJXgp
+	 cIb0BSeNEdtHi8ixlqkEDc/mUou9Tl5BaNQbUEQ0stDRuuIMfY0JGYYVZaOB+T8W/HFlE
+	 qHJSVjtptrkZRS0MKvghuBd4CKMVDz7uhad1+mG8TSuNAqBK/CZ4n1yFhrXPzAjBVpFaD
+	 xjMLuHSljH5Gs9Z/gOP8NpkIk8ZRiImwXYSi9tIKP1cS38NEsD3z2t3eNITvyMOfCaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OAQRVdBm;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EgsjNbIi;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F43606A682
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 23:21:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9F43606A682
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4E606A69A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 23:26:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9A4E606A69A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OAQRVdBm
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EgsjNbIi
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795216916; x=1826752916;
-  h=date:from:to:cc:subject:message-id;
-  bh=z93fIsu/vpEjImZWdx4QsWA70fL8+qznp2dlMh55lYE=;
-  b=OAQRVdBm2CiGZY2FPtkZV8g+StKLebdEMuZB6Lc92T9DkCSnAyBoiTPz
-   tXaDraltRZ8L6Y7XQVKuGr3S8e0l0kUaMhnaRYkrJTph6Flsium66bAhA
-   mhJ/wyQk9WfoUQ+d4uiPl3plQ7Y1epC+UkyVy5v/zcxOQsyKxGipx+fhN
-   FXgJHCmOd5kzpYbbjYZ6omOqOTUaWYT6U5K57hBHPGeGhoFij2BXck934
-   hxw2znCptNpqGi2HCiLBc6RN+xTGapYymSVPKCPOswN5tVRWw1wQq8AFz
-   OZzq1sQwl0fsbMdGQ0QvVZai5PFhl4NnBmPfmeI0wL1YOflGVgtzSU91W
-   w==;
-X-CSE-ConnectionGUID: Gcbw1sNZSIivFbfpkWwAaQ==
-X-CSE-MsgGUID: FloZe3BcTb2zUsOMwptg5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4020236"
+  t=1795217174; x=1826753174;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nbm7dttcg2VYnk3FmoiGwjR8294oJVUEhQthcpzoxPc=;
+  b=EgsjNbIijb02s3t4/xW693lQ+QGSXRyuzrj+5MrJ3kFtP4d58lkWxHNm
+   qv4EE1klHQ750QvJP1RbfJAWUWxYPiURuOlDGXeGo+YVWnWX82W9ZqzOi
+   AfGQ6Fj3F9cdrRaEtBmjxCcpbg2svUy9TdLSjwwZZtQoau4L2ZFCiddlQ
+   2wR9xJ/Sz1UfeYFOAVNs0sRzq6keV8o3tSKSXFkRSbNKEL8u5qC5THT9i
+   gCvJ3CcnlAOe7KaATGGwhDrPesHIFU2U3q2WB+wxT9SK+5fiGPpjGahv8
+   l15CNLFXbnzS9Rq21vH5Lk4AjWymqb7uTpimb3mbYhs+etHMlxPkAL/mM
+   Q==;
+X-CSE-ConnectionGUID: txidB9EsRR212tn+ytOlaw==
+X-CSE-MsgGUID: wg5fNzIfSdaKCKKelob72g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4119572"
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4020236"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 15:21:56 -0800
-X-CSE-ConnectionGUID: lbdwfDnDS6mcPKqGl9D1Ww==
-X-CSE-MsgGUID: CjgM4audQqWYJD/UVq2Iig==
+   d="scan'208";a="4119572"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 15:26:14 -0800
+X-CSE-ConnectionGUID: idZQ6xneQb+zLcR8VejhGw==
+X-CSE-MsgGUID: x+F/2N1QQ5GFCYNgl6siGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11025834"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2026 15:21:55 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="12811083"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 20 Nov 2026 15:26:08 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUXvU-0000000049d-216Y;
-	Fri, 20 Nov 2026 23:21:52 +0000
-Date: Sat, 21 Nov 2026 00:21:47 +0100
+	id 1xUXzZ-00000001IwJ-0y7s;
+	Fri, 20 Nov 2026 23:26:05 +0000
+Date: Sat, 21 Nov 2026 07:25:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:b4/acpi-static-table-irq-probe-defer-v2 3/10]
- sound/pci/es1968.c:115:12: warning: 'index' defined but not used
-Message-ID: <20261121001458.PUFfptJo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kyle Hendry via B4 Relay <devnull+khendry.reliablecontrols.com@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kyle Hendry <khendry@reliablecontrols.com>
+Subject: Re: [PATCH 2/6] clk: renesas: r9a06g032: Add reset controller
+Message-ID: <202611210721.sFAijXHV-lkp@intel.com>
+References: <20261119-rzn1-miic-resets-v1-2-feee2bb28bb4@reliablecontrols.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,85 +101,175 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119-rzn1-miic-resets-v1-2-feee2bb28bb4@reliablecontrols.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/acpi-static-table-irq-probe-defer-v2
-head:   a75860f203b994ab67f8a876c7f568ac0f7f84c0
-commit: 5df91ea5bcbef51cb967f3a07dd7c69c50681213 [3/10] ACPI: Introduce irq_get() for static fwnodes
-config: i386-randconfig-r2100-20261120 (https://download.01.org/0day-ci/archive/20261121/20261121001458.PUFfptJo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121001458.PUFfptJo-lkp@intel.com/reproduce)
+Hi Kyle,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 662377fd1bb1d7cf4e97d312255fed868f56342d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hendry-via-B4-Relay/dt-bindings-clock-r9a06g032-sysctrl-Document-reset-cells/20261119-095743
+base:   662377fd1bb1d7cf4e97d312255fed868f56342d
+patch link:    https://lore.kernel.org/r/20261119-rzn1-miic-resets-v1-2-feee2bb28bb4%40reliablecontrols.com
+patch subject: [PATCH 2/6] clk: renesas: r9a06g032: Add reset controller
+config: arm-shmobile_defconfig (https://download.01.org/0day-ci/archive/20261121/202611210721.sFAijXHV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210721.sFAijXHV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261121001458.PUFfptJo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611210721.sFAijXHV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/i2c.h:13,
-                    from include/media/v4l2-common.h:106,
-                    from include/media/v4l2-subdev.h:15,
-                    from include/media/v4l2-device.h:13,
-                    from include/media/drv-intf/tea575x.h:14,
-                    from sound/pci/es1968.c:102:
-   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
-   include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
-         |          ^~~~~~~~~~
-   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
-     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from include/linux/io.h:11,
-                    from sound/pci/es1968.c:83:
-   sound/pci/es1968.c: At top level:
-   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
-     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
-     528 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/es1968.c:129:1: note: in expansion of macro 'module_param_array'
-     129 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/pci/es1968.c:115:12: warning: 'index' defined but not used [-Wunused-variable]
-     115 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 1-MAX */
-         |            ^~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:22,
+                    from include/linux/clk.h:13,
+                    from drivers/clk/renesas/r9a06g032-clocks.c:10:
+   drivers/clk/renesas/r9a06g032-clocks.c: In function 'r9a06g032_reset_set':
+>> include/linux/container_of.h:8:47: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+       8 | #define typeof_member(T, m)     typeof(((T*)0)->m)
+         |                                               ^~
+   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                       ^~~~~~~~~~~
+   include/linux/container_of.h:20:43: note: in expansion of macro 'typeof_member'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                                           ^~~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1322:39: note: in expansion of macro 'rcdev_to_priv'
+    1322 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+>> include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                       ^~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1322:39: note: in expansion of macro 'rcdev_to_priv'
+    1322 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:5,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:391,
+                    from include/linux/err.h:5,
+                    from include/linux/clk.h:12:
+>> include/linux/stddef.h:16:33: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:34: note: in expansion of macro 'offsetof'
+      23 |         (type *)((void *)(ptr) - offsetof(type, member)); })
+         |                                  ^~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1322:39: note: in expansion of macro 'rcdev_to_priv'
+    1322 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c: In function 'r9a06g032_reset_status':
+>> include/linux/container_of.h:8:47: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+       8 | #define typeof_member(T, m)     typeof(((T*)0)->m)
+         |                                               ^~
+   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                       ^~~~~~~~~~~
+   include/linux/container_of.h:20:43: note: in expansion of macro 'typeof_member'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                                           ^~~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1354:39: note: in expansion of macro 'rcdev_to_priv'
+    1354 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+>> include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+         |                       ^~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1354:39: note: in expansion of macro 'rcdev_to_priv'
+    1354 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:34: note: in expansion of macro 'offsetof'
+      23 |         (type *)((void *)(ptr) - offsetof(type, member)); })
+         |                                  ^~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1317:33: note: in expansion of macro 'container_of'
+    1317 | #define rcdev_to_priv(x)        container_of(x, struct r9a06g032_priv, rcdev)
+         |                                 ^~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c:1354:39: note: in expansion of macro 'rcdev_to_priv'
+    1354 |         struct r9a06g032_priv *priv = rcdev_to_priv(rcdev);
+         |                                       ^~~~~~~~~~~~~
+   drivers/clk/renesas/r9a06g032-clocks.c: In function 'r9a06g032_clocks_probe':
+>> drivers/clk/renesas/r9a06g032-clocks.c:1463:15: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+    1463 |         clocks->rcdev.ops = &r9a06g032_reset_ops;
+         |               ^~
+   drivers/clk/renesas/r9a06g032-clocks.c:1464:15: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+    1464 |         clocks->rcdev.of_node = np;
+         |               ^~
+   drivers/clk/renesas/r9a06g032-clocks.c:1465:15: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+    1465 |         clocks->rcdev.of_reset_n_cells = 1;
+         |               ^~
+   drivers/clk/renesas/r9a06g032-clocks.c:1466:15: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+    1466 |         clocks->rcdev.nr_resets = ARRAY_SIZE(r9a06g032_resets);
+         |               ^~
+   drivers/clk/renesas/r9a06g032-clocks.c:1467:61: error: 'struct r9a06g032_priv' has no member named 'rcdev'
+    1467 |         error =  devm_reset_controller_register(dev, &clocks->rcdev);
+         |                                                             ^~
 
 
-vim +/index +115 sound/pci/es1968.c
+vim +8 include/linux/container_of.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  114  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @115  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 1-MAX */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;	/* ID for this card */
-a67ff6a54095e2 Rusty Russell  2011-12-15  117  static bool enable[SNDRV_CARDS] = SNDRV_DEFAULT_ENABLE_PNP;	/* Enable this card */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  118  static int total_bufsize[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 1024 };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  119  static int pcm_substreams_p[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 4 };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  120  static int pcm_substreams_c[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 1 };
-6581f4e74d8541 Takashi Iwai   2006-05-17  121  static int clock[SNDRV_CARDS];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  122  static int use_pm[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 2};
-^1da177e4c3f41 Linus Torvalds 2005-04-16  123  static int enable_mpu[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 2};
-^1da177e4c3f41 Linus Torvalds 2005-04-16  124  #ifdef SUPPORT_JOYSTICK
-a67ff6a54095e2 Rusty Russell  2011-12-15  125  static bool joystick[SNDRV_CARDS];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  126  #endif
-d4ecc83b79cc29 Hans Verkuil   2012-02-27  127  static int radio_nr[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = -1};
-^1da177e4c3f41 Linus Torvalds 2005-04-16  128  
-
-:::::: The code at line 115 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  4  
+d2a8ebbf8192b84 Andy Shevchenko 2021-11-08 @5  #include <linux/build_bug.h>
+2b8e35337605ca5 Andy Shevchenko 2023-01-30  6  #include <linux/stddef.h>
+d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  7  
+d2a8ebbf8192b84 Andy Shevchenko 2021-11-08 @8  #define typeof_member(T, m)	typeof(((T*)0)->m)
+d2a8ebbf8192b84 Andy Shevchenko 2021-11-08  9  
 
 -- 
 0-DAY CI Kernel Test Service
