@@ -1,76 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795185177;
-	b=InV7/l1OwifbwUqqKRPscGk/rUkbhzQTyp2v/BFNVsgLwaKGIB1cCI+LbwGidxerB97I
-	 NENXzAERVs2nhvNKCZ3FDqVlhsdP+ty7hBUhCK6tKUESLsubjBcFOdRnZILXaqTbhOP6Z
-	 sQH3CEJDnqJgP5rd1aCgCoecVdvqZPdKFQ362s7mpUoJkhvsYaIUGpfKNx0Uh9zNI7qvr
-	 0jXL0UCO+3A9fPlnmASwEeBGBg3J33nBhnttP7DVo+KOuUR4WGtW8yWe7NZRmD2JRX31y
-	 iyVrYySX/67sVtBqiqCrgjK47t6YWQDSNKagAqlyxvcN69XGxWPi9eIte4ZitHa8EhA==
+	t=1795185178;
+	b=j/iBIqU9Vusdcv3UB1uqBQiHmjgycP5f1T+8ce/CmPhhX1uBjYcmML0q/quQUIre0b6W
+	 QC+1lj3nwyFPfGfQeubxh2Mwadfbmxdo20nsFbtNprFDYFzEwrUA8kDrP+C7IhsSLq+pr
+	 9ZbQ8rbcUAleV7v74nVhY0wMLjoHJPyQUuMAXLPSQ9pAoB6S4nt0dqDBWv7XhmK9pFpZ4
+	 PSekmYbhZPj3ZDFU0FyVedC1qPgAG2iQUDT2Ytul/O+V7BDbvYjnIVUKDuZg625/A3Sqk
+	 5c/1k0Dk5vFKluCv+AJLQlMYXgnVl+TaGwpcIZM/HUZx7OuBiSmK+S50o9adjd8+Eog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795185177;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795185178;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=t9+OUxImhFCh/3lBYQbitGqtnEo3YSlL/WbWJ2XxOLA=;
-	b=hyxSS9tBH/UCMJaZx6BgUrZm5Ihc9qGnwVY1P46oZwndn+h2x+IlUvRx8e4Uwp/12mez
-	 oKvhkLLPcb7BNtVuGq7Hlhh76zsw/BlJ16kllzpNjvCDlzCvBmUpZxX5M9pfOIj2nJYkV
-	 48YsWCzDHooNRQ8pM/3tOXIAzhJds1SejW5/3gQQa9zX6kDGXVq0TLipRbhieFe5Z8Ob8
-	 W+YC8ZaWxSiF+nU3KglXblN2iuS9sExqLM9n8nG4hEPLWVgmSxxQWO6EZD6kNRKUl75Eu
-	 ytGfiOhIPw24Hsj4hMR7fQM3yi1rMumZEpXUnN94jWKHqUCLDMfdfPNELYtAbvFqNjw==
+	bh=MyerHhdX6/a9InQGhd/kGAcY4FIR1t1RgrUc+qLZQAc=;
+	b=ixUYOxmdoxL9SoBAq2rG4igDSDA1nR9FHFSpG97boUC6rAC/4VxdtA9bGee3hIWYMdzQ
+	 z+SJu0G01vJVT4p7/gjHES5IL4VM69NYgsAyS/yg5DeysPl4WRw/y6/E8UAOd///02WW4
+	 SAxH/GhbpiNoxDKfIyEt0l+3p6t4cdDD5lqI1XW1HWDICMfiusIAZnDNFngTteajqrqV8
+	 GhrDiJL+Olbpg4uItjH2xss4HKoI+3lZvYRZrLhed4/nIGNZkxiAZ9GuQgJydnLs0cmk3
+	 DevTL7WEI+B7MWGiYi3iL5NETF0hnpJdXJBoAU+PZb6HHLPkGACq0Djb8C0T/P4JcAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="BvgID/rc";
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jrgOkJ5Q;
 	arc=none smtp.remote-ip=192.198.163.19
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8090E606A320
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 14:32:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8090E606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C0E606A332
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 14:32:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96C0E606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BvgID/rc
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jrgOkJ5Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795185177; x=1826721177;
+  t=1795185178; x=1826721178;
   h=date:from:to:cc:subject:message-id;
-  bh=r5LfmBVBM5uLyvnlrsps/n84MPI4ngz07xym3BTBUFk=;
-  b=BvgID/rcv+xD9PFS8dwnbTExlRiOo90E4GN+Msv37ZHj4WNUnUAbrBFy
-   J9h9zt7KAqrM1w5s8eob+1oIzDXzalZ7zBAKHUuFGYVlRz/gUW+5gjJHi
-   NqI7ktHg+R6VTeBsiPHnxUDn3yyzhObUsT+mCZYFXxdd/1/dbgLUJJlU+
-   b1NsaZcWQ4ySkUSkYqyNmHlxbzs+/rtxdxz98HVZXWvh6s9iKD55SQHrL
-   qYaY09rzSrSzVGfstuNcEZu/ncivD2bv3D/E9bzPNBp4EIyEvtO5lgi/f
-   tZOnigmw7JOjBPtEDGs2lxhwxmNhzsPoXI6pmTB/ImPlHn9cTpHjlrd97
-   g==;
-X-CSE-ConnectionGUID: Qh1ahJF5R6WqhDgF9G6yLQ==
-X-CSE-MsgGUID: n90J3XhYTbC6pyeA2gUzFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4164088"
+  bh=nEPSdP+GQUuYesXrih7dH8yr9XxmJOe0FKxtkdZLP78=;
+  b=jrgOkJ5QnY3tAVdPvQlDUMY/J4wsiprteMLUyg8Rl2B3yz/j2fTmvUDk
+   oAzFc2XdWRXYkfEzDyOBotCFNkp9eA8QL1BHFI+83GYR1wEw18gTdlGKt
+   am9BxIn4uxli5CqP1pNKp9TK+fYYK7l4V5r4u/ljbHYWhkK95fVXrOMtJ
+   8xtWOe181NA5ayCukjz4UO/Tkh6CwjiEpfZPT7oXFuID9hpTACHbHUlRx
+   erPHt6pWS/lL6NJmplzwPdZaIw7SZfm01wOhahOZjtKPcavJLqHqAviqi
+   U/KVeDH+mYnXP3V9/z+GaZnxRdRNdYwaiLJShXf1GFD4yl4pgur0Lz8ZT
+   w==;
+X-CSE-ConnectionGUID: BqYH/HjOSyu09bwbbblRMA==
+X-CSE-MsgGUID: Lhk/MpJyRoylWKxDv3rY5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4164090"
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4164088"
+   d="scan'208";a="4164090"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:32:56 -0800
-X-CSE-ConnectionGUID: upJ++asVSGSwGbIzl/Mh7Q==
-X-CSE-MsgGUID: 9w4pwasZSKOxGifxGP+yzA==
+X-CSE-ConnectionGUID: a28uAc+xRoChmDQ4xMzXWw==
+X-CSE-MsgGUID: 6wNv1vfQQbmV4Ii8vCZnqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="10699071"
+   d="scan'208";a="10699073"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
   by orviesa006.jf.intel.com with ESMTP; 20 Nov 2026 06:32:55 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUPfY-00000000433-1Mvf;
+	id 1xUPfY-00000000435-1Te2;
 	Fri, 20 Nov 2026 14:32:52 +0000
-Date: Fri, 20 Nov 2026 15:32:40 +0100
+Date: Fri, 20 Nov 2026 15:32:41 +0100
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:dhchap-keyring.v4 2/9]
- drivers/nvme/common/keyring.c:348:19: warning: variable 'keylen' is
- uninitialized when used here
-Message-ID: <20261120152842.Al8VXK6X-lkp@intel.com>
+To: Hao Li <hao.li@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Harry Yoo <harry@kernel.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Subject: [mm-slab:slab/for-next 1/2] mm/slab_common.c:1012
+ new_kmalloc_cache() warn: always true condition '(type >= 0) => (0-u32max >=
+ 0)'
+Message-ID: <20261120153115.isoaU88H-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,111 +82,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git dhchap-keyring.v4
-head:   1b78746d90bfa570d96e88475983421f24c38b0d
-commit: a6c7217c8a4b404d6107aeaf07b1323df6adbf32 [2/9] nvme-keyring: add 'dhchap' key type
-config: i386-randconfig-2200-20261120 (https://download.01.org/0day-ci/archive/20261120/20261120152842.Al8VXK6X-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mm/slab.git slab/for-next
+head:   c6e6bf9b097d69a06974b2f8b5400b33e1faeb31
+commit: ec81fa8f7dbcf89d9b4112544f76f47c8eb5c725 [1/2] mm/slab: don't set SLAB_MAY_ACCOUNT for KMALLOC_PARTITION_CACHES
+config: um-randconfig-2200-20261120 (https://download.01.org/0day-ci/archive/20261120/20261120153115.isoaU88H-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8db60b003f961f25c5cafe91ee44176f61374279)
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/20261120152842.Al8VXK6X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261120152842.Al8VXK6X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261120153115.isoaU88H-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/slab_common.c:1012 new_kmalloc_cache() warn: always true condition '(type >= 0) => (0-u32max >= 0)'
 
->> drivers/nvme/common/keyring.c:348:19: warning: variable 'keylen' is uninitialized when used here [-Wuninitialized]
-     348 |         prep->quotalen = keylen;
-         |                          ^~~~~~
-   drivers/nvme/common/keyring.c:310:40: note: initialize the variable 'keylen' to silence this warning
-     310 |         size_t datalen = prep->datalen, keylen;
-         |                                               ^
-         |                                                = 0
-   1 warning generated.
+vim +1012 mm/slab_common.c
 
-
-vim +/keylen +348 drivers/nvme/common/keyring.c
-
-   293	
-   294	/**
-   295	 * nvme_dhchap_psk_preparse - prepare DH-HMAC-CHAP key data
-   296	 * @prep: preparsed payload of the key data
-   297	 *
-   298	 * Decode the DH-HMAC-CHAP key data passed in @prep and
-   299	 * store the resulting binary data. The binary data includes
-   300	 * space for the CRC, the version, and the hmac identifier,
-   301	 * but the data length is just the key data without the CRC.
-   302	 * This allows the user to read the key data via the
-   303	 * 'user_read()' function. The additional 'version' ahd 'hmac'
-   304	 * data is used in the ->read() callback to generate the
-   305	 * base64 encoded key.
-   306	 */
-   307	static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
-   308	{
-   309		struct user_key_payload *upayload;
-   310		size_t datalen = prep->datalen, keylen;
-   311		int ret;
-   312		u32 crc;
-   313		u8 version, hmac;
-   314	
-   315		if (!prep->data) {
-   316			pr_debug("%s: Empty data", __func__);
-   317			prep->payload.data[0] = NULL;
-   318			prep->quotalen = 0;
-   319			return -EINVAL;
-   320		}
-   321	
-   322		if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%*s",
-   323			   &version, &hmac) != 2) {
-   324			pr_debug("%s: invalid key data '%s'\n", __func__,
-   325				 (char *)prep->data);
-   326			prep->payload.data[0] = NULL;
-   327			prep->quotalen = 0;
-   328			return -EINVAL;
-   329		}
-   330	
-   331		/* skip header and final ':' character */
-   332		datalen -= 11;
-   333	
-   334		/*
-   335		 * payload is < key | version | hmac >
-   336		 * base64 decode will always return less data
-   337		 * than the encoded data, so allocating the size
-   338		 * of the encoded data will be large enough.
-   339		 */
-   340		upayload = kzalloc(sizeof(*upayload) + datalen, GFP_KERNEL);
-   341		if (!upayload) {
-   342			prep->payload.data[0] = NULL;
-   343			prep->quotalen = 0;
-   344			return -ENOMEM;
-   345		}
-   346	
-   347		/* decode the data */
- > 348		prep->quotalen = keylen;
-   349		prep->payload.data[0] = upayload;
-   350		ret = base64_decode(prep->data + 10, datalen, upayload->data,
-   351				    true, BASE64_STD);
-   352		if (ret < 0) {
-   353			pr_debug("%s: Failed to decode key %s\n",
-   354				 __func__, (char *)prep->data + 10);
-   355			return ret;
-   356		}
-   357		ret -= 4;
-   358		crc = ~crc32(~0, upayload->data, ret);
-   359		if (get_unaligned_le32(upayload->data + ret) != crc) {
-   360			pr_debug("%s: CRC mismatch for key\n", __func__);
-   361			/* CRC mismatch */
-   362			return -EKEYREJECTED;
-   363		}
-   364		/* append version and hmac to the payload */
-   365		upayload->data[ret + 4] = version;
-   366		upayload->data[ret + 5] = hmac;
-   367		upayload->datalen = ret;
-   368		return 0;
-   369	}
-   370	
+  1001	
+  1002		/*
+  1003		 * If memcg_kmem is enabled and this is a KMALLOC_NORMAL or
+  1004		 * KMALLOC_PARTITION_CACHES cache and not aliased with any other type,
+  1005		 * make sure it's never merged with any other cache.
+  1006		 *
+  1007		 * In other cases the kmalloc cache may end up being used for a
+  1008		 * __GFP_ACCOUNT allocation so mark it as such. The exception is a
+  1009		 * KMALLOC_NO_OBJ_EXT cache.
+  1010		 */
+  1011		if (!mem_cgroup_kmem_disabled()) {
+> 1012			if (type >= KMALLOC_PARTITION_START &&
+  1013			    type <= KMALLOC_PARTITION_END &&
+  1014			    KMALLOC_RECLAIM != KMALLOC_NORMAL)
+  1015				flags |= SLAB_NO_MERGE;
+  1016			else if (!(flags & SLAB_NO_OBJ_EXT))
+  1017				flags |= SLAB_MAY_ACCOUNT;
+  1018		}
+  1019	
+  1020		if (minalign > ARCH_KMALLOC_MINALIGN) {
+  1021			aligned_size = ALIGN(aligned_size, minalign);
+  1022			aligned_idx = __kmalloc_index(aligned_size, false);
+  1023		}
+  1024	
+  1025		if (!kmalloc_caches[type][aligned_idx])
+  1026			kmalloc_caches[type][aligned_idx] = create_kmalloc_cache(
+  1027						kmalloc_info[aligned_idx].name[type],
+  1028						aligned_size, flags);
+  1029		if (idx != aligned_idx)
+  1030			kmalloc_caches[type][idx] = kmalloc_caches[type][aligned_idx];
+  1031	}
+  1032	
 
 -- 
 0-DAY CI Kernel Test Service
