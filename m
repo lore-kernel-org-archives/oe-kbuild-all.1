@@ -1,78 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.155
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177092;
-	b=V0XcResjYeyeTmCBf65FL2+fUSvib/IfXiLlulPw65akfEIUxeQ4Gb+F+vj8S3MXwgSb
-	 oaIqsptpCkoO4TZygNjAc4S2BzRUZyjY84BhJvpXjfLjnlY1C3DyuXU0UpVA8UerwbB9Y
-	 ZyNnDBrs/kRgXVohMhPwwK73AauxgkH6z/xS/kWCCZ49GApnYYaMBgMJGCrxdDFvRVKnm
-	 XZEHHxjccUkHHTWk28z2eEg0VCl0uu1Lp6Mm9znTGyFGpleA/nDPhAlS5waj5EdfwR4v/
-	 DwOs01JrQhB60XOetU8XCwvVwneQEdyJtnMMylNWIqRbpGmf5XR94N9gS82niTCxikA==
+	t=1795179651;
+	b=gQCYgxDESf4+zXVGd3j/24zRMNYsADPcnuUHt0Y5YFOMaFQMa+GVK46C7RA03k7/fZ/5
+	 MyOxZMQb890a2J3sjWGd7696P30S31e6mOc7gvzalawUhCGnX0nZBX5dHkriCqh/oFYbM
+	 Ta2sI0ESZo/aa4vI2ELgbrs6dk9VBSkDllzEc1ciMEXyHyA5mF/X2hGQVjte9Pj/VYFaQ
+	 5Z1qIajZ7gV8prftWNMXa2TYe5mObOtMZZWTzLpP0C6hzQrYp+coWbNvk+x8dvLtbRhsr
+	 i5vVYhOX4nN+SlCY4VIQf6J75FScrIc7EC71EzWzGzFqTnEN8tTMDQMWbkE7VZgQuCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177092;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version;
-	bh=YjJw8wdPh4kC1FRbv810ZEoULKssDRVyje8LjZOXafE=;
-	b=Slk5qrO1CYdLEghOK1bdT/IzXBmqlM2sDS0EjFUENx1oK46t2vGzZwisyfzjZfc83YbY
-	 gHbuVUS0Rq5Jesg7Lp2UMdfcBcpaJVUkn65t+XxmJ8SQqeNT4pIakNWQIW91/lQX02f0S
-	 q8imK7tF27D5T4WH/nzOn5hQtpA+QzRG9Fxu3L07IU0fjndXESrLePYgxz7CdT8dFRzW/
-	 6oGSlBPhi2NSBPdZyesw+ko+HdCDeoQfTZI9NYKzCh/jK2gMKwZ0r/kF9Rfn6TGYgOVW3
-	 g9h+XxWTyt5XpoePZTId+mW29V/Q3MgR8RxmYXr9iQv7Y2IJ/V8XBdHfAlANiAeTi+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795179651;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=68NJgfoHivjsw4gjRh7zxh7fuVfgwYde4R7I6/R1KXw=;
+	b=EL0bblBlQFXgx4fNFh3yjaDiPUub88LnIPcKAa0gCtXit+jakHjMraRlie1SLiYfMZZl
+	 ImhHziT/et8O94yJDC2PyhJ+J5qVgAETWqhWtjODYfufGtdMATvyhpacDmvgSa+EBcFll
+	 DxL1kBfr+4/oIeCGYGc538xrxvce4GxPV6aWHW8ha+28jVxtYRzwhu4AOtCAkESIIgOBr
+	 kvhOgAhmeT8LmS6ZyELNYybcySL93AlYJfvxQLP+ufsGBXGZdpVtuoCoTttcz5qkkoAig
+	 VlYp9/o5qpQWzSZHdwQTIpYIkneAcej8Z9FmnHbP5dHzrqsleuQrBlzMieX/hCDXO6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=ICbNmqex;
-	arc=none smtp.remote-ip=203.205.221.155
-Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ks6Jv45e;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A3B606A32C;
-	Fri, 20 Nov 2026 12:18:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06A3B606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CF7606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 13:00:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24CF7606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=ICbNmqex
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1795177083; bh=YjJw8wdPh4kC1FRbv810ZEoULKssDRVyje8LjZOXafE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ICbNmqexrCGClx4gUFoZSx79G8KEuflFvTC911PhneU5BqZnlh2R0DUUEtTt23eqg
-	 U+5e7gB14LD8xa+pxnM1he7EdUnv6T8mkwX1SHBafjGhnTZWsbRCguCw1KV2z9CEP2
-	 Fx+n/ZVwSlh9oeDoGFDMD2hpt/amzofkrQF6BKjA=
-Received: from [127.0.0.1] ([2409:8d5c:8f0:65e5:65c9:1ea4:b234:d5d4])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 4809386E; Fri, 20 Nov 2026 20:18:00 +0800
-X-QQ-mid: xmsmtpt1795177080t2caxcwhq
-Message-ID: <tencent_D8ED43895D9ED0905ABFCAD3F7CA5A2E9009@qq.com>
-X-QQ-XMAILINFO: MqswyhUqVe0Ck2MAbHYdhvjeLeMcDyAaaLgiFI6Bs6U1CraXb1wCgahYMh9hrl
-	 4k+wIx4I/3D+sO6wVoF4snciT8umKUklmk1vzOAfgREATmq4pVr522mBqcB2X6bc5THgPqDRmjfJ
-	 e8naRuN2sbUTOTdXC06dlQaEL8g0sDzRyqaAuafK3yP36i6mLnUQxGll92EpOMXw+YdkQ16zkMTQ
-	 8qG/mQOwuE2xc+3Y9dUg95vE1/sTw/HCYwgZjesH5bemckrTsTtSuaRgRnTCAiaPYt8iskGSfwg0
-	 mLfPy8Oc9g7zzM8cq13LgYQ3VoKb5Cit9ITAhuuH5+n3zQqG8GQxH46L9LdpYnSvUq10QtRu8erq
-	 2BeBl1qOwPoQkB12FSxp7/UI4dtvz/nqeLsqIAM2xo3DpEv58BF1dOdpdGztUFwrDZQSGdlZWpyt
-	 qPipgttjnxG3SSKV3xxLC1wfscgdioKk+4dSkE8M2OhdFX3hnxAIj3/42ODwwliUrEcQXWFdedBy
-	 nSc46svWzp5o2C6ClEEvIuJ5F4fefDXxU94sRM/M6AmjuPh3WBWV9+eUiz2Puol09n3RPO/AnNLc
-	 v6kf5HlvghJg5ja1yAMk1g9lut2L44K4MfVTdYdXB3TMBhYjnJ/Wn8TPmOeIkDaa7mdJqP04DYAP
-	 MEPDHgEpCuDxj1au0DTONgh6HxO3ptqbFVJg1sjoiEQwME0I4T7DjBJvhZiS5hwvpUQ1S4YQsRfx
-	 UFxCB0BoVXCmDOIw34zyqNOvm6Dnmr7R2sfkpSnqfcBC+MMuol4VoBJyoMsQFfxibKoXzNqvL1Ge
-	 2/VXOJM4Vn6iKk3WoRxsoNvjTGrHH3ku4M8hxWfIAQEu9I2fdyynZAlcYNmGmlXvS14iYaEeiFfO
-	 LW6lDwBNGk+x4xyhl73/h/cslEA4bfiup3EcA175BbRLz3ll+wxBMNMWqVcOruqT3y/FhB8tU22d
-	 io2Nu0QPJkYeNB1GGlxAQnSZFnfSs9sbKeHxYK6mwAMUXxhkpoMb6w3kGav2+/uwSBcnc8rEn7de
-	 AvkwbjGsUAcOsoQb4ubVVti1szr0KGlp3A7poegQcDVqydAX8kX9L8eK6k4UMBqqH8X9EXyHi40N
-	 0TcgCVIGODKcdOdMY=
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Hang Nan <2122295973@qq.com>
-To: lkp@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- mptcp@lists.linux.dev, 2122295973@qq.com
-Subject:
- Re: [PATCH net v5 2/3] net: mptcp: reject token 0 in mptcp_token_get_sock()
-Date: Fri, 20 Nov 2026 20:18:00 +0800
-X-OQ-MSGID: <179517708044.56979.7846748995584448352@qq.com>
-In-Reply-To: <20261116145829.96849-3-2122295973@qq.com>
-References: <20261116145829.96849-3-2122295973@qq.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ks6Jv45e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795179651; x=1826715651;
+  h=date:from:to:cc:subject:message-id;
+  bh=lvwWkDUkEhsh3D7tsxVU36nK8gw2SZzVCL4HvwoWxQ4=;
+  b=Ks6Jv45esdMpnnWOPDArDRoR0fMQ0dKuDudrerFg+XybH5aiBV+cBBqh
+   5Jm+0qc2pj8ryEVQUKz1Obt6Rj9/fpQBrUOm2NV+akGtrycvxDyxLcjGK
+   2DLvd+nXWeJ59ZtVv7yiSr9gwtIeb7INg7BLQHbRKk570+vwp9H9tnJ4Q
+   Ljvd6MrSxpRhE3TETR9qZmVeBkVA47BvTHqiySmt59/9VTKMsidQQk07t
+   EacImB+MuQVtMk1fg75NAJUrcAlhGBSTYV1vLHvlH+BhJ0LrVKzSImuhN
+   aarg/auDi1xmQ8Mg6aIJw17z+djiY7YgFCgXWH6IyLf6uWzYdaz+Wx4hE
+   w==;
+X-CSE-ConnectionGUID: RdV1iYW5SHmNJgbl+DACfg==
+X-CSE-MsgGUID: /5S2bJeURFuS1rSDw9bU8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3903401"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3903401"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:00:50 -0800
+X-CSE-ConnectionGUID: fofcR49GQ+uy2/iVAik4fQ==
+X-CSE-MsgGUID: h9LvPu6aS2ehais7WbQ9dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="12685440"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 20 Nov 2026 05:00:48 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xUOEQ-0000000042T-3HBi;
+	Fri, 20 Nov 2026 13:00:46 +0000
+Date: Fri, 20 Nov 2026 14:00:11 +0100
+From: kernel test robot <lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [linux-next:master 4264/9862] {standard input}:54363: Error:
+ operand out of range (0xffffffff not between 0 and 0x3f) `l.slli r11,r2,-1'
+Message-ID: <20261120134933.rRjrKaaL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,26 +80,24 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
 
-Thanks for the report.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   adcad7f4e6332cff3d6d7165f41584899f598534
+commit: adeba0f09038f1f45ebad3dbf997a493b6c7596f [4264/9862] btrfs: add a new 'stripe_len' parameter to btrfs_stripe_nr_to_offset()
+config: openrisc-randconfig-r2108-20261120 (https://download.01.org/0day-ci/archive/20261120/20261120134933.rRjrKaaL-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/20261120134933.rRjrKaaL-lkp@intel.com/reproduce)
 
-The undefined symbol comes from the KUnit case that v5 added for the token 0
-guard: it used mptcp_token_exists() to detect whether the socket it had
-built was reachable from the bucket it expected, and that function is not
-exported, so mptcp_token_test.ko fails at modpost whenever
-CONFIG_MPTCP_KUNIT_TEST=m with CONFIG_MPTCP=y.  My local runs had the test
-built in, which is why I missed it - sorry about that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261120134933.rRjrKaaL-lkp@intel.com/
 
-I am dropping the case in the next version rather than exporting the
-symbol: a test for a !token guard is not worth either the lines or a new
-export, and that also matches the maintainer's comment on the series.
-Without the case, the only mptcp token symbols the test file references
-are mptcp_token_{get_sock,new_request,new_connect,accept,destroy,
-destroy_request}, all of which are EXPORT_SYMBOL_GPL in
-net/mptcp/token.c, so that config should link again.
+All errors (new ones prefixed by >>):
 
-No separate patch is needed for this; it will be fixed in the next
-revision, which I will hold until Netdev Sashiko has finished as
-requested.
+   {standard input}: Assembler messages:
+>> {standard input}:54363: Error: operand out of range (0xffffffff not between 0 and 0x3f) `l.slli r11,r2,-1'
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
