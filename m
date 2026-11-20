@@ -1,76 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795152733;
-	b=d10raEy2Rp/AIUVYuKxy5Pxa4ZsNVIpxiQZmtcZ8w546hoJZxMmIb74/GLvPrmwcYs9t
-	 KIW3Rm4gCiwvSsCqw2kzOBFs/uS3zTUT5Y98sid7ycaKTT4LUL+RVDTcPlkqVPpulaeJo
-	 Yo4nuJHP6cy/Iz9p2RlrbxIpGKT62w/w5dw6JzAZfBDKCOiUlYUG8gZNgu1YeT0WZUF+9
-	 jM94OLsxSzW8Qo9xbN9HwkxjATAOAYdJ3ZG8swOTBokM/kuqTtRCK1YUJi+dsT3e7idZp
-	 c4Rqp17rQYLNUD6Q0TwqY/1CEdMTv5ODKKvrd/WBYis/sF9I99fqIl5Ju0LKAdegzew==
+	t=1795152854;
+	b=spRJkNKIInm/+vl4pwvqv9eQa1Pq6Add2+DjtjBmb7749HVff3F5CT9kAWOIst5GqxIf
+	 B9TGW0HD2dbU2VepmieiUxg7D+t6hXvwGN0uqnD5MTcYjXi3baAlDvWurqUBlw/kShGe2
+	 57rVXbe2XuPG4bdzpgsjrQfV4ncjyvBLiYLIn3HWqOR9auxhonM+fWLK7YIDEyt+rWFSh
+	 BrSR9IPGNuT3ZrxC5Ck5j6YxLrlcHx3OmScgVAU0IC7I9QPkaxBdPD8YNjkCXz0EG17dV
+	 3PDn93f6e8YtWTQu3JWAHuP+7ssE5qyLOYW37NlYHFfTQejyuKJD0Z6TIt2gaPTKC9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795152733;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795152854;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=xuZ4unwGxxIaiGNKm1qsZVkRiCh5AdzP9moj3AWzi8A=;
-	b=YyYG7ZPPMdUENAxnQkIr1vHoiDH9L75oYmtjWHz4vLZyDjyzuv8MzNy52ptB2eyp3Y4W
-	 9apL8zQ5Oqm0+1kRHXoKauMYZcSvTJTJLf9zyUQ1t2lIKCvGKB1kSP13xRmgbG0NqV5Qq
-	 cvPZPyjvKtrVdc0UDWxkNFwHuLmOcIqRs1T526NcqdYVRjL7aX5Q9O39nfzCbu9ON4cHe
-	 QnHilnAwvHHUMQT24WXU8Xjyubm8CiQj2vQfsVKSEjikZGRqgMv/2Ah91ZIQCWW3tb+EU
-	 9/SBtt00y6xA61qdSt1buIXh5c24yGhsKWGCevzy2CbnZAYYml/Z6GuUznISaL5n2qQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=gzHY8FQ+NrEVRH2IMQxm2M/u6YGcUwpzTFex5Db/fio=;
+	b=xFSf5cj/mLSNwjc9sTkdMo6x62pCSPBcIecdGj3FWti9O5EILEzmlH3OE7DEK3ZHQUjG
+	 3uUF7HW0OrU+YIRw8SfNrp9/K/3dVbMHazmiaimPW5gDTeEhY4Hqx+O/oQ2UbVGvLRqd6
+	 OM06N0RgRj7xr7J5HTIVKxGTpOzmopdQDOZ1ypjYh6fe8RHJ5WXe6k/l2yx0kjcgN/6Gq
+	 tTLwbrEU1ZEd6awhIyc3Q3z9EMX82BX3vx9CH13hJQn7qmVCxa3FoVBIzcH98PG4nP5xg
+	 bCX6q9CmpAeKAgvxArQTOYhhKfZh+KzNqJfcZODi5HX3dYQlW2JLygGvkdjT1JV42CA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BNVlUU+W;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Se+8VKle;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FEC606A320
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 05:32:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0FEC606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C3C606A320
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 05:34:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4C3C606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BNVlUU+W
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Se+8VKle
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795152734; x=1826688734;
-  h=date:from:to:cc:subject:message-id;
-  bh=E2ybeHpSdHAkzZPE6CvWNj2rsddZF5LDWCz/EYaOuUk=;
-  b=BNVlUU+WJAjzmGM/VMtIHtBG3fGab+pWA+eivPAZVqfqZBBmAnVAkKTM
-   qAoe+nwxU8Y8KwTugspzDSdqzoW6eNr2XcLJOJ3Zt9rTmkj2QBaJzWrE8
-   IYapM2LdTGzJhBvrq42V+P5LDryOlCzRJ4Gv18+2X1azt6PlfiOgHJgNw
-   5V9tCCdQ5yauUho3FY+o+3GkHgUMoGm98dwwdny43KAGdlW2VR4aDjfEI
-   IncqdOhVvDTETdBe7vO+BjGPdIlVafYq/nA4+HwLqPZIgPha67baveBX5
-   PB8tXip19vkkM5Ok/nQZS7YfkUaDfG2OMJkIkXboIIo4x/DHah8v7E+6m
+  t=1795152854; x=1826688854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OCVdDxMr1t8M6dHp++0c2NOjv52F3+0v0dMULJONneI=;
+  b=Se+8VKledSyLPsq8TRDNBJGaVjJpmt6hPIVSnQLXmuDdDbf/QWALMxU0
+   B6r8/btG4At5XhdVPQ4JSg9h1DRf9W4elT6sdJfIlrfTwjmwM/dLyASWS
+   roBcWRdUrh4ZGMqjSeRWoI/LxgqMiHe8ZpopFcvRjVmdRh8I98XDqFOcY
+   3Z+UoWvKfMepyRx+HvpVw0zATKUWkiJ/smAW18D5fnx3HMTiqzMDrqoCS
+   euBKnPK+zFkVSeeyG+U3ykOex+JgSD5ZAH0JozOL9crNcisqQxSBGmAR8
+   Z0pStrSCHN4AXPRmWS97+DIywPmq6R7kmHbrnQS5OMpN/p0I1AVtLHDSG
    g==;
-X-CSE-ConnectionGUID: TTIjs4k7Rsatk2lAHyKhaw==
-X-CSE-MsgGUID: 6SzTYJCaSZ2NWxOj/dHucA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3925879"
+X-CSE-ConnectionGUID: vlLyNNTPQ0O6JXAuujTZlg==
+X-CSE-MsgGUID: s+4PIWV1T6q4Z6Z6wanYxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4032000"
 X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="3925879"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 21:32:13 -0800
-X-CSE-ConnectionGUID: gSaSBecKR7OUkVyV8SaU0Q==
-X-CSE-MsgGUID: tmzTVKfDShmSeBT1C96unQ==
+   d="scan'208";a="4032000"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 21:34:13 -0800
+X-CSE-ConnectionGUID: hAI4nHgNSKCbgnGuJPNlMA==
+X-CSE-MsgGUID: +H9SVWYHQuKgfc2f9usO8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="12613390"
+   d="scan'208";a="10612149"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 19 Nov 2026 21:32:11 -0800
+  by orviesa006.jf.intel.com with ESMTP; 19 Nov 2026 21:34:12 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUHEG-00000001HAG-2GSr;
-	Fri, 20 Nov 2026 05:32:08 +0000
-Date: Fri, 20 Nov 2026 13:31:26 +0800
+	id 1xUHGC-00000001HAZ-3rSc;
+	Fri, 20 Nov 2026 05:34:08 +0000
+Date: Fri, 20 Nov 2026 13:33:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-11-13 351/351]
- sound/soc/soc-compress.c:294:1: error: duplicate label 'out'
-Message-ID: <202611201339.RBc3OaHu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v4 19/20] drm/nouveau: Allow platform driver build with
+ COMPILE_TEST=y
+Message-ID: <202611201357.plofVxy6-lkp@intel.com>
+References: <20261118214518.29317-20-ville.syrjala@linux.intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,116 +83,60 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118214518.29317-20-ville.syrjala@linux.intel.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-11-13
-head:   437686bf7c08c92113908bda25c90a3a7761459c
-commit: 431c6c3e838b47c7c7ff9927e38e9cb46521b08e [351/351] ASoC: soc-compress: use guard(pcm_mutex)
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261120/202611201339.RBc3OaHu-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611201339.RBc3OaHu-lkp@intel.com/reproduce)
+Hi Ville,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20261116]
+[cannot apply to linus/master v7.4-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-tilcdc-Allow-build-without-__iowmb/20261118-234458
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261118214518.29317-20-ville.syrjala%40linux.intel.com
+patch subject: [PATCH v4 19/20] drm/nouveau: Allow platform driver build with COMPILE_TEST=y
+config: i386-buildonly-randconfig-1002-20261120 (https://download.01.org/0day-ci/archive/20261120/202611201357.plofVxy6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611201357.plofVxy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611201339.RBc3OaHu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611201357.plofVxy6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   sound/soc/soc-compress.c: In function 'soc_compr_open_fe':
->> sound/soc/soc-compress.c:294:1: error: duplicate label 'out'
-     294 | out:
-         | ^~~
-   sound/soc/soc-compress.c:290:9: note: previous definition of 'out' with type 'void'
-     290 |         out:
-         |         ^~~
+   drivers/gpu/drm/nouveau/nouveau_platform.c: In function 'nouveau_platform_resume':
+>> drivers/gpu/drm/nouveau/nouveau_platform.c:53:37: error: incompatible type for argument 1 of 'gk20a_devfreq_resume'
+      53 |         return gk20a_devfreq_resume(dev);
+         |                                     ^~~
+         |                                     |
+         |                                     struct device *
+   In file included from drivers/gpu/drm/nouveau/nouveau_platform.c:24:
+   drivers/gpu/drm/nouveau/nvkm/subdev/clk/gk20a_devfreq.h:20:54: note: expected 'struct device' but argument is of type 'struct device *'
+      20 | static inline int gk20a_devfreq_resume(struct device dev) { return 0; }
+         |                                        ~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/nouveau/nouveau_platform.c:54:1: warning: control reaches end of non-void function [-Wreturn-type]
+      54 | }
+         | ^
 
 
-vim +/out +294 sound/soc/soc-compress.c
+vim +/gk20a_devfreq_resume +53 drivers/gpu/drm/nouveau/nouveau_platform.c
 
-   223	
-   224	static int soc_compr_open_fe(struct snd_compr_stream *cstream)
-   225	{
-   226		struct snd_soc_pcm_runtime *fe = cstream->private_data;
-   227		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(fe, 0);
-   228		struct snd_soc_dpcm *dpcm;
-   229		struct snd_soc_dapm_widget_list *list;
-   230		int stream = cstream->direction; /* SND_COMPRESS_xxx is same as SNDRV_PCM_STREAM_xxx */
-   231		int ret;
-   232	
-   233		snd_soc_card_mutex_lock(fe->card);
-   234	
-   235		ret = soc_compr_alloc_fe_runtime(fe, stream);
-   236		if (ret < 0)
-   237			goto be_err;
-   238	
-   239		ret = dpcm_path_get(fe, stream, &list);
-   240		if (ret < 0)
-   241			goto be_err;
-   242	
-   243		{
-   244			/* avoid scoped_guard() to allow goto */
-   245			guard(pcm_mutex)(fe->card);
-   246	
-   247			/* calculate valid and active FE <-> BE dpcms */
-   248			dpcm_add_paths(fe, stream, &list);
-   249	
-   250			fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_FE;
-   251	
-   252			ret = dpcm_be_dai_startup(fe, stream);
-   253			if (ret < 0) {
-   254				/* clean up all links */
-   255				for_each_dpcm_be(fe, stream, dpcm)
-   256					dpcm->state = SND_SOC_DPCM_LINK_STATE_FREE;
-   257	
-   258				dpcm_be_disconnect(fe, stream);
-   259				goto out;
-   260			}
-   261	
-   262			ret = snd_soc_dai_compr_startup(cpu_dai, cstream);
-   263			if (ret < 0)
-   264				goto out;
-   265	
-   266			ret = snd_soc_compr_components_open(cstream);
-   267			if (ret < 0)
-   268				goto open_err;
-   269	
-   270			ret = snd_soc_link_compr_startup(cstream);
-   271			if (ret < 0)
-   272				goto machine_err;
-   273	
-   274			dpcm_clear_pending_state(fe, stream);
-   275			dpcm_path_put(&list);
-   276	
-   277			fe->dpcm[stream].state = SND_SOC_DPCM_STATE_OPEN;
-   278			fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_NO;
-   279	
-   280			snd_soc_runtime_stream_user_update(fe, stream, 1);
-   281	
-   282			/* success */
-   283			goto out;
-   284	
-   285			/* error handling in guard() */
-   286		machine_err:
-   287			snd_soc_compr_components_free(cstream, 1);
-   288		open_err:
-   289			snd_soc_dai_compr_shutdown(cpu_dai, cstream, 1);
-   290		out:
-   291			dpcm_path_put(&list);
-   292			goto be_err;
-   293		}
- > 294	out:
-   295		snd_soc_card_mutex_unlock(fe->card);
-   296	
-   297		return 0;
-   298	
-   299	be_err:
-   300		soc_compr_free_fe_runtime(fe, stream);
-   301		fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_NO;
-   302		snd_soc_card_mutex_unlock(fe->card);
-   303	
-   304		return soc_compr_ret(fe, ret);
-   305	}
-   306	
+6ca1701cecdb2de Aaron Kling 2025-09-06  50  
+6ca1701cecdb2de Aaron Kling 2025-09-06  51  static int nouveau_platform_resume(struct device *dev)
+6ca1701cecdb2de Aaron Kling 2025-09-06  52  {
+6ca1701cecdb2de Aaron Kling 2025-09-06 @53  	return gk20a_devfreq_resume(dev);
+6ca1701cecdb2de Aaron Kling 2025-09-06 @54  }
+6ca1701cecdb2de Aaron Kling 2025-09-06  55  
 
 -- 
 0-DAY CI Kernel Test Service
