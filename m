@@ -1,76 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795194855;
-	b=5D7SkuNAcICamFb6ZK+yP82ruBA7x/m4m3Evzfu0wspWwIqyfAfjL8K/vRJAVJ+4j+3R
-	 iLEbU1MADofGGmVWhlUoedXfxMcG0uGsBNRTTNFi517fIQ1Om0Btw1WLYEKgFiXDRI73X
-	 jduYz+eSNh/XWud4AlG9X7snPsG5xAuH2jnZQ3OWKRjfE2urYvPY3uLMLVUa0Y8sYOFaO
-	 F0+6YeLPQ7EWeejhJQDX3OAEqPLJqNh5Vd5lxwXLWIMi0fNqAab0JCrf3IYHg04Vbihb8
-	 c5VebBohrOWremtQVtZrU3/YX5WPE5S6ZmrzJFhGa8ZYC3s+xp0ByZ/yhU/f/fCgmtg==
+	t=1795202634;
+	b=FGvivStUrQiSOS5zAoXuAsu9eOkl2UJ/6N732stdysWs4WCrX+at9YOTBcEhh+soObQG
+	 UB8mofvxImuul6GLbd0i1qASjuRHUy+0kOEsRQeHYLJ9EVyiQWgqHmFgy8VaVops3E3J6
+	 xUBHXfmVyotQFCWCCrsqtTvNxIfIEAdYu8epmA/+RkpravLlP2ypW5XWQnXeMbGhyh8N/
+	 cdVbaauepx0UspxxwRLubudO/a7j4R0i12TvbBPeSVKEvhTaeN1rvpUzMz+7HiQOqcAMz
+	 qw5BlNzIEQAb98/HUlojW7vSBKeepFBeP//iWPj67wiZ/YHerWyEjDwBOXJQL5v+FKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795194855;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795202634;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=wGVmEQp9zHlWF4Oecy0MygofVbx/pjwEgFji0+7LbuI=;
-	b=v91fnmJW0KYYNmo8hWtEF52KdurtA9Of8Jipk1AdJ2Ck7xC8pSKg2hR16AM6yNOJWEoU
-	 UiEMBOxq2+Ahdzq9J1BSQhQaAzEjgCfayJeAdYxVO1tIlDA58aV3ZrlfRN9sKfLc/GHku
-	 T3HvnZ2ZcZv5FTEsefBFMI8G7hU01+5pUzYKWld0uNPOYk7VzE+uE2kq+yrePQ0xzhh0U
-	 eEHfhCakWfAKZCURcPXDBGG1DHustNCmJ20UYJ/RQ/T1YA+QczcGSY6J76ZuvfQus+DaE
-	 vUcJjYREl0Kqu+8x4jHPUhr/eJn/3nQJNJXWE2xIOaQAD9+nQuDPca2Y4/HzmkIfVAg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=cIMlEHAXsHupnHOFHeIKMrh67XnbyAXB3whPGGpCY5I=;
+	b=kMhKQODXfCa+WFsemUBDzpwFaZWvvP8vuEOsZ+iESzBfisIg95XTNSY7ywPODsDIHCcd
+	 Y64hJ0mtTRWWJ6VBC1o3mAPPqKR5p7l0+q28O0usKC453QsmL+ASs1ZRqj7Y6LkxNEIi7
+	 yk44bhsDGSJ/rN4xg6DqTg5B/d6pk6AjW7BAjOB6opcEBEpLa0XezOE7j7QmmaNFfxjXV
+	 Gf6OxUlwtRmmbxl/cxyZc14uBTUPseSVvNaApVZ1z0+DFwkJHcpK3D4j+gv9wJyMCF1LB
+	 8ZaZqebpD3jmAa1Yc3NoggSUERkSMtGtjk1JYQoeNm/xJlDmsTCh0hkgedhN5q2iRHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HPhOoksk;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mYul8H0Y;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D66606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 17:14:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18D66606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A5E606A335;
+	Fri, 20 Nov 2026 19:23:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0A5E606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HPhOoksk
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mYul8H0Y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795194854; x=1826730854;
-  h=date:from:to:cc:subject:message-id;
-  bh=a7RqgSJWUqgUoLS2q7jjRKWeYo1mpKAB97Lm0nGfQ64=;
-  b=HPhOokskSr5ViVMXm5GlsTHnXyILBzkS3FNiSKE6XJSHX9//g9yZoE22
-   6SMj1gtRpHsFgKeOAk/y6UHVaZCZ8oznPw+NjUaAxkrl7kNCgC337IAYY
-   oq1jl4+6VrMelZiYdwv9z8/rdeV5PsevOPyAtuu4AXLnLk4rQSBlWRXOh
-   Ps87koQyZZIhQKJlgLNpyNwPfXwgG3DDHWPuVfQLewJBeQlkVj3THdISR
-   IcJG1ePji8xJH4MAjE4dSyD6Ce9e+nHDBalJfoObK895oETnC7t6VWUGe
-   aK0/qppY98l04n9xjyeQwXFQ5x0rEwScAjgYW6RbQNgilWd2KmeKWzUxu
-   g==;
-X-CSE-ConnectionGUID: IYkn8bGXRs+si15NxhaoBQ==
-X-CSE-MsgGUID: Zh90GaBbStmrGuH2W378Pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4119635"
+  t=1795202627; x=1826738627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A1NiJp6d9VgMIwxcRAsooN0LZHNBFTQODfOi8K94dGo=;
+  b=mYul8H0Ym90XpriRfQzLGnJ8cchCZL6sC2NfEGbj+VI+OFbKFcRMQQrw
+   VuTmArww8TBcTPrFx8SzsI+X5JJQd7gas7gPaD6mkI49jPVNJ6whemlB+
+   sgjXF8JvXzxifOrPeKrLmSna54QPl30aoolQYqItbAju1o9qtLl1I5VV6
+   ZrwEGbsWjKYcckz7WEJo4EsYSgN3wqIVP96+i6Qg3TFqaGZ1mqsqpbGKD
+   mFjf0s2WsV6GLLEzeZeA6O/vXu179Zgr0qC/jh+22wB9S914X1XqWKjou
+   sVKA8DbkTUUpzmLw6eGtzDuGhpkVda8eGL7ubrgFLV0qn40KlUJECdMJN
+   Q==;
+X-CSE-ConnectionGUID: ATqhSqpqQF+virM4ymeANg==
+X-CSE-MsgGUID: zXXxRvlMRr+NHJ2KMMd1+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3971336"
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4119635"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 09:14:13 -0800
-X-CSE-ConnectionGUID: nEcxVjBJSrWAVcdjXX2dSg==
-X-CSE-MsgGUID: J5KugUBxTzu68xyGtEEVwQ==
+   d="scan'208";a="3971336"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 11:23:46 -0800
+X-CSE-ConnectionGUID: IcMig1jkS+a4yth9PVQCqQ==
+X-CSE-MsgGUID: +iLoEhuvQbKE8PRygMOlvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11162650"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Nov 2026 09:14:12 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="10991760"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2026 11:23:40 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUSBd-0000000046H-3SO1;
-	Fri, 20 Nov 2026 17:14:09 +0000
-Date: Fri, 20 Nov 2026 18:13:34 +0100
+	id 1xUUCu-00000001IN5-05op;
+	Fri, 20 Nov 2026 19:23:36 +0000
+Date: Sat, 21 Nov 2026 03:23:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-linus-next:linus-next 29/46] ERROR: modpost:
- drivers/platform/asus/asus-wmi.ko: symbol 'platform_profile_cycle' undefined!
-Message-ID: <20261120181059.GypXyRIq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vikram Singh <vikram.singh3@oss.qualcomm.com>, peterz@infradead.org,
+	mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, atishp@rivosinc.com, anup.patel@oss.qualcomm.com,
+	will@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, beeman@rivosinc.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vikram Singh <vikram.singh3@oss.qualcomm.com>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
+	Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>,
+	Anup Patel <anup@brainfault.org>
+Subject: Re: [PATCH v5 5/7] riscv: pmu: Add driver for Control Transfer
+ Records Ext
+Message-ID: <202611210338.qHaMzDp7-lkp@intel.com>
+References: <20261118095053.3871267-6-vikram.singh3@oss.qualcomm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,24 +95,114 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118095053.3871267-6-vikram.singh3@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linus-next.git linus-next
-head:   aab799f53c8a83520a9fc5d4231cb1e613edd817
-commit: eca57a9649ee5935e7c3151cc4c29bbd24cdec88 [29/46] Merge branch 'pm-next' into all-next
-config: riscv-randconfig-2200-20261120 (https://download.01.org/0day-ci/archive/20261120/20261120181059.GypXyRIq-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/20261120181059.GypXyRIq-lkp@intel.com/reproduce)
+Hi Vikram,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on peterz-queue/sched/core]
+[also build test ERROR on perf-tools-next/perf-tools-next perf-tools/perf-tools robh/for-next linus/master v7.4-rc3 next-20261116]
+[cannot apply to tip/perf/core acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikram-Singh/perf-Increase-the-maximum-number-of-branches-remove_loops-can-process/20261118-152047
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+patch link:    https://lore.kernel.org/r/20261118095053.3871267-6-vikram.singh3%40oss.qualcomm.com
+patch subject: [PATCH v5 5/7] riscv: pmu: Add driver for Control Transfer Records Ext
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611210338.qHaMzDp7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 67ab6538dff0ed2593b90166214d93e992c74905)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210338.qHaMzDp7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261120181059.GypXyRIq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611210338.qHaMzDp7-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: drivers/platform/asus/asus-wmi.ko: symbol 'platform_profile_cycle' undefined!
->> ERROR: modpost: drivers/platform/asus/asus-wmi.ko: symbol 'devm_platform_profile_register' undefined!
+>> arch/riscv/mm/tlbflush.c:76:3: error: call to undeclared function 'sbi_remote_sfence_vma_asid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      76 |                 sbi_remote_sfence_vma_asid(NULL, 0, FLUSH_TLB_MAX_SIZE, FLUSH_TLB_NO_ASID);
+         |                 ^
+   arch/riscv/mm/tlbflush.c:76:3: note: did you mean 'sbi_remote_fence_i'?
+   arch/riscv/include/asm/sbi.h:756:19: note: 'sbi_remote_fence_i' declared here
+     756 | static inline int sbi_remote_fence_i(const struct cpumask *cpu_mask) { return -1; }
+         |                   ^
+   arch/riscv/mm/tlbflush.c:112:3: error: call to undeclared function 'sbi_remote_sfence_vma_asid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     112 |                 sbi_remote_sfence_vma_asid(cmask, start, size, asid);
+         |                 ^
+   2 errors generated.
+--
+>> arch/riscv/errata/andes/errata.c:30:16: error: variable has incomplete type 'struct sbiret'
+      30 |         struct sbiret ret;
+         |                       ^
+   arch/riscv/errata/andes/errata.c:30:9: note: forward declaration of 'struct sbiret'
+      30 |         struct sbiret ret;
+         |                ^
+>> arch/riscv/errata/andes/errata.c:36:8: error: call to undeclared function 'sbi_ecall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      36 |         ret = sbi_ecall(ANDES_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
+         |               ^
+   2 errors generated.
+--
+>> drivers/acpi/riscv/cpuidle.c:73:14: error: use of undeclared identifier 'SBI_HSM_SUSP_NON_RET_BIT'
+      73 |         if (state & SBI_HSM_SUSP_NON_RET_BIT)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/acpi/riscv/cppc.c:31:16: error: field has incomplete type 'struct sbiret'
+      31 |         struct sbiret ret;
+         |                       ^
+   drivers/acpi/riscv/cppc.c:31:9: note: forward declaration of 'struct sbiret'
+      31 |         struct sbiret ret;
+         |                ^
+>> drivers/acpi/riscv/cppc.c:38:6: error: use of undeclared identifier 'sbi_spec_version'
+      38 |         if (sbi_spec_version >= sbi_mk_version(2, 0) &&
+         |             ^~~~~~~~~~~~~~~~
+>> drivers/acpi/riscv/cppc.c:38:26: error: call to undeclared function 'sbi_mk_version'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      38 |         if (sbi_spec_version >= sbi_mk_version(2, 0) &&
+         |                                 ^
+>> drivers/acpi/riscv/cppc.c:39:6: error: call to undeclared function 'sbi_probe_extension'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      39 |             sbi_probe_extension(SBI_EXT_CPPC) > 0) {
+         |             ^
+>> drivers/acpi/riscv/cppc.c:53:14: error: call to undeclared function 'sbi_ecall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      53 |         data->ret = sbi_ecall(SBI_EXT_CPPC, SBI_CPPC_READ,
+         |                     ^
+   drivers/acpi/riscv/cppc.c:61:14: error: call to undeclared function 'sbi_ecall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      61 |         data->ret = sbi_ecall(SBI_EXT_CPPC, SBI_CPPC_WRITE,
+         |                     ^
+>> drivers/acpi/riscv/cppc.c:115:11: error: call to undeclared function 'sbi_err_map_linux_errno'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     115 |                         return sbi_err_map_linux_errno(data.ret.error);
+         |                                ^
+   drivers/acpi/riscv/cppc.c:156:29: error: call to undeclared function 'sbi_err_map_linux_errno'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     156 |                 return (data.ret.error) ? sbi_err_map_linux_errno(data.ret.error) : 0;
+         |                                           ^
+   8 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ERRATA_ANDES
+   Depends on [n]: RISCV_SBI [=n]
+   Selected by [y]:
+   - ARCH_ANDES [=y] && MMU [=y]
+
+
+vim +/sbi_remote_sfence_vma_asid +76 arch/riscv/mm/tlbflush.c
+
+18d2199d81054f Anup Patel        2023-03-28  70  
+95594cb40c6e01 Christoph Hellwig 2019-08-21  71  void flush_tlb_all(void)
+95594cb40c6e01 Christoph Hellwig 2019-08-21  72  {
+9546f00410ed88 Samuel Holland    2024-03-26  73  	if (num_online_cpus() < 2)
+9546f00410ed88 Samuel Holland    2024-03-26  74  		local_flush_tlb_all();
+9546f00410ed88 Samuel Holland    2024-03-26  75  	else if (riscv_use_sbi_for_rfence())
+9d4e8d5fa7dbbb Alexandre Ghiti   2023-10-30 @76  		sbi_remote_sfence_vma_asid(NULL, 0, FLUSH_TLB_MAX_SIZE, FLUSH_TLB_NO_ASID);
+dc892fb443224d Samuel Holland    2024-03-26  77  	else
+dc892fb443224d Samuel Holland    2024-03-26  78  		on_each_cpu(__ipi_flush_tlb_all, NULL, 1);
+95594cb40c6e01 Christoph Hellwig 2019-08-21  79  }
+95594cb40c6e01 Christoph Hellwig 2019-08-21  80  
 
 -- 
 0-DAY CI Kernel Test Service
