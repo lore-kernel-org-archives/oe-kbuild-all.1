@@ -1,76 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208388;
-	b=ZQnWhw8JItPp7MoniubmlK1H9wj+Gdu5g843WoarHNDhe1QyXdT1PiIM8RXoAkrpZgzy
-	 vujtbSPP78FrbHhVO0zNCzFN0vU1CbhBN5FmT/qoEhV+W4FMassk0UO1xrJiA11NxVkAr
-	 Q4LPMrFDtJfoIryu3XdaCwoia5LrCW9hVCbFSYn+8/552sX7sGf3851v0UUcsiax/sP/P
-	 TBOkaHUSb8jHnv1dhu6KYuO480oPgQLpzMJq0xQDyp7poDkSLTOrTL+iawCH8A+2TYfL6
-	 sRG7FCGKRj+qJ1smzf1ELF6bjHcxaowPLvXzUye4MgbPJoIrJEUD1+JVlMfXSDLCHmA==
+	t=1795209507;
+	b=I3ya6Hmal5QSQASfoLETvXZqMRJ9UHv2icwd+/LejG+ZFhlrMlkcbaJX4yMn4D2yBci8
+	 U6pa+8MDlUqpSZ/sEE9rlyz8QVbTIac7/dVnqh3WEBv1fQQeO+1OO1b836vuDCWr6xmkB
+	 ucmTGdiRiNyFXiKPTAqlvz+zQbDS1+ajRvvrJrILiIDWJXC3l15lmeKiEjFnfAMZfMIvH
+	 ZPXiXR8qIftajhOBZ+JoGUueK13667qfCM6JkDsUMtgaYpYWx/hEkPY1RdgYP5zqaWkp3
+	 juSMJK/MDiSaoBiae7De6LqGdKAgsE2aWCYURhsPH/GrQfEdqb7iupv9pFHtvtgL/xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208388;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795209507;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=+tUL3+9dLEnayLOGcPM1eXVBlH6kjbAYY6eAduCQTwk=;
-	b=pmB7iILJBx8dpzuQ8GWZlKYt3wG/xufWzIyS41tLhOX/Pn9Q0K+xwc/92nF7g8Jyb7jx
-	 x6t6gwda+FodDH6lqgO8Cb5xpGBFvPnlL9je1E2ytjDfZOYb+7CnQFTKpw6Qnm+ahwNbW
-	 su3R6arXG1MjqbC/l0BWouyvC/SWheDJcL6QZ7x4cOdPmmIw4gVxMWlHyotq72J7GWM1Z
-	 tcx+vkZnd5kagTyyOiwHbTkfF/oMhUo0RM8cgsrm7nSYnuNVFj5iHkLGUIe86Za5tSAC4
-	 A5ZWUVR6tw+7I9P12NW7E1n3qjWbUHuIQiJj1rymeeQ3gSDB82XYyHhNzinzwfF7QiQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=wjd64Or23nw/KUsVntyuyIfn77R+aFtaF7PwFr5d/Ws=;
+	b=VwdAaTGZvlLAd2Ma8aI2WXWyOzLtDEBUnHIY7SvaVygr8jRT+PmKy2Vm8dvBrTQFopc2
+	 AAJqGNc6PbtAWJQtywXIeCGw08fr2hUyf1WiWJVPZZyPTIZgvn8uA4TLJwlhHhuMwjz1B
+	 XssFfLosy/20mRxi3TwMe+Jk4JaX9KfdJtfdejleZyxPutYkawFOnAuOsVVUDfRlnuUeZ
+	 20jrKObW0tSSG1+R2zX6GI4/69UOH09cOQOdrj8DYH2iEQTbqKuSlGdZe3i84JUWjrrdJ
+	 ICBx/G1J1vsWab+a5TqzkJKdlYgDVtflbHZwIS2yodWP0O4tGIRMHmueImKuMLiEsLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mOzPlTXF;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hiHbLGgf;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452E4606A683
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 20:59:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 452E4606A683
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2507606A688
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Nov 2026 21:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2507606A688
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mOzPlTXF
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hiHbLGgf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795208382; x=1826744382;
-  h=date:from:to:cc:subject:message-id;
-  bh=CywnP3Flmhke0RCSAQVQkZN5WEOipcmf/A10ixWbtJQ=;
-  b=mOzPlTXFgKr7fQtrtWWSrWWh+KX8pvwHwG5Ij5UPu8sNW4IqdIDFPaHf
-   4rbm5sEgPqNW0TTs4ML5X/Mg6f2xQ4W3EdNXQJQxuEzX32HZMeNSTT54l
-   1XERo5Q2ukCFfOqfi928aSoVSnOFwT5pPrUSyy9sV8JGp3ri4f1jam882
-   wmVccTCmCNqf9+A/ZWRcTH5lSoCZIuQtbDHFrnUiyGC+UuWDSklL/ZsBD
-   ahwPCgrZBkZ4Cl+tUbaVqCTrJHAFM9xxlZqLUfQPX48/KoZ8gnyqyjTyY
-   W4nUGkllwmo+i/d/RrWo2fE1qXA8SGlQGAw9YoxI0MG+gL395XCJJo9Yz
-   A==;
-X-CSE-ConnectionGUID: EfGgOoBATQK1b18ffkvSfg==
-X-CSE-MsgGUID: JXvZo7K0TaKPYjIjTryR1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4123705"
+  t=1795209497; x=1826745497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VayXO2obERxLTh/FIisCjx2Bi3BpVJ+zEUoxkoWvpiw=;
+  b=hiHbLGgfAwCaRmh097WBjq/Av4qWMW7l8E7mN/mnxu4JnpXwGlAY3IWN
+   1UDSXVsRi4t4tJgX0oBAFGOVX15nmkewy7d3iG7zHpNi88R0pVXA9Mylh
+   q3ZhsFZUpk4jds0POfnGbNWITBKSiOXtQ/fTZEF5rpa5Cl89RSpc/xVsb
+   zNz77CmRcpo0WvoeKgJBVcoirroco7CRhiIKSmaktb9XEe3PMgb2Aq8NQ
+   fQ5+AZUuETPA9xJorBe+dzbUkvx21OAZJBcoO9bcAvw3Ba4y1sYtQ10SF
+   VAfAMPv8GU6i6bPeffqGUF2XluboQs2E5iO/8aNCLQA0zvzEU+52uaRBZ
+   g==;
+X-CSE-ConnectionGUID: LtPIdJ7mRaWxRLfdBizEmQ==
+X-CSE-MsgGUID: tgAYeU2XROKampRShFOXBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4084725"
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="4123705"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 12:59:42 -0800
-X-CSE-ConnectionGUID: 3Y/Niu7MQKu3Vg1q5gffFQ==
-X-CSE-MsgGUID: bXRRKctjSJeZCCUOQHyXmA==
+   d="scan'208";a="4084725"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 13:18:16 -0800
+X-CSE-ConnectionGUID: BMjj23xJQqSojMr33lja1A==
+X-CSE-MsgGUID: 4yEJNJXHQJ+q7NJzFHpFnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11003139"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2026 12:59:41 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="11364362"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Nov 2026 13:18:10 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUVhq-0000000047l-3Qpz;
-	Fri, 20 Nov 2026 20:59:38 +0000
-Date: Fri, 20 Nov 2026 21:59:07 +0100
+	id 1xUVzi-00000001Iah-0bcq;
+	Fri, 20 Nov 2026 21:18:06 +0000
+Date: Sat, 21 Nov 2026 05:17:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:dhchap-keyring.v4 4/9] ERROR: modpost:
- drivers/nvme/host/nvme-fabrics.ko: symbol 'nvme_auth_extract_key' undefined!
-Message-ID: <20261120215407.qFI24sXE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-sound@vger.kernel.org,
+	Olivier Moysan <olivier.moysan@foss.st.com>
+Subject: Re: [PATCH v2 02/11] iio: adc: stm32-mdf: add core registration
+Message-ID: <202611210514.27XNsKFF-lkp@intel.com>
+References: <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,23 +103,113 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git dhchap-keyring.v4
-head:   1b78746d90bfa570d96e88475983421f24c38b0d
-commit: 471402e9fa1b77a993d10ccd1568579108ea44e8 [4/9] nvme: parse dhchap keys during option parsing
-config: openrisc-randconfig-2200-20261120 (https://download.01.org/0day-ci/archive/20261120/20261120215407.qFI24sXE-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/20261120215407.qFI24sXE-lkp@intel.com/reproduce)
+Hi Olivier,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d922ed738439e1d5b4701df7f4cdd49a09925624]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Olivier-Moysan/dt-bindings-iio-adc-add-stm32mp2-mdf-filter/20261118-161746
+base:   d922ed738439e1d5b4701df7f4cdd49a09925624
+patch link:    https://lore.kernel.org/r/20261118-upstream_mdf_v2-v2-2-7939d3c3720a%40foss.st.com
+patch subject: [PATCH v2 02/11] iio: adc: stm32-mdf: add core registration
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611210514.27XNsKFF-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210514.27XNsKFF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261120215407.qFI24sXE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611210514.27XNsKFF-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: drivers/nvme/host/nvme-fabrics.ko: symbol 'nvme_auth_extract_key' undefined!
+>> drivers/iio/adc/stm32-mdf-core.c:447:12: warning: 'stm32_mdf_core_runtime_resume' defined but not used [-Wunused-function]
+     447 | static int stm32_mdf_core_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:442:12: warning: 'stm32_mdf_core_runtime_suspend' defined but not used [-Wunused-function]
+     442 | static int stm32_mdf_core_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:407:12: warning: 'stm32_mdf_core_resume' defined but not used [-Wunused-function]
+     407 | static int stm32_mdf_core_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-core.c:388:12: warning: 'stm32_mdf_core_suspend' defined but not used [-Wunused-function]
+     388 | static int stm32_mdf_core_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/stm32_mdf_core_runtime_resume +447 drivers/iio/adc/stm32-mdf-core.c
+
+   387	
+ > 388	static int stm32_mdf_core_suspend(struct device *dev)
+   389	{
+   390		struct stm32_mdf *mdf = dev_get_drvdata(dev);
+   391		struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
+   392		int ret;
+   393	
+   394		ret = pm_runtime_force_suspend(dev);
+   395		if (ret)
+   396			return ret;
+   397	
+   398		regcache_cache_only(priv->regmap, true);
+   399		regcache_mark_dirty(priv->regmap);
+   400	
+   401		/* Balance regmap_mmio_attach_clk() clk_prepare() */
+   402		clk_unprepare(priv->kclk);
+   403	
+   404		return pinctrl_pm_select_sleep_state(dev);
+   405	}
+   406	
+ > 407	static int stm32_mdf_core_resume(struct device *dev)
+   408	{
+   409		struct stm32_mdf *mdf = dev_get_drvdata(dev);
+   410		struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
+   411		int ret;
+   412	
+   413		ret = pinctrl_pm_select_default_state(dev);
+   414		if (ret) {
+   415			dev_err(dev, "Failed to set pins default state: %d\n", ret);
+   416			return ret;
+   417		}
+   418	
+   419		ret = clk_prepare(priv->kclk);
+   420		if (ret) {
+   421			dev_err(dev, "Failed to prepare kernel clock: %d\n", ret);
+   422			goto err_clk;
+   423		}
+   424	
+   425		regcache_cache_only(priv->regmap, false);
+   426		ret = regcache_sync(priv->regmap);
+   427		if (ret) {
+   428			dev_err(dev, "Failed to sync cache: %d\n", ret);
+   429			goto err_cache;
+   430		}
+   431	
+   432		return pm_runtime_force_resume(dev);
+   433	
+   434	err_cache:
+   435		clk_unprepare(priv->kclk);
+   436	err_clk:
+   437		pinctrl_pm_select_sleep_state(dev);
+   438	
+   439		return ret;
+   440	}
+   441	
+ > 442	static int stm32_mdf_core_runtime_suspend(struct device *dev)
+   443	{
+   444		return 0;
+   445	}
+   446	
+ > 447	static int stm32_mdf_core_runtime_resume(struct device *dev)
+   448	{
+   449		return 0;
+   450	}
+   451	
 
 -- 
 0-DAY CI Kernel Test Service
