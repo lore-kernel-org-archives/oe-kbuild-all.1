@@ -1,85 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795266998;
-	b=AzNbGvHHy1ehSFjcmkYJI6J220L/ZTJ+0SRP13j87L3UjO/V8YLcigQcLzpds0wpdlSY
-	 UaxdwytEU4nf++sDl3xEcaiGO01JjE2VTu3HhoK6MyOPz1UQq4eLehy/W/x6UI6J6z68J
-	 pq7BfFaQsB3v/niVOs0t1FNIdI9+fT6XbdDmIc10h7yW1rAjbvCSSm7nQxyahvdzK0/Yv
-	 8kYtSOv4maITplIF6ZhBk8eEPsHP3vIJOrx6xLWC8iyxth3tcyI05+bmOLLByLXw+coPl
-	 pKhbVh3Acn6v5qcgSObHzcumc77PVONxnpUIxhAkQgN4xC2H4YPBJ/4wP0XF8CSAABg==
+	t=1795271782;
+	b=EaYfWYn3WSv0LD965sCpCVQb1oris2UZHuiMM+kvJlDjc84A98ekmDviJRTOgSRfY0AS
+	 2mx6r/NYDroLNN6/OWCPZePHSAlA74bw7Ht5VYkGW4ZNtlJYnx8sAVDvFnvCc8iINV8Fw
+	 Wr9fR0CJiheEv55vLlo5PUOV4DnP3r9k7Zf1sk1g+J5vPd8i/tL2VTy7XdWEYgf8roxdH
+	 WJRMMSloufMdsLM6/l4C6Bh6Jig+4tDc8ZlEEXNZVn6Ea0ErZhILU5BCTc5YhRsAjPdaB
+	 c28b8XQyDihDrnIRnCDfB3BBJ/N1vTBdkTkX78vs0CaphjVl9M0G3CNuTyK0LYbQJSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795266998;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795271782;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=TxW/RAptOpxLkind6FtvVROcaKbdd/cBMgMOKwStZeM=;
-	b=U3NkHpsa4qmmNgUoA1YsEvU/t4ZJL/1SaCrn3ACeq3Sxoi4J6NEwaQQmEpfCRvpWT0/P
-	 oBWHWR8mpxXCeZdCAUH/6H96dg6apN1nnPdKzk8JimjZJuFc8FMOHD8KBR22NaWX3egzF
-	 XBHgEwViFkiY8JcalCYdNicDMOLST997JAVwLSoy0eLyfq1OMw2/Or60lj16lL+rH+u47
-	 fXRiMXm4MKMjFEhWygN610iTsy08a5H2bGtw/fM3YUCbQnS4u1SKogBzaMNLDQp8DSMpT
-	 zb6ObHBgkBHAWSs6/Z3IHd1apupBTIGgbsBpEA0LgF/ZJy7hSO0+IjMF1toS7S3aEgA==
+	bh=9nQN9/l1aeG2iZov/Qhemo8zZWreFmt6kut8e31XMuE=;
+	b=p8AYoJwb4rgLD0wz1Mw2uvzrJnuKUUBj7TLpeiuDOmEpDgzQsijTlGcqQL19DB2v3bJb
+	 SrAe5uLlKzN7dz13fZV34JsSaOLvp31R2Xm7U4h10JdSvfmjKQ6w9rFYD5ihiOqD/1IXA
+	 aAsTlKXLVIE+/i3r3lLevytuOWRMzPYmRVevogrPMAl/vbaCnBjFC4hAD0sskfHsdUZBn
+	 yiyKO8NjMKYJl0Ufdd7iIzzNptgHIKQyz5wehrJVI+jNJalRUNaC96tuxFtZFQg4KwEnn
+	 BYr0ioNlP/g7KlVQ+Wpxh6astsjRrAELhFnC2cXZFDU/j+ZHXC63CWD/hPG19bv0NYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPAShBr7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YI1C9cQV;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 77793606A32C;
-	Sat, 21 Nov 2026 13:16:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EDD606A32A;
+	Sat, 21 Nov 2026 14:36:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76EDD606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPAShBr7
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 930CA1F000C0;
-	Sat, 21 Nov 2026 13:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795266998;
-	bh=TxW/RAptOpxLkind6FtvVROcaKbdd/cBMgMOKwStZeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bPAShBr7KOOGPBKH+XTeVXkgXBPFn40auFQSlE9hM8FDZmc2VPBT8Pq0gw83FDHHz
-	 puDG/SloQy85d6f6pt40euCNXoB9KNLlbgkAg8nEZEwPv26NTv12dnjuIX1/hEkd7F
-	 Y+v34WLQW/heaHEZxlua+xB+3xcxWtK887Hdmb/5Kj5r/xUU7kORPO2reS/uCP5scj
-	 28VUcr02GlWxQzAWdy5DXSsAacKGZplfY7yTt8sxZ31jBcV/4+tI3snCWxj+0uAVEJ
-	 Hbjv/Gkh1sBmM/osurXObPF/vRMcavLbYjGrfmTZo2LL7YmOjGy/E0D83NqUxvDb/r
-	 +CjTnZ4TPRP7g==
-Date: Sat, 21 Nov 2026 13:51:44 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Holger Dengler <dengler@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-kbuild@vger.kernel.org, linux-s390@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, "kernelci.org bot" <bot@kernelci.org>
-Subject: Re: [PATCH] Move struct cpu_feature to a
- <linux/device-id/cpu_feature.h>
-Message-ID: <awGT4AhwcFcLsW0c@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Holger Dengler <dengler@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-kbuild@vger.kernel.org, linux-s390@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, "kernelci.org bot" <bot@kernelci.org>
-References: <20261120202712.3377691-1-nsc@kernel.org>
- <202611211941.G0rlpNpN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YI1C9cQV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795271781; x=1826807781;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xL0K9+vP4paEUFHi3kZBlqtEBtHHC2I2LVqXj1ogESQ=;
+  b=YI1C9cQVRWEefACB+yUM5x7upnxL7/PSWAagA9gtdm3pKotC9YDIjVDm
+   DwVbghp1QVHM3aV+vPZvS6hx38u2iaE6V0KOT5CWLPjQigsSUNIf/k7VM
+   HNo3plraVSqWSaZ5U/V0DbZuKFYn3+WF3IfxDOP9nMIXqn/24uxuKlnHC
+   /Z7GnNsuvtjy3wbo6/D/tfdoYMrvEDczMcbCu8kJg87wMFXHar+eA1r8G
+   CtD4p/yu0pcZfbA+l7NU3zHabp9JMttJoyWfVlU6+flkkmNjxmMd5fPj4
+   rdQr7opHJGXSFDXvJyt8SI1ShPH27e121Jmlrez5UeX1tTSC1mSfVV0GJ
+   w==;
+X-CSE-ConnectionGUID: YOncd/E8T9+fQCSkm1iDQg==
+X-CSE-MsgGUID: 0zNDK+KXRa2Gb7U4CYIGNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4218599"
+X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
+   d="scan'208";a="4218599"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 06:36:21 -0800
+X-CSE-ConnectionGUID: 1axwqobeQn2jJjEb45OZyw==
+X-CSE-MsgGUID: vPr88j40SBuTdy5qzWllUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
+   d="scan'208";a="12748062"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 21 Nov 2026 06:36:18 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xUmCN-00000001K8t-1GOx;
+	Sat, 21 Nov 2026 14:36:15 +0000
+Date: Sat, 21 Nov 2026 22:35:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hilda Wu <hildawu@realtek.com>, marcel@holtmann.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	luiz.dentz@gmail.com, linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alex_lu@realsil.com.cn,
+	jason_mao@realsil.com.cn, zoey_zhou@realsil.com.cn,
+	max.chou@realtek.com, kidman@realtek.com, arunr@valvesoftware.com
+Subject: Re: [PATCH v10 1/2] Bluetooth: btrtl: Add firmware format v3 support
+Message-ID: <202611212209.wBWI3Z2q-lkp@intel.com>
+References: <20261120082636.3834168-2-hildawu@realtek.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -91,55 +87,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202611211941.G0rlpNpN-lkp@intel.com>
+In-Reply-To: <20261120082636.3834168-2-hildawu@realtek.com>
 
-On Sat, Nov 21, 2026 at 08:01:20PM +0800, kernel test robot wrote:
-> Hi Nicolas,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on kvm/queue]
-> [also build test ERROR on kvm/next linus/master v7.4-rc3]
-> [cannot apply to kvm/linux-next next-20261119]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Schier/Move-struct-cpu_feature-to-a-linux-device-id-cpu_feature-h/20261120-212711
-> base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-> patch link:    https://lore.kernel.org/r/20261120202712.3377691-1-nsc%40kernel.org
-> patch subject: [PATCH] Move struct cpu_feature to a <linux/device-id/cpu_feature.h>
-> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611211941.G0rlpNpN-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211941.G0rlpNpN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611211941.G0rlpNpN-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/s390/crypto/pkey_cca.c:22:45: error: array has incomplete element type 'struct ap_device_id'
->       22 | static struct ap_device_id pkey_cca_card_ids[] = {
->          |                                             ^
->    drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
->      158 |         struct ap_device_id *ids;
->          |                ^
->    1 error generated.
-> --
-> >> drivers/s390/crypto/pkey_ep11.c:23:46: error: array has incomplete element type 'struct ap_device_id'
->       23 | static struct ap_device_id pkey_ep11_card_ids[] = {
->          |                                              ^
->    drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
->      158 |         struct ap_device_id *ids;
->          |                ^
->    1 error generated.
+Hi Hilda,
 
-That is fixed by [1] which is to be applied before the patch referenced
-above.
+kernel test robot noticed the following build errors:
 
-[1]: https://lore.kernel.org/linux-kbuild/66e4ee9c7f9b4bc48fcee92a94b6bb6d92fe1ad2.1794233316.git.sashal@kernel.org/
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master]
+[cannot apply to linus/master v7.4-rc3 next-20261119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/Bluetooth-btrtl-Add-firmware-format-v3-support/20261120-162635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20261120082636.3834168-2-hildawu%40realtek.com
+patch subject: [PATCH v10 1/2] Bluetooth: btrtl: Add firmware format v3 support
+config: i386-randconfig-1003-20261121 (https://download.01.org/0day-ci/archive/20261121/202611212209.wBWI3Z2q-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611212209.wBWI3Z2q-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611212209.wBWI3Z2q-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: btrtl_recv_event
+   >>> referenced by btusb_main.c:2995 (drivers/bluetooth/btusb_main.c:2995)
+   >>>               drivers/bluetooth/btusb_main.o:(btusb_recv_event_realtek) in archive vmlinux.a
 
 -- 
-Nicolas
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
