@@ -1,71 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795247219;
-	b=J/J5GtrxoXeDy4obbj9X5qN/Z1ltsJrzrgMIC41prVlD96bgHaxzf3YoT7fV+j/eqP6p
-	 1bDjvClYlw9XKSmkM3FPkPl+sUIHXKPbb7N2Rbt/KqoUdB8LiNUTaxn7MTlbJSekMbaYe
-	 zYN3JQ+zFZ4VOIjN6UlmI/o0y/V8gRU+k9i1O2z4VJE2m3pRoCdSxqdepiI5RIvy5Manq
-	 JeJEJ1UHv/NfWvT7Reffrl6TxuzTLcJkidITXVpBO06LBIReMzAYkOSaD4BZENGvYL+Qg
-	 t/22NRNpQKg1evtkQaJxiqcZ61ybMqTwUhMLnDcjw+HbU5PgN0VIFwbpSOkxRM97xiA==
+	t=1795249099;
+	b=kjopLFg2QgwTxlASQkhwS0NKDgPmCnirBGmHR77omrj4r4D+u/sQ0Pat1uXCU3Xrbdqj
+	 XZp7CuSq2yLu0IRSjx91bszOEonDDdIWyLSdsEY/TQN1G2joME8FSrMkEF278lLK6g1uP
+	 tpYcdPw8z8tt5sgNDkmPBSuTPLStMiVd9UgRMBAEYfrrtXVyAUd/PpQa0Eq0HEIGwTkEb
+	 Wyk06MGbqe/Tbl1Ohdnbtqzj3quOT3SVomwMR3bhMh6fBpg5fxqZYstKKYghFKlhuPHKV
+	 NzJPhdriPGzDU9kcVDpCYELZzcpELc4SEeHANHG84rTghFW4R8NCRgKayoN+Q22sIKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795247219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795249099;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=WUt3ilp/MbYiddXzWat/1cfv3L8ANihyCynGRUpxkj0=;
-	b=KCnFkjVo5kOQQ+8MDjdIZG5i/hirZnBcW9VdCCEwpR3BG408r24yzBjly6r5t+ioHjNc
-	 cjN9roquqzVTBS5L/9bxENlwvWWEDvStZL9RZDY+SSG9Fx1mKcyWyxSjhNypOIpOlE6Ib
-	 QOrmDOFaE80fJq1sXTfBiN2lJ11ahDwNWD5HgZTNwtFl+ZjpcAIvRtM9Za0ssfiHaWXJe
-	 NJpJJel5NzTwDVyaSLqVH/KEJtfo/QJNBevN85pDocFQq00JzAd1M/5CUHqssMstBqBrA
-	 O3PsZ7olVtEZpsR5nkNSkmMNDETkbugRrBdv2/dBnE6VL3Pngz1gc58BLQL9ORi4HkQ==
+	bh=wCYPhItWmnp0/5nxKzmcWIir9eopxc4FlvC5rliCc3Q=;
+	b=3CEpdqxPVl+KYcMJp6Ze0A+WoK+7wq7L+FGfVn1ESjKMJY8Y5HlptdhRnW+s+C/xLe4i
+	 WLUTaeJOBqD6qA1A06zDOopwVkQ+lC9NzHwIEviJKpm/HN8LIH5N/bV6XRcdmn2AD5u4l
+	 /xFbpQEPb2Oc1S/Jmzl6jbJddfmp3x3+yim00FQZfQt8AP9wjxSSiX1PZE9/YDs052Bf0
+	 6BaWEdp9Ubr8IAgtFhOmixqRTZvpzGT1EocAc1E/Kchtn6FgTJSFjPJOm3K3x33zwPk6T
+	 P2Uplhi1/Yu4MovoW0LPvMV/3IqZJlZ8mVwG6LemMOa6jh3Ah/LwSDIQN/UlWln4a6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O1LiuYRL;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a7BCuG49;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F96606A320
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 07:46:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65F96606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99311606A320;
+	Sat, 21 Nov 2026 08:18:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99311606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O1LiuYRL
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a7BCuG49
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795247218; x=1826783218;
+  t=1795249099; x=1826785099;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2Pg1BhUYFt8ZDrzTh0ylBvqkYCJh/9VFw/AThGXyM5I=;
-  b=O1LiuYRLwZFaOZDCuEAtGyPza0WLUdLuCnpi0lCmbUL3km0kG/vE+EV6
-   kdZdT/LOihcUk/pg73KfLW84I6wA8Qh0VxgZgzoS5EL/Pum8KXy4V211x
-   z4/jrA7FiUVtwMMcreo4/OjcRzGpuQPMwfmPtTslZJ7r4vpw7elBGI6GL
-   erNAbPVP9Cw6vI2Y2YUjw+/6p5532VimeBQz9YTggqpK5oKFBwspFDW0f
-   Eo4FKl3c9wUz3zlzh+W+DgJkMuJLX2QHwB5RMm+DLhIWOEOINXVRr64oF
-   Xx3eq0BRaBEHf+KtcIaKstGJJl7K6NOaL77QcaT8W9tGokfBXfqjABXKW
-   Q==;
-X-CSE-ConnectionGUID: bz2AGTT+RZOWIpTjWTJDRA==
-X-CSE-MsgGUID: dZ1KvO0ZS6ucAkZQ0NOV9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4119035"
+  bh=pO0cciCz4qBsH+lwwoCOo6yiJg2x8jY4K93217h6gAw=;
+  b=a7BCuG49l++B9bS9D2HtL1DF+nBZZigWWrXbd4TaopSENvLcFrfWJoQK
+   QX3fWdrwBo8ureSdmkjzOupb0yY/Ghm0793jVzL2l+LV9lfjnmrC7iBU1
+   OTsYsw05xycmf3zvrTNKnBjbBCmK4ZHwKgk2wNBxSUJa4MKqdDJGXkRki
+   Hstx2vIEw+GVODwkU30BXvyvrzArZQm9tu5lCEOWsL/qpMX8j0wSrn475
+   ZkFlv/I+yka1KMLGeVm7BGMEB/q4uVoWY9MyqLIVopVZRHwmsH5ATcWhT
+   L1jPcoFW8OTarvqrjHPJ/tqQzN6joYItoEFyaxKKrAHsO46W9t0CgFlFz
+   A==;
+X-CSE-ConnectionGUID: 4O3SDwYARFus+IHxGYXcaw==
+X-CSE-MsgGUID: 0xobKn6UQmK1I33hkbM74Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4016235"
 X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="4119035"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 23:46:58 -0800
-X-CSE-ConnectionGUID: /A1rNDpfSRKPQJZ/G5VcoA==
-X-CSE-MsgGUID: rKyVTveQSDmIR0gpKJ/nNg==
+   d="scan'208";a="4016235"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 00:18:18 -0800
+X-CSE-ConnectionGUID: PWrLIszdQNecO3b3uFVshg==
+X-CSE-MsgGUID: OqtUL30ETRu4ekM85ukBbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="10869395"
+   d="scan'208";a="12709521"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Nov 2026 23:46:51 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 21 Nov 2026 00:18:11 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUfo7-00000001Jjv-3U8J;
-	Sat, 21 Nov 2026 07:46:47 +0000
-Date: Sat, 21 Nov 2026 15:46:32 +0800
+	id 1xUgIR-00000001Jln-0CGj;
+	Sat, 21 Nov 2026 08:18:07 +0000
+Date: Sat, 21 Nov 2026 16:17:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>,
 	Yury Norov <yury.norov@gmail.com>,
@@ -92,11 +92,11 @@ To: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>,
 	Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>
 Subject: Re: [PATCH 54/60] mm/migrate: route explicit NUMA migration to
  private nodes
-Message-ID: <202611211523.63iOZgBX-lkp@intel.com>
+Message-ID: <202611211538.vaJ4R864-lkp@intel.com>
 References: <20261120-private_nodes_v6-v1-54-74f5f9a115c2@gourry.net>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -113,39 +113,37 @@ In-Reply-To: <20261120-private_nodes_v6-v1-54-74f5f9a115c2@gourry.net>
 
 Hi Gregory,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 15f114dac9a7bde1796f0e54e22726fd31cfa8a5]
+[auto build test ERROR on 15f114dac9a7bde1796f0e54e22726fd31cfa8a5]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price-via-B4-Relay/nodemask-add-node-state-iterators/20261120-130852
 base:   15f114dac9a7bde1796f0e54e22726fd31cfa8a5
 patch link:    https://lore.kernel.org/r/20261120-private_nodes_v6-v1-54-74f5f9a115c2%40gourry.net
 patch subject: [PATCH 54/60] mm/migrate: route explicit NUMA migration to private nodes
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20261121/202611211523.63iOZgBX-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211523.63iOZgBX-lkp@intel.com/reproduce)
+config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20261121/202611211538.vaJ4R864-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211538.vaJ4R864-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611211523.63iOZgBX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611211538.vaJ4R864-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/migrate.c: In function 'alloc_migration_target':
-   mm/migrate.c:2254:24: error: implicit declaration of function '__folio_alloc_flags'; did you mean 'folio_alloc_swap'? [-Werror=implicit-function-declaration]
+>> mm/migrate.c:2254:10: error: call to undeclared function '__folio_alloc_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2254 |                 return __folio_alloc_flags(gfp_mask, order, nid, mtc->nmask,
-         |                        ^~~~~~~~~~~~~~~~~~~
-         |                        folio_alloc_swap
->> mm/migrate.c:2254:24: warning: returning 'int' from a function with return type 'struct folio *' makes pointer from integer without a cast [-Wint-conversion]
+         |                        ^
+>> mm/migrate.c:2254:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct folio *' [-Wint-conversion]
     2254 |                 return __folio_alloc_flags(gfp_mask, order, nid, mtc->nmask,
          |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     2255 |                                            mtc->alloc_flags);
          |                                            ~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   2 errors generated.
 
 
-vim +2254 mm/migrate.c
+vim +/__folio_alloc_flags +2254 mm/migrate.c
 
   2216	
   2217	struct folio *alloc_migration_target(struct folio *src, unsigned long private)
