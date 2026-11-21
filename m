@@ -1,87 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795283851;
-	b=V2ymZtYryPySLyA2ChAbrz4Duh7sY4uXLc3RYok+6pDoULRODFkQkf4iK7cmNStJGZVO
-	 R3hUoivFrWZ6EDdwGEYzrVJQQAtkPT8grMY2dTynjt5gP5JzwHx0kIKaxRzI+tzq689bS
-	 yvUBiVa2w2Nbhhynq0YbSx+Pt45ZrO16DPv3GJ3y9MkNv5OHmXskvv/RHRaQCY2ZSeebO
-	 osxYekyEVYad2hKaTKwMhJcso7L+PP8mISlFmFImIPf/g7f4kRv/2SHkOTgaBcXWH3KWm
-	 zDEt7D11u8mOGJIRAp8sA8ofuIMh+Shb3OiwaSGI+XZCqAiMgbu5YGvxlNvWPlHCSQg==
+	t=1795285110;
+	b=FIAWra3saXfGzaj+nCe6XIFNWhix9Dd4TxurEe76mQ27C9B+cRlif+B4aHKjvqK5xiLx
+	 +E64coVOiuhmqs3rfYd6fgeBYw3KuPfYXihPjSVZMgEGGCbTZ0cqn4T8kQiX5Roxwgmyi
+	 qxRyHGIXcNyeex6YUPxo7jQHYtfuSgUPvreU54wjb0wMFOaGNMd6OcNhBlzNizZnthrde
+	 A3V4DX9OK9WsWolqhPx99NimeoIYVP5GetLZbcrRs0IvOgiV27D4C3PAR8RZTcKjtHNPP
+	 ZKpn7J/0LS+Z8e+7ex9DIyLfvFbW93JLZJ/WPw4z1cpEKJuOUJlbdTGow16B3bQ73cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795283851;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795285110;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=xbFVZQIEMkfn+DHU4bD6nq+/GyfOhkBuMR4xGVWfzAM=;
-	b=Bom6v1NYXk7DMBbLVAbLIBNEviV4nP1mI9cQXuUIRjccWOxuqYYwonQgL2ypfnKc/3kH
-	 iXedUk6YGYWL8CZViRwWkj3TXyxVliyrY+rN5LR6zy2YhAtxIcIDd+2oLIwKZX/mjyNZX
-	 2gF9KWKvtHU1TjAJXw81b1y191FzN6PGPcYJT1j2w5M0Ceuv4UxR9LPY4SIZCFackE6ix
-	 rhPgOE0d36s5V6lbMscpzahKTtHyaqgcm5A9jL/RLC1VZ8yGn9S3H7HcDvP71Jbg5RL+u
-	 pB9kP5aoUXQDfS2wbzJQQtDSTH+a64zgwZQM+wnmD9o5UUjjK4M3bDSc5FpVyFhU9Yw==
+	bh=/akYk8/GMFheY0T1GirI7r3aE6F8rx4GegrnPEa9u3c=;
+	b=VbwFK0XxdHUkBOtHGKVHrAvRYVz914QR6yFExCulr9e0pNhSpOvKUiZQXdD0uk0VSldH
+	 Neo/LAM6cTSs+2gEB+xBQ0rHtDvS4z+POiluz9BT0Q1eI8lhWVChXoiRTI7lONVa9B5R0
+	 bpKmNbSS1UHqTg2Xmwa9DVX1m14/llrTsFWv5S7jyCIuIlDo82gZxK4VGdrw8UlYDsdM3
+	 ee/cCDu5p7KoEbieWAMrRSPyOXrdTeoLP7l26B4/FzNuVWPZbiAFZdM4nvGAFodj18nye
+	 L4fkgpsTOmZuJ8Ixo0r5QUDxRMsf4ZjzYkb3o7zhWK3GNXNrO9o1fAAaupFzBn9EDFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Eq75YtR8;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YXKMJeDW;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11364606A320;
-	Sat, 21 Nov 2026 17:57:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11364606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB35606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 18:18:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BB35606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Eq75YtR8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YXKMJeDW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795283849; x=1826819849;
+  t=1795285110; x=1826821110;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xbUHg34GuIgDdkp+pcQBfO7fh1frELeeNajnf0i1cLk=;
-  b=Eq75YtR8KU0jDJKWdpXFeKozdQdwPu5RS6Capg7Cc0/l+PsuQ/FuoKkL
-   YbiRJHqLFvjP6Y0svIly+bPlmT3o4aLEFadupTUPx1vWJuPAYNHomWECO
-   HHpeI+iyTYJmIe4urkf+kaOWMdrWwPE9x253fBiEmeyuzYhnd+24HXnwu
-   Nm6lX4sjKMr5pAwRwbAulrRIP2Fv/m4aa8jrF7UDHewHi/gIvbS+NNcZK
-   GVfGXPLNzq7Z6XCXLcf7diL+e1QGr7Mdvbp2O6EXtez/k9g/0HefsMorC
-   hWdHvaX4ZCRw/EJbZZcvBpK734EIloQUgAlM5ieVzyr8h4Z6pG9KL7njH
-   Q==;
-X-CSE-ConnectionGUID: QALJ/KUYR2q1ro6F6FtLbQ==
-X-CSE-MsgGUID: CNBUnDNoSF6ADn/UM6+KHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4038896"
+  bh=FS52rYp5xVLN4N6fXCWfgMpxvn0Xs8nTcWcTNdNZJrs=;
+  b=YXKMJeDW/xmupzXqeAVFIrXyS/09VoR7CZ1mwP4CSn+I7At+Ll+Iupz8
+   x0pLNHoYZnPWq3Fobp6v5PEyJV/NUJ4eMVmD20DqhIawe55861uSw71Iy
+   Pm+vMRXAV4fzEhHodi4/Vtxi9nZjLLqFBqlBof5RWz3Az8MW/sJLkhLCm
+   opc7Mnza2k9kw0fcoLOnGqCFNNo7NJAmjVauIRnAeajVJmL8okuKnNqbF
+   NZ8bpoVh1uOQZAGiQ8E5j6bNXZ+rPaYuUAVgbupqVwWKPl7YOme3ILs+J
+   KoNJ/ItRTNvzxCieb2sHf96jvBu1jm2qiYypEyjSmdlDrvq/RoKkWrlaf
+   w==;
+X-CSE-ConnectionGUID: SS9K6f5nQwuz4sjYWT0IKw==
+X-CSE-MsgGUID: e6OrEqVeR9+RZfYTQauuNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4241703"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4038896"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 09:57:28 -0800
-X-CSE-ConnectionGUID: /IJb+ANwRJmrssPyKMkcwQ==
-X-CSE-MsgGUID: wZ6TWN78Q0qCOWBzjJOFMQ==
+   d="scan'208";a="4241703"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 10:18:30 -0800
+X-CSE-ConnectionGUID: 7ROqlSiZSTuexAyJ7/Mz8A==
+X-CSE-MsgGUID: clpb1/YmQeGIfpaBAIipdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="11153815"
+   d="scan'208";a="10844817"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Nov 2026 09:57:25 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Nov 2026 10:18:27 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUpL0-00000001KOt-0yWP;
-	Sat, 21 Nov 2026 17:57:22 +0000
-Date: Sun, 22 Nov 2026 01:56:32 +0800
+	id 1xUpfN-00000001KQI-05Ml;
+	Sat, 21 Nov 2026 18:18:25 +0000
+Date: Sun, 22 Nov 2026 02:17:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Habil Eren =?iso-8859-1?Q?T=FCrker?= <habilerenturker@hotmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	"andriy.shevchenko@intel.com" <andriy.shevchenko@intel.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Habil Eren =?iso-8859-1?Q?T=FCrker?= <habilerenturker@hotmail.com>
-Subject: Re: [PATCH] PCI: Convert pci.c to pci_power_t helpers
-Message-ID: <202611220152.DcrSGe3C-lkp@intel.com>
-References: <20261121125811.50315-3-habilerenturker@hotmail.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+	eddyz87@gmail.com, memxor@gmail.com
+Subject: Re: [PATCH bpf-next v2 37/49] bpf: Verify in passes
+Message-ID: <202611220224.dm18oPJv-lkp@intel.com>
+References: <20261120204959.614908-38-alexei.starovoitov@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -93,325 +84,252 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261121125811.50315-3-habilerenturker@hotmail.com>
+In-Reply-To: <20261120204959.614908-38-alexei.starovoitov@gmail.com>
 
-Hi Habil,
+Hi Alexei,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.4-rc3 next-20261119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 82cc2b4383e3edfa1026c8612fb4e90a9329ba11]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Habil-Eren-T-rker/PCI-Convert-pci-c-to-pci_power_t-helpers/20261121-125915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20261121125811.50315-3-habilerenturker%40hotmail.com
-patch subject: [PATCH] PCI: Convert pci.c to pci_power_t helpers
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20261122/202611220152.DcrSGe3C-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611220152.DcrSGe3C-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/bpf-Look-for-bpf_clone_redirect-once-in-check_recursion/20261120-204909
+base:   82cc2b4383e3edfa1026c8612fb4e90a9329ba11
+patch link:    https://lore.kernel.org/r/20261120204959.614908-38-alexei.starovoitov%40gmail.com
+patch subject: [PATCH bpf-next v2 37/49] bpf: Verify in passes
+config: csky-randconfig-1000-20261121 (https://download.01.org/0day-ci/archive/20261122/202611220224.dm18oPJv-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611220224.dm18oPJv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611220152.DcrSGe3C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611220224.dm18oPJv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/pci.c:1174:24: error: call to undeclared function 'pci_power_t_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1174 |                 dev->current_state = pci_power_t_get(pmcsr);
-         |                                      ^
-   drivers/pci/pci.c:1174:24: note: did you mean 'pci_power_name'?
-   include/linux/pci.h:198:27: note: 'pci_power_name' declared here
-     198 | static inline const char *pci_power_name(pci_power_t state)
-         |                           ^
->> drivers/pci/pci.c:1372:5: error: call to undeclared function 'pci_power_t_eq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1372 |                         (pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D3hot) ||
-         |                          ^
-   drivers/pci/pci.c:1372:20: error: call to undeclared function 'pci_power_t_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1372 |                         (pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D3hot) ||
-         |                                         ^
-   drivers/pci/pci.c:1434:23: error: call to undeclared function 'pci_power_t_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1434 |         dev->current_state = pci_power_t_get(pmcsr);
-         |                              ^
->> drivers/pci/pci.c:1548:2: error: call to undeclared function 'pci_power_t_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1548 |         pci_power_t_set(&pmcsr, state);
-         |         ^
-   drivers/pci/pci.c:1548:2: note: did you mean 'pci_power_name'?
-   include/linux/pci.h:198:27: note: 'pci_power_name' declared here
-     198 | static inline const char *pci_power_name(pci_power_t state)
-         |                           ^
-   drivers/pci/pci.c:1560:23: error: call to undeclared function 'pci_power_t_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1560 |         dev->current_state = pci_power_t_get(pmcsr);
-         |                              ^
-   drivers/pci/pci.c:4595:2: error: call to undeclared function 'pci_power_t_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4595 |         pci_power_t_set(&csr, PCI_D3hot);
-         |         ^
-   7 errors generated.
+   csky-linux-ld: kernel/bpf/verifier.o: in function `do_check_block':
+>> kernel/bpf/verifier.c:21686:(.text+0x27540): undefined reference to `bpf_prog_offload_verify_insn'
+>> csky-linux-ld: kernel/bpf/verifier.c:21816:(.text+0x27640): undefined reference to `bpf_prog_offload_verify_insn'
 
 
-vim +/pci_power_t_get +1174 drivers/pci/pci.c
+vim +21686 kernel/bpf/verifier.c
 
-  1149	
-  1150	/**
-  1151	 * pci_update_current_state - Read power state of given device and cache it
-  1152	 * @dev: PCI device to handle.
-  1153	 * @state: State to cache in case the device doesn't have the PM capability
-  1154	 *
-  1155	 * The power state is read from the PMCSR register, which however is
-  1156	 * inaccessible in D3cold.  The platform firmware is therefore queried first
-  1157	 * to detect accessibility of the register.  In case the platform firmware
-  1158	 * reports an incorrect state or the device isn't power manageable by the
-  1159	 * platform at all, we try to detect D3cold by testing accessibility of the
-  1160	 * vendor ID in config space.
-  1161	 */
-  1162	void pci_update_current_state(struct pci_dev *dev, pci_power_t state)
-  1163	{
-  1164		if (platform_pci_get_power_state(dev) == PCI_D3cold) {
-  1165			dev->current_state = PCI_D3cold;
-  1166		} else if (dev->pm_cap) {
-  1167			u16 pmcsr;
-  1168	
-  1169			pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-  1170			if (PCI_POSSIBLE_ERROR(pmcsr)) {
-  1171				dev->current_state = PCI_D3cold;
-  1172				return;
-  1173			}
-> 1174			dev->current_state = pci_power_t_get(pmcsr);
-  1175		} else {
-  1176			dev->current_state = state;
-  1177		}
-  1178	}
-  1179	
-  1180	/**
-  1181	 * pci_refresh_power_state - Refresh the given device's power state data
-  1182	 * @dev: Target PCI device.
-  1183	 *
-  1184	 * Ask the platform to refresh the devices power state information and invoke
-  1185	 * pci_update_current_state() to update its current PCI power state.
-  1186	 */
-  1187	void pci_refresh_power_state(struct pci_dev *dev)
-  1188	{
-  1189		platform_pci_refresh_power_state(dev);
-  1190		pci_update_current_state(dev, dev->current_state);
-  1191	}
-  1192	
-  1193	/**
-  1194	 * pci_platform_power_transition - Use platform to change device power state
-  1195	 * @dev: PCI device to handle.
-  1196	 * @state: State to put the device into.
-  1197	 */
-  1198	int pci_platform_power_transition(struct pci_dev *dev, pci_power_t state)
-  1199	{
-  1200		int error;
-  1201	
-  1202		error = platform_pci_set_power_state(dev, state);
-  1203		if (!error)
-  1204			pci_update_current_state(dev, state);
-  1205		else if (!dev->pm_cap) /* Fall back to PCI_D0 */
-  1206			dev->current_state = PCI_D0;
-  1207	
-  1208		return error;
-  1209	}
-  1210	EXPORT_SYMBOL_GPL(pci_platform_power_transition);
-  1211	
-  1212	static int pci_resume_one(struct pci_dev *pci_dev, void *ign)
-  1213	{
-  1214		pm_request_resume(&pci_dev->dev);
-  1215		return 0;
-  1216	}
-  1217	
-  1218	/**
-  1219	 * pci_resume_bus - Walk given bus and runtime resume devices on it
-  1220	 * @bus: Top bus of the subtree to walk.
-  1221	 */
-  1222	void pci_resume_bus(struct pci_bus *bus)
-  1223	{
-  1224		if (bus)
-  1225			pci_walk_bus(bus, pci_resume_one, NULL);
-  1226	}
-  1227	
-  1228	static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
-  1229	{
-  1230		int delay = 1;
-  1231		bool retrain = false;
-  1232		struct pci_dev *root, *bridge;
-  1233	
-  1234		root = pcie_find_root_port(dev);
-  1235	
-  1236		if (pci_is_pcie(dev)) {
-  1237			bridge = pci_upstream_bridge(dev);
-  1238			if (bridge)
-  1239				retrain = true;
-  1240		}
-  1241	
-  1242		/*
-  1243		 * The caller has already waited long enough after a reset that the
-  1244		 * device should respond to config requests, but it may respond
-  1245		 * with Request Retry Status (RRS) if it needs more time to
-  1246		 * initialize.
-  1247		 *
-  1248		 * If the device is below a Root Port with Configuration RRS
-  1249		 * Software Visibility enabled, reading the Vendor ID may return a
-  1250		 * special data value if the device responded with RRS.  Read the
-  1251		 * Vendor ID until we get non-RRS status and something other than
-  1252		 * ~0.  The Vendor ID of VFs reads ~0, so check their Command
-  1253		 * register instead.
-  1254		 *
-  1255		 * If there's no Root Port or Configuration RRS Software Visibility
-  1256		 * is not enabled, the device may still respond with RRS, but
-  1257		 * hardware may retry the config request.  If no retries receive
-  1258		 * Successful Completion, hardware generally synthesizes ~0
-  1259		 * (PCI_ERROR_RESPONSE) data to complete the read.  Reading Vendor
-  1260		 * ID for VFs and non-existent devices also returns ~0, so read the
-  1261		 * Command register until it returns something other than ~0.
-  1262		 */
-  1263		for (;;) {
-  1264			u32 id;
-  1265	
-  1266			if (pci_dev_is_disconnected(dev)) {
-  1267				pci_dbg(dev, "disconnected; not waiting\n");
-  1268				return -ENOTTY;
-  1269			}
-  1270	
-  1271			if (root && root->config_rrs_sv) {
-  1272				pci_read_config_dword(dev, PCI_VENDOR_ID, &id);
-  1273				if (!pci_bus_rrs_vendor_id(id)) {
-  1274					if (PCI_POSSIBLE_ERROR(id) && dev->is_virtfn)
-  1275						pci_read_config_dword(dev, PCI_COMMAND,
-  1276								      &id);
-  1277					if (!PCI_POSSIBLE_ERROR(id))
-  1278						break;
-  1279				}
-  1280			} else {
-  1281				pci_read_config_dword(dev, PCI_COMMAND, &id);
-  1282				if (!PCI_POSSIBLE_ERROR(id))
-  1283					break;
-  1284			}
-  1285	
-  1286			if (delay > timeout) {
-  1287				pci_err(dev, "not ready %dms after %s; giving up\n",
-  1288					delay - 1, reset_type);
-  1289				return -ENOTTY;
-  1290			}
-  1291	
-  1292			if (delay > PCI_RESET_WAIT) {
-  1293				if (retrain) {
-  1294					retrain = false;
-  1295					if (pcie_failed_link_retrain(bridge) == 0) {
-  1296						delay = 1;
-  1297						continue;
-  1298					}
-  1299				}
-  1300				pci_info(dev, "not ready %dms after %s; waiting\n",
-  1301					 delay - 1, reset_type);
-  1302			}
-  1303	
-  1304			msleep(delay);
-  1305			delay *= 2;
-  1306		}
-  1307	
-  1308		if (delay > PCI_RESET_WAIT)
-  1309			pci_info(dev, "ready %dms after %s\n", delay - 1,
-  1310				 reset_type);
-  1311		else
-  1312			pci_dbg(dev, "ready %dms after %s\n", delay - 1,
-  1313				reset_type);
-  1314	
-  1315		return 0;
-  1316	}
-  1317	
-  1318	/**
-  1319	 * pci_power_up - Put the given device into D0
-  1320	 * @dev: PCI device to power up
-  1321	 *
-  1322	 * On success, return 0 or 1, depending on whether or not it is necessary to
-  1323	 * restore the device's BARs subsequently (1 is returned in that case).
-  1324	 *
-  1325	 * On failure, return a negative error code.  Always return failure if @dev
-  1326	 * lacks a Power Management Capability, even if the platform was able to
-  1327	 * put the device in D0 via non-PCI means.
-  1328	 */
-  1329	int pci_power_up(struct pci_dev *dev)
-  1330	{
-  1331		bool need_restore;
-  1332		pci_power_t state;
-  1333		u16 pmcsr;
-  1334		int ret;
-  1335	
-  1336		/*
-  1337		 * When setting power state to D0, platform_pci_set_power_state()
-  1338		 * ensures main power is on.  If it puts the device in D0, it also
-  1339		 * completes any required delays after the transition; if it leaves
-  1340		 * the device in D1, D2, or D3hot, we use the PM Capability to
-  1341		 * transition to D0.
-  1342		 *
-  1343		 * In all cases, the device is either Configuration-Ready or
-  1344		 * inaccessible upon return.
-  1345		 */
-  1346		platform_pci_set_power_state(dev, PCI_D0);
-  1347	
-  1348		if (!dev->pm_cap) {
-  1349			state = platform_pci_get_power_state(dev);
-  1350			if (state == PCI_UNKNOWN)
-  1351				dev->current_state = PCI_D0;
-  1352			else
-  1353				dev->current_state = state;
-  1354	
-  1355			return -EIO;
-  1356		}
-  1357	
-  1358		if (pci_dev_is_disconnected(dev)) {
-  1359			dev->current_state = PCI_D3cold;
-  1360			return -EIO;
-  1361		}
-  1362	
-  1363		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-  1364		if (PCI_POSSIBLE_ERROR(pmcsr)) {
-  1365			pci_err(dev, "Unable to change power state from %s to D0, device inaccessible\n",
-  1366				pci_power_name(dev->current_state));
-  1367			dev->current_state = PCI_D3cold;
-  1368			return -EIO;
-  1369		}
-  1370	
-  1371		need_restore = !(pmcsr & PCI_PM_CTRL_NO_SOFT_RESET) &&
-> 1372				(pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D3hot) ||
-  1373				dev->current_state >= PCI_D3hot);
-  1374	
-  1375		if (pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D0))
-  1376			goto end;
-  1377	
-  1378		/*
-  1379		 * Force the entire word to 0. This doesn't affect PME_Status, disables
-  1380		 * PME_En, and sets PowerState to 0.
-  1381		 */
-  1382		pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
-  1383	
-  1384		/* Mandatory transition delays; see PCI PM 1.2. */
-  1385		if (pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D3hot)) {
-  1386			pci_dev_d3_sleep(dev);
-  1387			if (!(pmcsr & PCI_PM_CTRL_NO_SOFT_RESET)) {
-  1388				ret = pci_dev_wait(dev, "power up D3hot->D0uninitialized",
-  1389						   PCIE_RESET_READY_POLL_MS);
-  1390				if (ret) {
-  1391					dev->current_state = PCI_D3cold;
-  1392					return -EIO;
-  1393				}
-  1394			}
-  1395		} else if (pci_power_t_eq(pci_power_t_get(pmcsr), PCI_D2)) {
-  1396			udelay(PCI_PM_D2_DELAY);
-  1397		}
-  1398	
-  1399	end:
-  1400		dev->current_state = PCI_D0;
-  1401		if (need_restore)
-  1402			return 1;
-  1403	
-  1404		return 0;
-  1405	}
-  1406	
+faed5c27d37622 Alexei Starovoitov      2026-11-20  21602  
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21603  /* Process the current state until it gets to the start of a basic block. */
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21604  static int do_check_block(struct bpf_verifier_env *env, int prev_insn_idx)
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21605  {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21606  	struct bpf_verifier_state *state = env->cur_state;
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21607  	struct bpf_verifier_stack_elem *elem;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21608  	struct bpf_insn *insns = env->prog->insnsi;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21609  	int insn_cnt = env->prog->len;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21610  	bool do_print_state = true, from_unproven;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21611  	struct prog_requirements prog_requirements, new_requirements;
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21612  	bool again = prev_insn_idx == env->insn_idx;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21613  	unsigned long ranges;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21614  	bool stack_args;
+aba707a5c97228 Alexei Starovoitov      2026-11-20  21615  	u32 held;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21616  
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21617  	mark_verifier_state_scratched(env);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21618  	for (;;) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21619  		struct bpf_insn *insn;
+dadb59104c6441 Luis Gerhorst           2025-07-05  21620  		struct bpf_insn_aux_data *insn_aux;
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21621  		struct bpf_insn_fixups fixups;
+6762e3a0bce5fc Eduard Zingerman        2026-04-10  21622  		int err;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21623  
+faed5c27d37622 Alexei Starovoitov      2026-11-20  21624  		err = bpf_check_limits(env);
+faed5c27d37622 Alexei Starovoitov      2026-11-20  21625  		if (err)
+faed5c27d37622 Alexei Starovoitov      2026-11-20  21626  			return err;
+8fd58560b71e97 Alexei Starovoitov      2026-11-07  21627  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21628  		env->prev_insn_idx = prev_insn_idx;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21629  		if (env->insn_idx >= insn_cnt) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21630  			verbose(env, "invalid insn idx %d insn_cnt %d\n",
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21631  				env->insn_idx, insn_cnt);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21632  			return -EFAULT;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21633  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21634  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21635  		insn = &insns[env->insn_idx];
+dadb59104c6441 Luis Gerhorst           2025-07-05  21636  		insn_aux = &env->insn_aux_data[env->insn_idx];
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21637  
+14c950ac2be8ca Kumar Kartikeya Dwivedi 2026-08-13  21638  		account_processed_insn(env);
+14c950ac2be8ca Kumar Kartikeya Dwivedi 2026-08-13  21639  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21640  		state->last_insn_idx = env->prev_insn_idx;
+13f843c0177eeb Eduard Zingerman        2025-06-11  21641  		state->insn_idx = env->insn_idx;
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21642  		/*
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21643  		 * Record the incoming edge. A zero-offset conditional has identical
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21644  		 * successors, so its outcome cannot be reconstructed from the edge.
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21645  		 */
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21646  		if (!state->speculative && prev_insn_idx >= 0 && prev_insn_idx < insn_cnt) {
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21647  			struct bpf_insn *prev_insn = &insns[prev_insn_idx];
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21648  			int fallthrough_idx = prev_insn_idx + 1;
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21649  			int branch_idx = prev_insn_idx + bpf_jmp_offset(prev_insn) + 1;
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21650  			u8 class = BPF_CLASS(prev_insn->code);
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21651  			u8 opcode = BPF_OP(prev_insn->code);
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21652  
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21653  			if ((class == BPF_JMP || class == BPF_JMP32) &&
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21654  			    opcode != BPF_JA && opcode != BPF_CALL && opcode != BPF_EXIT &&
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21655  			    opcode <= BPF_JCOND && branch_idx != fallthrough_idx) {
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21656  				if (env->insn_idx == branch_idx)
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21657  					bpf_diag_record_branch(env, prev_insn_idx, true);
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21658  				else if (env->insn_idx == fallthrough_idx)
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21659  					bpf_diag_record_branch(env, prev_insn_idx, false);
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21660  			}
+daf8248701b621 Kumar Kartikeya Dwivedi 2026-08-15  21661  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21662  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21663  		if (env->log.level & BPF_LOG_LEVEL2 && do_print_state) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21664  			verbose(env, "\nfrom %d to %d%s:",
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21665  				env->prev_insn_idx, env->insn_idx,
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21666  				env->cur_state->speculative ?
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21667  				" (speculative execution)" : "");
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21668  			print_verifier_state(env, state, state->curframe, true);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21669  			do_print_state = false;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21670  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21671  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21672  		if (env->log.level & BPF_LOG_LEVEL) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21673  			if (verifier_state_scratched(env))
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21674  				print_insn_state(env, state, state->curframe);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21675  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21676  			verbose_linfo(env, env->insn_idx, "; ");
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21677  			env->prev_log_pos = env->log.end_pos;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21678  			verbose(env, "%d: ", env->insn_idx);
+19dbb134748110 Alexei Starovoitov      2026-04-02  21679  			bpf_verbose_insn(env, insn);
+483a1bb0b6cf81 Eduard Zingerman        2026-08-07  21680  			verbose(env, "\n");
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21681  			env->prev_insn_print_pos = env->log.end_pos - env->prev_log_pos;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21682  			env->prev_log_pos = env->log.end_pos;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21683  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21684  
+532cf1318e675e Alexei Starovoitov      2026-11-20  21685  		if (env->replay) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03 @21686  			err = bpf_prog_offload_verify_insn(env, env->insn_idx,
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21687  							   env->prev_insn_idx);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21688  			if (err)
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21689  				return err;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21690  		} else if (bpf_prog_is_offloaded(env->prog->aux)) {
+532cf1318e675e Alexei Starovoitov      2026-11-20  21691  			/* the driver cannot forget what an imprecise state shows */
+532cf1318e675e Alexei Starovoitov      2026-11-20  21692  			note_pessimized_insn(env, env->insn_idx);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21693  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21694  
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21695  		sanitize_mark_insn_seen(env);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21696  		insn_aux->suspect_loops |= state->suspect_loops;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21697  		prev_insn_idx = env->insn_idx;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21698  
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21699  		/* Sanity check: precomputed constants must match verifier state */
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21700  		if (!state->speculative && !env->err && !env->extra_values &&
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21701  		    insn_aux->const_reg_mask) {
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21702  			struct bpf_reg_state *regs = cur_regs(env);
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21703  			u16 mask = insn_aux->const_reg_mask;
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21704  
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21705  			for (int r = 0; r < ARRAY_SIZE(insn_aux->const_reg_vals); r++) {
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21706  				u32 cval = insn_aux->const_reg_vals[r];
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21707  
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21708  				if (!(mask & BIT(r)))
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21709  					continue;
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21710  				if (regs[r].type != SCALAR_VALUE)
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21711  					continue;
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21712  				if (!tnum_is_const(regs[r].var_off))
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21713  					continue;
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21714  				if (verifier_bug_if((u32)regs[r].var_off.value != cval,
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21715  						    env, "const R%d: %u != %llu",
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21716  						    r, cval, regs[r].var_off.value))
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21717  					return -EFAULT;
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21718  			}
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21719  		}
+f1606dd0ac4923 Alexei Starovoitov      2026-04-02  21720  
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21721  		/* Reduce verification complexity by stopping speculative path
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21722  		 * verification when a nospec is encountered.
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21723  		 */
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21724  		if (state->speculative && insn_aux->non_speculative_first)
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21725  			need_nospec(env, env->insn_idx);
+dadb59104c6441 Luis Gerhorst           2025-07-05  21726  		if (state->speculative && insn_aux->nospec)
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21727  			goto process_bpf_exit;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21728  		insn_aux->speculative_first |= !insn_aux->seen;
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21729  
+532cf1318e675e Alexei Starovoitov      2026-11-20  21730  		ranges = operands_with_range(env, insn);
+532cf1318e675e Alexei Starovoitov      2026-11-20  21731  		stack_args = cur_func(env)->out_stack_arg_cnt;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21732  
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21733  		err = check_loop_guard(env) ?: check_recursion_guard(env);
+eaea7390705214 Alexei Starovoitov      2026-11-07  21734  		if (err)
+eaea7390705214 Alexei Starovoitov      2026-11-07  21735  			return err;
+eaea7390705214 Alexei Starovoitov      2026-11-07  21736  
+46bc0f24720aa7 Alexei Starovoitov      2026-11-20  21737  		bpf_equations_before_insn(env);
+aba707a5c97228 Alexei Starovoitov      2026-11-20  21738  		held = held_cnt(state);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21739  		from_unproven = reads_from_unproven(env);
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21740  		fixups = insn_aux->fixups;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21741  		prog_requirements = get_prog_requirements(env);
+28d9a7acba4a20 Alexei Starovoitov      2026-11-20  21742  		env->no_report = state->speculative;
+46bc0f24720aa7 Alexei Starovoitov      2026-11-20  21743  		err = do_check_insn(env, &do_print_state) ?: bpf_equations_after_insn(env);
+28d9a7acba4a20 Alexei Starovoitov      2026-11-20  21744  		env->no_report = false;
+532cf1318e675e Alexei Starovoitov      2026-11-20  21745  		new_requirements = get_prog_requirements(env);
+532cf1318e675e Alexei Starovoitov      2026-11-20  21746  		/* a join adds values only to a range */
+532cf1318e675e Alexei Starovoitov      2026-11-20  21747  		if ((ranges || stack_args || again) &&
+532cf1318e675e Alexei Starovoitov      2026-11-20  21748  		    memcmp(&prog_requirements, &new_requirements, sizeof(new_requirements)))
+532cf1318e675e Alexei Starovoitov      2026-11-20  21749  			note_pessimized_insn(env, prev_insn_idx);
+5614fba52b4c0b Alexei Starovoitov      2026-11-20  21750  		/* a call or an exit gave the state to the flow, the error is from there */
+5614fba52b4c0b Alexei Starovoitov      2026-11-20  21751  		if (err < 0 && !state->frame[0])
+5614fba52b4c0b Alexei Starovoitov      2026-11-20  21752  			return err;
+aba707a5c97228 Alexei Starovoitov      2026-11-20  21753  		insn_aux->releases |= held_cnt(state) < held && err != PROCESS_BPF_EXIT;
+aba707a5c97228 Alexei Starovoitov      2026-11-20  21754  		insn_aux->acquires |= held_cnt(state) > held;
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21755  		if (nospec_ends_path(env, state, err)) {
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21756  			/* Prevent this speculative path from ever reaching the
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21757  			 * insn that would have been unsafe to execute.
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21758  			 * What it noted does not apply to the other paths.
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21759  			 * check_fastcall_stack_contract() clears the pattern only once.
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21760  			 */
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21761  			fixups.fastcall_spills_num = insn_aux->fastcall_spills_num;
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21762  			insn_aux->fixups = fixups;
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21763  			need_nospec(env, prev_insn_idx);
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21764  			free_pushed_states(env);
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21765  			goto process_bpf_exit;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21766  		} else if (error_is_recoverable(err) && !env->path_sensitive) {
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21767  			env->insn_idx = prev_insn_idx;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21768  			if (bpf_same_insns_unproven(env))
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21769  				return err;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21770  			if (from_unproven)
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21771  				bpf_note_reads_from_unproven(env, prev_insn_idx);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21772  			else
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21773  				note_error(env, err);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21774  			err = skip_unproven_insn(env, insn);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21775  			if (err < 0)
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21776  				return err;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21777  			if (err)
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21778  				goto process_bpf_exit;
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21779  			mark_from_unproven(env, prev_insn_idx, true);
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21780  			env->insn_idx++;
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21781  		} else if (err < 0) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21782  			return err;
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21783  		} else if (err == PROCESS_BPF_EXIT) {
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21784  			goto process_bpf_exit;
+2ec74a053611ed Alexei Starovoitov      2026-04-11  21785  		} else if (err == INSN_IDX_UPDATED) {
+2ec74a053611ed Alexei Starovoitov      2026-04-11  21786  		} else if (err == 0) {
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21787  			if (!bpf_pseudo_call(insn) && !bpf_is_callx(insn))
+dab17a2b0bfd16 Alexei Starovoitov      2026-11-20  21788  				mark_from_unproven(env, prev_insn_idx, from_unproven);
+2ec74a053611ed Alexei Starovoitov      2026-04-11  21789  			env->insn_idx++;
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21790  		}
+d6f1c85f22534d Luis Gerhorst           2025-06-03  21791  
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21792  		/* only a store that stays gets it, see bpf_convert_ctx_accesses() */
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21793  		if (state->speculative && insn_aux->nospec_result && !insn_aux->fastcall_pattern &&
+0810f59cd31bd0 Alexei Starovoitov      2026-11-20  21794  		    bpf_is_mem_insn(insn) && BPF_MODE(insn->code) == BPF_MEM) {
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21795  process_bpf_exit:
+14c950ac2be8ca Kumar Kartikeya Dwivedi 2026-08-13  21796  			account_current_path(env);
+faed5c27d37622 Alexei Starovoitov      2026-11-20  21797  			bpf_free_verifier_state(env, state, false);
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21798  			memset(state, 0, sizeof(*state));
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21799  			return flow_drain(env);
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21800  		}
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21801  
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21802  		/* if the insn pushed a part, the current state is a part too */
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21803  		for (elem = env->head; elem; elem = elem->next)
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21804  			again |= elem->again;
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21805  		err = flow_drain(env);
+c9e31900b54cad Eduard Zingerman        2025-06-11  21806  		if (err)
+c9e31900b54cad Eduard Zingerman        2025-06-11  21807  			return err;
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21808  
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21809  		/* the parts of a state meet at the next insn */
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21810  		if (env->insn_idx < insn_cnt &&
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21811  		    (again || bpf_flow_is_bb_start(env, env->insn_idx))) {
+5395aa9bbeb569 Alexei Starovoitov      2026-11-07  21812  			account_current_path(env);
+ce70cdf9582e07 Alexei Starovoitov      2026-11-20  21813  			return bpf_flow_deliver(env, state, env->insn_idx, prev_insn_idx, false);
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21814  		}
+8b7df50fd40d7a Luis Gerhorst           2025-06-03  21815  	}
+17a5267067f3c3 Alexei Starovoitov      2014-09-26 @21816  }
+17a5267067f3c3 Alexei Starovoitov      2014-09-26  21817  
 
 -- 
 0-DAY CI Kernel Test Service
