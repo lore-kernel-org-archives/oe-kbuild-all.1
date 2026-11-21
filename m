@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795296620;
-	b=FnxkFOm8rbvtNWtQu+mjHvDgwnJATmEF+dPR8kUfWT3qQ9fCcAoiu7JtfBWQ4YN2xl21
-	 0m8T/kBftyeRB5dwQHdwkyX6gH/bVNUh4MxHvN2FsbZ0nHObGoeRbrqUrJyRhXeaVx0CV
-	 fOIT70qQMNk83pwxbdKTDmmudImopv6v5GMCi3S/qQ2gtAfq7jTDXJGYoZJKv2wt2136I
-	 TN0e0dgxn1+O7FphSTzQ6jvhRPJGOEPq4iZEaYWBhH/Ck2w/bGVWzfWfvyFJBC9zny9fA
-	 /icrC8rEuhKv198mKONJft/duNIb/FLExKTS+hwRHbNpoVLTSFF3MY5+dI5jv3tMMBQ==
+	t=1795302146;
+	b=35pOP66wbIP+JB+hKfBhf8TVikQJPyMsHfamu8PB4yCmQO9xCKBGArXDMY+dsi5kojGM
+	 6QXz7j3IYrj/u+mBSxJ8USjZvnEI77a9QndkGKO++b5TWzJ5+ye2fk45gQIZwVNXRIDag
+	 M/VOxFZtwapVBFF7uG5XLMMtH36f1QMrQ+yUu+YHWgEg3eSu+8LjRcHh10gD0XjqboBrn
+	 V0WNQIThWSXlDzxp7xAhmYJp8o5Rivt/9ZEmkhsKHJW7SLLAJOzH7ipoGLtnmv6MuTVY1
+	 RazGg+BotSo+qLaE69lZfje9qwmuESwV/FlMQOFHCaqR5EVc/BkPVptEb8+Cwxoe+Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795296620;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795302146;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AWJM6hRyI1WFYLImEsFSGo6obGGmKMDZjgAIEswuHXU=;
-	b=YKp33TXnM3225TZ+C4YFc/TSbE2gu0ao0DeMybtPF39+UO2tcz8GqETDTuOKHRUO7/VU
-	 CNSGBEunP9dioDdjxpL1/Z/3jGKapzgUIQ5Qd6aGtXDsNfn/QLF3Dd6e1qprdklO7cjgL
-	 D5MjYPML4CLLnS/wT1A9Lsv7q2McH1kXpilLmqa1566XLVz199MhWnGcz7yHY0DxlizIE
-	 ObxT9QiSmE14ejimshjCpty4We5M7N1TFiDN3vZbbgS8hysSGAQee0yTi0JfaWa/VU/l8
-	 VUgLpW0dwDvm9jGACSdxpw0Efd75QJKnSqPL+YPgzsrYJQR5jhm/rP532J0daSY1Xew==
+	bh=5uIX+0gRWTExMkr/UrYhaBwlxmVqMuK+dTgsV0qYpwM=;
+	b=ZYKkd6QzVWaiKHZ0sBZ7VfGx+i326LNZKHUhN4O1FFwWPsXUREKj+1PzB5bbO8UZfvW9
+	 92Imj/dxdlK9Qp82DwAqCoIGifCi2+EFbCe5LifXn1g2hzdL9j3XYzYvymdKE7W3QdR6z
+	 zfdwMZ05Ert9hlZh2zIJWcnPSrk/c4kxL4hnnBn7hLia2Z0DPBRwZX+MsRTjNSQERob5z
+	 7zNUYF2wvomLyzx8/bMGQJKrEEjM1AwYU8zhmmYhumx1qShTWXizJ1YvNBXu5aRmHf4AV
+	 RmeCLlI0dOc8sn8n82VJWeg+ZuoRC2Z3Fjv35/wIwKesfB9/DhfpfHAmmyoqFoNVSfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JSXntkjY;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GpiGZFvC;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AF1606A330
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 21:30:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4AF1606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7AC606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 23:02:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F7AC606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JSXntkjY
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GpiGZFvC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795296619; x=1826832619;
+  t=1795302146; x=1826838146;
   h=date:from:to:cc:subject:message-id;
-  bh=EU8k7CG/1lhxZUtLMwcFMf5in31BQocIKBkO9opY/T8=;
-  b=JSXntkjY78qpwyaM7KoM5F2+MPaieaUdeorN+YS8GZw0Exj9YEp924NH
-   z8dIy9Adh5HoHyk/1UJUMbWTS4JzMt4xQdyYekeAto43oPew+fmB9eidp
-   mV1S7sEkWmCuz7s5z/b5V2SK1pqa5IZFM0HYiSUgyF89g2GPEQ7cXSYxF
-   dwyyUR8Nh8/dCmseL5NKjS+cT4vrqr0UiK3J0yaNGtgEmceZs4RTSD+H8
-   AqmLl2vUt24Rvo4/K/OtVBumjcxyyj8XgViDUtbjICq3nyJ0ykcFAIIj4
-   BKto+ujYfyppfScb5mVZHhtt/5MlEC93CX1VXaJpClyTvROZVPugRwOWV
-   A==;
-X-CSE-ConnectionGUID: Pp+mZS8kTl2FMZGKKWmwFQ==
-X-CSE-MsgGUID: F47jN+quTomHWu4ZcrZJkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4230245"
+  bh=HyRQkoKmUQ+EfhybbyakAoyRNlHjf+EtrcbYf3Zk2XU=;
+  b=GpiGZFvCdTGtoGdAqwTdc0cZujJM3Y9okX/COGVVCFnweFcfhed+5V6+
+   jIqkJylRMRi8YcV+ZGVKDCfFxOzvniXbGcEG8k92w2o8NrXlSZqkS30cJ
+   IiBvKGccZPNPDq3M9P52ZC9mBbLaD3OwOa2uA9fbUPDqg8ekgXPIcE001
+   dyiqycfGdXNvbaCnAN986q0/I2lMIuFGxTrHUpVe8uMyUhPfBvc8aM37A
+   a2UPm100GcUZftRpguMmhFx6yap0BUFXJlLhrFLX4VO/+6U4M6VMZXUsd
+   gHLnPJcFGtss+LIYbxQ1/i43lLmfq9cjvScoNOTRVeRrqebx6MqUGoNuk
+   w==;
+X-CSE-ConnectionGUID: nWZuU2rdRRWxHp8RZ7TChw==
+X-CSE-MsgGUID: 1PJJ+IyGQRGjv5xnQlIasQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4190376"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4230245"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 13:30:18 -0800
-X-CSE-ConnectionGUID: TiUt2ewHRYG55/IjinVUUQ==
-X-CSE-MsgGUID: sMeWMQMyTpy7kMub3GVHMQ==
+   d="scan'208";a="4190376"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 15:02:25 -0800
+X-CSE-ConnectionGUID: Jc6f2hECSgeOWDmZorvtvg==
+X-CSE-MsgGUID: CAZRLI9nTLCYVAnNkZWBkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="10975070"
+   d="scan'208";a="11242522"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2026 13:30:18 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Nov 2026 15:02:24 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUsf0-000000004Nl-3zDl;
-	Sat, 21 Nov 2026 21:30:14 +0000
-Date: Sat, 21 Nov 2026 22:29:26 +0100
+	id 1xUu6A-000000004OD-15dX;
+	Sat, 21 Nov 2026 23:02:22 +0000
+Date: Sun, 22 Nov 2026 00:01:41 +0100
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
-Subject: [deller-fbdev:for-next-v7.5 15/16]
- drivers/video/fbdev/core/bitblit.c:94:35: error: 'struct fbcon_par' has no
- member named 'rotated'; did you mean 'rotate'?
-Message-ID: <20261121222750.WiFPmvyY-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 152/152]
+ arch/arm/boot/dts/marvell/armada-388-helios4.dtb: bm@c8000
+ (marvell,armada-380-neta-bm): internal-mem: b'\x00\x00\x00\x17' is not of
+ type 'object', 'integer', 'array', 'boolean', 'null'
+Message-ID: <20261121235348.YsnpxnXq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,76 +82,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git for-next-v7.5
-head:   b2595e9adf4d5ea8ab31f3da7bd5ff5b0a479a64
-commit: c8d71132c412bc50728c5ec2b8a8c7ab405e132d [15/16] fbcon: Handle characters with no glyph defined in a consistent way
-config: s390-randconfig-2200-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121222750.WiFPmvyY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121222750.WiFPmvyY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
+commit: 257e65f326d6d2ef1511d4262763bd65d1f6fe5f [152/152] ARM: dts: helios4: add SATA regulator supplies
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261121/20261121235348.YsnpxnXq-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5637411ce5dc86d0b7f87cde0f7ee47406d29db6)
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121235348.YsnpxnXq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261121222750.WiFPmvyY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261121235348.YsnpxnXq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/video/fbdev/core/bitblit.c: In function 'bit_putcs_aligned':
->> drivers/video/fbdev/core/bitblit.c:94:35: error: 'struct fbcon_par' has no member named 'rotated'; did you mean 'rotate'?
-       src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
-                                      ^~~~~~~
-                                      rotate
-   drivers/video/fbdev/core/bitblit.c: In function 'bit_putcs_unaligned':
-   drivers/video/fbdev/core/bitblit.c:137:35: error: 'struct fbcon_par' has no member named 'rotated'; did you mean 'rotate'?
-       src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
-                                      ^~~~~~~
-                                      rotate
-
-
-vim +94 drivers/video/fbdev/core/bitblit.c
-
-    76	
-    77	static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
-    78					     const u16 *s, u32 attr, u32 cnt,
-    79					     u32 d_pitch, u32 s_width, u32 s_vpitch,
-    80					     struct fb_image *image,
-    81					     unsigned char *buf, u8 *dst)
-    82	{
-    83		u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
-    84		u32 idx = vc->vc_font.width >> 3;
-    85		struct fbcon_par *par = info->fbcon_par;
-    86		u32 s_pitch = font_glyph_pitch(s_width);
-    87		const unsigned char *src;
-    88	
-    89		while (cnt--) {
-    90			u16 ch = scr_readw(s++) & charmask;
-    91	
-    92			src = font_data_glyph_buf(par->p->fontdata, s_width, s_vpitch, ch);
-    93			if (!src) {
-  > 94				src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
-    95				if (!src)
-    96					goto next_char;
-    97			}
-    98	
-    99			if (attr) {
-   100				update_attr(buf, src, attr, vc);
-   101				src = buf;
-   102			}
-   103	
-   104			if (likely(idx == 1))
-   105				__fb_pad_aligned_buffer(dst, d_pitch, src, idx,
-   106							image->height);
-   107			else
-   108				fb_pad_aligned_buffer(dst, d_pitch, src, idx,
-   109						      image->height);
-   110	next_char:
-   111			dst += s_pitch;
-   112		}
-   113	
-   114		info->fbops->fb_imageblit(info, image);
-   115	}
-   116	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: ethernet-phy@0: marvell,reg-init: b'\x00\x00\x00\x03\x00\x00\x00\x10\x00\x00\x00\x00\x00\x00\x10\x1e' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/crypto@90000: failed to match any schema with compatible: ['marvell,armada-38x-crypto']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: crypto@90000 (marvell,armada-38x-crypto): marvell,crypto-srams: b'\x00\x00\x00\x14\x00\x00\x00\x15' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: crypto@90000 (marvell,armada-38x-crypto): marvell,crypto-sram-size: b'\x00\x00\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+>> arch/arm/boot/dts/marvell/armada-388-helios4.dtb: bm@c8000 (marvell,armada-380-neta-bm): internal-mem: b'\x00\x00\x00\x17' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml
 
 -- 
 0-DAY CI Kernel Test Service
