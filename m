@@ -1,78 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795295294;
-	b=V5WhLBdOyJOaO2g6NyAlfWRK8NoXQBfeZMSsm5aKiHpEOMB5l4w9dxM259JnJUvJnYC9
-	 9OKgaPDyeklkuCm6Zm4oFsfBlgBna/j369+1fPI2syCXa6UEpDbfvRqjH6LPYTO6immEg
-	 Ouo+ln+GclLu5MwagCJAwh7Bhl6+sRQxAr7SigDdXdBZPD4LQOrVQSquY7dQtDwuO1icl
-	 cg+Paaioag4cfWbAO9EnNNEd09U70I+uCIRIq0qOHjqvhRf5PsyM9ZfF8yrO5fmZ8Q9t2
-	 4DYiSMv7JgAqiUJEgQQj583eNTcS/Qth2lE3VO4OFcvV5F5aXhist/9QPGNXYd4+6Gw==
+	t=1795296620;
+	b=FnxkFOm8rbvtNWtQu+mjHvDgwnJATmEF+dPR8kUfWT3qQ9fCcAoiu7JtfBWQ4YN2xl21
+	 0m8T/kBftyeRB5dwQHdwkyX6gH/bVNUh4MxHvN2FsbZ0nHObGoeRbrqUrJyRhXeaVx0CV
+	 fOIT70qQMNk83pwxbdKTDmmudImopv6v5GMCi3S/qQ2gtAfq7jTDXJGYoZJKv2wt2136I
+	 TN0e0dgxn1+O7FphSTzQ6jvhRPJGOEPq4iZEaYWBhH/Ck2w/bGVWzfWfvyFJBC9zny9fA
+	 /icrC8rEuhKv198mKONJft/duNIb/FLExKTS+hwRHbNpoVLTSFF3MY5+dI5jv3tMMBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795295294;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795296620;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZD4AXvA2QfhuF6zWRzkeOJwZZQ3iQj30yq8PqbCuK/Y=;
-	b=ZI23K5Oyzu8cC1paUCmSRb8mE3iBJlnONrfvydS3qCABQy2u2Ei+YQLeTXSa5EJLUCq+
-	 pH92ChhqI9+fHmtF8hLMxU6XqYB916XMisuC6MkeMMSXHgYeLO6b3C9pyH3t16mo8AtTv
-	 etdQcqshYkpnEaZYJV1y7W+27bUpv+WRe4I4SPFC8BNGz6/NFhKEl+cUxZGq1+uDZTGT8
-	 qlHxQWkB2I4V3MzM/qta1HWuJjJ7o75kaxLwL11eibYzkXJlSapH/d5F1cxR26Ev+SVrO
-	 fHv4kTBlr0TDT1vdUXP3RnBn9kfLZlveppCADcWQPN3zsjr5obg8Zv6Xaf2/k8tvChA==
+	bh=AWJM6hRyI1WFYLImEsFSGo6obGGmKMDZjgAIEswuHXU=;
+	b=YKp33TXnM3225TZ+C4YFc/TSbE2gu0ao0DeMybtPF39+UO2tcz8GqETDTuOKHRUO7/VU
+	 CNSGBEunP9dioDdjxpL1/Z/3jGKapzgUIQ5Qd6aGtXDsNfn/QLF3Dd6e1qprdklO7cjgL
+	 D5MjYPML4CLLnS/wT1A9Lsv7q2McH1kXpilLmqa1566XLVz199MhWnGcz7yHY0DxlizIE
+	 ObxT9QiSmE14ejimshjCpty4We5M7N1TFiDN3vZbbgS8hysSGAQee0yTi0JfaWa/VU/l8
+	 VUgLpW0dwDvm9jGACSdxpw0Efd75QJKnSqPL+YPgzsrYJQR5jhm/rP532J0daSY1Xew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FdD3FlJP;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JSXntkjY;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236A3606A320
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 21:08:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 236A3606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AF1606A330
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 21:30:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4AF1606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FdD3FlJP
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JSXntkjY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795295292; x=1826831292;
+  t=1795296619; x=1826832619;
   h=date:from:to:cc:subject:message-id;
-  bh=LZjEdOW7rLJ/creouhrLOQwF9A4AlGm+8BjLIx7vsLY=;
-  b=FdD3FlJPBYF1r/NWigCANiSFOroUdwA2fSfopb9kl2bV49i5Y80SZu8H
-   s3HmEyws8tQo+rHG+xSDS8aaQ2+NmUcqqKLRF9whflDWHH3luhjBM4MYN
-   QTjzr7pTYt8rGAeyNvUTAGGGq6MiQnJcGBKHw+hUA3f5o6H6tXpkSjYsf
-   htObW5XJs6wfsaoUCdaxTu1QXsmh4tHoEdSNoE6sYKBjrKWfYzoxcwqnu
-   IiCKTBvQIrjZ9DVaysWVe0Tyzw4XhT8eLxMJ63ffrn71j08aSfLUzgQ2X
-   Mhw8f/K9F87j6kFvRva/+hOLQ8geKU2vaz/QOfbrFuyERbHjyAp+g5iHz
-   g==;
-X-CSE-ConnectionGUID: hqPfuPsrQKK5BIYAR6kb+A==
-X-CSE-MsgGUID: YyN5hlMLTdiJtBAjZXofEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4151159"
+  bh=EU8k7CG/1lhxZUtLMwcFMf5in31BQocIKBkO9opY/T8=;
+  b=JSXntkjY78qpwyaM7KoM5F2+MPaieaUdeorN+YS8GZw0Exj9YEp924NH
+   z8dIy9Adh5HoHyk/1UJUMbWTS4JzMt4xQdyYekeAto43oPew+fmB9eidp
+   mV1S7sEkWmCuz7s5z/b5V2SK1pqa5IZFM0HYiSUgyF89g2GPEQ7cXSYxF
+   dwyyUR8Nh8/dCmseL5NKjS+cT4vrqr0UiK3J0yaNGtgEmceZs4RTSD+H8
+   AqmLl2vUt24Rvo4/K/OtVBumjcxyyj8XgViDUtbjICq3nyJ0ykcFAIIj4
+   BKto+ujYfyppfScb5mVZHhtt/5MlEC93CX1VXaJpClyTvROZVPugRwOWV
+   A==;
+X-CSE-ConnectionGUID: Pp+mZS8kTl2FMZGKKWmwFQ==
+X-CSE-MsgGUID: F47jN+quTomHWu4ZcrZJkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4230245"
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4151159"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 13:08:11 -0800
-X-CSE-ConnectionGUID: iiRZdUvrSemFdriS29tE1w==
-X-CSE-MsgGUID: 7tfcWbRPRv+WLF8x+ZovXA==
+   d="scan'208";a="4230245"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 13:30:18 -0800
+X-CSE-ConnectionGUID: TiUt2ewHRYG55/IjinVUUQ==
+X-CSE-MsgGUID: sMeWMQMyTpy7kMub3GVHMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="10753959"
+   d="scan'208";a="10975070"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 21 Nov 2026 13:08:10 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2026 13:30:18 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUsJc-000000004NV-1FWc;
-	Sat, 21 Nov 2026 21:08:08 +0000
-Date: Sat, 21 Nov 2026 22:08:05 +0100
+	id 1xUsf0-000000004Nl-3zDl;
+	Sat, 21 Nov 2026 21:30:14 +0000
+Date: Sat, 21 Nov 2026 22:29:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-lts 318/318]
- arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000
- (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71,
- 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4],
- [0, 85, 4], [0, 140, 4]] is ...
-Message-ID: <20261121220110.BTmqgYsm-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
+Subject: [deller-fbdev:for-next-v7.5 15/16]
+ drivers/video/fbdev/core/bitblit.c:94:35: error: 'struct fbcon_par' has no
+ member named 'rotated'; did you mean 'rotate'?
+Message-ID: <20261121222750.WiFPmvyY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,43 +81,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
-head:   c29a11a6da74fe6ffbc7bc4bbcb21f2e579e814d
-commit: c83255f3cf22d13c5b9736668cbe38a098fd6d5a [318/318] arm64: dts: allwinner: a523: Add missing GPIO interrupt
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261121/20261121220110.BTmqgYsm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121220110.BTmqgYsm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git for-next-v7.5
+head:   b2595e9adf4d5ea8ab31f3da7bd5ff5b0a479a64
+commit: c8d71132c412bc50728c5ec2b8a8c7ab405e132d [15/16] fbcon: Handle characters with no glyph defined in a consistent way
+config: s390-randconfig-2200-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121222750.WiFPmvyY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121222750.WiFPmvyY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261121220110.BTmqgYsm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261121222750.WiFPmvyY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+All errors (new ones prefixed by >>):
+
+   drivers/video/fbdev/core/bitblit.c: In function 'bit_putcs_aligned':
+>> drivers/video/fbdev/core/bitblit.c:94:35: error: 'struct fbcon_par' has no member named 'rotated'; did you mean 'rotate'?
+       src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
+                                      ^~~~~~~
+                                      rotate
+   drivers/video/fbdev/core/bitblit.c: In function 'bit_putcs_unaligned':
+   drivers/video/fbdev/core/bitblit.c:137:35: error: 'struct fbcon_par' has no member named 'rotated'; did you mean 'rotate'?
+       src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
+                                      ^~~~~~~
+                                      rotate
+
+
+vim +94 drivers/video/fbdev/core/bitblit.c
+
+    76	
+    77	static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
+    78					     const u16 *s, u32 attr, u32 cnt,
+    79					     u32 d_pitch, u32 s_width, u32 s_vpitch,
+    80					     struct fb_image *image,
+    81					     unsigned char *buf, u8 *dst)
+    82	{
+    83		u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
+    84		u32 idx = vc->vc_font.width >> 3;
+    85		struct fbcon_par *par = info->fbcon_par;
+    86		u32 s_pitch = font_glyph_pitch(s_width);
+    87		const unsigned char *src;
+    88	
+    89		while (cnt--) {
+    90			u16 ch = scr_readw(s++) & charmask;
+    91	
+    92			src = font_data_glyph_buf(par->p->fontdata, s_width, s_vpitch, ch);
+    93			if (!src) {
+  > 94				src = font_data_glyph_buf(par->rotated.buf, s_width, s_vpitch, '\0');
+    95				if (!src)
+    96					goto next_char;
+    97			}
+    98	
+    99			if (attr) {
+   100				update_attr(buf, src, attr, vc);
+   101				src = buf;
+   102			}
+   103	
+   104			if (likely(idx == 1))
+   105				__fb_pad_aligned_buffer(dst, d_pitch, src, idx,
+   106							image->height);
+   107			else
+   108				fb_pad_aligned_buffer(dst, d_pitch, src, idx,
+   109						      image->height);
+   110	next_char:
+   111			dst += s_pitch;
+   112		}
+   113	
+   114		info->fbops->fb_imageblit(info, image);
+   115	}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
