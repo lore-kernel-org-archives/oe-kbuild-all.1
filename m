@@ -1,87 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795264618;
-	b=tku4CSJVYIEqipGHIU5SWcyNlXW0triV8il4AmJ37y55WM82qxMS+dJx9LiiH8n9CMQi
-	 ua2f5QvkbW1I7qfafZTfoYtpbp/Q1uqCFxDhjWMxzPPq1tMtv55nloO+NYYk2GSRqbR7F
-	 TInBOel7KpRcBVVathTomXgvLAoe2wnCa2BrF4F05h2rTp5rVkFLl3TFTOz2GBwLaScrC
-	 e+x3HoGfhCIz44URiaJnOkiFLmXFQduGtG+r4YCJucLa7KOehHyWACKFASnKvPZx3WVtS
-	 wiFi64SB5CeesTD8agbjBMdsCgNwKK6+zOvNfjzSzbrYqFy/7L49uv1beduvti+x9hA==
+	t=1795266998;
+	b=AzNbGvHHy1ehSFjcmkYJI6J220L/ZTJ+0SRP13j87L3UjO/V8YLcigQcLzpds0wpdlSY
+	 UaxdwytEU4nf++sDl3xEcaiGO01JjE2VTu3HhoK6MyOPz1UQq4eLehy/W/x6UI6J6z68J
+	 pq7BfFaQsB3v/niVOs0t1FNIdI9+fT6XbdDmIc10h7yW1rAjbvCSSm7nQxyahvdzK0/Yv
+	 8kYtSOv4maITplIF6ZhBk8eEPsHP3vIJOrx6xLWC8iyxth3tcyI05+bmOLLByLXw+coPl
+	 pKhbVh3Acn6v5qcgSObHzcumc77PVONxnpUIxhAkQgN4xC2H4YPBJ/4wP0XF8CSAABg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795264618;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795266998;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 Mail-Followup-To:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=ecaFsi2e5LNEjbPjQmXTKmGsw/5A00VPELVlO9Khp+U=;
-	b=kD7Spp0hvbUPH2/NRMrsWv5i29V5pWSOz0MiDviJ+WOWoz7qek8POrUxHkno+sahNQSW
-	 r+ELUtyBaBqjJuINbrqp2aEAoIKxyRt0LWu1HA6y7gHmqw5LYUyDXXkmgRulMdo2MglIE
-	 jjtLg+uDaUagQL4awHAozEposfoYtXBBCI7BaWg42PhYEU6XRrj4nl5+eJSeyZ4LQ7fvZ
-	 UQllQpJBdJxY8aUYAfxjSZuAQ8nel286nbsi6jxJW2394pQJZqX+Sqnj6n4ttjv17W+8u
-	 d7GppPCfJud7O/MzQ/pikxQ0h+8/MOV9HZ5vv5IoOKNXu7jVTL5dfSsfnDoIDmuBsvw==
+	bh=TxW/RAptOpxLkind6FtvVROcaKbdd/cBMgMOKwStZeM=;
+	b=U3NkHpsa4qmmNgUoA1YsEvU/t4ZJL/1SaCrn3ACeq3Sxoi4J6NEwaQQmEpfCRvpWT0/P
+	 oBWHWR8mpxXCeZdCAUH/6H96dg6apN1nnPdKzk8JimjZJuFc8FMOHD8KBR22NaWX3egzF
+	 XBHgEwViFkiY8JcalCYdNicDMOLST997JAVwLSoy0eLyfq1OMw2/Or60lj16lL+rH+u47
+	 fXRiMXm4MKMjFEhWygN610iTsy08a5H2bGtw/fM3YUCbQnS4u1SKogBzaMNLDQp8DSMpT
+	 zb6ObHBgkBHAWSs6/Z3IHd1apupBTIGgbsBpEA0LgF/ZJy7hSO0+IjMF1toS7S3aEgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9LEHQbx;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPAShBr7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBC9606A32A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 12:36:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CBC9606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 77793606A32C;
+	Sat, 21 Nov 2026 13:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=F9LEHQbx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795264618; x=1826800618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vzevyCRwbcuYgq6/jbeCiti9NxgogyfaH27PDNXIwbI=;
-  b=F9LEHQbxO4bESnSmEEB8MgYloxj+GgyaWATRdf1GGfxlB6qHrSXnJ/Ht
-   YPa7JoX2DoKbf3bo8q9+Z7u1d0xtQbm5B1WDf3tps2pFVhruAaDw/ilFb
-   3AhU0KLik54BByvtWyQ7+nuIr2k+hMqPinbcVnbG2xZYVP3SZUmWhGrCz
-   1cdTUN+pAsIFcezth1TLmr7uGDDGa/CtGdQhwCu+KSnovLGLYUNMlNXQK
-   slH1phRkBOfUGdIrpZb5Y+eISE7ZsS/2dSjiXr0FVk7Ci8G+NUj39F4on
-   GSOjOVqV/gZXxyCNe58Hde8lc0ouKpM7GD5F+GLdnzHjiAnpMFIRGkkEI
-   Q==;
-X-CSE-ConnectionGUID: 0zfexvFQT+yxWKgUpN9hIw==
-X-CSE-MsgGUID: HfRMHnYUTE6NLapALAJ5Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4022309"
-X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="4022309"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 04:36:57 -0800
-X-CSE-ConnectionGUID: 2aGCBJTUTxejGB3+KsWypg==
-X-CSE-MsgGUID: cnRiy/mqRGaPtXl2VNqKaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,225,1787036400"; 
-   d="scan'208";a="10811808"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Nov 2026 04:36:54 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xUkKp-00000001K21-2IsS;
-	Sat, 21 Nov 2026 12:36:51 +0000
-Date: Sat, 21 Nov 2026 20:36:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul.cercueil@bootlin.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Sunil Kovvuri Goutham <sgoutham@marvell.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	George Cherian <gcherian@marvell.com>,
-	Sujeet Baranwal <sbaranwal@marvell.com>,
-	Paul Cercueil <paul.cercueil@bootlin.com>
-Subject: Re: [PATCH v2 2/2] mailbox: marvell-mhu: add Marvell MHU driver
-Message-ID: <202611212016.DdozCIS5-lkp@intel.com>
-References: <20261120113952.168265-3-paul.cercueil@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPAShBr7
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 930CA1F000C0;
+	Sat, 21 Nov 2026 13:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795266998;
+	bh=TxW/RAptOpxLkind6FtvVROcaKbdd/cBMgMOKwStZeM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bPAShBr7KOOGPBKH+XTeVXkgXBPFn40auFQSlE9hM8FDZmc2VPBT8Pq0gw83FDHHz
+	 puDG/SloQy85d6f6pt40euCNXoB9KNLlbgkAg8nEZEwPv26NTv12dnjuIX1/hEkd7F
+	 Y+v34WLQW/heaHEZxlua+xB+3xcxWtK887Hdmb/5Kj5r/xUU7kORPO2reS/uCP5scj
+	 28VUcr02GlWxQzAWdy5DXSsAacKGZplfY7yTt8sxZ31jBcV/4+tI3snCWxj+0uAVEJ
+	 Hbjv/Gkh1sBmM/osurXObPF/vRMcavLbYjGrfmTZo2LL7YmOjGy/E0D83NqUxvDb/r
+	 +CjTnZ4TPRP7g==
+Date: Sat, 21 Nov 2026 13:51:44 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Holger Dengler <dengler@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-kbuild@vger.kernel.org, linux-s390@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, "kernelci.org bot" <bot@kernelci.org>
+Subject: Re: [PATCH] Move struct cpu_feature to a
+ <linux/device-id/cpu_feature.h>
+Message-ID: <awGT4AhwcFcLsW0c@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Holger Dengler <dengler@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-kbuild@vger.kernel.org, linux-s390@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, "kernelci.org bot" <bot@kernelci.org>
+References: <20261120202712.3377691-1-nsc@kernel.org>
+ <202611211941.G0rlpNpN-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -93,70 +91,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261120113952.168265-3-paul.cercueil@bootlin.com>
+In-Reply-To: <202611211941.G0rlpNpN-lkp@intel.com>
 
-Hi Paul,
+On Sat, Nov 21, 2026 at 08:01:20PM +0800, kernel test robot wrote:
+> Hi Nicolas,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on kvm/queue]
+> [also build test ERROR on kvm/next linus/master v7.4-rc3]
+> [cannot apply to kvm/linux-next next-20261119]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Schier/Move-struct-cpu_feature-to-a-linux-device-id-cpu_feature-h/20261120-212711
+> base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+> patch link:    https://lore.kernel.org/r/20261120202712.3377691-1-nsc%40kernel.org
+> patch subject: [PATCH] Move struct cpu_feature to a <linux/device-id/cpu_feature.h>
+> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611211941.G0rlpNpN-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211941.G0rlpNpN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611211941.G0rlpNpN-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/s390/crypto/pkey_cca.c:22:45: error: array has incomplete element type 'struct ap_device_id'
+>       22 | static struct ap_device_id pkey_cca_card_ids[] = {
+>          |                                             ^
+>    drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
+>      158 |         struct ap_device_id *ids;
+>          |                ^
+>    1 error generated.
+> --
+> >> drivers/s390/crypto/pkey_ep11.c:23:46: error: array has incomplete element type 'struct ap_device_id'
+>       23 | static struct ap_device_id pkey_ep11_card_ids[] = {
+>          |                                              ^
+>    drivers/s390/crypto/ap_bus.h:158:9: note: forward declaration of 'struct ap_device_id'
+>      158 |         struct ap_device_id *ids;
+>          |                ^
+>    1 error generated.
 
-kernel test robot noticed the following build errors:
+That is fixed by [1] which is to be applied before the patch referenced
+above.
 
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on robh/for-next krzk-dt/for-next linus/master v7.4-rc3 next-20261119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dt-bindings-mailbox-add-Marvell-MHU/20261120-123951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20261120113952.168265-3-paul.cercueil%40bootlin.com
-patch subject: [PATCH v2 2/2] mailbox: marvell-mhu: add Marvell MHU driver
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611212016.DdozCIS5-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611212016.DdozCIS5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611212016.DdozCIS5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/mailbox/marvell_mhu.c: In function 'mrvl_mhu_send_data':
->> drivers/mailbox/marvell_mhu.c:96:9: error: implicit declaration of function 'iowrite64'; did you mean 'iowrite32'? [-Wimplicit-function-declaration]
-      96 |         iowrite64(doorbell, mhu->base + AP0_TO_SCP_MBOX);
-         |         ^~~~~~~~~
-         |         iowrite32
-   drivers/mailbox/marvell_mhu.c: In function 'mrvl_mhu_last_tx_done':
->> drivers/mailbox/marvell_mhu.c:106:18: error: implicit declaration of function 'ioread64'; did you mean 'ioread32'? [-Wimplicit-function-declaration]
-     106 |         status = ioread64(mhu->base + AP0_TO_SCP_MBOX_LINT);
-         |                  ^~~~~~~~
-         |                  ioread32
-
-
-vim +96 drivers/mailbox/marvell_mhu.c
-
-    89	
-    90	static int mrvl_mhu_send_data(struct mbox_chan *chan, void *data)
-    91	{
-    92		const u64 doorbell = 0xff;  /* Arbitrary value, SCP requires a value */
-    93		struct mrvl_mhu *mhu = chan->con_priv;
-    94	
-    95		/* signal SCP */
-  > 96		iowrite64(doorbell, mhu->base + AP0_TO_SCP_MBOX);
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	static bool mrvl_mhu_last_tx_done(struct mbox_chan *chan)
-   102	{
-   103		struct mrvl_mhu *mhu = chan->con_priv;
-   104		u64 status;
-   105	
- > 106		status = ioread64(mhu->base + AP0_TO_SCP_MBOX_LINT);
-   107	
-   108		return status != 0;
-   109	}
-   110	
+[1]: https://lore.kernel.org/linux-kbuild/66e4ee9c7f9b4bc48fcee92a94b6bb6d92fe1ad2.1794233316.git.sashal@kernel.org/
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nicolas
