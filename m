@@ -1,80 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795233408;
-	b=bhu2wRPCwfpAKd8sPBcjlyV6uqERzmTr0egE7x2GIW/KAUn5ZJxXqLxZ2I7tv05CXJeO
-	 i/ACyjpyCTLbR0ZA08vSRnMcOH/kxBTPs5WizE/9X7GO7bRdVzcAw5Ti4lH5jnq0zErS6
-	 baD1xzgYWWTpTOsfcV4dPaXniMwE4fK/lom1AOmn2CXUt6EcIYAOlm0017xOHwJNN5XZ1
-	 MUugvAil8tnXVxvA72pxelQyjSG9aESI4pIZuyoM9YXaQOWvB4CktoGa8mpBA5XkZ+32A
-	 1Dwmi6r1WG5flSIJuIWg0ZoLCtbqS8U+Bg9quhjJO+ZIXJeP+ySOeKTN3Iw4PXBJDmA==
+	t=1795234214;
+	b=F1eE3dkNe299AJ1/CfeG16QKowA/Dz8FMCzfRZg0RKpG1G+9HqvCKkS4YthyaMwQqaJU
+	 iMQgoG4JNoMGc9iMCSKaiCy/+isoZGoLq/I8m7kZrYS1y/D49PQwNHNSXdHLS3Dt92CTt
+	 sHlXcrcHONtfRhnVLx9lg2JIsk4o3yuNA1FaT5HX4Oe1icq80bWLV1P5bwW+0tVZ8ZAUB
+	 o9IXGmQv9l9InmRWBifFmgu/+oG5XlR3IRgqecynlHY7YioFZiE6NKyOtTKlVIyXyHHN/
+	 zdoAeR26xKhPQTxCm6pTRBThZt2nP8nDphBOdqDyyd4isciI3fGmIvQSOoZX45ViWCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795233408;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=vfK3hHX2y3iszX9r5ohzSMtGw/Mu9i9/h6NGers9dWg=;
-	b=5EiPbzVgjje2BY8sYdHi4Myje80WVBuIJl0NQ6v0s93o1kYmxVwCvqk8JM9sf+Fwo/Dx
-	 xZspKMcjLVLc//8Xg40Hvt1N1vgi0vqtszN3B9jGP8WRbDa5V1/d4e2dK+ICUxbEpG5zM
-	 4B+tfiR90u/O4jWT+FGqQwqORuDJffdkG8+T1boIOQrcJ0A1SQ3cFbxguCmUmOVaJJ09F
-	 b2AlM6D4BV+z6wXjOw9MJ2km76QG04BcklS7WmdLwtYqCPx3ybfoOWvrxHmuYy2ZnbTEv
-	 NQpd12KbE56/ngCUJn+R2J191oENfuEoNgOC5N5TNDl/LpvR3/BeHJ4Uw1dgx+/LulA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795234214;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:X-ME-Sender:
+	 X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:
+	 From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:
+	 Content-Type;
+	bh=V/ZfUxjm7VkyBHyByjR7jRTw9kA/DfQjZiBXJ4WYVbw=;
+	b=uNT93ubTRpANF0TilR1E5fAUbM+tLw5xmwcu1mljRWw7PiRIZPi6M7MNuT/21w25G7JH
+	 QBkgyq8rFJF3cjB8Smymv8FPBDlD4xWolBMh1mgVVqDlzdFq+e3LXfUIu6yyq6tdA+gZQ
+	 fJeF8aqiFBchLQLw3b8LrvyrZmP8TD7Zt5BlgU7tGJVu3NU2Nh0bbinOmCFuET1GuFbDB
+	 Lr6qC9AKBQFEyMQPqhvjDl8jAfWQXD1XN4+pWrCfyJUDQStKy8blNNMnuD45V64OvbR+X
+	 q1AzA+jF7t5YqyaSuF6ziKCTKx0sNNAs+jHWroSx+lMpXwd3cIFYDgzVCvAV6KCPH0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lslMjlF1;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=fail header.from=linux-m68k.org;
+	spf=none smtp.mailfrom=linux-m68k.org;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=x8GICWD4;
+	arc=none smtp.remote-ip=103.168.172.145
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C26606A6B9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 03:56:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40C26606A6B9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01B3606A688
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 04:10:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B01B3606A688
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lslMjlF1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795233407; x=1826769407;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=O5QXE7f2+pZjxAmt7ditpE8mJ1Vei7GbJbYtwECvz/E=;
-  b=lslMjlF1z8ewEXwzxpfQoDrGgbOGgkkDQWKGH4Sh9zNp5mNUOar1vTYs
-   y0NUCq7eD+dCxIxKJxPpH4bJtuqY7+ik0d6Q9nT0v5bLgpMqiPB2mCBD/
-   X1bmxpT7foNshEYbRnzLHD3mvAftTbE4fqyUzDG8XY+oJxS/W7O8T7OlU
-   oocu+stQCw1w/husgadaTPt5H4g2tY4nP5pcrWMDMtWfRke858bsM7Blk
-   uFBz1XuzX3ghBUCLb/JNA64V7D94x54gO/fdg3mehlmTXgPTdECDwzGQX
-   UBRPyWZUxLeYVdMEPO92aYxj4WBkaer+2Z2txL2YDdJI81Dh4vVzKAmLF
-   A==;
-X-CSE-ConnectionGUID: iVDAJHvKQJKaUEfl7AfSYA==
-X-CSE-MsgGUID: haiUkYlhTzaaj38HSXmgog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4122081"
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="4122081"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 19:56:46 -0800
-X-CSE-ConnectionGUID: omn23O4lSyODDcocqoiFLg==
-X-CSE-MsgGUID: Eu6+3GMYQsClVkC7Dxaitg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="10842358"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 20 Nov 2026 19:56:44 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xUcDR-000000004ED-41cr;
-	Sat, 21 Nov 2026 03:56:41 +0000
-Date: Sat, 21 Nov 2026 04:56:07 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 152/152]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: pcie@11230000
- (mediatek,mt8192-pcie): Unevaluated properties are not allowed
- ('memory-region' was unexpected)
-Message-ID: <20261121044738.kEWWTznX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=x8GICWD4
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 85CD8EC0C22;
+	Fri, 20 Nov 2026 23:10:12 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Fri, 20 Nov 2026 23:10:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795234212; x=1795320612; bh=V/ZfUxjm7VkyBHyByjR7jRTw9kA/DfQjZiB
+	XJ4WYVbw=; b=x8GICWD4UoDMvXS68x4O4raIRV//lKadGXkbR+0GkMwSLKHNN3a
+	l65ZMHAOpoRExR7pAIvihhPjQGT3B+CeCPEqupiPdS+y8m4qWGZ0gFpOiAf3WOyQ
+	HXEPJYXyYELOEC6BDLHbodcnTwzVV3AE1F7UpDMoJby54p6nhGHYXquXPb2CJU5w
+	jYZKsTebidgw58LYURef+XgVl2Vvo0E0IHKmrSBdHyUYlRxcToqjV9PzNEE2to69
+	9SiQnb828hKNRHd/0vTC9yk7rdxaIXohwi80VCCcKKU8Oq7mBsVOUl4cZeajtcfZ
+	YTBS3+mVttGKchkvH2ImD7jWE+U1EC5PLLw==
+X-ME-Sender: <xms:oxkBa3_mj_f_gnNZhkN3ShMI9QrSQF8vMo8R673cBuK0m2EVP3DZkg>
+    <xme:oxkBa9CtXDTbRboHpek_vq2QxNVXphewrT1_3YqsK2S2sYZ8AgrCsexDWypt8KOs7
+    An0ZVmTZSlTXZtRd21vXqRaX0sswChd5bVReTsoWaXbyefruZSL1n0>
+X-ME-Received: <xmr:oxkBa8Sw1JHyWSpg0ZGJunlZh2DyuYd5kKA4PTgFCfkO4O0XltAeKO-oT8hj89JEMpKCoyr_LD2OfzuTy7M61nZKhGlg1c0YH5A>
+X-ME-Proxy-Cause: dmFkZTGD4fLbFmQBkWa7VJDwENrHmzx1MAeeBGv5VgoUdl7GYZCUtedTAG5hE6WZtkUvp2
+    jAxj0aDLHn5ZP0N9STxC5xdAbnE0dTF3qbtjthBjKPJ8Xsg3BQKLzjqyD6oP3zVt3yoPRR
+    vNfzy4cMdcP814aPPyf/BWEw8HV2TY/g0kehcIDNvbT1J5MpDpxMMSdo3VH7ucRWfBF/Vy
+    GZz+6B1N9UgoWYOU6ZK0DviVw9YdJhilwDMtQCMhN4cEAWiNbwHxYR9iyQ6mNgMN85GVZk
+    QAOliH/uQm3sqP7RJJsYaZ9dt5fbOXYVQzeMVjmtVn+hF0yO5K3Iw5fCUS41YyOlTc5LBM
+    smdKMjYaK+8NATKUP2Xdh1tgnP5RghKgOENnJ3sSyIqkf7N5MrdULnt9MMPtaDzG9OJdqD
+    PLjiEE+l19d/S1OL9XToIkbZrI7c0RVSl/g/aoaUewq9zXhvua/NuT3GsZA4XTt0GqxaYI
+    9zUxhmWzhxREwooMd8UeI0kW1XmyJ581hXq4X57YbBbQYwuKroBTAvrSkrjXS1IYhGJt8V
+    iTPHzuj4vtNYyCyjma9N7uuEFw9teoFZAcOYTJfCx888gRUlxRBZP78R2Ti4PgJTuuWfSQ
+    wK4/4NtKUGUCxVqKwprh9irouxF+izv1AN5Am/1bYfPQV3gfEhrtcAcfT2WQ
+X-ME-Proxy: <xmx:oxkBa0t6P6pw-Udkc6dfiSa5yNT73qkgqAfAJMkl2BSqo3iIMduBNQ>
+    <xmx:oxkBa43qElqcSN6y_5x8IPKnFPpP0M-AtQ2SWPu9L0c76O3bOsE5jA>
+    <xmx:oxkBa1WQktdHrofSNid1wbZlxky8UhzYTZBX75sAWpnroo8lYqT0lg>
+    <xmx:oxkBazKusyYOQSnaO7tLQPZUNByO6OqtMiJaGRr9nje1FBji1FpzFA>
+    <xmx:pBkBa3_ka8wtlkl1H0cTDIoa3OHUpoP06-hjcafN-uO9spnFcy3lYCjQ>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Nov 2026 23:10:09 -0500 (EST)
+Date: Sat, 21 Nov 2026 15:10:04 +1100 (AEDT)
+From: Finn Thain <fthain@linux-m68k.org>
+To: kernel test robot <lkp@intel.com>
+cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Arnd Bergmann <arnd@arndb.de>
+Subject: Re: include/linux/compiler_types.h:631:45: error: call to
+ '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
+ failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
+ sizeof(*u)
+In-Reply-To: <20261121034304.2dPxVKzk-lkp@intel.com>
+Message-ID: <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org>
+References: <20261121034304.2dPxVKzk-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,161 +97,12 @@ List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   c5e3d3a3d3b60eb95c36e3c49dbfe7a34c220c5a
-commit: 886ab6a1f52c0b37d44550eeb207fd1aaddfbb22 [152/152] arm64: dts: medi=
-atek: mt8192-asurada: Move PCIe DMA bounce buffer to host
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261121=
-/20261121044738.kEWWTznX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261121/20261121044738.kEWWTznX-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261121044738.kEWWTznX-lkp=
-@intel.com/
+On Sat, 21 Nov 2026, kernel test robot wrote:
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: syscon@1=
-1210000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of th=
-e regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expe=
-cted
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk',=
- 'aud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk=
-', 'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_td=
-m_clk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk',=
- 'aud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3r=
-d_dac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_c=
-lk', 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpl=
-l_d4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck',=
- 'top_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 't=
-op_i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_=
-i2s4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s=
-8_m_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll=
-12_div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apl=
-l12_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_ap=
-ll12_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6]=
-, [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10],=
- [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56,=
- 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101]=
-, [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], =
-[22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, =
-67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, =
-147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]]=
- is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: pcie@112=
-30000 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memo=
-ry-region' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.y=
-aml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: pcie@0,0=
-: wifi@0,0:reg:0:4: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: pcie@0,0=
-: wifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]=
-] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: flash@0 =
-(winbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fi=
-xed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40=
-|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df=
-(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|=
-1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion=
-,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|=
-040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winb=
-ond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g=
-', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s2=
-5sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: syscon@1121=
-0000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'a=
-ud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', =
-'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_c=
-lk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'a=
-ud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_d=
-ac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk'=
-, 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d=
-4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 't=
-op_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_=
-i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s=
-4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m=
-_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_=
-div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12=
-_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll1=
-2_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [=
-56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [5=
-6, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26=
-], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [=
-22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22=
-, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67]=
-, [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147=
-], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is=
- too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: pcie@112300=
-00 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memory-=
-region' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.y=
-aml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: pcie@0,0: w=
-ifi@0,0:reg:0:4: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: pcie@0,0: w=
-ifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]] i=
-s too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: flash@0 (wi=
-nbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40=
-|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df=
-(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|=
-1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion=
-,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|=
-040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winb=
-ond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g=
-', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s2=
-5sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
+> FYI, the error/warning still remains.
+> 
 
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That's because the qla2xxx maintainers at Marvell did not respond to any 
+of the three fixes I sent. I'm not a paying customer so all bets are off.
