@@ -1,89 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795255558;
-	b=myEDVL2vcirSN4iU5h98Zg+HperGLlRFhw56zr2vwIHWP6ReUJ8pOrqaF9DgV421Wn45
-	 9DihR4SvFwluY2qbzXIfH3Dv8STwB3PxlhsNr78UZ9T9D2ytG+EnhEDopyxb6ogcEnHy3
-	 NWj0agWIlBj7LmtfMA1pQquyrgaSiFJmk3B3olKrqvIzwm0z3ooTN0wlUBbryRq2RLBHU
-	 4F4Vfdz4UWMJR4BCIO7ultZ2EIrS7GGEBxIVE9IKTPkr37PBa2Ab4D0FrpOKWxbSd71/6
-	 QPGXjphsZAHFo4xmZCvVIxTTq9degZDePXuBaCs+zBxykJEXHelqpXJIT+pRQvOo/PQ==
+	t=1795256343;
+	b=h7bXqpKkClKKuG9xhdsf5ZaQ3yrufnHnyxNrhE9bYZxG3hHZgG5GZBdbl6O90f7tXF+0
+	 Sq/ZZ5zOJqUqwGCZlW5it6IV7SKA7Pg5ubJ7bf9zQuOItYbxw8uBhQ11h3Zi65edhEGi0
+	 4yAJoCl8dLboKhCvcVJNCWU6/0K7PQzs7q0vu3dIa/jfeKsYIVqw4J/6jlq/FwJWu3e/y
+	 d6hLl6zuDtynYfM3uJcBIW3dzFtx8wDoPUcqzRVMVK1qzJkjKRwg6Ena6tCmiIICqK+/E
+	 a/LPayT5oGySJIChszyZ+LVMHLCq1nlIjjcqrF308ATuFxXWkvu8lGJ0Z41U6Uw7gdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795255558;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=zE5eX58071rX2+3ny95L61kUwJINXoAYcP3/Wdhf/8Q=;
-	b=BzK6PXPeISI4h8ezzRbwmDbde0sPFJe8xZExhJT6l1ouIbMkQldBi5rmRWk6iO0D57md
-	 +8EirpNoYWeBEWcryIucDAfkUiEuAeIbWnxO2wHRT/ITM+U40Ecb8/e5INZceNiHMslCH
-	 0tKJ3vnlW36ILV1mvTYBIRChfuzfjdGb9jdIdApEDTewe87UqtopViS4P6rQbR1GoN5EV
-	 L+i2dImdFjla9qPMTU77IsgbCZxwgPVlSa8+RiQD9mvzYjhnEuCffi1ONuGx83iTGhnR8
-	 RMGvwoLAsgicPE4Z5x/DmJpKWgE22KZ7Du2mau5D8IGAS76FhO4PFe6X4jLaBnvieBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795256343;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=0i2RZjftSStdvjT26RVNrK0X4WD4WsU8buWEUfYaDkA=;
+	b=HLwL9Ik9G6gsk8fwVypE8X58olUBvm7YkjZbIqTiC4pvwzQPKN6hay9ryR5Z/X+++s9T
+	 p4UQIoQizvTNnOv6ZgsKQ4LitaFEBi4Xl6XyZ0hMzlp29MIzwmbhviu4za6Bb4xZThMxe
+	 vupdI4QB5iX7HgHfOGWMhRjLw/FlJ6LbRrQhzlMU+afVLCW6mRmoNcg8arBTW4aCHWmv2
+	 /3Us9GUk8Fzi6TJE0sjCi1kvpFp6goh0hrkOJ5qjXXcMkouUYyAs3f+NLOXLkOzci1Iuu
+	 ijtPswrDE5rW8V90EYmu+K3Hz4EdyD0ff8My2HiZr4tEtj6jzdt5lT4NKpsG4vGdmEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ND+FCYNY;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Sl19RIdo;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=kwCSsJaF;
+	arc=none smtp.remote-ip=103.168.172.153
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD2606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 10:05:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9FD2606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2D8606A325
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 10:19:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC2D8606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ND+FCYNY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795255558; x=1826791558;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qG+vai3fUu9yq82SLlVtxqR29jLNXrTh+HjAdeNsHso=;
-  b=ND+FCYNYe+fK27ugX50yXpFFOWsRi5fRAk4iax7crcKdSEb02YsUYHlJ
-   SAMdRV+XSmON2NQsCyFfgjuQSgA8ydgb/XTXmkfICDCCO/TC8NaYTK2Ag
-   FGfxZZOTMzvRAC7JCZhknatb5ab6EzHRg2bguhT6GdFwdpt4a9SgAo+Cb
-   ju5GFy17Mom9xnLqGglzjrH5IlwiZ09jsHJE1SqcoxOAr/ZsQkuptZk9R
-   6k6//9Z6Edh2Aj5C9DJ7VkqgAv41poc2PuBYcRqurdwld18FG9VioZMrA
-   2GdvCqz0//uxmeGcHLT9S5sUSJPkrOItOwt4dvCdAJfxW18fM2E/uSYty
-   A==;
-X-CSE-ConnectionGUID: oHveEzHbQhm6oRlm+HcjeA==
-X-CSE-MsgGUID: l/ok0JSxSTyttZ3mvpF3FA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3972587"
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="3972587"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 02:05:57 -0800
-X-CSE-ConnectionGUID: kfk3+Wu9TaWvjotOTxtLzQ==
-X-CSE-MsgGUID: sVRUFlqfSHi/t6304uuvLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
-   d="scan'208";a="12597887"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 21 Nov 2026 02:05:53 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xUhyg-00000001JsZ-1trF;
-	Sat, 21 Nov 2026 10:05:50 +0000
-Date: Sat, 21 Nov 2026 18:05:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brian Mak <bmak@nvidia.com>, Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kurt Borja <kuurtb@gmail.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Lyndon Sanche <lsanche@lyndeno.ca>, Armin Wolf <W_Armin@gmx.de>,
-	Prasanth Ksr <prasanth.ksr@dell.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Brian Mak <bmak@nvidia.com>
-Subject: Re: [PATCH 2/8] platform: dell: Move out of x86 directory
-Message-ID: <202611211817.BLHa92e0-lkp@intel.com>
-References: <20261121000556.173028-3-bmak@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Sl19RIdo;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=kwCSsJaF
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4ED2314003B7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Nov 2026 05:19:01 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Sat, 21 Nov 2026 05:19:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795256339;
+	 x=1795342739; bh=0i2RZjftSStdvjT26RVNrK0X4WD4WsU8buWEUfYaDkA=; b=
+	Sl19RIdopFfPFw2p2r0FkpT5VlzB5fySxJbRRjaYg7ctVn9t7y86MuBfUXkx1AjV
+	DJJ/5VjgFbE5EUS4daE/NZYPOi6GTr94TRf8aluVYA0vFTD0tHUjhJaLT7QXG4o7
+	q98hJKGAjhz8gSKmGDtju7lkb4R9biicYHosWZewyZrJuzUhJHH4pQ8aWTGDn8uk
+	ihYqgGrJS+QYev3sNNwFh4CnjEZ/7LdBDqsHrESP+JVUI0lNJ6n/PPJSBBwBFjHW
+	gYMRWrqDugLF9spz6QnCrW4iw8nIN31RgUH5gNTdGeldgNDW6Vwu0o62BzTRtNBs
+	aWVWxQ9Cj2zU5UjrP18RNg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795256339; x=
+	1795342739; bh=0i2RZjftSStdvjT26RVNrK0X4WD4WsU8buWEUfYaDkA=; b=k
+	wCSsJaFV3ZNTeZoQpRGGOW4nOfvnOLKAwveIia0fMTHE8onwSykOxf1asL7bWc8j
+	Cfjq08pfPbL0p8W7bg85RGoHXFzX+gOLbaktxIMQyknckVmT7aaV2D2Cge8J3dqZ
+	qRF2ogoRBnTKQsXCicJqxP5pAwlTLCLGO6oL2IKGZxuxR2NlKo7Ps1ylM+GbVh5X
+	8WnZBaOw9qJdDdsHhb0JRRQCsMAPvQDOAjyzah+uEpsRZHCgEuM/w7/DBEYPaStF
+	h3xAHV1FtifUW+eM+QqQ65nERR/OdTP/fZUn0M7OFEgETCHmaF5Db5O+7F+lTZRV
+	owgXUgUH1Ixvmas+U30zw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795256339; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:GZsk4TiOtE97kNxj65EfKJiIV9nOpulOoic6fX8WvbV77JV
+	mwdamqDtm8jNxxTEYsaA5WwhnqpayQCBGFgSImMOOOedin0gX3keC/7hhLz+Jz4R
+	Z2Mvw5hm52FX0eYkf9gAk+RiOZJCJmzNzQyiFGyV1VXYxtZnnRvaDEokij+ZR2UA
+	UXEwxZxamzgbpQwCLg2asN1kqISuRN7ljR4CwiJM52mrvxapgf2cLjIic36z2MKQ
+	dolWJAZ2EhPFLQzGorGNQlG1V5fOf++TNNU6NQ4VBPrgIdo1sJd2NLvkKpyW9pYQ
+	3EGge09AKtLWSaelaKaVoI0lu+xyYilPT3CILCg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:yqD/FmXZljdyQiUFDJYEx/4iiCA0LQnUyEYAKvk6x+I=:SaZhmevZseYNj8BYa1MZacE8OaKkN9to1HzsTqm5YKg=;
+X-ME-Sender: <xms:D3ABa2fIMZzKGR5hII2nRkctAySJk7BE49R_AdCsVYP0JXD9-Ds9jg>
+    <xme:D3ABa7CxwSdjWYNMhSLiWbzzCkkv6yTiUKdXtGGVKjaXoTSg0Uviu5cmSU39f0dgX
+    4GrIU5WLLONCSlYNwLkPKuDPnJmPHKzkSidhn7_U0NbufjyCymROg>
+X-ME-Proxy-Cause: dmFkZTFFq/RFRtsgGQdv5iAMLs3oNd4tFruLJNmDKGQSzqUOqJKymCaxn6q3mKWOgSTsY2
+    8ZIVReXnvjQIVUXQjL6n75fSU5akFU/BEx4uIZC9vWAnuUpYBP7A885yXFgbksvziIhi4h
+    8GeQtl1QoKeeFc6o34N7EBkLbP5Ux7c5UxS+P87+Bn44WEJ23xFi2IFJJw0KWe5E19QxM/
+    CfOPNjDh4T/AV7dg7sEH6vxopxjpS3Kx4f+r6Hg/QUZEdzGYvnxzVKrBCZvpDWXTVXPBqk
+    NzIVppT9bdag9QgJThPoA2/yTcKmWLDO3mQ9CkGs1vsYFY0buTOPRwpd3qceqt982/NASE
+    jbINSt2yDy19JKV3KPgDLOo7tvD+RnEDQHXPgUmq70fkieWrbqwsioh28mQbKeH4GFU1Bg
+    ClL1YlIwzXDlLZJ7m6EyGgI49ZHRO33dD3scKhMFMlhtNuhptF8Yu0KaKFx9/5PIHJphGy
+    W+uny/QuvP/zA8E6OomuqGiS82Dkg+0pV/2xg7D/yQdqv6+Ec2zMyp1ThhHWou0eFCfNOJ
+    Wc7bAEk3yXqH/IcapNAz6/HCxAXVkyDBnv2bxK0qarizMMrgcUCjPSwb/3leL1njfbD1Ci
+    vTE8IQ87Wp4owwfpKtXWJsFm5knFdTxg2iUlsax5VTPHkayD/8M/8mQ7SuFw
+X-ME-Proxy: <xmx:EHABa2kI7Zsdhiu2E4cXuDbS5m5CR8NWFJIEbpMKmRmP6V7p1QG2dg>
+    <xmx:EHABa5Q43XZH4f0LvF7HUR6HpF0yvIELAGODtlkCiXDLIjN9RPfqlA>
+    <xmx:EHABa4IiYWXPf0HkZlFT3RmFG53KxwYBUX0505Lofe7QmIO5lGb_MA>
+    <xmx:EHABa_BjYRbOL_pmQvkkwuao3Nd_duzLEYpdJXiwDiZgv6sEOEfKLw>
+    <xmx:E3ABay3QAbmaubFSzmZGh3TXKWz9mB_G3agfN74VvaeZjWHHv4YVEcKa>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 274F232A009C; Sat, 21 Nov 2026 05:18:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -93,50 +115,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261121000556.173028-3-bmak@nvidia.com>
+X-ThreadId: A7YRnwEcAcgN
+Date: Sat, 21 Nov 2026 11:18:34 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>, "Vineet Gupta" <vgupta@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
+Message-Id: <5d49465f-8584-4e75-8973-9fbf326bce58@app.fastmail.com>
+In-Reply-To: <awDriH64LFbN0dkI@rli9-mobl>
+References: <awDriH64LFbN0dkI@rli9-mobl>
+Subject: Re: [linux-next:master 8956/10560] main.c:undefined reference to
+ `__st_r13_to_r15'
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Brian,
+On Sat, Nov 21, 2026, at 01:53, kernel test robot wrote:
+> tree:   
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
+> master
+> head:   909ef7a9a30fa139e69e555e3606680f5cca7726
+> commit: 86a4eab2bd8313fec6e54742e3ea187b65b86b07 [8956/10560] ARC: stop 
+> linking libgcc
+> config: arc-randconfig-2000-20261120 
+> (https://download.01.org/0day-ci/archive/20261121/20261121004452.TskH9STt-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20261121/20261121004452.TskH9STt-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/r/20261121004452.TskH9STt-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    arc-linux-ld: init/main.o: in function `__traceiter_initcall_finish':
+>>> main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
+>>> arc-linux-ld: main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
+>>> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
+>>> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
 
-kernel test robot noticed the following build warnings:
+I've managed to reproduce this, but only with gcc-12 and older,
+not gcc-13 and up. I also found a workaround, but I'm not sure if this
+is a good idea or not:
 
-[auto build test WARNING on d0f871bfb831705d9f55479f5b2b40f636ea7b16]
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -9,7 +9,7 @@ ifeq ($(CROSS_COMPILE),)
+ CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux- arc-linux-gnu-)
+ endif
+ 
+-cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -mswape -D__linux__
++cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -mswape -mno-millicode -D__linux__
+ 
+ tune-mcpu-def-$(CONFIG_ISA_ARCOMPACT)  := -mcpu=arc700
+ tune-mcpu-def-$(CONFIG_ISA_ARCV2)      := -mcpu=hs38
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Mak/platform-x86-dell-Make-uart-backlight-x86-only/20261120-160547
-base:   d0f871bfb831705d9f55479f5b2b40f636ea7b16
-patch link:    https://lore.kernel.org/r/20261121000556.173028-3-bmak%40nvidia.com
-patch subject: [PATCH 2/8] platform: dell: Move out of x86 directory
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261121/202611211817.BLHa92e0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211817.BLHa92e0-lkp@intel.com/reproduce)
+The alternative of course is to include the libgcc file that includes the
+millicode helpers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611211817.BLHa92e0-lkp@intel.com/
+I also came across the "-fno-builtin", which seems like a bad idea because
+it prevents a number of optimizations. I could get it to build without the
+argument using two oneline changes, but that doesn't mean this is correct
+or complete:
 
-All warnings (new ones prefixed by >>):
+--- a/arch/arc/include/asm/bitops.h
++++ b/arch/arc/include/asm/bitops.h
+@@ -143,7 +143,7 @@ static inline __attribute__ ((const)) unsigned long __fls(unsigned long x)
+  * ffs = Find First Set in word (LSB to MSB)
+  * @result: [1-32], 0 if all 0's
+  */
+-static inline __attribute__ ((const)) int ffs(unsigned int x)
++static inline __attribute__ ((const)) int ffs(int x)
+ {
+        int n;
+ 
+a/arch/arc/kernel/traps.c
++++ b/arch/arc/kernel/traps.c
+@@ -156,4 +156,5 @@ void do_insterror_or_kprobe(unsigned long address, struct pt_regs *regs)
+ void abort(void)
+ {
+        __asm__ __volatile__("trap_s  5\n");
++       unreachable();
+ }
 
->> Warning: drivers/platform/dell/dcdbas.c:103 function parameter 'size' not described in 'smi_data_buf_realloc'
->> Warning: drivers/platform/dell/dcdbas.c:284 function parameter 'smi_cmd' not described in 'dcdbas_smi_request'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'dev' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'attr' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'buf' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'count' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'nb' not described in 'dcdbas_reboot_notify'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'code' not described in 'dcdbas_reboot_notify'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'unused' not described in 'dcdbas_reboot_notify'
->> Warning: drivers/platform/dell/dcdbas.c:103 function parameter 'size' not described in 'smi_data_buf_realloc'
->> Warning: drivers/platform/dell/dcdbas.c:284 function parameter 'smi_cmd' not described in 'dcdbas_smi_request'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'dev' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'attr' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'buf' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:316 function parameter 'count' not described in 'smi_request_store'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'nb' not described in 'dcdbas_reboot_notify'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'code' not described in 'dcdbas_reboot_notify'
->> Warning: drivers/platform/dell/dcdbas.c:615 function parameter 'unused' not described in 'dcdbas_reboot_notify'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
