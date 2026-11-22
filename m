@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795345708;
-	b=Bn888RATfYUFM2Eqtd1GuXV71NrrW6GodC6xEVKg1aV8PcMfDw/W6n4ZZU5PPCiYzBOs
-	 37XowRTOxzzRnVLmQ39BAqJsDEUnuxjCa0G8EgNID5aWlXABKH9vlzOOKcycY2kd6DV6s
-	 hS1pIZqswYeBmIrbda31FSrR5ZAovoe+b707CdIaYvKodxUp20VCLdiIZPEqXEVrI6s06
-	 mS3C5mwnFJd/N/JKBIfZrp3AdcIdgklsKAoQQwTAIYnYSrDxf/kZ2NaZlwZwQMcPIn/X6
-	 vtGNqq0zd73IQE3WtI9dkosuPdF4WOzAfjDwGGRG6yFWp3jt9E8nlVj6IFunVrEQgZw==
+	t=1795348290;
+	b=NjUpiInOMrgk/3gSSZXpn0s3o6DX04a3//wcn3R3yk16mMK1Gc3rmVirGt1Gz3St4NY3
+	 nfsqn2kHihi9N/pc9HPhjR8D/Z9T3/YRhTqmASWftPG6ooR6vslXa+y6D8IcczFnECr39
+	 ul/qMEBefuQGHQJ+ebW/b5jMpVP6mhhk++5SRJzXCufKvMXODYZrhZFJFL0ENoBWLKGZj
+	 iyG8DnLL2DO1n46NP81ttMbq9Dpj+hfnL6ap5mL3ec6akCz3f+w/H/wKLVOcLCZVL9TIC
+	 +/NXvNesv5ZMpYpmPnyp6TAbQfYbgNPySkWS3bdBPh0+NoCtMpTkPWqCBOnqsaRt9sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795345708;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795348290;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=zaMyK3qppSY/fYqpLRU3S6YqAc+ypnqc7LNjt8K0pyk=;
-	b=gEbnMj5zOtwNyIOZwKNygn++ok2Usl9gRf5cCOnzfKEeXlkW/XGTphTMpHPLfltVXcXw
-	 71Wp6ew9uYnhdTCCWECTEPjqyWV+2WocIg7NwPh4BbpBEuf2JEzLH/OqPn6MTsyLqVBgS
-	 lUkjn9ODKgq1Dktn6b/zlI29KGV9oXJGIUVfxXX+FTMhmRFWXjKFfrgDXkAbJtHeew9Xl
-	 FSw+kElwxzMvMMmmKpYCI9pvLWvzDZkZ5v4reb/EuALHB20bfRPpvVHQZ1P7AACnXdbNE
-	 j54uZuZRqMl1jWpqGaKDIUPOxzO+M3/0Pk5TrQ0IjfPgJ+Yn2JJxidhfzrvh7yuQkyg==
+	bh=SdLr6yRqTSIXIq9q/8cXAbS05lzrBdYrcWskButSjtc=;
+	b=VRcTN7iIwGV5cVkPA5ThV16VrhUgw1vdUY+AHf3COi+azJWhG7PqxUAld+V9JdwziLN2
+	 VzGmkSTl29pW1Jl2hoJoiCCKBUDOlzfVNn//lN30sJhqcOxJCO3qQVi9TDAGWuYO9/Kp8
+	 YkmARvLKmHbZCL5sHznVi7PjZCMJCERYc9MAPLRkNejhR3wthEDKYdFD6c2VHK8B7KWGy
+	 dLCctdYogg16yrArKTzA8HQzh5oIBmpMhjuvduByN0DhQQSV37KQaowWR7v7h9SCNEwSH
+	 2mz9/PsVNASH461KOw9s2fVpxBYkGrNgIywDc3ScVFpvVfJqXqJ3/ajbXLCvSETfnXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DdqpONjr;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=STCTzFZv;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6CA606A32A;
-	Sun, 22 Nov 2026 11:08:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C6CA606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521C606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 11:51:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9521C606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DdqpONjr
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=STCTzFZv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795345708; x=1826881708;
+  t=1795348290; x=1826884290;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bf24Esh6j16RVoOyDaMU6QwUfXI0Sy2eWmYeEUuCKT8=;
-  b=DdqpONjrBeQzp4qOpcWXXuU7pEh4QGRQ86slKl+ZcIcSa2NjaYPA2a/J
-   fmXhKIiFWCvSptFPl5QMlC51O1bgNj+UN3OFC42+q87mzJeruQgNU3jLI
-   43dTuxBa+J6PtnzpUdENxmdMWmuljewYqdh+18j/C37CSGehx7N2FU1pu
-   huvLrhmOkaJ7/McqAyW20BTDU0DaM2a7QCyKsEoX11lVwt+7SNUJdgIdq
-   RJUmj0F1ihe8CvxZuYF/Pwyc+E4X294cs2gLR8/WqWzCqIis1FxENha7q
-   eJGAqvtRt+gvgyf8h5eNFbGNbTX3EeJJf2kw6Q7gBxl6QPIS3S1LNzmTm
-   A==;
-X-CSE-ConnectionGUID: RKfsN1moRTypJ/5w+ZW4TA==
-X-CSE-MsgGUID: N2GB15UqTqq0VEqkcxjScQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4065302"
+  bh=o8bfGSGMC+XTLsw+DBGSIpRTxrHzS+tPO1ZCb6rISAA=;
+  b=STCTzFZvNFSXH/2jGMmlOZm4kGSwrAkgIdEcZvARGeiHWF9+1WtXYvXs
+   pDaUvURXksxbJzESjSSyGIUKJ9hjNtFAvh3jmwNHjrZAe2/Q4FzXnUTUd
+   M01mtpwoRKwsZpfwo0kO32nne3efL8q7Ta5IenonLoJ2qP6eFIlrbQHMi
+   22ykZUHaclUT8iPw5jyH2Eobay7tDnWt4ACDRO0/fc6pRlpLs3Hqyj8PC
+   fYeWgxaAkQMpx0L5iuLAvOkaaYJa4gtMF88U47Vl+7Ln47msBCpQ67RRe
+   AhVd8IdPtycgmFsaCyYGk4a9LIwLEj0N+tRxFwRKMNm9idy333J759NbZ
+   g==;
+X-CSE-ConnectionGUID: SqtgXCOPRm2DrDZZJ+hvYQ==
+X-CSE-MsgGUID: jc584vZrRJuQsBzhHAFLRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4153940"
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4065302"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 03:08:26 -0800
-X-CSE-ConnectionGUID: bRqpfSEvQ6mEe6tla/Mf4g==
-X-CSE-MsgGUID: VU6m7KpyTvCYNul/RJ2zaQ==
+   d="scan'208";a="4153940"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 03:51:29 -0800
+X-CSE-ConnectionGUID: xYeKisuzT2KLsMkMzHwYOg==
+X-CSE-MsgGUID: v+D3S8fRQDmlWO0gMXE05g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="12773304"
+   d="scan'208";a="11012790"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 22 Nov 2026 03:08:23 -0800
+  by orviesa007.jf.intel.com with ESMTP; 22 Nov 2026 03:51:26 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xV5Qi-00000001LOM-2WME;
-	Sun, 22 Nov 2026 11:08:20 +0000
-Date: Sun, 22 Nov 2026 19:07:30 +0800
+	id 1xV66N-00000001LTS-1lxt;
+	Sun, 22 Nov 2026 11:51:23 +0000
+Date: Sun, 22 Nov 2026 19:50:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Fredric Cover <fredric.cover.lkernel@gmail.com>,
 	Paulo Alcantara <pc@manguebit.org>,
 	Namjae Jeon <linkinjeon@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
 	Tom Talpey <tom@talpey.com>,
 	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
@@ -81,7 +81,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	stable@vger.kernel.org
 Subject: Re: [PATCH] smb: client: convert DFS target node name from cache
  charset on mount
-Message-ID: <202611221916.9Z8PeSdO-lkp@intel.com>
+Message-ID: <202611221905.fQpuvetd-lkp@intel.com>
 References: <20261122045841.99012-1-fredric.cover.lkernel@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -110,31 +110,28 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Fredric-Cover/smb-client-
 base:   https://git.manguebit.org/linux.git cifs-next
 patch link:    https://lore.kernel.org/r/20261122045841.99012-1-fredric.cover.lkernel%40gmail.com
 patch subject: [PATCH] smb: client: convert DFS target node name from cache charset on mount
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20261122/202611221916.9Z8PeSdO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611221916.9Z8PeSdO-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261122/202611221905.fQpuvetd-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611221905.fQpuvetd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611221916.9Z8PeSdO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611221905.fQpuvetd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/dfs.c:44:14: error: call to undeclared function 'dfs_cache_local_path'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   fs/smb/client/dfs.c: In function 'dfs_parse_target_referral':
+>> fs/smb/client/dfs.c:44:21: error: implicit declaration of function 'dfs_cache_local_path'; did you mean 'dfs_cache_canonical_path'? [-Wimplicit-function-declaration]
       44 |         node_name = dfs_cache_local_path(ref->node_name, ctx->local_nls);
-         |                     ^
-   fs/smb/client/dfs.c:44:14: note: did you mean 'dfs_cache_canonical_path'?
-   fs/smb/client/dfs_cache.h:54:7: note: 'dfs_cache_canonical_path' declared here
-      54 | char *dfs_cache_canonical_path(const char *path, const struct nls_table *cp,
-         |       ^
->> fs/smb/client/dfs.c:44:12: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     dfs_cache_canonical_path
+>> fs/smb/client/dfs.c:44:19: error: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
       44 |         node_name = dfs_cache_local_path(ref->node_name, ctx->local_nls);
-         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+         |                   ^
 
 
-vim +/dfs_cache_local_path +44 fs/smb/client/dfs.c
+vim +44 fs/smb/client/dfs.c
 
     13	
     14	/**
