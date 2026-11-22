@@ -1,78 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795323060;
-	b=l1HajAKoVrOJLjtvrQnBJiZjnprSE3i059XUsOtgl1pAoYjLvSNe422wvQpBCVk2BfrT
-	 EqoIWeWTasHLAPQJQRKwhahJWfVBkoLsFP9UJ8m/XGQftt+OBdSVyDx1mDgSzMRidKjvN
-	 +do1517Xw9ogvfbndvqHh3O+4L/WtM17fo7m3DWh5bAgJ5gHKhC90Ax27BiiDp4wfOXir
-	 jZO+hivbCg9Di/0UYNgSdA4I2NABqOeBYttePkmixLhgCuvuHThc6/XYhYC4hZbhOlROc
-	 WNjst4fyxfEJQgpTAsnFeXtnMa5F92B7L3/yMpl7g8vSLHwWfIa/DT6FZqDy0fQukTg==
+	t=1795344926;
+	b=i8BXfKuZS1+ZSLhQwRedWVXShIvKu/CcLTz7i/u7Xq6WAJdg7PmIU1SmmuLSh6N12rai
+	 Rdo31NyBdJzHmXoi/ZPLKXGcFToTvDS2959QYuFIMHKaFiSV31A24chKDlyM47/zGIXlV
+	 IwtOai/UqLIyLrpkWXHCzRf69VvQnOrA5eanwWfatGhNmewGg0DIfG7IfCwRkUuZdOhZc
+	 a6eD1F9rfq5dNp0jXnYZdpzuidCOtkjn/fvO/dW/Ylzj+EveVbLb/NzFyXRdyGSiB1vXZ
+	 aTMXE0NgoDxYclA+gNYW2GlKWPg7PtTJkIdZ3av1KUQLKzBjPhXBjB4xX87Waulyurg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795323060;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795344926;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=wqN/3wwoS4Z/aavo3Z1dDTOiT5O71VTn7uR7Pvd+wxI=;
-	b=VpxDAuWc7W3Zk17a0hFBUjDppKZe+3Hpei1ZvBbzSyA6xJEqRg0DN2SvaXDfGSqOjYSf
-	 NTCv47OS4guqGNGFAlLjr/Yxgvf29jQ2GCad1gORALwvoP3KF7t58omiQxo1FklLp7ANJ
-	 7tUd3mCuOr0HEp2HqmHUy1UauMWLRN6LxLoccD1ru42hFSp7QMPgP13EUXeBjwc0q+flP
-	 mvICq06oGzjeiNH7e3fAtFwNOpTQnOm2pRMBtvdSV6DOaSFTRbpBNmQ/no+74jBECbJR7
-	 NppGXeW05qy/K3gIBmiymA2E/CHQ4j4EpJHyd4Qk4YL5jVp5b/La+NzVPic2/Cm+2/w==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=htlF7oEfA9CRHLcQDE/3KmaHb2HDiaLlK6R0vwijegk=;
+	b=3HQkvjZs1RpOicdbN/ppI81tJ5Ld9Co+ImmAegRbKmiOuHguIObf1OGRf7oAiozXN84C
+	 zZQFQCzGTiZMozvMCEsF6Cos7wmbNa4NpbX2v25JHT8v6VLlCo1N8e6kMZeyLt84iwzpV
+	 f1itJ1cEFrITAy7vblnBQMcJDwqfnv5vH+Nhhu+hJThYANw0lntAN8Hv329Fi1hv616F3
+	 lawThH8aG6sGN80KESanGQVHwvggeRXSPTPJce0I9TZ+8ap+VNRzRJcR4ZQ2FYj0ChI0c
+	 iaPRa4ErEOBTSgRQnf6PJoM4sIIGdO+JhXeU7XleZKVyMJpql4kRf4rrHskRINOfXGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XVXDk3f0;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="LTUoQoV/";
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C275606A320
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 04:50:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C275606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A66606A320
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 10:55:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81A66606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XVXDk3f0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LTUoQoV/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795323060; x=1826859060;
-  h=date:from:to:cc:subject:message-id;
-  bh=lKXHRJBHTkZIrE9giEPtDUxMfjBptL/o6La7P00oQhI=;
-  b=XVXDk3f0PeO+ol+Im+TmZs1aCsvzxuyKrCPdDHik0XGTsjaLSmV0A1WA
-   BkuJesFYmwKzwtILB5+/lCZ1/UV68jIMCNo425S0/1cc8qRXismuooBVN
-   xJm6+XIdeJZlu2QSTyHZIZFgAfMJ7X6wxfQ3vYv9eP7mHVD47oHbGLuFl
-   N3dbfGRj64DKSMLari6xyIPRdiwid5hJsI04KweAi3hBlfrx9y7tLPAA/
-   UY9XrLy1QSj8k/nxhMUDdVVXumtTkgXtBIOORGhN1erHVWnz+omj/nD0S
-   ZuM8znb5oKEPtKJHGMIF+FsxFUH+KefVKdlTpD+uzOBt8ZBNwIzP8FUc0
-   Q==;
-X-CSE-ConnectionGUID: Bn1QEoF1S8imk/uOyEkkNQ==
-X-CSE-MsgGUID: lgtdEpCqTZ+ebZyINhY70g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4070812"
+  t=1795344926; x=1826880926;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qOh3V320T7Lr+wqFp+bxyvJuZr+uXw9iFnWVu0o0WVU=;
+  b=LTUoQoV/XqRzqNur2lFaVtJNZEppou7bcw3WLC2r4WhESqOQ24QVYwrV
+   RXGRs0yridDSZm5rMn9zejZ2QROLRnX87u+CfYzLUpniK7b0oqdKVQbQ0
+   3SoZ8rIqarTkIdJMld2R28HwTtNS3KY1OZhdKxxHBFHHfgTGHMNqKNWNF
+   m5nhnWJDlb/QL4go0fn7D2GZ3uzSXKpmFgCYcQ5foTX+JoMn1lZNJ+z9L
+   wn3HynkSxkUDrFu2DIUwcXLQtpNfmGgx0PB6L13+QgwXXloFYSO0pFdn0
+   rmWkrDCV7IOIipJLRmF1h2NXKRIRxQv+KYWdTQQFbkwcBOBrt9Fn4Qc5X
+   A==;
+X-CSE-ConnectionGUID: 7M0K9hYtTYyijEyJwcp7Gw==
+X-CSE-MsgGUID: 45SwviujRMKUczQ011bYXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4176363"
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4070812"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 20:50:59 -0800
-X-CSE-ConnectionGUID: s97X0A0jQ0KT4AcS6JZ1UA==
-X-CSE-MsgGUID: ySom8664T46bBbCjYBoLVQ==
+   d="scan'208";a="4176363"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 02:55:25 -0800
+X-CSE-ConnectionGUID: 2zpbDEdLSnuxhKe+aV/kbA==
+X-CSE-MsgGUID: UOKUGlJpR3CgkcuknrzOPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="11027104"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2026 20:50:57 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="10943927"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 22 Nov 2026 02:55:22 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xUzXS-000000004Up-3OfX;
-	Sun, 22 Nov 2026 04:50:54 +0000
-Date: Sun, 22 Nov 2026 05:50:16 +0100
+	id 1xV5E7-00000001LN4-1jX6;
+	Sun, 22 Nov 2026 10:55:19 +0000
+Date: Sun, 22 Nov 2026 18:54:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
- Mina Almasry <almasrymina@google.com>
-Subject: [linux-next:master 5400/10560]
- drivers/net/ethernet/sun/sunvnet_common.c:1184:46: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <20261122054255.JYRt2s9E-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Fredric Cover <fredric.cover.lkernel@gmail.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+	Tom Talpey <tom@talpey.com>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Bharath SM <bharathsm@microsoft.com>, linux-cifs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fredric Cover <fredric.cover.lkernel@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] smb: client: convert DFS target node name from cache
+ charset on mount
+Message-ID: <202611221813.BN4gUWsn-lkp@intel.com>
+References: <20261122045841.99012-1-fredric.cover.lkernel@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,156 +91,100 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122045841.99012-1-fredric.cover.lkernel@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   909ef7a9a30fa139e69e555e3606680f5cca7726
-commit: 23fe6ac2e97a932cff1472f81498e2c42810125c [5400/10560] net: skbuff: make skb_copy_and_csum_bits() report unreadable frags
-config: sparc64-randconfig-r2302-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122054255.JYRt2s9E-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 16.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/20261122054255.JYRt2s9E-lkp@intel.com/reproduce)
+Hi Fredric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on manguebit/cifs-next]
+[also build test WARNING on manguebit/cifs-fixes linus/master v7.4-rc3 next-20261120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fredric-Cover/smb-client-convert-DFS-target-node-name-from-cache-charset-on-mount/20261122-045840
+base:   https://git.manguebit.org/linux.git cifs-next
+patch link:    https://lore.kernel.org/r/20261122045841.99012-1-fredric.cover.lkernel%40gmail.com
+patch subject: [PATCH] smb: client: convert DFS target node name from cache charset on mount
+config: xtensa-randconfig-1000-20261122 (https://download.01.org/0day-ci/archive/20261122/202611221813.BN4gUWsn-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/202611221813.BN4gUWsn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261122054255.JYRt2s9E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611221813.BN4gUWsn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/sun/sunvnet_common.c:420:32: sparse: sparse: restricted __be16 degrades to integer
->> drivers/net/ethernet/sun/sunvnet_common.c:1184:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __wsum [addressable] [usertype] csum @@     got restricted __sum16 @@
-   drivers/net/ethernet/sun/sunvnet_common.c:1184:46: sparse:     expected restricted __wsum [addressable] [usertype] csum
-   drivers/net/ethernet/sun/sunvnet_common.c:1184:46: sparse:     got restricted __sum16
-   drivers/net/ethernet/sun/sunvnet_common.c:1195:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __wsum [addressable] [usertype] csum @@     got restricted __sum16 @@
-   drivers/net/ethernet/sun/sunvnet_common.c:1195:46: sparse:     expected restricted __wsum [addressable] [usertype] csum
-   drivers/net/ethernet/sun/sunvnet_common.c:1195:46: sparse:     got restricted __sum16
->> drivers/net/ethernet/sun/sunvnet_common.c:1204:59: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __sum16 [usertype] @@     got restricted __wsum [addressable] [usertype] csum @@
-   drivers/net/ethernet/sun/sunvnet_common.c:1204:59: sparse:     expected restricted __sum16 [usertype]
-   drivers/net/ethernet/sun/sunvnet_common.c:1204:59: sparse:     got restricted __wsum [addressable] [usertype] csum
+All warnings (new ones prefixed by >>):
 
-vim +1184 drivers/net/ethernet/sun/sunvnet_common.c
+   fs/smb/client/dfs.c: In function 'dfs_parse_target_referral':
+   fs/smb/client/dfs.c:44:14: error: implicit declaration of function 'dfs_cache_local_path'; did you mean 'dfs_cache_canonical_path'? [-Werror=implicit-function-declaration]
+     node_name = dfs_cache_local_path(ref->node_name, ctx->local_nls);
+                 ^~~~~~~~~~~~~~~~~~~~
+                 dfs_cache_canonical_path
+>> fs/smb/client/dfs.c:44:12: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     node_name = dfs_cache_local_path(ref->node_name, ctx->local_nls);
+               ^
+   cc1: some warnings being treated as errors
 
-31762eaa0d0804 Aaron Young    2016-03-15  1108  
-31762eaa0d0804 Aaron Young    2016-03-15  1109  static inline struct sk_buff *vnet_skb_shape(struct sk_buff *skb, int ncookies)
-31762eaa0d0804 Aaron Young    2016-03-15  1110  {
-31762eaa0d0804 Aaron Young    2016-03-15  1111  	struct sk_buff *nskb;
-31762eaa0d0804 Aaron Young    2016-03-15  1112  	int i, len, pad, docopy;
-31762eaa0d0804 Aaron Young    2016-03-15  1113  
-31762eaa0d0804 Aaron Young    2016-03-15  1114  	len = skb->len;
-31762eaa0d0804 Aaron Young    2016-03-15  1115  	pad = 0;
-31762eaa0d0804 Aaron Young    2016-03-15  1116  	if (len < ETH_ZLEN) {
-31762eaa0d0804 Aaron Young    2016-03-15  1117  		pad += ETH_ZLEN - skb->len;
-31762eaa0d0804 Aaron Young    2016-03-15  1118  		len += pad;
-31762eaa0d0804 Aaron Young    2016-03-15  1119  	}
-31762eaa0d0804 Aaron Young    2016-03-15  1120  	len += VNET_PACKET_SKIP;
-31762eaa0d0804 Aaron Young    2016-03-15  1121  	pad += 8 - (len & 7);
-31762eaa0d0804 Aaron Young    2016-03-15  1122  
-31762eaa0d0804 Aaron Young    2016-03-15  1123  	/* make sure we have enough cookies and alignment in every frag */
-31762eaa0d0804 Aaron Young    2016-03-15  1124  	docopy = skb_shinfo(skb)->nr_frags >= ncookies;
-31762eaa0d0804 Aaron Young    2016-03-15  1125  	for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-31762eaa0d0804 Aaron Young    2016-03-15  1126  		skb_frag_t *f = &skb_shinfo(skb)->frags[i];
-31762eaa0d0804 Aaron Young    2016-03-15  1127  
-b54c9d5bd6e38e Jonathan Lemon 2019-07-30  1128  		docopy |= skb_frag_off(f) & 7;
-31762eaa0d0804 Aaron Young    2016-03-15  1129  	}
-31762eaa0d0804 Aaron Young    2016-03-15  1130  	if (((unsigned long)skb->data & 7) != VNET_PACKET_SKIP ||
-31762eaa0d0804 Aaron Young    2016-03-15  1131  	    skb_tailroom(skb) < pad ||
-31762eaa0d0804 Aaron Young    2016-03-15  1132  	    skb_headroom(skb) < VNET_PACKET_SKIP || docopy) {
-31762eaa0d0804 Aaron Young    2016-03-15  1133  		int start = 0, offset;
-31762eaa0d0804 Aaron Young    2016-03-15  1134  		__wsum csum;
-31762eaa0d0804 Aaron Young    2016-03-15  1135  
-31762eaa0d0804 Aaron Young    2016-03-15  1136  		len = skb->len > ETH_ZLEN ? skb->len : ETH_ZLEN;
-31762eaa0d0804 Aaron Young    2016-03-15  1137  		nskb = alloc_and_align_skb(skb->dev, len);
-dc153f850daba6 Aaron Young    2016-03-15  1138  		if (!nskb) {
-31762eaa0d0804 Aaron Young    2016-03-15  1139  			dev_kfree_skb(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1140  			return NULL;
-31762eaa0d0804 Aaron Young    2016-03-15  1141  		}
-31762eaa0d0804 Aaron Young    2016-03-15  1142  		skb_reserve(nskb, VNET_PACKET_SKIP);
-31762eaa0d0804 Aaron Young    2016-03-15  1143  
-31762eaa0d0804 Aaron Young    2016-03-15  1144  		nskb->protocol = skb->protocol;
-31762eaa0d0804 Aaron Young    2016-03-15  1145  		offset = skb_mac_header(skb) - skb->data;
-31762eaa0d0804 Aaron Young    2016-03-15  1146  		skb_set_mac_header(nskb, offset);
-80bfab79b8351c Eric Dumazet   2024-02-29  1147  		offset = skb_network_offset(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1148  		skb_set_network_header(nskb, offset);
-80bfab79b8351c Eric Dumazet   2024-02-29  1149  		offset = skb_transport_offset(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1150  		skb_set_transport_header(nskb, offset);
-31762eaa0d0804 Aaron Young    2016-03-15  1151  
-31762eaa0d0804 Aaron Young    2016-03-15  1152  		offset = 0;
-31762eaa0d0804 Aaron Young    2016-03-15  1153  		nskb->csum_offset = skb->csum_offset;
-31762eaa0d0804 Aaron Young    2016-03-15  1154  		nskb->ip_summed = skb->ip_summed;
-31762eaa0d0804 Aaron Young    2016-03-15  1155  
-31762eaa0d0804 Aaron Young    2016-03-15  1156  		if (skb->ip_summed == CHECKSUM_PARTIAL)
-31762eaa0d0804 Aaron Young    2016-03-15  1157  			start = skb_checksum_start_offset(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1158  		if (start) {
-31762eaa0d0804 Aaron Young    2016-03-15  1159  			int offset = start + nskb->csum_offset;
-31762eaa0d0804 Aaron Young    2016-03-15  1160  
-98524e04e0500a Shannon Nelson 2017-07-06  1161  			/* copy the headers, no csum here */
-31762eaa0d0804 Aaron Young    2016-03-15  1162  			if (skb_copy_bits(skb, 0, nskb->data, start)) {
-31762eaa0d0804 Aaron Young    2016-03-15  1163  				dev_kfree_skb(nskb);
-31762eaa0d0804 Aaron Young    2016-03-15  1164  				dev_kfree_skb(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1165  				return NULL;
-31762eaa0d0804 Aaron Young    2016-03-15  1166  			}
-98524e04e0500a Shannon Nelson 2017-07-06  1167  
-98524e04e0500a Shannon Nelson 2017-07-06  1168  			/* copy the rest, with csum calculation */
-31762eaa0d0804 Aaron Young    2016-03-15  1169  			*(__sum16 *)(skb->data + offset) = 0;
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1170  			if (skb_copy_and_csum_bits(skb, start,
-31762eaa0d0804 Aaron Young    2016-03-15  1171  						   nskb->data + start,
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1172  						   skb->len - start, &csum)) {
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1173  				dev_kfree_skb(nskb);
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1174  				dev_kfree_skb(skb);
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1175  				return NULL;
-23fe6ac2e97a93 Josef Bacik    2026-11-04  1176  			}
-98524e04e0500a Shannon Nelson 2017-07-06  1177  
-98524e04e0500a Shannon Nelson 2017-07-06  1178  			/* add in the header checksums */
-98524e04e0500a Shannon Nelson 2017-07-06  1179  			if (skb->protocol == htons(ETH_P_IP)) {
-98524e04e0500a Shannon Nelson 2017-07-06  1180  				struct iphdr *iph = ip_hdr(nskb);
-98524e04e0500a Shannon Nelson 2017-07-06  1181  
-31762eaa0d0804 Aaron Young    2016-03-15  1182  				if (iph->protocol == IPPROTO_TCP ||
-31762eaa0d0804 Aaron Young    2016-03-15  1183  				    iph->protocol == IPPROTO_UDP) {
-98524e04e0500a Shannon Nelson 2017-07-06 @1184  					csum = csum_tcpudp_magic(iph->saddr,
-98524e04e0500a Shannon Nelson 2017-07-06  1185  								 iph->daddr,
-31762eaa0d0804 Aaron Young    2016-03-15  1186  								 skb->len - start,
-98524e04e0500a Shannon Nelson 2017-07-06  1187  								 iph->protocol,
-98524e04e0500a Shannon Nelson 2017-07-06  1188  								 csum);
-31762eaa0d0804 Aaron Young    2016-03-15  1189  				}
-98524e04e0500a Shannon Nelson 2017-07-06  1190  			} else if (skb->protocol == htons(ETH_P_IPV6)) {
-98524e04e0500a Shannon Nelson 2017-07-06  1191  				struct ipv6hdr *ip6h = ipv6_hdr(nskb);
-98524e04e0500a Shannon Nelson 2017-07-06  1192  
-98524e04e0500a Shannon Nelson 2017-07-06  1193  				if (ip6h->nexthdr == IPPROTO_TCP ||
-98524e04e0500a Shannon Nelson 2017-07-06  1194  				    ip6h->nexthdr == IPPROTO_UDP) {
-98524e04e0500a Shannon Nelson 2017-07-06  1195  					csum = csum_ipv6_magic(&ip6h->saddr,
-98524e04e0500a Shannon Nelson 2017-07-06  1196  							       &ip6h->daddr,
-98524e04e0500a Shannon Nelson 2017-07-06  1197  							       skb->len - start,
-98524e04e0500a Shannon Nelson 2017-07-06  1198  							       ip6h->nexthdr,
-98524e04e0500a Shannon Nelson 2017-07-06  1199  							       csum);
-98524e04e0500a Shannon Nelson 2017-07-06  1200  				}
-98524e04e0500a Shannon Nelson 2017-07-06  1201  			}
-98524e04e0500a Shannon Nelson 2017-07-06  1202  
-98524e04e0500a Shannon Nelson 2017-07-06  1203  			/* save the final result */
-31762eaa0d0804 Aaron Young    2016-03-15 @1204  			*(__sum16 *)(nskb->data + offset) = csum;
-31762eaa0d0804 Aaron Young    2016-03-15  1205  
-31762eaa0d0804 Aaron Young    2016-03-15  1206  			nskb->ip_summed = CHECKSUM_NONE;
-31762eaa0d0804 Aaron Young    2016-03-15  1207  		} else if (skb_copy_bits(skb, 0, nskb->data, skb->len)) {
-31762eaa0d0804 Aaron Young    2016-03-15  1208  			dev_kfree_skb(nskb);
-31762eaa0d0804 Aaron Young    2016-03-15  1209  			dev_kfree_skb(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1210  			return NULL;
-31762eaa0d0804 Aaron Young    2016-03-15  1211  		}
-31762eaa0d0804 Aaron Young    2016-03-15  1212  		(void)skb_put(nskb, skb->len);
-31762eaa0d0804 Aaron Young    2016-03-15  1213  		if (skb_is_gso(skb)) {
-31762eaa0d0804 Aaron Young    2016-03-15  1214  			skb_shinfo(nskb)->gso_size = skb_shinfo(skb)->gso_size;
-31762eaa0d0804 Aaron Young    2016-03-15  1215  			skb_shinfo(nskb)->gso_type = skb_shinfo(skb)->gso_type;
-31762eaa0d0804 Aaron Young    2016-03-15  1216  		}
-31762eaa0d0804 Aaron Young    2016-03-15  1217  		nskb->queue_mapping = skb->queue_mapping;
-31762eaa0d0804 Aaron Young    2016-03-15  1218  		dev_kfree_skb(skb);
-31762eaa0d0804 Aaron Young    2016-03-15  1219  		skb = nskb;
-31762eaa0d0804 Aaron Young    2016-03-15  1220  	}
-31762eaa0d0804 Aaron Young    2016-03-15  1221  	return skb;
-31762eaa0d0804 Aaron Young    2016-03-15  1222  }
-31762eaa0d0804 Aaron Young    2016-03-15  1223  
 
-:::::: The code at line 1184 was first introduced by commit
-:::::: 98524e04e0500a04fc461195c99e4385001fc18f sunvnet: add support for IPv6 checksum offloads
+vim +44 fs/smb/client/dfs.c
 
-:::::: TO: Shannon Nelson <shannon.nelson@oracle.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+    13	
+    14	/**
+    15	 * dfs_parse_target_referral - set fs context for dfs target referral
+    16	 *
+    17	 * @full_path: full path in UNC format.
+    18	 * @ref: dfs referral pointer.
+    19	 * @ctx: smb3 fs context pointer.
+    20	 *
+    21	 * Return zero if dfs referral was parsed correctly, otherwise non-zero.
+    22	 */
+    23	int dfs_parse_target_referral(const char *full_path, const struct dfs_info3_param *ref,
+    24				      struct smb3_fs_context *ctx)
+    25	{
+    26		int rc;
+    27		const char *prepath = NULL;
+    28		char *node_name = NULL;
+    29		char *path;
+    30	
+    31		if (!full_path || !*full_path || !ref || !ctx)
+    32			return -EINVAL;
+    33	
+    34		if (WARN_ON_ONCE(!ref->node_name || ref->path_consumed < 0))
+    35			return -EINVAL;
+    36	
+    37		if ((size_t)ref->path_consumed < strlen(full_path)) {
+    38			prepath = full_path + ref->path_consumed;
+    39			/* skip initial delimiter */
+    40			if (*prepath == '/' || *prepath == '\\')
+    41				prepath++;
+    42		}
+    43	
+  > 44		node_name = dfs_cache_local_path(ref->node_name, ctx->local_nls);
+    45		if (IS_ERR(node_name))
+    46			return PTR_ERR(node_name);
+    47	
+    48		path = cifs_build_devname(node_name, prepath);
+    49		kfree(node_name);
+    50		if (IS_ERR(path))
+    51			return PTR_ERR(path);
+    52	
+    53		rc = smb3_parse_devname(path, ctx);
+    54		if (rc)
+    55			goto out;
+    56	
+    57		rc = dns_resolve_unc(DFS_DOM(ctx), path,
+    58				     (struct sockaddr *)&ctx->dstaddr);
+    59	out:
+    60		kfree(path);
+    61		return rc;
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
