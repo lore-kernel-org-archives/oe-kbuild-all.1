@@ -1,77 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795360903;
-	b=0IfcIkxBXJhW/ULhhuoiTL9A9x5sXdJEWu7UjUDiuoZDUSgNm3oxbRjHkrgJBBgiOCGC
-	 MXeVXkYy+sRv019OcAtE7f4kcNp0YS/zc80SjAvxq5yIznLKJLiaJjh09Cgx8CjhLhldW
-	 m/5BbTJkFpT+xXaTdlVCBolmbUkFLI4u5DQ/KiOYxW3DF9AsUXT4z942E1fnjmx0rZjDI
-	 FZQOyp3gCG3/J1lh8bIzRE4SPl00QexmOr9c7PiLxBmtWW51C6KFCPsRSCokkIIrUDnC3
-	 GIHzWrrfroDC+2hRsrMf35yVFiKu75fdmCWDgAR8lIWx497T7U60cI7rpbmpISx+dbw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795360903;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=jMfdGTZBtxhsc/gm41UU9HyzhaaXIQlls77ZQT2GdSI=;
-	b=JqWClPhfV4c4iPrYrhlOl7JHN3X6b7HJVrKiXNK1dLluVhloJ70YvwP/bHGSm3B1ZjvG
-	 rV8yxR43W+ubKe/S6ucrwLUsWVUlZCA1h8+xgt5HgVfAIpPSZoCDqe/xwPIJRgRcyBh/j
-	 w3mmyDLY0muaPJipDWr9HA7kJtir4qItQ6/kSu5T4GdLqsCVBqh/3fEoEn6qMy4XLSxlg
-	 6r5wcCzhMveM/MW4BV/NgB+qmqkYlQ31JwEc2b+w+hw7pbmG1YHgNRX6pShMHqOItCwe1
-	 mt1Nlp1dARlvLF7ciepFCW1xA3ieplvWQUh1NVmRl3BBcAMFPcAkBM97WKvN5+IZWZg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f7MMm4Hu;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.221.176
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795364661;
+	b=DUmPo9T9VDNbhRgK3mNo49clK1AYgG9GGk0UmXDFCXNuivwdWGzw22ZECaXCoMnOJRx4
+	 es0LqyU1CW3FuOpOT10pigFrp6FiXInLgV33ifsoVkA+60EqvwBiImXvi7tKmypM2m9qD
+	 QbpCRL3wbY/fE/9+NSDtA89naaB/ibQbSfiGfevcymkTmA5HoKCum/sSDUtEAd4ur/Akq
+	 Ht6rycgfBbsW80+qg1BlBBAAjyRtpGMC+XLttleYv5lWSHLzjtdtYEbcid2iO6utpfxN0
+	 76Qn1k2ENaTQdf0B/bb2h7Uy6J4/Lryz3z30aKdmmtQ93yMhUyLElnLaPuGnQizboLg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795364661;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=n2HnkONyAz5OvBrfYtDwxSrIOzDjXMJX31dQPz9Vcto=;
+	b=uikO2mWsLqn5+oblsb6kRY+LgFAxyR1unPNe8HzZflmBL4YDf4RhzOVoJVGD84zPyZgA
+	 BVWVFzwAlglIhOTUHM8RRvBTHp19eyfHEpLN9J9zMq7Qq7PPC55Rkxr25VDsA+2ESTi02
+	 Pu+gfWOVvZFVMWHQkUMbL9v6ylmipMsugTFQNA1XJcTPpLe488aloKF480wteUiTujkwY
+	 TFDkQ6ojfTznzCehe1NcaaBHaC6hSK2v2FirHV5StOdbTrWbCBcKSmRIWwEhynWanywr8
+	 n5LnOC/fijFA4/CGEonbmsFtHTS2zRzro3CXjYzhOgFQcoNJYzr18Iq44mGDjw2nD9w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dAmswA5Y;
+	arc=fail smtp.remote-ip=209.85.221.176
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D41606A330
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 15:21:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07D41606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638ED606A320
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 16:24:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 638ED606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f7MMm4Hu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795360903; x=1826896903;
-  h=date:from:to:cc:subject:message-id;
-  bh=UE+1Lz8PrV+7adH1qBlIdl9M2F7fmlt//UqL2jKQaSQ=;
-  b=f7MMm4HuNCQLWwsSteMcyqtCs5ZnozfbtF1XvbZoF3VvkI0xFtd4a7Aj
-   c14BnSy79ZkCAUNElrT+MXS1IAqCwxq/pmdWY6lutCs4rfSIcq8L7mCzP
-   EyrC1ucWVeOtiVXPpOZy0aJ+mg2rRk5pZzuGssRiH1BYilKl+qR8gKJSs
-   G1t39F2IixaLlEjq/yLyBOFnFEkU7LyAHf7xkQugYVt7f/cQW7yCZSkAF
-   U7PY/X8tw0xJsvMqBDdZ4BPuTbGIE7/rNddNC25FZINtz9HgwEhJ8is9z
-   Yl2D2gCnwABfrlbKB0s5xjzRVzbwNNjmvAYUtrjihNLZja+1L8U6Zms6/
-   Q==;
-X-CSE-ConnectionGUID: 7Wqoy32RSUSamR1RPRk+1A==
-X-CSE-MsgGUID: 5dlUrloURlS/yKkz2v8OTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4220638"
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="4220638"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 07:21:42 -0800
-X-CSE-ConnectionGUID: CWS7Ej0rRbyo6HMx0MlxLQ==
-X-CSE-MsgGUID: 4ExGE1N2Qo6aI2KvwGNcPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="11114223"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 22 Nov 2026 07:21:42 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xV9Nq-000000004Zi-31E8;
-	Sun, 22 Nov 2026 15:21:38 +0000
-Date: Sun, 22 Nov 2026 16:20:45 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:non-rcu/next 11/37] WARNING: modpost: vmlinux:
- section mismatch in reference: hazptr_torture_do_pending_init+0xa4 (section:
- .text.unlikely) -> initcall_level_names (section: .init.data)
-Message-ID: <20261122161756.d8rKLd3s-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dAmswA5Y
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5ece6c1d1cbso790385e0c.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Nov 2026 08:24:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795364660; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EaIDB/20t93PQ2wc9E1hYbBOSVeOyYkBG0GyMuVPfpLHW8DjSKJhUp5GvZ40jBFfLd
+         1X/ASScgpFzrY/XJTVaenPWyibap7LwYqpnkZqc2A3YbWC/XMth+JnWpFjBLMCQkYY+Z
+         Af8zRqHOOANY9P2cg3H0YJOq4neF7obUmlbJe70V2wVdQ5m7XXSZWGC5Hr+jLii+bqwe
+         wlavrWhEF4gOAAPT+t4zaHOfzw5QNL8qganA4bEDLuS7TJZnclCPsa43ercGSF6JbKud
+         gs0BBTTRYFetVNoZVEwqmy0mto1rORSO4US3L14dsNU/fIMxr5dsb6pXjtpP+83oGYjW
+         MBCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=n2HnkONyAz5OvBrfYtDwxSrIOzDjXMJX31dQPz9Vcto=;
+        fh=e9Ez7HPHurXwTJZOdVIw+F2xfdy063CWr6dV8ldbmCU=;
+        b=qkViUFm1LHogcZM9ueE+wRSqzZc0wNjURj3pEh1ecPkgZS9lJVQ3gf5AotHDIQIWmF
+         +T/nuRc/nMVMyb0en6nytfv6cOnh9Z9zPg255bzEgHJTAEc47qSeQoyPQZgbCHDRjdRO
+         ijjQ2ECcPCtva27d9u4O4hA+V/ktDjrnlehwpmf1ifvECz2S8S+mJXgq82Sj9ITOv8iS
+         c/P9P+ooubtGbxilcTtWCXi2kxIe7UMqyJ5HNak7svOviIQqtesNOCuQPvd+mY16iJzn
+         y+PyCsdjOzN5kcfqN8R665h9LB+BPd0ybK6kuJ/OCbfDJSYXmdnNjG73jvRuwWAkglYu
+         GUvA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795364660; x=1795969460; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=n2HnkONyAz5OvBrfYtDwxSrIOzDjXMJX31dQPz9Vcto=;
+        b=dAmswA5YdB2L/SWg3dpM4ocAwllJV4S+1gdEaZKUbT03jsSrpmiFUrAMKKyMS6pl6Y
+         IWFOG1PHfHUQ+tqtulQIVJHg4ZvXCnDHHgyB6twZ+zRSFYL3mB6IGrckGBTswakbT4np
+         sgffaVAgvNdmPrR4ixtjVO5nFCcBleq1mdZh1UxY5Sd5OGYFduGelKxf1Z9tBrhZN1wN
+         lqIVQgWa++14wI0ZbE4Ty1PQUdSw5+nbO8ctKUBpsmkvExjcAc+4wsnS7HFrRtfFA7g5
+         6nu5fobayt0kMGwbXC7I49qMQVwNkPvAO5reDwbHB4Lyfm7YojbMlUHs43QIj0uq71ZH
+         rXIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795364660; x=1795969460;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=n2HnkONyAz5OvBrfYtDwxSrIOzDjXMJX31dQPz9Vcto=;
+        b=DEAfrzw08lMIn8v45mgJpt5Kjjz+cxRcxy9hkN5JwE8NDkdWF2O0L059Y8jQydWjll
+         oVsDyBcpquVTl6Rq0yC2mahMC6jpbHyFCVQhoR8TKaOXTE/1jRSkRwytYMDL0Ywi2TsK
+         kNfFEel/OYFcpVhCWRXoy4brstRGAqk67CWF1uu7yZf/PoU38RbZhS8acMN644YMCj9N
+         3ADIwfKBuQG7X7RR4ZFmXgUYAtlq1XnzEGiNQPnJMPpSTWULXvnp97qAd03WQ7a0mVs7
+         EP0RhpaqTVnR5QdpCQK4GTDDpq1d1jLrb2ks2hDKMGqMYnU+DRKeeoYQ0nGpYXdi61n9
+         6hiw==
+X-Forwarded-Encrypted: i=1; AL+hErHOchm32RupX1w/WujJiAlGCLML/a0pofz1iIlYr1QXPqSb4uPAeF5u9yjeU9Z6LXlIBdK10X0W3Q/Ri1q8@lists.linux.dev
+X-Gm-Message-State: APuU4Z/jvJtlkU+M094oZl06Wo6apj42jvlJYlGjkqzAMUvMn3V2fnou
+	+EBRQCKey0knkEAxQ71Zz2mQjlgKy+ILLs/l5g0J3bgvfSKhH24ZNLJChSabFyIoj+zS66vdT0w
+	zr0okr77SLE8l2M0mzx4HQQ74q6ozM9M=
+X-Gm-Gg: AZFdTZdyz3JpqbKeWdDpntkpkYsuURlXFdDpHoGggiIBnFMxsdpt1PLITjSvxBEUVxz
+	LSSyBPpxDO418I9H4HLvhsK6GX/XCpybyxu6p+NEed//CJfk1vCuE7FTa2wB61Jyvy5PgMODeF/
+	S92VjrZUTkgcnwvfvVNUqPY/n6TpFiPAjaaXS81odAYt9LyD5H4ntsZ8hHR6Wmew4y7T9UZrQhx
+	hSv4xLSeGdkGRy/8jqR+KfUdQmwYXO+hRy6X200nwoudYkDXtSlfXd9ZFHe0VwLkIJ+gFFCMtXG
+	rOD9m0dFtMxRy0B2kHISnP04ifTFxj1Zgq/aX/VNEjGlPazIHbH9jL22crDmz1PdXuJozNv53d9
+	yzvY6XWUWNV1OBqxxbo3hf24O0l/jGOax2wR4tYnYQQ2PoqlgIgtdX3tZCNtWHONQ
+X-Received: by 2002:a05:6122:29cd:b0:5ec:d751:a18e with SMTP id
+ 71dfb90a1353d-5ee8af5d5c6mr4139590e0c.19.1795364660204; Sun, 22 Nov 2026
+ 08:24:20 -0800 (PST)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,24 +103,145 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+References: <20261122045841.99012-1-fredric.cover.lkernel@gmail.com> <202611221905.fQpuvetd-lkp@intel.com>
+In-Reply-To: <202611221905.fQpuvetd-lkp@intel.com>
+From: Fredric Cover <fredric.cover.lkernel@gmail.com>
+Date: Sun, 22 Nov 2026 08:24:49 -0800
+X-Gm-Features: Aa3M54pLCK7XgGyFOtsNWn7B-0IlzQDmNjwu1YO12B2eu424c3ONrYetGFn3o_M
+Message-ID: <CAAk_H6H8SZaa6xsKmyViYMwCe+-Z2xaftVjT0zrW_B-PJjvumw@mail.gmail.com>
+Subject: Re: [PATCH] smb: client: convert DFS target node name from cache
+ charset on mount
+To: kernel test robot <lkp@intel.com>
+Cc: Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	oe-kbuild-all@lists.linux.dev, ChenXiaoSong <chenxiaosong@chenxiaosong.com>, 
+	Tom Talpey <tom@talpey.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/paulmckrcu/linux non-rcu/next
-head:   393d8a50f7aca1cc5c0ed9d6d7d874dce0572ee8
-commit: 8e1c104e58cce1bedbac083d7163d27d1b1c8ff1 [11/37] hazptrtorture: Defer release of hazard pointers
-config: xtensa-randconfig-r2306-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122161756.d8rKLd3s-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261122/20261122161756.d8rKLd3s-lkp@intel.com/reproduce)
+Paulo and list,
+Please ignore these build errors. They are due to the dependency on my othe=
+r
+patch. If you would like, I can put them both in a series to avoid
+errors like this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261122161756.d8rKLd3s-lkp@intel.com/
+Thanks,
+Fredric
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: vmlinux: section mismatch in reference: hazptr_torture_do_pending_init+0xa4 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Sun, Nov 22, 2026 at 3:51=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Fredric,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on manguebit/cifs-next]
+> [also build test ERROR on manguebit/cifs-fixes linus/master v7.4-rc3 next=
+-20261120]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Fredric-Cover/smb-=
+client-convert-DFS-target-node-name-from-cache-charset-on-mount/20261122-04=
+5840
+> base:   https://git.manguebit.org/linux.git cifs-next
+> patch link:    https://lore.kernel.org/r/20261122045841.99012-1-fredric.c=
+over.lkernel%40gmail.com
+> patch subject: [PATCH] smb: client: convert DFS target node name from cac=
+he charset on mount
+> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261122=
+/202611221905.fQpuvetd-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20261122/202611221905.fQpuvetd-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611221905.fQpuvetd-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    fs/smb/client/dfs.c: In function 'dfs_parse_target_referral':
+> >> fs/smb/client/dfs.c:44:21: error: implicit declaration of function 'df=
+s_cache_local_path'; did you mean 'dfs_cache_canonical_path'? [-Wimplicit-f=
+unction-declaration]
+>       44 |         node_name =3D dfs_cache_local_path(ref->node_name, ctx=
+->local_nls);
+>          |                     ^~~~~~~~~~~~~~~~~~~~
+>          |                     dfs_cache_canonical_path
+> >> fs/smb/client/dfs.c:44:19: error: assignment to 'char *' from 'int' ma=
+kes pointer from integer without a cast [-Wint-conversion]
+>       44 |         node_name =3D dfs_cache_local_path(ref->node_name, ctx=
+->local_nls);
+>          |                   ^
+>
+>
+> vim +44 fs/smb/client/dfs.c
+>
+>     13
+>     14  /**
+>     15   * dfs_parse_target_referral - set fs context for dfs target refe=
+rral
+>     16   *
+>     17   * @full_path: full path in UNC format.
+>     18   * @ref: dfs referral pointer.
+>     19   * @ctx: smb3 fs context pointer.
+>     20   *
+>     21   * Return zero if dfs referral was parsed correctly, otherwise no=
+n-zero.
+>     22   */
+>     23  int dfs_parse_target_referral(const char *full_path, const struct=
+ dfs_info3_param *ref,
+>     24                                struct smb3_fs_context *ctx)
+>     25  {
+>     26          int rc;
+>     27          const char *prepath =3D NULL;
+>     28          char *node_name =3D NULL;
+>     29          char *path;
+>     30
+>     31          if (!full_path || !*full_path || !ref || !ctx)
+>     32                  return -EINVAL;
+>     33
+>     34          if (WARN_ON_ONCE(!ref->node_name || ref->path_consumed < =
+0))
+>     35                  return -EINVAL;
+>     36
+>     37          if ((size_t)ref->path_consumed < strlen(full_path)) {
+>     38                  prepath =3D full_path + ref->path_consumed;
+>     39                  /* skip initial delimiter */
+>     40                  if (*prepath =3D=3D '/' || *prepath =3D=3D '\\')
+>     41                          prepath++;
+>     42          }
+>     43
+>   > 44          node_name =3D dfs_cache_local_path(ref->node_name, ctx->l=
+ocal_nls);
+>     45          if (IS_ERR(node_name))
+>     46                  return PTR_ERR(node_name);
+>     47
+>     48          path =3D cifs_build_devname(node_name, prepath);
+>     49          kfree(node_name);
+>     50          if (IS_ERR(path))
+>     51                  return PTR_ERR(path);
+>     52
+>     53          rc =3D smb3_parse_devname(path, ctx);
+>     54          if (rc)
+>     55                  goto out;
+>     56
+>     57          rc =3D dns_resolve_unc(DFS_DOM(ctx), path,
+>     58                               (struct sockaddr *)&ctx->dstaddr);
+>     59  out:
+>     60          kfree(path);
+>     61          return rc;
+>     62  }
+>     63
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
