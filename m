@@ -1,80 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795466739;
-	b=B/lC01gd9tS6YndUoPTjEImhjsdyZO7oadif3zCmKLq/73nIAvlm0KRMqUWsJGyO9KsG
-	 Wtgd8HbochTdy5tbrzsVCzTJAgwf+zwnoHIPmDbOJfsmzB9hfsykZd40dljE0oHs9w9Xw
-	 k4ac9uGEfLZQIyPIc7bVJyt6T9HdHKxWyOO4kwJbA1rYwpsgfZiBRTRwlSf6nudwL2ssk
-	 YkqZ2NMOERwRLBg2RGUI1uiwGQmWH290D+Z1UP5vmp5afUJWSYMu1jNK3ywqAebP1oxYO
-	 vVhLUlELrg+hI+f03nEzPoytraTIZobGKIvYYztJ8PPFjUHDzU5aUZaYSSvyOF6o2Dw==
+	t=1795475109;
+	b=dUBQEfgnWqhnwM0XWX4ewj3T46D3y9HLLtHXqnW+vZNc56YKd6XgNUbf7E8Y/m/FNdRw
+	 seNqeghOuwYA+CVR/wqjRPcwatKuI37RYrmHxhldVZUcCVVed3Uo8fDCJDbz96MqsFTVQ
+	 j/HsojCQ7ifNchFuRg2pLUQwYj4Tk6trh0ga9XFPl9kD1x3FCBiPS4KmQYiyOQlWqoxRj
+	 ED5WqhPDnoq8MShjvn5bReUekPEl/hTzjuA6n2cJSKNocJ5wg0USfAigYlFgLhmTJkkSk
+	 v8ToEJ7gfeDuRhvjtrDvdokkmzCZ07GJGW1A424x9hWzrhz78Tj5EVRuZnF1NZW6aBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795466739;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=0VnDzB9Agb8Amuz7dt6dADKRSDTSttYnUxwg1T6681U=;
-	b=uueM9z/XiQovV9CbMlxcjsqI6HaQbzXYB6Kg8iZJIlQC8PPXFPoMWMiSXBnfJ5mOu3Ky
-	 DCKZzj0gUkJv+5JJ8CLhGfyxTAmm79/YV5tmL4alVeNoSgX9xoQaZoj0DBwKxqsgFTOFx
-	 04q4g/5apPa5CLovtdo/2Y8M1nelSog0Rri4v+4QS1JXFYWy6exr3DJZBuG1MHBXxowi4
-	 zOP1TZ0jrNTSBUbBoRn3i2DazsD4tS5k4wkQRBNRlGUBFAXubtaqAMHDpkMIx2xEUzy5U
-	 gfjXkclX4OGOkHFX1RA4hLXV/Ba12fUSaxxk71FYavKxQ66/BJT03R2NkppLdzmwtNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795475109;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:X-ME-Sender:
+	 X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:
+	 From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:
+	 Content-Type;
+	bh=RBvnVcNyDPy2jbg+2CO4h/31R+00VEIJXbUaelLpP6Q=;
+	b=QC4Od5IPCdiw9BYIoB/ilz1hW8YOKGNvO1qtgugyRbrtYYCyoLkB4IfweW+KthTr3RK1
+	 4q4xBoZljYzgD9Qk6lHueOjXuBhTuX9HQS4/o6h0szNusvYoHvNTfP54yXUiHplYZ8CxJ
+	 l5/qEIDjQ+6h9YcC31kdqsL+gEFXXS+CyRG4NN/QTDTHOVCwWV0NgxvB/s3evMDzM+4n4
+	 rLIE6yz3IzW15uEtoyTRg4oItvE/noQyKl6XzS6xZTT7CDOj7KLHjy94qm3G5us9THCsP
+	 ZCmse4tOMpIwQ1xdXc0f70JX41kajavGHtbwBw+PeSbbw57jBet11AoKkTOQaYdqJeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XfV8i5uv;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=fail header.from=linux-m68k.org;
+	spf=none smtp.mailfrom=linux-m68k.org;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Vk8jcUbJ;
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89061606A333;
-	Mon, 23 Nov 2026 20:45:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89061606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6CA606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 23:05:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC6CA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XfV8i5uv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795466738; x=1827002738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6gkWUv1slhnM9aD8OpSgfBPXiR4hMfiYjKQsCunZYD4=;
-  b=XfV8i5uvFhDohw+fUS9AtTSPNMzX5Ccz67muWPGBKWl/EYVmQPcwApr1
-   GAK926F54ARJdS9B+doUIxk79pg7MSDolRRhYzXU+KEJ+YKJPVCLvVlOV
-   KmB1DwsMbrDKJfJtyX3G/+uDeRmRLR/AomqCRSqS3rlxO6Ph9UavF4VCW
-   Nl4QLsxxu8Eg+DoLzB1CGKvJyJfgj8UKgcrfhYRck92vzqs+5pM+Whf6a
-   88MjDkuTfHaXMQuVJv0jO1lqt60Pjkhz3KXs4gzMD7af+xHX2s1JI/4Wt
-   13nhUl4zeMqF9NqLzaEAFGOm7b9bQxXn38jeyHvBEsSQZNX4PPBmkq1Y6
-   A==;
-X-CSE-ConnectionGUID: Z8xRx0rmSUeh+exnZYAtcQ==
-X-CSE-MsgGUID: r54356OrTDqSeZI05S4Uuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4187730"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4187730"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:45:38 -0800
-X-CSE-ConnectionGUID: mCaRPCwpTKOwjvUalQD94w==
-X-CSE-MsgGUID: mZD1cFO1RVCe0x5lHz0ZkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13182741"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 23 Nov 2026 12:45:36 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVaur-00000001NtW-1mgr;
-	Mon, 23 Nov 2026 20:45:33 +0000
-Date: Tue, 24 Nov 2026 04:44:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kiran K <kiran.k@intel.com>, linux-bluetooth@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	chethan.tumkur.narayan@intel.com, chandrashekar.devegowda@intel.com,
-	ravindra@intel.com, Kiran K <kiran.k@intel.com>
-Subject: Re: [PATCH v1 3/3] Bluetooth: btintel_pcie: Serialize MAC access
- requests
-Message-ID: <20261124043547.lzdrjg8w-lkp@intel.com>
-References: <20261123065523.2769017-3-kiran.k@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Vk8jcUbJ
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id A69BE7A0633;
+	Mon, 23 Nov 2026 18:05:07 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Mon, 23 Nov 2026 18:05:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795475107; x=1795561507; bh=RBvnVcNyDPy2jbg+2CO4h/31R+00VEIJXbU
+	aelLpP6Q=; b=Vk8jcUbJhMnZxk0jtJlzAaUX0A9w4moWpDR8BTr5OpQc1v7BZ7k
+	tpw+Z8MTPezKz/8AG/ws95/39OzlGp3hZSInvrvbT3kTn5j8xRiFy4TgBRcFRJHo
+	qdJYrMGwAHAO9yPKgyXlAAKBAYRgfkDK5Wab/Sj6gdMZ9qa6yvZm8xKOBIRc1dQw
+	KOEbbAnTnXp4qPWXDiYAT1iAYu/WK6Zkt1TeLnNx9J475Y8FQaaKpTI7iQigkeXS
+	UkGGW/+y4Ie0SKg4JH9kuMA3JsN7ifN5dS8sFegM4OyxhfMu5+t4rtvonhSHTYHq
+	/Dhj1Kzzz4rl8orSPs3i4HEV15y5FW3mH+Q==
+X-ME-Sender: <xms:osYEa9eGu0zy5rDZzIpF17Ee6uJi2z4w7C6m-xj31i8HsWa0fiC5aA>
+    <xme:osYEaxMLNMBGuKAM1BtIE-5b2rRomgdBalTU4uGDg4Fjv3f9qyowMrMNAkjDB2qBA
+    V0UQHZiEt6O6rinC4yv6pr8ieAlc6is_6nZvEbzykQ7-_Bmj3o1goYq>
+X-ME-Received: <xmr:osYEaxUyYNu3zQXMOiKcLQgBVjjySZTIDo1HEUlmkBsiRxUSLmYKfohge2sg>
+X-ME-Proxy-Cause: dmFkZTFj8cQpLMgo8/MrajZhRcME6EZ+BUuZwW6Y59Xv7zUI/toTR2dglaTUfJQPxkzVir
+    4aQOWtYh5eJ0BJjg7gk5xKv88gxEigcOuPF95e/tEPXIdcY3cCVkS1pjd+bq0pitdSJS3q
+    uWLf9YDKf44ZzH7vEoFS95dt0bcvl+LLRFC+u7zt76NtXhVihMUK974Ad3eKNk8fWc+zGZ
+    Nkn52V+ZNyfPLetCQ4YhRNgTqKJ7onI1IFnA1718Y0F+bRJHJpbOuTktjEUwSKLrRz4JWp
+    /DVI/T4Yg/SxykZwVQyis3PCwdmTIOQ/yBfcYbRfzpnB1sge3t4QE8zE+aH9+liL1bwLko
+    57D10mUeUaPcqMs6EYdQqHxY/HlAkVcJMetU+jTv6l7siuVta/h9Uh584maX9VKNKwUGaC
+    dkld3GG5f/yUTrmtJLVJPWb1IcHK9ks+2Pk43YpL3/ATL44Q/CwafzaMBi8Ud+Hb8Dn1Qq
+    dVgil0lCu+nlISzpiswwkEaViW4Jn+IKhICFEXb5ME0Uwe5Dslm2mSVEIbQMdB1Z7jJIKl
+    gsk7SsSb00FxwcWBijh18p+yzUgieWdQnru4nbQJQ/NGCuXWi+lJ7unFXM3UNKn1PNCAML
+    egm8mAU5Jdy/m9sQH2jJLWWbSXHBlCyhtv35PK2N+nw85i0MHTzEorW7lh6A
+X-ME-Proxy: <xmx:osYEa5xBwvi6iirRatahRe4gJcSp2kQFUKWB3UeHgH4kRuSFfC4CXg>
+    <xmx:osYEa4_Z8r49e8EI3aAVdENZZD7HxaRzasuAZk8ofjiuYX7KyKA6xQ>
+    <xmx:osYEa--hKXGSP8Mm_elRXZmwsw5MYkR1X20wzdkFiO3MmMCAZDDf6g>
+    <xmx:osYEa3Xw2Bd_XNLXdyDnxEA5iZNZIHV173o4swEKnorMYc-o3YO5uw>
+    <xmx:o8YEawGfcQh_CaUjpgdK6vW3xCMlDtq_VJtDeD2we0_TG-SvkSkNOCMZ>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Nov 2026 18:05:05 -0500 (EST)
+Date: Tue, 24 Nov 2026 10:05:02 +1100 (AEDT)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Arnd Bergmann <arnd@arndb.de>, 
+    James Bottomley <James.Bottomley@hansenpartnership.com>, 
+    "Martin K. Petersen" <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>
+Subject: Re: include/linux/compiler_types.h:631:45: error: call to
+ '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
+ failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
+ sizeof(*u)
+In-Reply-To: <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
+Message-ID: <669b9ce8-bb33-f7ee-1087-88c1e9d3b610@linux-m68k.org>
+References: <20261121034304.2dPxVKzk-lkp@intel.com> <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org> <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,169 +99,32 @@ List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123065523.2769017-3-kiran.k@intel.com>
-
-Hi Kiran,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on next-20261123]
-[cannot apply to linus/master v7.4-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel_pcie-Serialize-doorbell-writes-and-target-reads/20261123-122522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20261123065523.2769017-3-kiran.k%40intel.com
-patch subject: [PATCH v1 3/3] Bluetooth: btintel_pcie: Serialize MAC access requests
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20261124/20261124043547.lzdrjg8w-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124043547.lzdrjg8w-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261124043547.lzdrjg8w-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/bluetooth/btintel_pcie.c:1053:12: warning: mutex 'data->mac_access_lock' is not held on every path through here [-Wthread-safety-analysis]
-    1053 |                 for (i = 0; i < config_set->num_pairs; i++) {
-         |                          ^
-   drivers/bluetooth/btintel_pcie.c:1038:4: note: mutex acquired here
-    1038 |                         mutex_lock(&data->mac_access_lock);
-         |                         ^
-   include/linux/mutex.h:193:26: note: expanded from macro 'mutex_lock'
-     193 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                          ^
->> drivers/bluetooth/btintel_pcie.c:1111:4: warning: releasing mutex 'data->mac_access_lock' that was not held [-Wthread-safety-analysis]
-    1111 |                         mutex_unlock(&data->mac_access_lock);
-         |                         ^
-   2 warnings generated.
 
 
-vim +1053 drivers/bluetooth/btintel_pcie.c
+On Mon, 23 Nov 2026, Geert Uytterhoeven wrote:
 
-50932a1567d614c Ajaykv  2026-11-11  1000  
-68e0925f16c028a Ajaykv  2026-11-11  1001  static void
-68e0925f16c028a Ajaykv  2026-11-11  1002  btintel_pcie_apply_yoyo_config_sets(struct btintel_pcie_data *data,
-68e0925f16c028a Ajaykv  2026-11-11  1003  				    u32 time_point)
-68e0925f16c028a Ajaykv  2026-11-11  1004  {
-68e0925f16c028a Ajaykv  2026-11-11  1005  	struct btintel_pcie_yoyo_config_set *config_set;
-68e0925f16c028a Ajaykv  2026-11-11  1006  	resource_size_t bar0_len;
-68e0925f16c028a Ajaykv  2026-11-11  1007  	int ret;
-68e0925f16c028a Ajaykv  2026-11-11  1008  	u32 i;
-68e0925f16c028a Ajaykv  2026-11-11  1009  
-68e0925f16c028a Ajaykv  2026-11-11  1010  	if (!data)
-68e0925f16c028a Ajaykv  2026-11-11  1011  		return;
-68e0925f16c028a Ajaykv  2026-11-11  1012  
-68e0925f16c028a Ajaykv  2026-11-11  1013  	/* Get the length of PCI BAR0 */
-68e0925f16c028a Ajaykv  2026-11-11  1014  	bar0_len = pci_resource_len(data->pdev, 0);
-68e0925f16c028a Ajaykv  2026-11-11  1015  
-68e0925f16c028a Ajaykv  2026-11-11  1016  	if (!data->yoyo.enabled)
-68e0925f16c028a Ajaykv  2026-11-11  1017  		return;
-68e0925f16c028a Ajaykv  2026-11-11  1018  
-68e0925f16c028a Ajaykv  2026-11-11  1019  	list_for_each_entry(config_set, &data->yoyo.config_set_list, list) {
-68e0925f16c028a Ajaykv  2026-11-11  1020  		u32 pair_addr, addr, value;
-68e0925f16c028a Ajaykv  2026-11-11  1021  
-68e0925f16c028a Ajaykv  2026-11-11  1022  		if (config_set->time_point != time_point)
-68e0925f16c028a Ajaykv  2026-11-11  1023  			continue;
-68e0925f16c028a Ajaykv  2026-11-11  1024  
-68e0925f16c028a Ajaykv  2026-11-11  1025  		switch (config_set->config_set_type) {
-68e0925f16c028a Ajaykv  2026-11-11  1026  		case BTINTEL_PCIE_CFGSET_CSR:
-68e0925f16c028a Ajaykv  2026-11-11  1027  		case BTINTEL_PCIE_CFGSET_PERIPH_MAC:
-68e0925f16c028a Ajaykv  2026-11-11  1028  		case BTINTEL_PCIE_CFGSET_DEVICE_MEM:
-68e0925f16c028a Ajaykv  2026-11-11  1029  			break;
-68e0925f16c028a Ajaykv  2026-11-11  1030  		default:
-68e0925f16c028a Ajaykv  2026-11-11  1031  			BT_WARN("YoYo: unknown/unsupported config_set type %u, skipping",
-68e0925f16c028a Ajaykv  2026-11-11  1032  				config_set->config_set_type);
-68e0925f16c028a Ajaykv  2026-11-11  1033  			continue;
-68e0925f16c028a Ajaykv  2026-11-11  1034  		}
-68e0925f16c028a Ajaykv  2026-11-11  1035  
-68e0925f16c028a Ajaykv  2026-11-11  1036  		if (config_set->config_set_type == BTINTEL_PCIE_CFGSET_PERIPH_MAC ||
-68e0925f16c028a Ajaykv  2026-11-11  1037  		    config_set->config_set_type == BTINTEL_PCIE_CFGSET_DEVICE_MEM) {
-1151389a60ccbe5 Kiran K 2026-11-23  1038  			mutex_lock(&data->mac_access_lock);
-68e0925f16c028a Ajaykv  2026-11-11  1039  			ret = btintel_pcie_get_mac_access(data);
-68e0925f16c028a Ajaykv  2026-11-11  1040  			if (ret) {
-68e0925f16c028a Ajaykv  2026-11-11  1041  				BT_WARN("YoYo: MAC access failed for config set (%d), skipping",
-68e0925f16c028a Ajaykv  2026-11-11  1042  					ret);
-68e0925f16c028a Ajaykv  2026-11-11  1043  				/* get_mac_access() asserts MAC_ACCESS_REQ before it
-68e0925f16c028a Ajaykv  2026-11-11  1044  				 * polls, and leaves it set on timeout; drop it so the
-68e0925f16c028a Ajaykv  2026-11-11  1045  				 * request bit is not leaked.
-68e0925f16c028a Ajaykv  2026-11-11  1046  				 */
-68e0925f16c028a Ajaykv  2026-11-11  1047  				btintel_pcie_release_mac_access(data);
-1151389a60ccbe5 Kiran K 2026-11-23  1048  				mutex_unlock(&data->mac_access_lock);
-68e0925f16c028a Ajaykv  2026-11-11  1049  				continue;
-68e0925f16c028a Ajaykv  2026-11-11  1050  			}
-68e0925f16c028a Ajaykv  2026-11-11  1051  		}
-68e0925f16c028a Ajaykv  2026-11-11  1052  
-68e0925f16c028a Ajaykv  2026-11-11 @1053  		for (i = 0; i < config_set->num_pairs; i++) {
-68e0925f16c028a Ajaykv  2026-11-11  1054  			pair_addr = get_unaligned_le32(&config_set->pairs[i].address);
-68e0925f16c028a Ajaykv  2026-11-11  1055  
-68e0925f16c028a Ajaykv  2026-11-11  1056  			/* Calculate the effective address by adding the address offset */
-68e0925f16c028a Ajaykv  2026-11-11  1057  			if (check_add_overflow(pair_addr, config_set->addr_offset, &addr)) {
-68e0925f16c028a Ajaykv  2026-11-11  1058  				BT_WARN("YoYo: config set address overflow (0x%08x + 0x%08x)",
-68e0925f16c028a Ajaykv  2026-11-11  1059  					pair_addr, config_set->addr_offset);
-68e0925f16c028a Ajaykv  2026-11-11  1060  				continue;
-68e0925f16c028a Ajaykv  2026-11-11  1061  			}
-68e0925f16c028a Ajaykv  2026-11-11  1062  
-68e0925f16c028a Ajaykv  2026-11-11  1063  			value = get_unaligned_le32(&config_set->pairs[i].value);
-68e0925f16c028a Ajaykv  2026-11-11  1064  
-68e0925f16c028a Ajaykv  2026-11-11  1065  			switch (config_set->config_set_type) {
-68e0925f16c028a Ajaykv  2026-11-11  1066  			/* Direct Address Access (CSR) */
-68e0925f16c028a Ajaykv  2026-11-11  1067  			case BTINTEL_PCIE_CFGSET_CSR:
-68e0925f16c028a Ajaykv  2026-11-11  1068  				/* Validate the effective address for CSR access (Direct Address)
-68e0925f16c028a Ajaykv  2026-11-11  1069  				 * addr not aligned to 4 bytes or exceeds the BAR0 length
-68e0925f16c028a Ajaykv  2026-11-11  1070  				 */
-68e0925f16c028a Ajaykv  2026-11-11  1071  				if ((addr & (sizeof(u32) - 1)) ||
-68e0925f16c028a Ajaykv  2026-11-11  1072  				    bar0_len < sizeof(u32) ||
-68e0925f16c028a Ajaykv  2026-11-11  1073  				    addr > bar0_len - sizeof(u32)) {
-68e0925f16c028a Ajaykv  2026-11-11  1074  					BT_WARN("YoYo: bad CSR address 0x%08x for BAR0 length %llu",
-68e0925f16c028a Ajaykv  2026-11-11  1075  						addr, (unsigned long long)bar0_len);
-68e0925f16c028a Ajaykv  2026-11-11  1076  					continue;
-68e0925f16c028a Ajaykv  2026-11-11  1077  				}
-68e0925f16c028a Ajaykv  2026-11-11  1078  
-68e0925f16c028a Ajaykv  2026-11-11  1079  				BT_DBG("YoYo: CSR write [0x%08x] = 0x%08x", addr, value);
-6df2b5e2ac4b8a1 Kiran K 2026-11-23  1080  				/* addr may be PRPH_DEV_* or HBUS_TARG_WRPTR */
-6df2b5e2ac4b8a1 Kiran K 2026-11-23  1081  				spin_lock(&data->dev_mem_lock);
-68e0925f16c028a Ajaykv  2026-11-11  1082  				btintel_pcie_wr_reg32(data, addr, value);
-6df2b5e2ac4b8a1 Kiran K 2026-11-23  1083  				spin_unlock(&data->dev_mem_lock);
-68e0925f16c028a Ajaykv  2026-11-11  1084  				break;
-68e0925f16c028a Ajaykv  2026-11-11  1085  			/* Indirect Address Access (Peripheral MAC and Device Memory) */
-68e0925f16c028a Ajaykv  2026-11-11  1086  			case BTINTEL_PCIE_CFGSET_PERIPH_MAC:
-68e0925f16c028a Ajaykv  2026-11-11  1087  			case BTINTEL_PCIE_CFGSET_DEVICE_MEM:
-68e0925f16c028a Ajaykv  2026-11-11  1088  				/* The config-set TLV comes from an untrusted external file;
-68e0925f16c028a Ajaykv  2026-11-11  1089  				 * reject null or unaligned targets.
-68e0925f16c028a Ajaykv  2026-11-11  1090  				 */
-68e0925f16c028a Ajaykv  2026-11-11  1091  				if (!addr || (addr & (sizeof(u32) - 1))) {
-68e0925f16c028a Ajaykv  2026-11-11  1092  					BT_WARN("YoYo: bad indirect address 0x%08x for type %u",
-68e0925f16c028a Ajaykv  2026-11-11  1093  						addr, config_set->config_set_type);
-68e0925f16c028a Ajaykv  2026-11-11  1094  					continue;
-68e0925f16c028a Ajaykv  2026-11-11  1095  				}
-68e0925f16c028a Ajaykv  2026-11-11  1096  
-6df2b5e2ac4b8a1 Kiran K 2026-11-23  1097  				btintel_pcie_wr_dev_mem(data, addr, value);
-68e0925f16c028a Ajaykv  2026-11-11  1098  				BT_DBG("YoYo: indirect write type %u addr 0x%08x value 0x%08x",
-68e0925f16c028a Ajaykv  2026-11-11  1099  				       config_set->config_set_type, addr, value);
-68e0925f16c028a Ajaykv  2026-11-11  1100  				break;
-68e0925f16c028a Ajaykv  2026-11-11  1101  			default:
-68e0925f16c028a Ajaykv  2026-11-11  1102  				BT_WARN("YoYo: unknown config_set type %u",
-68e0925f16c028a Ajaykv  2026-11-11  1103  					config_set->config_set_type);
-68e0925f16c028a Ajaykv  2026-11-11  1104  				break;
-68e0925f16c028a Ajaykv  2026-11-11  1105  			}
-68e0925f16c028a Ajaykv  2026-11-11  1106  		}
-68e0925f16c028a Ajaykv  2026-11-11  1107  
-68e0925f16c028a Ajaykv  2026-11-11  1108  		if (config_set->config_set_type == BTINTEL_PCIE_CFGSET_PERIPH_MAC ||
-1151389a60ccbe5 Kiran K 2026-11-23  1109  		    config_set->config_set_type == BTINTEL_PCIE_CFGSET_DEVICE_MEM) {
-68e0925f16c028a Ajaykv  2026-11-11  1110  			btintel_pcie_release_mac_access(data);
-1151389a60ccbe5 Kiran K 2026-11-23 @1111  			mutex_unlock(&data->mac_access_lock);
-1151389a60ccbe5 Kiran K 2026-11-23  1112  		}
-68e0925f16c028a Ajaykv  2026-11-11  1113  	}
-68e0925f16c028a Ajaykv  2026-11-11  1114  }
-68e0925f16c028a Ajaykv  2026-11-11  1115  
+> Hi Finn,
+> 
+> CC scsi
+> 
+> On Sat, 21 Nov 2026 at 05:10, Finn Thain <fthain@linux-m68k.org> wrote:
+> > On Sat, 21 Nov 2026, kernel test robot wrote:
+> > > FYI, the error/warning still remains.
+> >
+> > That's because the qla2xxx maintainers at Marvell did not respond to any
+> > of the three fixes I sent. I'm not a paying customer so all bets are off.
+> 
+> That's "[PATCH] scsi: qla2xxx: Rework BUILD_BUG_ON() assertion",
+> first submittted in March, right?
+> https://lore.kernel.org/all/4808a5dc1a71528ffa3360868561009744277450.1791502886.git.fthain@linux-m68k.org
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, two alternative solutions were submitted in March (either remove the 
+assertion or rework it). The build bot reported the problem again in 
+September so I resubmitted the "rework" alternative. Sashiko-bot didn't 
+have much praise for that*, so now I'm leaning towards the "remove" 
+alternative. I have been advised to keep re-submitting, and I will do so 
+after a suitable back-off in retry rate i.e. 2027 or 2028.
+
+*
+https://lore.kernel.org/r/93e35f60-e465-7f76-0043-f997fe2ec8c7@linux-m68k.org
