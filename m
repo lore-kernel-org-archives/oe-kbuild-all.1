@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795450661;
-	b=h/0+yEIB86Oo1adF1RRFTddT8eBHzUx+t6N42YJO7TQWHcIAa9qn8nRi9XVT0O9UrsXN
-	 x6Nqmkup/q2f1l/yf29EFkXskKhIADUUdLUfclEsKjs5Yapm3kNjIRz61yoQsQWW/wHGZ
-	 3TLKbXGK6/a1eHclLEFRWlZToUFlzGHmRaEvdP8I6iiFIGRiPoWx72Xp/xxElMp40hThl
-	 OXbVXg9xdm1YcuS4eK4KVPUonWfscaO7UTtd05rPxzlu8X8mK5N1zbBjT0HdhCdwWn2aJ
-	 KJsU+ggo52LUCsRMpgQLzbZmFs/3SHUlOlLPy2G4yhw6AlyoMZVHMdeXgEGSjomjkfg==
+	t=1795453159;
+	b=r5jKoN8toZfC+IA6XjOdbUNZ29/ljhgGVQBLAdcirbLSLotuER7KX4hZv637TrAkQVeW
+	 tQtmhxZ9PD/8L8/otmxZQMr26ZJxRJxDj3jKXmWn8lFpbeCcn3Qd5mibMwT3B02/ziP1y
+	 FkgIrLS/I/j0NcTCi4OuJfMHeGUepDA1tCQxdRwPvhadREM+m5NJmEORVO5vNzlGBJuCZ
+	 jJ0Jocp/t8cG6+QqaLIm79nuBestOtK6QJcI2Zqe9zlk3/TLoXVmxgBHnmrE+39DQQ+Ze
+	 h052Vmf4mIAha8zulvz9nGBWbBe0y/eFPe2bLAuEu4biJHvps50W8P/jPIL3MRkl4GQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795450661;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:In-Reply-To:X-Scanned-By:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Type:Content-Disposition;
-	bh=UdiZ0/pWB3RUl5Gb4cAUadyca+MEgPrH5Z1B8vzEfHo=;
-	b=O/5dWraioCFawAr+U6BDrSZcerUFqHJCPDbGrFcGj1a46idOwjWbXKSko6KAMJDI1TtL
-	 c4UOEFbnIzBYD5sNH0+hF97CBfo1PwGUejDn2rgyY7zd3YjOChItdvjPnqohSKut8vRB2
-	 +rsWlFcRDQ6t9oRuPRf2OdwBlUoH8jjQgySGEstovaWxn7Bksqmvd6V579HOt13raNNN4
-	 HxyuypUtzfhvgSnnefZdScBj3obScvebYLT0Y7sWaWxwoDGiN0GSlCuOUp0q0fDZba9l5
-	 fHrv0WtaFkOZAcnVBFIMDaVJAeegUnTny5LgI3hqPj2Xoh5wG9O4kxWn8/95NeArYIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795453159;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=LoOLTgeVOr2u3jo2L9B4a45A3WMr7vCA6NGVMbELKuY=;
+	b=CdbuwJSCdIKOF2RUwaNA3PS0b2Z4ucDXVYPVzH2THgga/bwNIV1WNOqRvGN96uXLo19U
+	 bVFyq8pyketwov30CCIFZnh0g+CSmP2Sm1980hC8ErKxirjnNyhgfKPcct5K/sixmx75c
+	 LmatGo6gbR91Ghyyv62riaX27vpPfwaCfn6bSkGwvauzT+kpb+bu0/y8Vm8dg6nBe0wzk
+	 l+aKcmRAJOqgZa/nndyFPvUQWZDqf4AVchkiQgHJr33XPQTkB1WrTKKeuNUZHKZg5FqYZ
+	 KWumjuv4ZHWD0AiyL7vKQa3jHIeXIdypVMhuTm9rG83k6x12BwX5RqgG2nYOAkwDW3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jA902MD8;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VpQpMkz9;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D46606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:17:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8D46606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AC606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB3AC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jA902MD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795450659;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UdiZ0/pWB3RUl5Gb4cAUadyca+MEgPrH5Z1B8vzEfHo=;
-	b=jA902MD8DoF+tilEiJqic6TvudIcDjss1FmsvnHsbN7KZsGtcvH5LrhEf2BAZ5DGGYLhzo
-	p8xCzI75BhM0LSlVwbV0+R2RER/WoOFkgQVqyutpeuynJIBr8oZ+L2TA5ai/8vBIQ41XRP
-	cAgVZDyjAok3FkG9gxV4OrKHc4nN0FU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-_i6payb3ODyC69eLVRQ-qg-1; Mon,
- 23 Nov 2026 16:17:34 +0000
-X-MC-Unique: _i6payb3ODyC69eLVRQ-qg-1
-X-Mimecast-MFC-AGG-ID: _i6payb3ODyC69eLVRQ-qg_1795450653
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CAFCB1944F12;
-	Mon, 23 Nov 2026 16:17:29 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6D3421801971;
-	Mon, 23 Nov 2026 16:17:28 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Mon, 23 Nov 2026 17:17:29 +0100 (CET)
-Date: Mon, 23 Nov 2026 17:17:27 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [mic:next 1/1] security/landlock/tsync.c:492:9: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <awRnF6f4t3PYJIHi@redhat.com>
-References: <20261123155122.GQ2URc4f-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VpQpMkz9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795453159; x=1826989159;
+  h=date:from:to:cc:subject:message-id;
+  bh=7p8v0YMd9eOc7ZAIQT2OzgMKxUcjB+dmzrM62U9nAdw=;
+  b=VpQpMkz9HSYkOCWNBFW8FcBza2uresenMhogLQbOKm0ywGBgjlAXN0Rf
+   RvJoY4IMs2oRSiGQ6WdU6srz98KQhgG3K/PMGZ1SMWfwW9S8Sj1vgzgFQ
+   eH/crT40G7RR46OyrqfjsdRuS84YsXpR1oPvD78+rfvYc/MV5GLUhb+iR
+   pIpbEqzTaAWW1BPDJSKvh9TOipaWEjEZTq/tMiO0cRg/pqsl2okramnA2
+   WYDI9AbtHup8cmWvEm5Y/qpuyjBNdOQac8coJm5oqG8Jbz2OT0Kd5dK+L
+   yP8bLpsTSsYYAdFe9yvwMAvCt4ntMcPJw3HHKebZe4dg85HM3grsY+zbT
+   A==;
+X-CSE-ConnectionGUID: RTiJOjVYRAi1OJBteyjwjg==
+X-CSE-MsgGUID: sn3zQtIZTp6kcib5KIUfQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4304386"
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="4304386"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 08:59:18 -0800
+X-CSE-ConnectionGUID: NwR40+dCQPe4Rlm92jWnQg==
+X-CSE-MsgGUID: 4LmeoSXfQui6Ppc8Z0Avlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="11675692"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Nov 2026 08:59:16 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVXNq-000000004sH-26ig;
+	Mon, 23 Nov 2026 16:59:14 +0000
+Date: Mon, 23 Nov 2026 17:59:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 330/330]
+ arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits
+ from constant value (ffffffffffffff00 becomes 0)
+Message-ID: <20261123175809.JEwkidA8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,24 +80,64 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-In-Reply-To: <20261123155122.GQ2URc4f-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xRIH8ZHCdF4wJ7GtanVHvISP0m59cx8sK86qcqM1Njw_1795450653
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On 11/23, kernel test robot wrote:
->
-> sparse warnings: (new ones prefixed by >>)
-> >> security/landlock/tsync.c:492:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   1b09ce8b32c8782b06415be8b3627cac08ae1100
+commit: 1f8645b7686d6cadc50b7b93b0ab2f94a677db09 [330/330] arm64: percpu: Fix this_cpu_and() mask generation
+config: arm64-randconfig-r2301-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123175809.JEwkidA8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123175809.JEwkidA8-lkp@intel.com/reproduce)
 
-do we still care about the sparse warnings?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261123175809.JEwkidA8-lkp@intel.com/
 
-As for this one, we have a lot of ->sighand users which do not use rcu_dereference(),
-so I think we don't care.
+sparse warnings: (new ones prefixed by >>)
+   kernel/printk/printk_safe.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h):
+   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (10000000 becomes 0)
+   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (10000000 becomes 0)
+   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (fffffffff0000000 becomes 0)
+   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (fffffffff0000000 becomes 0)
+   arch/arm64/include/asm/percpu.h:128:1: sparse: sparse: cast truncates bits from constant value (8000000 becomes 0)
+   arch/arm64/include/asm/percpu.h:128:1: sparse: sparse: cast truncates bits from constant value (8000000 becomes 0)
+>> kernel/printk/printk_safe.c:334:9: sparse: sparse: cast truncates bits from constant value (f7ffffff becomes ff)
+>> arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffffffffff00 becomes 0)
+>> kernel/printk/printk_safe.c:334:9: sparse: sparse: cast truncates bits from constant value (f7ffffff becomes ffff)
+>> arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffffffff0000 becomes 0)
 
-Oleg.
+vim +127 arch/arm64/include/asm/percpu.h
 
+f97fc810798c261 Steve Capper 2014-11-19  109  
+959bf2fd03b59fc Will Deacon  2018-09-13  110  #define PERCPU_OP(name, op_llsc, op_lse)				\
+959bf2fd03b59fc Will Deacon  2018-09-13  111  	__PERCPU_OP_CASE(w, b, name,  8, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  112  	__PERCPU_OP_CASE(w, h, name, 16, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  113  	__PERCPU_OP_CASE(w,  , name, 32, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  114  	__PERCPU_OP_CASE( ,  , name, 64, op_llsc, op_lse)
+959bf2fd03b59fc Will Deacon  2018-09-13  115  
+959bf2fd03b59fc Will Deacon  2018-09-13  116  #define PERCPU_RET_OP(name, op_llsc, op_lse)				\
+959bf2fd03b59fc Will Deacon  2018-09-13  117  	__PERCPU_RET_OP_CASE(w, b, name,  8, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  118  	__PERCPU_RET_OP_CASE(w, h, name, 16, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  119  	__PERCPU_RET_OP_CASE(w,  , name, 32, op_llsc, op_lse)		\
+959bf2fd03b59fc Will Deacon  2018-09-13  120  	__PERCPU_RET_OP_CASE( ,  , name, 64, op_llsc, op_lse)
+959bf2fd03b59fc Will Deacon  2018-09-13  121  
+959bf2fd03b59fc Will Deacon  2018-09-13  122  PERCPU_RW_OPS(8)
+959bf2fd03b59fc Will Deacon  2018-09-13  123  PERCPU_RW_OPS(16)
+959bf2fd03b59fc Will Deacon  2018-09-13  124  PERCPU_RW_OPS(32)
+959bf2fd03b59fc Will Deacon  2018-09-13  125  PERCPU_RW_OPS(64)
+959bf2fd03b59fc Will Deacon  2018-09-13  126  PERCPU_OP(add, add, stadd)
+959bf2fd03b59fc Will Deacon  2018-09-13 @127  PERCPU_OP(andnot, bic, stclr)
+959bf2fd03b59fc Will Deacon  2018-09-13  128  PERCPU_OP(or, orr, stset)
+959bf2fd03b59fc Will Deacon  2018-09-13  129  PERCPU_RET_OP(add, add, ldadd)
+959bf2fd03b59fc Will Deacon  2018-09-13  130  
+
+:::::: The code at line 127 was first introduced by commit
+:::::: 959bf2fd03b59fc107584c21425f3dc73c49f762 arm64: percpu: Rewrite per-cpu ops to allow use of LSE atomics
+
+:::::: TO: Will Deacon <will.deacon@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
