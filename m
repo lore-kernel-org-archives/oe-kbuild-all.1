@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795445879;
-	b=OWROOvRUnmqJGy1JIZufkSRTwfU8rCgNJbnyll4yoVKS/+OyMhpIRqzwYbSQYmWEDuYz
-	 bx74szvIxqlLncPMX+k/pLEOLADsTlfyu58QB7j/vQonD2852XWB7MUu3hx4Nk5h2J/SJ
-	 BJjCBpxPXe4y3vLA3tZF9hnFzJqF8pPnKEhTvvYy5hIdiPJTnF7a7QYlmdpZDY22jG0P+
-	 z6dwgmMxLv8hTpqQVqayFS0QctFcXjlcvufce2ckpMUmSt+SwncSENKrBP1m9mdQR8+E4
-	 iRuIjr8LUsxb/HZLegJTvsCzKRon0zcUHcZR9sWbUeLRnBAH3d25veILCzMpVS75T8A==
+	t=1795450661;
+	b=h/0+yEIB86Oo1adF1RRFTddT8eBHzUx+t6N42YJO7TQWHcIAa9qn8nRi9XVT0O9UrsXN
+	 x6Nqmkup/q2f1l/yf29EFkXskKhIADUUdLUfclEsKjs5Yapm3kNjIRz61yoQsQWW/wHGZ
+	 3TLKbXGK6/a1eHclLEFRWlZToUFlzGHmRaEvdP8I6iiFIGRiPoWx72Xp/xxElMp40hThl
+	 OXbVXg9xdm1YcuS4eK4KVPUonWfscaO7UTtd05rPxzlu8X8mK5N1zbBjT0HdhCdwWn2aJ
+	 KJsU+ggo52LUCsRMpgQLzbZmFs/3SHUlOlLPy2G4yhw6AlyoMZVHMdeXgEGSjomjkfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795445879;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=SvA56YhUXqy8qG6L3bTNd5t0euu8QWKpYA9XGtN04HQ=;
-	b=HaNjw/Ke6HygIh9Vfz7N7Wcc2kdZaBTWQtU3YpJLccF+hwRydcUCqZ0AA01klRGmG0Xp
-	 I4DAXK/Jduk/BXPOODaIKuMHMeL5cCE4xoAuS2Y/e2+xQeOzMczMDSxh0w/GA75cF5f5v
-	 jW+OgSUK9QT59p1xMcepbTj+c29VPeZSJaVHkKHoOToyUFJAw4XVtGrW622td4Brii+Ph
-	 Dk55KEYkUV5v9F8M2S5G+QBc9vYzt91uHebCVrygKzaayEBSv3JSne1bcqnbnPCPJ5iD4
-	 3gBDYqahjzpHWv0pLAjfLjblDlhaa9YAHUUv4+fj0SM4VExPCidnbhhHzq/NAzkOMsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795450661;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:In-Reply-To:X-Scanned-By:
+	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Type:Content-Disposition;
+	bh=UdiZ0/pWB3RUl5Gb4cAUadyca+MEgPrH5Z1B8vzEfHo=;
+	b=O/5dWraioCFawAr+U6BDrSZcerUFqHJCPDbGrFcGj1a46idOwjWbXKSko6KAMJDI1TtL
+	 c4UOEFbnIzBYD5sNH0+hF97CBfo1PwGUejDn2rgyY7zd3YjOChItdvjPnqohSKut8vRB2
+	 +rsWlFcRDQ6t9oRuPRf2OdwBlUoH8jjQgySGEstovaWxn7Bksqmvd6V579HOt13raNNN4
+	 HxyuypUtzfhvgSnnefZdScBj3obScvebYLT0Y7sWaWxwoDGiN0GSlCuOUp0q0fDZba9l5
+	 fHrv0WtaFkOZAcnVBFIMDaVJAeegUnTny5LgI3hqPj2Xoh5wG9O4kxWn8/95NeArYIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bRthz5dq;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jA902MD8;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AA7606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 14:57:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98AA7606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D46606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:17:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8D46606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bRthz5dq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795445878; x=1826981878;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y+Vwzq993X3wnXGXIiVmauKOMMRuPG5uhhqHYpDtvbk=;
-  b=bRthz5dqqCvc/vgsLTmPusVAzJaw7T0q7DtUZZjULRW814nWMPNKyz9l
-   fBOeEFRKcpQuXmYw4bHn5MSDTM8s03DXW3vikEY1bzPbE/hagcVefr5p8
-   hdp4GK1Ab0oJNvx+ciHnd4dSw1+SWRH9ll3nmWvCrStS5PmQqqGeo7yPw
-   RdvQ09tY8k4l4/9AXnbn6VrnI+Qzz+z1Xl19PXEzr0T/fQJ+tDKLc4SWJ
-   oOnCr+hpPRij07VUvrzzR28ZJ9qras3qLZwB1K/4DqmkAURGU+tKAOUNp
-   lSS4z/zEOaaltZFCGc1RVYhfGWbJcryvDgTKArPJqI3h/NmVXDdcZpywk
-   w==;
-X-CSE-ConnectionGUID: c6SpJbEtQAWx8NjXbFpnvw==
-X-CSE-MsgGUID: gsML8lb4QH+ovdGwTNDMuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4267453"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4267453"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 06:57:58 -0800
-X-CSE-ConnectionGUID: rUoFUvPbRDmRouK7ykExdQ==
-X-CSE-MsgGUID: BHMF5GfuTjG0/LVQa9v2LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13017670"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 23 Nov 2026 06:57:57 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVVUP-000000004rJ-23AC;
-	Mon, 23 Nov 2026 14:57:53 +0000
-Date: Mon, 23 Nov 2026 15:57:09 +0100
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Micka=C3=ABl?= =?utf-8?Q?_Sala=C3=BCn"?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev, Oleg Nesterov <oleg@redhat.com>
-Subject: [mic:next 1/1] security/landlock/tsync.c:492:9: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <20261123155122.GQ2URc4f-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jA902MD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795450659;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UdiZ0/pWB3RUl5Gb4cAUadyca+MEgPrH5Z1B8vzEfHo=;
+	b=jA902MD8DoF+tilEiJqic6TvudIcDjss1FmsvnHsbN7KZsGtcvH5LrhEf2BAZ5DGGYLhzo
+	p8xCzI75BhM0LSlVwbV0+R2RER/WoOFkgQVqyutpeuynJIBr8oZ+L2TA5ai/8vBIQ41XRP
+	cAgVZDyjAok3FkG9gxV4OrKHc4nN0FU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-_i6payb3ODyC69eLVRQ-qg-1; Mon,
+ 23 Nov 2026 16:17:34 +0000
+X-MC-Unique: _i6payb3ODyC69eLVRQ-qg-1
+X-Mimecast-MFC-AGG-ID: _i6payb3ODyC69eLVRQ-qg_1795450653
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CAFCB1944F12;
+	Mon, 23 Nov 2026 16:17:29 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6D3421801971;
+	Mon, 23 Nov 2026 16:17:28 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Mon, 23 Nov 2026 17:17:29 +0100 (CET)
+Date: Mon, 23 Nov 2026 17:17:27 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [mic:next 1/1] security/landlock/tsync.c:492:9: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <awRnF6f4t3PYJIHi@redhat.com>
+References: <20261123155122.GQ2URc4f-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,63 +80,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+In-Reply-To: <20261123155122.GQ2URc4f-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: xRIH8ZHCdF4wJ7GtanVHvISP0m59cx8sK86qcqM1Njw_1795450653
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git next
-head:   afa0df0854578e41f8fb321bddf61c9e5bdb49df
-commit: afa0df0854578e41f8fb321bddf61c9e5bdb49df [1/1] landlock: Do not hold exec_update_lock across the TSYNC wait
-config: hexagon-randconfig-r2301-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123155122.GQ2URc4f-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8db60b003f961f25c5cafe91ee44176f61374279)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123155122.GQ2URc4f-lkp@intel.com/reproduce)
+On 11/23, kernel test robot wrote:
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> security/landlock/tsync.c:492:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261123155122.GQ2URc4f-lkp@intel.com/
+do we still care about the sparse warnings?
 
-sparse warnings: (new ones prefixed by >>)
->> security/landlock/tsync.c:492:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
-   security/landlock/tsync.c:492:9: sparse:     expected struct spinlock [usertype] *_T
-   security/landlock/tsync.c:492:9: sparse:     got struct spinlock [noderef] __rcu *
-   security/landlock/tsync.c:515:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
-   security/landlock/tsync.c:515:9: sparse:     expected struct spinlock [usertype] *_T
-   security/landlock/tsync.c:515:9: sparse:     got struct spinlock [noderef] __rcu *
+As for this one, we have a lot of ->sighand users which do not use rcu_dereference(),
+so I think we don't care.
 
-vim +492 security/landlock/tsync.c
+Oleg.
 
-   482	
-   483	/*
-   484	 * try_set_current_tsync_marker - mark the current thread group as under TSYNC
-   485	 *
-   486	 * Returns false if another TSYNC operation, group exit, or exec is in progress.
-   487	 */
-   488	static bool try_set_current_tsync_marker(void)
-   489	{
-   490		struct signal_struct *const signal = current->signal;
-   491	
- > 492		guard(spinlock_irq)(&current->sighand->siglock);
-   493	
-   494		/*
-   495		 * Group-exit paths may replace all signal flags, including an active
-   496		 * marker.  Treat SIGNAL_GROUP_EXIT as a held marker to prevent another
-   497		 * TSYNC operation from starting during group teardown.
-   498		 *
-   499		 * Like de_thread(), also treat an ongoing exec as a group action in
-   500		 * progress.  de_thread() sets group_exec_task in the same siglock
-   501		 * critical section that sends SIGKILL to all other threads, including
-   502		 * current.  Instead of queuing task_work for exiting threads,
-   503		 * restart_syscall() lets current handle its pending SIGKILL.
-   504		 */
-   505		if ((signal->flags & (SIGNAL_GROUP_EXIT | SIGNAL_LANDLOCK_TSYNC)) ||
-   506		    signal->group_exec_task)
-   507			return false;
-   508	
-   509		signal->flags |= SIGNAL_LANDLOCK_TSYNC;
-   510		return true;
-   511	}
-   512	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
