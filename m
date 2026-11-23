@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795405707;
-	b=oVn9QHUSQbifeNPF2dveV9O0rNrxT4JQat9tnWS7qLmVrORksrr4jhdmXk6mia6InQFl
-	 WClgNVI0/c82ZwKuDRvgAWrq5/kIkQBO0NAwU4COakkbSTdpv3YiMFNqol8eAA/B1UkHl
-	 s+22gfPfPS+urfdYhNudqaHCVQm7XDJw2nyDBfgSBSy5/8DTTM/TKQF7r6fM+2MasRJoB
-	 PuQZPwCSOfE9qsQ8iwSSgKxDo1cOAq0revwGYycELmT5116bsJCZW/TqjkN6zCBdXBw+a
-	 eXzwyWjw+EmeXax7YfeNlKlMPbMCm5EZy1ubFgToTrctEHt2W0iiGu0FGS70v+X1ITA==
+	t=1795406174;
+	b=qzixsn+3PIlQvW/x2wzDn9JLgcCN1NpewYddFB2prag2W3vi4FPOCXXZ2POOcSW5ep+C
+	 oEilq2HQjZMzHoYezWes4NJibojZY9KCSprDg3McjhRUeSGeJ45/cxsVd7/mwYt26oL9u
+	 7FGWY0LUzDO7KjWsPlYFShxgcw8YpMbAkSzrMqKqZi0qH4QvfGyyM6yfRvesA5z3YjWRk
+	 ktLX+uLb/V2U2rPai9HPj80Ximg8EwlRV3eAcHw6wQIC5kCmrysjcCFhYl+wWiDP1AVNZ
+	 CW1TpdLTD7c4DHQiQNa4gcHD2D2HNTKrwK0U+i3u/PD5NWR2hNqsmBad7DAESZCF8vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795405707;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4ixwLYNHrzYtUov5QUyLh0SBuMoy5xQNhmCQu9M+e0U=;
-	b=NzacN+cZphchZUTnHJ5BYh5V2TxVsdAAkBxsKqd8qbjwW04hFvHF6lwRdOyVvTSfwKZ8
-	 PZVNnhynBMkR0lYFCuQesI2my69U0/pIjcJ2c+hgX8wXkKEgiZZhckTMau/4tFCwQ4YqL
-	 yx0Wjf3uULBWuuzq+IrknPQW3GRCA+h2RptRu60pl0/pxvfoqISgo70hGdwVmJTCfNV3x
-	 WtWV+NOFDBJQW0nWNrItnfCMB/BWHLPZMd3jtVHUoKbdw6ErFLnlRnnFyLoVqm3U9Zv+P
-	 LI95ixcU8vLLOgE/fKVZF5+ndZ2IYUE1/qQQeXe2q3cRaAkmA8VHT3B19USNfreSvKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795406174;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=A/fTpRqX6pvU4792OuYWLQRR6TZs6suxEdTx5Vb4Be4=;
+	b=sHkU52UPuOhEowkyDEqGn6ILlapaHGYW73R/JFcx3m4EGUTmx8GmjiVail6FDV9LruXp
+	 RVzT4NZDh5OQKXl8lM0xJjUa0LRtrGXPC9WcRzROX4cWx9pIX4ddzQqbYAPnfXqynpkIH
+	 57wrsMCY/jwxhVi1e4ZwDd0ga/eai0ZDCDAVGwjXAUBRoz67DyCf1RZGh1/ydCHlZdQVT
+	 CRznYcV8k0Jt+83hlnC1qhGanquN4zF8TKIlWjhJoqxlhoFhPa491pi8LZUNEQH0vTbeq
+	 tWT95MnyE4AhU+ofgnvl7l4lDNUL7antZiU/zcoJfgGkzbBmYFquhQxv5gbS9vAmr/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=SQPSg2UH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jhl4Wqo+;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A023606A31A;
-	Mon, 23 Nov 2026 03:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A392B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 03:56:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A392B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=SQPSg2UH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCB21F000CA;
-	Mon, 23 Nov 2026 03:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795405706;
-	bh=4ixwLYNHrzYtUov5QUyLh0SBuMoy5xQNhmCQu9M+e0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=SQPSg2UHPTiaBzka5y0mmvvcTp3eQnHFgEXA7m0SMy9eRlCqM6kIwVvhacMrOZOG+
-	 bGJN9vKoFa04CpsE6GqWRbd00xIF+BlY8+1VrdQtHwWbZUJvpV3fUoXTEJAhJjtm/u
-	 F6AIt0IcMleoKcGSPOOhw0j2BZ0fpRHAA6JzsyE4=
-Date: Sun, 22 Nov 2026 19:48:25 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Christoph Lameter <cl@linux-foundation.org>,
- oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
- Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org,
- David Rientjes <rientjes@google.com>
-Subject: Re: [akpm-mm:mm-unstable 327/327]
- arch/arm64/include/asm/percpu.h:261:1: sparse: sparse: cast truncates bits
- from constant value (ffffffffffffd8f0 becomes f0)
-Message-Id: <20261122194825.2541c7389c2f958ef3d07fbc@linux-foundation.org>
-In-Reply-To: <20261121133112.48w1QOqw-lkp@intel.com>
-References: <20261121133112.48w1QOqw-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jhl4Wqo+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795406173; x=1826942173;
+  h=date:from:to:cc:subject:message-id;
+  bh=eWfyZYx4I3uqZ1W7tBhf+ooDKVS4cLQ1ETOAMwjspHE=;
+  b=jhl4Wqo+oW5n1QT+4FRjjkKvolGep40hXvtP9i0xXVF3Co4TkueFbxt3
+   A9oprgRNqFo7MdCRNQTbZmWCaGWrtzLKnHFlbxLFJ1nHvMS8i8f2mjWEI
+   KxbEuUcAaDWHEXGR64qP5tGCg8x8H1fj3IP1ouEPRfPpLqiVfPPbl6F80
+   JeS7aO6LZ61pkyaehhAnHjZ+F7EhEudbjCqewe0709PGxwoQ3thsk9N8f
+   pWVdySg24Ota1FLslLSiGzjYJw/ZFjHTOVWYPBArR/lNObBhbB0UrfrIa
+   ByX5onxaudNGzPu0XJF6G31hGFMDpC8I8zFdLVlV77zO1ieWMLrUcIUa4
+   A==;
+X-CSE-ConnectionGUID: 9l0NCeGOQtW39R3kRdnb9A==
+X-CSE-MsgGUID: pMK4ytyDSQuvM3YmLvPH9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4098192"
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="4098192"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 19:56:12 -0800
+X-CSE-ConnectionGUID: lKU3NL1RRHiMfp/qpGC+Tw==
+X-CSE-MsgGUID: MLvx7qBvSOWSTwiKgCPTvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="11533552"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 22 Nov 2026 19:56:11 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVLA0-000000004k2-2RFu;
+	Mon, 23 Nov 2026 03:56:08 +0000
+Date: Mon, 23 Nov 2026 04:56:06 +0100
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:b4/qcom-kconfig-unify-interconnect 6/15]
+ drivers/soc/qcom/kryo-l2-accessors.c:8:10: fatal error: asm/sysreg.h: No such
+ file or directory
+Message-ID: <20261123044817.vr20MNwM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -59,78 +80,51 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Nov 2026 13:34:45 +0100 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/krzk/linux b4/qcom-kconfig-unify-interconnect
+head:   bbcb5f4d2545aa663011b1a5e4d21ea9ba744b64
+commit: 4430e8bec5c893c5a325e041b9b1a98d640bfdcc [6/15] clk: qcom: Consistently handle MSM8996 and SAR2130P
+config: loongarch-randconfig-r2302-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123044817.vr20MNwM-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123044817.vr20MNwM-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   7d1a16abe4cc5dccd21e3d6262e44433a5885d27
-> commit: 7d1a16abe4cc5dccd21e3d6262e44433a5885d27 [327/327] mm: vmstat_kunit: add synthetic benchmark for mm stats
-> config: arm64-randconfig-r2305-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 15.3.0
-> sparse: v0.6.5-rc1-21-g84ec0658
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    mm/tests/vmstat_kunit.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h, include/linux/kref.h, include/kunit/test.h):
-> >> arch/arm64/include/asm/percpu.h:261:1: sparse: sparse: cast truncates bits from constant value (ffffffffffffd8f0 becomes f0)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261123044817.vr20MNwM-lkp@intel.com/
 
-Thanks.  sparse is being a bit silly here.  Using a variable instead of
-a constant silences it.
+All errors (new ones prefixed by >>):
+
+>> drivers/soc/qcom/kryo-l2-accessors.c:8:10: fatal error: asm/sysreg.h: No such file or directory
+       8 | #include <asm/sysreg.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/clk/qcom/clk-cpu-8996.c:64:10: fatal error: asm/cputype.h: No such file or directory
+      64 | #include <asm/cputype.h>
+         |          ^~~~~~~~~~~~~~~
+   compilation terminated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for QCOM_KRYO_L2_ACCESSORS
+   Depends on [n]: ARM64
+   Selected by [y]:
+   - QCOM_CLK_APCC_MSM8996 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
 
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm/vmstat_kunit: avoid sparse warning in vm event cleanup
-Date: Sun, 22 Nov 2026 18:51:40 -0800
+vim +8 drivers/soc/qcom/kryo-l2-accessors.c
 
-Sparse warns about -TEST_COUNT in an unreachable 1-byte arm64 per-CPU
-case; the actual counter is 8 bytes.  Pass the completed loop count
-instead to silence the warning, with no behavior change.
+6d0efeb14bbe2350 Ilia Lin 2020-07-03  @8  #include <asm/sysreg.h>
+6d0efeb14bbe2350 Ilia Lin 2020-07-03   9  #include <soc/qcom/kryo-l2-accessors.h>
+6d0efeb14bbe2350 Ilia Lin 2020-07-03  10  
 
-Link: https://lore.kernel.org/r/21183f5b-2697-cbe6-6370-dbd27c5e2b60@google.com
-Fixes: 7d1a16abe4cc ("mm: vmstat_kunit: add synthetic benchmark for mm stats")
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
-Cc: Christoph Lameter <cl@gentwo.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Liam R. Howlett <liam@infradead.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Sarthak Sharma <sarthak.sharma@arm.com>
+:::::: The code at line 8 was first introduced by commit
+:::::: 6d0efeb14bbe2350a94ba07b403a686d731c5179 soc: qcom: Separate kryo l2 accessors from PMU driver
 
- mm/tests/vmstat_kunit.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+:::::: TO: Ilia Lin <ilialin@codeaurora.org>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
---- a/mm/tests/vmstat_kunit.c~mm-vmstat_kunit-add-synthetic-benchmark-for-mm-stats-fix
-+++ a/mm/tests/vmstat_kunit.c
-@@ -107,7 +107,7 @@ static void vmstat_test_interleaved_zone
- 
- /*
-  * Test 3: count_vm_event() benchmark.
-- * Restores counter balance with count_vm_events(item, -TEST_COUNT).
-+ * Restores counter balance after measurement.
-  */
- static void vmstat_test_count_vm_event(struct kunit *test)
- {
-@@ -124,7 +124,7 @@ static void vmstat_test_count_vm_event(s
- 	time2 = get_cycles();
- 
- 	/* Restore balance */
--	count_vm_events(SLABS_SCANNED, -TEST_COUNT);
-+	count_vm_events(SLABS_SCANNED, -(long)i);
- 
- 	time = time2 - time1;
- 	avg_cycles = div_u64(time, TEST_COUNT);
-_
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
