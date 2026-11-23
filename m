@@ -1,111 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795462138;
-	b=DtKqn8lP8NBTnnhPazTHAO/tbhTP2dSJXmZxZccy7pO8OABwU6N6UWolp/AExRlLgqTy
-	 AJG/bL2wuKnNfDCik/0mfzosDJoBTT6RuWiDwN4iI9+jSXsRKGWnYDYjRhkgzlm4nfZ9C
-	 fikKKe7bevQXurbAhV1yTU4EbKgMKd7eSH0AbLt3YkCWsSPX3B2TpBxThFKSmryOXsuBu
-	 8Iw7QheRIuelC1xtA9xzcvzbJjPOQCZrk8E6e2dtL6L8HtHbLJttGoSr+bo2X9gMMSJTs
-	 cZnjOL98cBQuB3TfUKH0QZzkCxVBo4XR3aP1T4/xXQ01mBHuqVAuZZtvsmP84tlFJNQ==
+	t=1795466739;
+	b=B/lC01gd9tS6YndUoPTjEImhjsdyZO7oadif3zCmKLq/73nIAvlm0KRMqUWsJGyO9KsG
+	 Wtgd8HbochTdy5tbrzsVCzTJAgwf+zwnoHIPmDbOJfsmzB9hfsykZd40dljE0oHs9w9Xw
+	 k4ac9uGEfLZQIyPIc7bVJyt6T9HdHKxWyOO4kwJbA1rYwpsgfZiBRTRwlSf6nudwL2ssk
+	 YkqZ2NMOERwRLBg2RGUI1uiwGQmWH290D+Z1UP5vmp5afUJWSYMu1jNK3ywqAebP1oxYO
+	 vVhLUlELrg+hI+f03nEzPoytraTIZobGKIvYYztJ8PPFjUHDzU5aUZaYSSvyOF6o2Dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795462138;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=;
-	b=jJbw5Qb/TmzKUmyTw9b2UPkX4kEUnYG5y4ciC9Dc3lOa7fxOITjBH9kv/ahl0UxThxnQ
-	 hnW0vWxc8MRsxs6oL1g6nbEIpFJKEVXbq+OaHqyoJmAKwKCSLva/7yoOm9SvtWS63Ycx9
-	 SNyCL1HaXRrqJAkDz2lFApkWx2nflT1vflq+5Au7i5+blFULqfVGmCJz62BEYbqKmK9fI
-	 mZgXNwFvysptpy8CtrbNgdZkHK3sbJFVgJStb+O9ffKHAgY9b/p0ijgrH1x+WpY3cVWX/
-	 NY+x/cgwbo+ZZrJGRN0qpZ4qOIhQ3oCVK/URNSsO/lfl6LU5ZfUL6Ok6Q+kI4Z1nE3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795466739;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=0VnDzB9Agb8Amuz7dt6dADKRSDTSttYnUxwg1T6681U=;
+	b=uueM9z/XiQovV9CbMlxcjsqI6HaQbzXYB6Kg8iZJIlQC8PPXFPoMWMiSXBnfJ5mOu3Ky
+	 DCKZzj0gUkJv+5JJ8CLhGfyxTAmm79/YV5tmL4alVeNoSgX9xoQaZoj0DBwKxqsgFTOFx
+	 04q4g/5apPa5CLovtdo/2Y8M1nelSog0Rri4v+4QS1JXFYWy6exr3DJZBuG1MHBXxowi4
+	 zOP1TZ0jrNTSBUbBoRn3i2DazsD4tS5k4wkQRBNRlGUBFAXubtaqAMHDpkMIx2xEUzy5U
+	 gfjXkclX4OGOkHFX1RA4hLXV/Ba12fUSaxxk71FYavKxQ66/BJT03R2NkppLdzmwtNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arndb.de;
-	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ASgseYht;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UIMi2vgb;
-	arc=none smtp.remote-ip=103.168.172.157
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XfV8i5uv;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1325606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 19:28:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1325606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89061606A333;
+	Mon, 23 Nov 2026 20:45:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89061606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ASgseYht;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UIMi2vgb
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 85ABE140039D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 14:28:55 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Mon, 23 Nov 2026 14:28:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795462133;
-	 x=1795548533; bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=; b=
-	ASgseYhtEKDnNbDLWk6YO3GbQWcBQQxTJroiFdL5lXn26ejetWWTqhTl0sbBCikw
-	LSe2YwYdj82ytnHszX46V2eSf1D74RSO2jAvbD2pfRnLSox0cZZ8Kf3qOf+fRDxC
-	hlf/4TF1STJH8wAFxSlaaOtYGv3EXR+5c2/J3A4OlcQ0Hf+1s3ddfH3dZlkT4tW2
-	53HKjyKvzyAkKt+QCqewm9aIQ4i4fCiwN36LNdAVHXUGRH4wr2lkzltGEJxOVwb5
-	BpnpjMl3BpyghAnzHXVLx3kVslkrbKn7eSEIvBhp77DzezoNfIx22fbNl7yUE8mU
-	+E01krMAtay+fPE1rO34og==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795462133; x=
-	1795548533; bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=; b=U
-	IMi2vgbg4wRq49Y2yF0JNhJIV9CcDT7E8Q8UeazPvtHdJBX7RuYDH9fgiVufomBJ
-	ycqR57XWnjOhHSpXNjw2bSjbP7oSzPN6DjwI5RZ+7s3umbJKyfz0jnlChgL03hiA
-	XRKSWivU33uohrcUEz5FyHzPFoYuF2/hd9imC6Og68GNSKjLf9afipS9rTflns+N
-	WwQ/weHINbATXNzepcPUDhp4h/y7RD+rEsLIrsRBoxlR9m6OnQE/Tffb1xDMuPDk
-	cWse7xQrkC+vagtsjS6uyu1bK9H9o8LFmSky6xpVC0DQhJbQlh2EWDrvXwH7H8nv
-	X6bgtx5pavujONfrpqeBQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795462133; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:iUfG0snd962hsJr9/+I+kJ5m4/xmMF5TkaIcrTYSxTk7MxO
-	uiDVaVXvCUz96kVBqZJkhRCWSQSFr7OuiaDE+rmpuZjFWFBMmat1AnQ9aO1yS+ta
-	YcMwo6DiOWIDkttA0vJoGKoKQIxI+C22fo5DwgXhWBJU346ouxMPf+MSRGAqLYzS
-	klroEIuMEI6/iqiMJktmpdYhbtt7JzPq+GQoJYESSOg5R2gr8Eg48t0EHUFZyMnX
-	yZ0lPIAs6VxXozG8/Zl2I8O0EZ+8uItf0tWYM0jRg3kLEOoxn75sF1130yR1LOg+
-	RIODGmlDKhJXz0xeCGa5CURSjQu5FyvgGsmSHRw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:tTTTBLr1wqTU2gwJ3YlsueZDb/vr1m02S+FtkuMIh5c=:c1TjzlgERhN/wkdOORZjtArSA9GcpDgtWwIpcwzViL8=;
-X-ME-Sender: <xms:85MEazI4G5p5MIiL2Hm4p-uPSTik6lTLp56EEnGB4iP0XxJ0zBP6Eg>
-    <xme:85MEax-tuhcWbT6RkcxZ1BTZHgiy-rQ-MBlWFEU4madszXwT2vKwR3uf265VcYvD0
-    ZgTChjqo_5moYjF7p1_I5OlAng7XJjFpPTzyTBfCvibZ70NbDsp_G_j>
-X-ME-Proxy-Cause: dmFkZTEA1QeBJ+cNKop6aMm6b4TlFnKwp+U1RX/xmcrzP/Zcw06VmFgbgIhMmGRK9db2SX
-    OBVl2k/0AIxMOyZrNnBwJHhVyCsVPBvjTB6BMs0XniWhfbKAhgFbmrNVwU9sI3pu7tu5b2
-    FRlGr85n/OC/7Po9FMRzoA1pj5mXvgN6k2hA4UX3VO2MU9AlsYlDHzN+FiL2rpMw6cvVBw
-    /xlgotLb3UevrLD2JStJV6L1n6Euj0SQPCfJFjP4VgKggKYGs86JeWNmmxatMBSfYBIBm4
-    4jx+MeMrdn3lV9xT/TGBKHhvwVGlGe2sgUhBnPBA23qqv4dxbfGvt7J3JJ50YWY6qOYTbC
-    wvBdPywgk5tOyFz287O77t97+2FzNcFrWlA7dtjHlJ+XlcCoP12SWOE4eZ2IyCO9l+ItcE
-    hny7AXrzzowju2dztWzYFYg/+fY6bos3SmAk9caSO2ZgpTGJDnVmagNCSh5voxR/IQpm0e
-    SqMwgdfJ6ab7kzUUPytBycn2vu9KLLE4DTGwkCefdaE6KwKLtUOP1g/ZRHNW6uleRcaMMg
-    LhEw2KPcn+JFKL6UCMIzHrZYhpilt+YRjCHUDocD4uidsI8VImpbhmz0REo02aGzh0l6JU
-    PpJAYI/6RehQ6jsyJhp3PEvpSfJXK6ZEwhrLcWSHpUTtMOG+srPXQkkNmpwQ
-X-ME-Proxy: <xmx:9JMEa3mgz5Y6wjxOdLQZB96sr6Ckur-QCGTO3qIsLX6JkJYcF98_tg>
-    <xmx:9JMEaymN6oZ5JjzIOkguMWIdDGAiF55IO7yr5ki1kZhwxvCOWaBlBg>
-    <xmx:9JMEawts3kaUUzLatk2fnMgVxsX1RmVXPF2iSeL0QpOaNMIGQBHieg>
-    <xmx:9JMEa9ljezAtheTFTTA85fUGxHEs3Uy4usEG9Yhen3SgQtOv3rklAA>
-    <xmx:9ZMEa92JyPZaK1FIh2fU4Hd07hAJGUmFOvO1ilK629nx1hygkamxsGqL>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 7CECF32A009F; Mon, 23 Nov 2026 14:28:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XfV8i5uv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795466738; x=1827002738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6gkWUv1slhnM9aD8OpSgfBPXiR4hMfiYjKQsCunZYD4=;
+  b=XfV8i5uvFhDohw+fUS9AtTSPNMzX5Ccz67muWPGBKWl/EYVmQPcwApr1
+   GAK926F54ARJdS9B+doUIxk79pg7MSDolRRhYzXU+KEJ+YKJPVCLvVlOV
+   KmB1DwsMbrDKJfJtyX3G/+uDeRmRLR/AomqCRSqS3rlxO6Ph9UavF4VCW
+   Nl4QLsxxu8Eg+DoLzB1CGKvJyJfgj8UKgcrfhYRck92vzqs+5pM+Whf6a
+   88MjDkuTfHaXMQuVJv0jO1lqt60Pjkhz3KXs4gzMD7af+xHX2s1JI/4Wt
+   13nhUl4zeMqF9NqLzaEAFGOm7b9bQxXn38jeyHvBEsSQZNX4PPBmkq1Y6
+   A==;
+X-CSE-ConnectionGUID: Z8xRx0rmSUeh+exnZYAtcQ==
+X-CSE-MsgGUID: r54356OrTDqSeZI05S4Uuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4187730"
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="4187730"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 12:45:38 -0800
+X-CSE-ConnectionGUID: mCaRPCwpTKOwjvUalQD94w==
+X-CSE-MsgGUID: mZD1cFO1RVCe0x5lHz0ZkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="13182741"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 23 Nov 2026 12:45:36 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVaur-00000001NtW-1mgr;
+	Mon, 23 Nov 2026 20:45:33 +0000
+Date: Tue, 24 Nov 2026 04:44:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kiran K <kiran.k@intel.com>, linux-bluetooth@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chethan.tumkur.narayan@intel.com, chandrashekar.devegowda@intel.com,
+	ravindra@intel.com, Kiran K <kiran.k@intel.com>
+Subject: Re: [PATCH v1 3/3] Bluetooth: btintel_pcie: Serialize MAC access
+ requests
+Message-ID: <20261124043547.lzdrjg8w-lkp@intel.com>
+References: <20261123065523.2769017-3-kiran.k@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -115,51 +84,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AK-j5Z36gAC7
-Date: Mon, 23 Nov 2026 20:28:21 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Mark Brown" <broonie@kernel.org>
-Message-Id: <1d91c6bc-a6a3-4e3e-b047-412e8b156652@app.fastmail.com>
-In-Reply-To: <20261123201524.iJHCcGa0-lkp@intel.com>
-References: <20261123201524.iJHCcGa0-lkp@intel.com>
-Subject: Re: [mda-next:usb-j722s-fix 68/222] do_mounts.c:undefined reference to
- `__st_r13_to_r19'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123065523.2769017-3-kiran.k@intel.com>
 
-On Mon, Nov 23, 2026, at 20:21, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/mda/linux-next.git 
-> usb-j722s-fix
-> head:   adcad7f4e6332cff3d6d7165f41584899f598534
-> commit: 274f32b374f68e4e1cbd9085e656467b9b29ea74 [68/222] Merge branch 
-> 'master' of 
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic
-> config: arc-randconfig-r2106-20261122 
-> (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 12.5.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/20261123201524.iJHCcGa0-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    arc-linux-ld: init/main.o: in function `do_early_param':
->    main.c:(.init.text+0x8c): undefined reference to `__st_r13_to_r15'
->    arc-linux-ld: main.c:(.init.text+0x8c): undefined reference to 
-> `__st_r13_to_r15'
->    arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to 
-> `__ld_r13_to_r15_ret'
->    arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to 
-> `__ld_r13_to_r15_ret'
+Hi Kiran,
 
-I've already merged a fix for this, hopefully this is gone tomorrow.
+kernel test robot noticed the following build warnings:
 
-     Arnd
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on next-20261123]
+[cannot apply to linus/master v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel_pcie-Serialize-doorbell-writes-and-target-reads/20261123-122522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20261123065523.2769017-3-kiran.k%40intel.com
+patch subject: [PATCH v1 3/3] Bluetooth: btintel_pcie: Serialize MAC access requests
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20261124/20261124043547.lzdrjg8w-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124043547.lzdrjg8w-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124043547.lzdrjg8w-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/bluetooth/btintel_pcie.c:1053:12: warning: mutex 'data->mac_access_lock' is not held on every path through here [-Wthread-safety-analysis]
+    1053 |                 for (i = 0; i < config_set->num_pairs; i++) {
+         |                          ^
+   drivers/bluetooth/btintel_pcie.c:1038:4: note: mutex acquired here
+    1038 |                         mutex_lock(&data->mac_access_lock);
+         |                         ^
+   include/linux/mutex.h:193:26: note: expanded from macro 'mutex_lock'
+     193 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                          ^
+>> drivers/bluetooth/btintel_pcie.c:1111:4: warning: releasing mutex 'data->mac_access_lock' that was not held [-Wthread-safety-analysis]
+    1111 |                         mutex_unlock(&data->mac_access_lock);
+         |                         ^
+   2 warnings generated.
+
+
+vim +1053 drivers/bluetooth/btintel_pcie.c
+
+50932a1567d614c Ajaykv  2026-11-11  1000  
+68e0925f16c028a Ajaykv  2026-11-11  1001  static void
+68e0925f16c028a Ajaykv  2026-11-11  1002  btintel_pcie_apply_yoyo_config_sets(struct btintel_pcie_data *data,
+68e0925f16c028a Ajaykv  2026-11-11  1003  				    u32 time_point)
+68e0925f16c028a Ajaykv  2026-11-11  1004  {
+68e0925f16c028a Ajaykv  2026-11-11  1005  	struct btintel_pcie_yoyo_config_set *config_set;
+68e0925f16c028a Ajaykv  2026-11-11  1006  	resource_size_t bar0_len;
+68e0925f16c028a Ajaykv  2026-11-11  1007  	int ret;
+68e0925f16c028a Ajaykv  2026-11-11  1008  	u32 i;
+68e0925f16c028a Ajaykv  2026-11-11  1009  
+68e0925f16c028a Ajaykv  2026-11-11  1010  	if (!data)
+68e0925f16c028a Ajaykv  2026-11-11  1011  		return;
+68e0925f16c028a Ajaykv  2026-11-11  1012  
+68e0925f16c028a Ajaykv  2026-11-11  1013  	/* Get the length of PCI BAR0 */
+68e0925f16c028a Ajaykv  2026-11-11  1014  	bar0_len = pci_resource_len(data->pdev, 0);
+68e0925f16c028a Ajaykv  2026-11-11  1015  
+68e0925f16c028a Ajaykv  2026-11-11  1016  	if (!data->yoyo.enabled)
+68e0925f16c028a Ajaykv  2026-11-11  1017  		return;
+68e0925f16c028a Ajaykv  2026-11-11  1018  
+68e0925f16c028a Ajaykv  2026-11-11  1019  	list_for_each_entry(config_set, &data->yoyo.config_set_list, list) {
+68e0925f16c028a Ajaykv  2026-11-11  1020  		u32 pair_addr, addr, value;
+68e0925f16c028a Ajaykv  2026-11-11  1021  
+68e0925f16c028a Ajaykv  2026-11-11  1022  		if (config_set->time_point != time_point)
+68e0925f16c028a Ajaykv  2026-11-11  1023  			continue;
+68e0925f16c028a Ajaykv  2026-11-11  1024  
+68e0925f16c028a Ajaykv  2026-11-11  1025  		switch (config_set->config_set_type) {
+68e0925f16c028a Ajaykv  2026-11-11  1026  		case BTINTEL_PCIE_CFGSET_CSR:
+68e0925f16c028a Ajaykv  2026-11-11  1027  		case BTINTEL_PCIE_CFGSET_PERIPH_MAC:
+68e0925f16c028a Ajaykv  2026-11-11  1028  		case BTINTEL_PCIE_CFGSET_DEVICE_MEM:
+68e0925f16c028a Ajaykv  2026-11-11  1029  			break;
+68e0925f16c028a Ajaykv  2026-11-11  1030  		default:
+68e0925f16c028a Ajaykv  2026-11-11  1031  			BT_WARN("YoYo: unknown/unsupported config_set type %u, skipping",
+68e0925f16c028a Ajaykv  2026-11-11  1032  				config_set->config_set_type);
+68e0925f16c028a Ajaykv  2026-11-11  1033  			continue;
+68e0925f16c028a Ajaykv  2026-11-11  1034  		}
+68e0925f16c028a Ajaykv  2026-11-11  1035  
+68e0925f16c028a Ajaykv  2026-11-11  1036  		if (config_set->config_set_type == BTINTEL_PCIE_CFGSET_PERIPH_MAC ||
+68e0925f16c028a Ajaykv  2026-11-11  1037  		    config_set->config_set_type == BTINTEL_PCIE_CFGSET_DEVICE_MEM) {
+1151389a60ccbe5 Kiran K 2026-11-23  1038  			mutex_lock(&data->mac_access_lock);
+68e0925f16c028a Ajaykv  2026-11-11  1039  			ret = btintel_pcie_get_mac_access(data);
+68e0925f16c028a Ajaykv  2026-11-11  1040  			if (ret) {
+68e0925f16c028a Ajaykv  2026-11-11  1041  				BT_WARN("YoYo: MAC access failed for config set (%d), skipping",
+68e0925f16c028a Ajaykv  2026-11-11  1042  					ret);
+68e0925f16c028a Ajaykv  2026-11-11  1043  				/* get_mac_access() asserts MAC_ACCESS_REQ before it
+68e0925f16c028a Ajaykv  2026-11-11  1044  				 * polls, and leaves it set on timeout; drop it so the
+68e0925f16c028a Ajaykv  2026-11-11  1045  				 * request bit is not leaked.
+68e0925f16c028a Ajaykv  2026-11-11  1046  				 */
+68e0925f16c028a Ajaykv  2026-11-11  1047  				btintel_pcie_release_mac_access(data);
+1151389a60ccbe5 Kiran K 2026-11-23  1048  				mutex_unlock(&data->mac_access_lock);
+68e0925f16c028a Ajaykv  2026-11-11  1049  				continue;
+68e0925f16c028a Ajaykv  2026-11-11  1050  			}
+68e0925f16c028a Ajaykv  2026-11-11  1051  		}
+68e0925f16c028a Ajaykv  2026-11-11  1052  
+68e0925f16c028a Ajaykv  2026-11-11 @1053  		for (i = 0; i < config_set->num_pairs; i++) {
+68e0925f16c028a Ajaykv  2026-11-11  1054  			pair_addr = get_unaligned_le32(&config_set->pairs[i].address);
+68e0925f16c028a Ajaykv  2026-11-11  1055  
+68e0925f16c028a Ajaykv  2026-11-11  1056  			/* Calculate the effective address by adding the address offset */
+68e0925f16c028a Ajaykv  2026-11-11  1057  			if (check_add_overflow(pair_addr, config_set->addr_offset, &addr)) {
+68e0925f16c028a Ajaykv  2026-11-11  1058  				BT_WARN("YoYo: config set address overflow (0x%08x + 0x%08x)",
+68e0925f16c028a Ajaykv  2026-11-11  1059  					pair_addr, config_set->addr_offset);
+68e0925f16c028a Ajaykv  2026-11-11  1060  				continue;
+68e0925f16c028a Ajaykv  2026-11-11  1061  			}
+68e0925f16c028a Ajaykv  2026-11-11  1062  
+68e0925f16c028a Ajaykv  2026-11-11  1063  			value = get_unaligned_le32(&config_set->pairs[i].value);
+68e0925f16c028a Ajaykv  2026-11-11  1064  
+68e0925f16c028a Ajaykv  2026-11-11  1065  			switch (config_set->config_set_type) {
+68e0925f16c028a Ajaykv  2026-11-11  1066  			/* Direct Address Access (CSR) */
+68e0925f16c028a Ajaykv  2026-11-11  1067  			case BTINTEL_PCIE_CFGSET_CSR:
+68e0925f16c028a Ajaykv  2026-11-11  1068  				/* Validate the effective address for CSR access (Direct Address)
+68e0925f16c028a Ajaykv  2026-11-11  1069  				 * addr not aligned to 4 bytes or exceeds the BAR0 length
+68e0925f16c028a Ajaykv  2026-11-11  1070  				 */
+68e0925f16c028a Ajaykv  2026-11-11  1071  				if ((addr & (sizeof(u32) - 1)) ||
+68e0925f16c028a Ajaykv  2026-11-11  1072  				    bar0_len < sizeof(u32) ||
+68e0925f16c028a Ajaykv  2026-11-11  1073  				    addr > bar0_len - sizeof(u32)) {
+68e0925f16c028a Ajaykv  2026-11-11  1074  					BT_WARN("YoYo: bad CSR address 0x%08x for BAR0 length %llu",
+68e0925f16c028a Ajaykv  2026-11-11  1075  						addr, (unsigned long long)bar0_len);
+68e0925f16c028a Ajaykv  2026-11-11  1076  					continue;
+68e0925f16c028a Ajaykv  2026-11-11  1077  				}
+68e0925f16c028a Ajaykv  2026-11-11  1078  
+68e0925f16c028a Ajaykv  2026-11-11  1079  				BT_DBG("YoYo: CSR write [0x%08x] = 0x%08x", addr, value);
+6df2b5e2ac4b8a1 Kiran K 2026-11-23  1080  				/* addr may be PRPH_DEV_* or HBUS_TARG_WRPTR */
+6df2b5e2ac4b8a1 Kiran K 2026-11-23  1081  				spin_lock(&data->dev_mem_lock);
+68e0925f16c028a Ajaykv  2026-11-11  1082  				btintel_pcie_wr_reg32(data, addr, value);
+6df2b5e2ac4b8a1 Kiran K 2026-11-23  1083  				spin_unlock(&data->dev_mem_lock);
+68e0925f16c028a Ajaykv  2026-11-11  1084  				break;
+68e0925f16c028a Ajaykv  2026-11-11  1085  			/* Indirect Address Access (Peripheral MAC and Device Memory) */
+68e0925f16c028a Ajaykv  2026-11-11  1086  			case BTINTEL_PCIE_CFGSET_PERIPH_MAC:
+68e0925f16c028a Ajaykv  2026-11-11  1087  			case BTINTEL_PCIE_CFGSET_DEVICE_MEM:
+68e0925f16c028a Ajaykv  2026-11-11  1088  				/* The config-set TLV comes from an untrusted external file;
+68e0925f16c028a Ajaykv  2026-11-11  1089  				 * reject null or unaligned targets.
+68e0925f16c028a Ajaykv  2026-11-11  1090  				 */
+68e0925f16c028a Ajaykv  2026-11-11  1091  				if (!addr || (addr & (sizeof(u32) - 1))) {
+68e0925f16c028a Ajaykv  2026-11-11  1092  					BT_WARN("YoYo: bad indirect address 0x%08x for type %u",
+68e0925f16c028a Ajaykv  2026-11-11  1093  						addr, config_set->config_set_type);
+68e0925f16c028a Ajaykv  2026-11-11  1094  					continue;
+68e0925f16c028a Ajaykv  2026-11-11  1095  				}
+68e0925f16c028a Ajaykv  2026-11-11  1096  
+6df2b5e2ac4b8a1 Kiran K 2026-11-23  1097  				btintel_pcie_wr_dev_mem(data, addr, value);
+68e0925f16c028a Ajaykv  2026-11-11  1098  				BT_DBG("YoYo: indirect write type %u addr 0x%08x value 0x%08x",
+68e0925f16c028a Ajaykv  2026-11-11  1099  				       config_set->config_set_type, addr, value);
+68e0925f16c028a Ajaykv  2026-11-11  1100  				break;
+68e0925f16c028a Ajaykv  2026-11-11  1101  			default:
+68e0925f16c028a Ajaykv  2026-11-11  1102  				BT_WARN("YoYo: unknown config_set type %u",
+68e0925f16c028a Ajaykv  2026-11-11  1103  					config_set->config_set_type);
+68e0925f16c028a Ajaykv  2026-11-11  1104  				break;
+68e0925f16c028a Ajaykv  2026-11-11  1105  			}
+68e0925f16c028a Ajaykv  2026-11-11  1106  		}
+68e0925f16c028a Ajaykv  2026-11-11  1107  
+68e0925f16c028a Ajaykv  2026-11-11  1108  		if (config_set->config_set_type == BTINTEL_PCIE_CFGSET_PERIPH_MAC ||
+1151389a60ccbe5 Kiran K 2026-11-23  1109  		    config_set->config_set_type == BTINTEL_PCIE_CFGSET_DEVICE_MEM) {
+68e0925f16c028a Ajaykv  2026-11-11  1110  			btintel_pcie_release_mac_access(data);
+1151389a60ccbe5 Kiran K 2026-11-23 @1111  			mutex_unlock(&data->mac_access_lock);
+1151389a60ccbe5 Kiran K 2026-11-23  1112  		}
+68e0925f16c028a Ajaykv  2026-11-11  1113  	}
+68e0925f16c028a Ajaykv  2026-11-11  1114  }
+68e0925f16c028a Ajaykv  2026-11-11  1115  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
