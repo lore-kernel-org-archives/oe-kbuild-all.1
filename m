@@ -1,76 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795461722;
-	b=FDpFAgsWNrrniXSyf1EXCQMIsSCWIl882lqkVqWwIR1eUIZBMUpOvpD3xN8yNVGXBCHr
-	 oHntHAgJ6FeLGC5qcf1CR4A1Pf3EbI3cwFGD8Z2I//ikZbsGz7NIsqfrbctg8mNaPLpIx
-	 oXZPv1y2ScFDqc4is4EEGpDa9NMx605HT4WZHHJ6pRWkWu6OdDt1bi5GZbBDH6oS8vNFu
-	 eMiXYoDE42xuK2u3k5VfLQcixZLzeZt4QyA4cd7iGAqkOj9SMyaTzpUQD78CsExLeTK+E
-	 wn6Gg6ltu3h1v4PzfmBAeIuS1IyxQhkAWrHQdnJ6RcNesYCLGaug+kw2xJ6QsNUU95g==
+	t=1795462138;
+	b=DtKqn8lP8NBTnnhPazTHAO/tbhTP2dSJXmZxZccy7pO8OABwU6N6UWolp/AExRlLgqTy
+	 AJG/bL2wuKnNfDCik/0mfzosDJoBTT6RuWiDwN4iI9+jSXsRKGWnYDYjRhkgzlm4nfZ9C
+	 fikKKe7bevQXurbAhV1yTU4EbKgMKd7eSH0AbLt3YkCWsSPX3B2TpBxThFKSmryOXsuBu
+	 8Iw7QheRIuelC1xtA9xzcvzbJjPOQCZrk8E6e2dtL6L8HtHbLJttGoSr+bo2X9gMMSJTs
+	 cZnjOL98cBQuB3TfUKH0QZzkCxVBo4XR3aP1T4/xXQ01mBHuqVAuZZtvsmP84tlFJNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795461722;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=kUiMVzpf7csPD2J4hpTnHdPGrpktVOdCED94Ui72+ls=;
-	b=mQmUl3Ve3cZZr9yYE5HYValrs9n1JbN4y4k9GnybOAT2gIHxOKZIFpzFmupiEHfhw49B
-	 iZzIIinxcUa4jxtAGU9+l724cxUKsLvdBy0N81s07WgALb9cpnKR0qSYRRiLR+eJVbGU1
-	 Q4aP9dW4V6unRsWz9keGOG8Zzaf9VXH4fN6KfQl0Fs4zd2vRqZySUj+RHp+J4C98ENHI+
-	 smPteH68u/vH+jqWkjAiuGrACB+VrkB3BVQBXX8zfPxez/2U5Ppgba4J7kP43XteGdEdK
-	 mua6zowOT2wDXUwd69PqbTNhmldRUXi74JG6P1z7SHj7QpOpqNcjwyAkgR0ecT26/4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795462138;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=;
+	b=jJbw5Qb/TmzKUmyTw9b2UPkX4kEUnYG5y4ciC9Dc3lOa7fxOITjBH9kv/ahl0UxThxnQ
+	 hnW0vWxc8MRsxs6oL1g6nbEIpFJKEVXbq+OaHqyoJmAKwKCSLva/7yoOm9SvtWS63Ycx9
+	 SNyCL1HaXRrqJAkDz2lFApkWx2nflT1vflq+5Au7i5+blFULqfVGmCJz62BEYbqKmK9fI
+	 mZgXNwFvysptpy8CtrbNgdZkHK3sbJFVgJStb+O9ffKHAgY9b/p0ijgrH1x+WpY3cVWX/
+	 NY+x/cgwbo+ZZrJGRN0qpZ4qOIhQ3oCVK/URNSsO/lfl6LU5ZfUL6Ok6Q+kI4Z1nE3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N4QbF8JX;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ASgseYht;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UIMi2vgb;
+	arc=none smtp.remote-ip=103.168.172.157
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CC8606A31F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 19:22:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07CC8606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1325606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 19:28:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1325606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N4QbF8JX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795461722; x=1826997722;
-  h=date:from:to:cc:subject:message-id;
-  bh=9XwxxJWThdyxjsrC0XxW2DhmjkWmEXiaXvXo7EaCumQ=;
-  b=N4QbF8JXqQu/4FJ6dpdjZo1BhcYiZiGdIMs6KyBGV9AWIibnI3d/4ZfS
-   1M5x4nzYIjJOJ7UiFobD8rtGDZgzYuFYM2zlQiRnIyJqWML9g2BE6/JFC
-   y1ItMLisWgkoMQfXXHkRcq9Qp7bqv8B3HVkRBmk2UAfMxUpmYzoD1ewWd
-   xijABWn/0gtaBNyZ/By6OI5cQdo/MshzKa21ZWgj5Dq/T/TRgEAOFnW8E
-   nGQuvP9ad7PKCsIw/xE3SMwQCZsk+oLNfGuqRvjylKcO42Zfnx1pzRrH8
-   qQtenwXZ2/p+Nboc7qTcG/yQsC83g2Il/PFQZdfFzwcjWMVRFAdCcG4f1
-   g==;
-X-CSE-ConnectionGUID: gfXUdexmQc2NBZPvpyxqgA==
-X-CSE-MsgGUID: JrO7smFcT/q5mToMXAznEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4296493"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4296493"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 11:22:01 -0800
-X-CSE-ConnectionGUID: fDnFXB0ySaCsbAol1y8xBQ==
-X-CSE-MsgGUID: pB9pZ926SDW7Agsz2+AVvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13364660"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 23 Nov 2026 11:21:59 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVZbw-000000004u9-0fjr;
-	Mon, 23 Nov 2026 19:21:56 +0000
-Date: Mon, 23 Nov 2026 20:21:27 +0100
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [mda-next:usb-j722s-fix 68/222] do_mounts.c:undefined
- reference to `__st_r13_to_r19'
-Message-ID: <20261123201524.iJHCcGa0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ASgseYht;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UIMi2vgb
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 85ABE140039D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 14:28:55 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Mon, 23 Nov 2026 14:28:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795462133;
+	 x=1795548533; bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=; b=
+	ASgseYhtEKDnNbDLWk6YO3GbQWcBQQxTJroiFdL5lXn26ejetWWTqhTl0sbBCikw
+	LSe2YwYdj82ytnHszX46V2eSf1D74RSO2jAvbD2pfRnLSox0cZZ8Kf3qOf+fRDxC
+	hlf/4TF1STJH8wAFxSlaaOtYGv3EXR+5c2/J3A4OlcQ0Hf+1s3ddfH3dZlkT4tW2
+	53HKjyKvzyAkKt+QCqewm9aIQ4i4fCiwN36LNdAVHXUGRH4wr2lkzltGEJxOVwb5
+	BpnpjMl3BpyghAnzHXVLx3kVslkrbKn7eSEIvBhp77DzezoNfIx22fbNl7yUE8mU
+	+E01krMAtay+fPE1rO34og==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795462133; x=
+	1795548533; bh=nv0+8UEgrELVnU1ZhVBht+zjma7q9Jj3FV0ioJuc72g=; b=U
+	IMi2vgbg4wRq49Y2yF0JNhJIV9CcDT7E8Q8UeazPvtHdJBX7RuYDH9fgiVufomBJ
+	ycqR57XWnjOhHSpXNjw2bSjbP7oSzPN6DjwI5RZ+7s3umbJKyfz0jnlChgL03hiA
+	XRKSWivU33uohrcUEz5FyHzPFoYuF2/hd9imC6Og68GNSKjLf9afipS9rTflns+N
+	WwQ/weHINbATXNzepcPUDhp4h/y7RD+rEsLIrsRBoxlR9m6OnQE/Tffb1xDMuPDk
+	cWse7xQrkC+vagtsjS6uyu1bK9H9o8LFmSky6xpVC0DQhJbQlh2EWDrvXwH7H8nv
+	X6bgtx5pavujONfrpqeBQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795462133; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:iUfG0snd962hsJr9/+I+kJ5m4/xmMF5TkaIcrTYSxTk7MxO
+	uiDVaVXvCUz96kVBqZJkhRCWSQSFr7OuiaDE+rmpuZjFWFBMmat1AnQ9aO1yS+ta
+	YcMwo6DiOWIDkttA0vJoGKoKQIxI+C22fo5DwgXhWBJU346ouxMPf+MSRGAqLYzS
+	klroEIuMEI6/iqiMJktmpdYhbtt7JzPq+GQoJYESSOg5R2gr8Eg48t0EHUFZyMnX
+	yZ0lPIAs6VxXozG8/Zl2I8O0EZ+8uItf0tWYM0jRg3kLEOoxn75sF1130yR1LOg+
+	RIODGmlDKhJXz0xeCGa5CURSjQu5FyvgGsmSHRw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:tTTTBLr1wqTU2gwJ3YlsueZDb/vr1m02S+FtkuMIh5c=:c1TjzlgERhN/wkdOORZjtArSA9GcpDgtWwIpcwzViL8=;
+X-ME-Sender: <xms:85MEazI4G5p5MIiL2Hm4p-uPSTik6lTLp56EEnGB4iP0XxJ0zBP6Eg>
+    <xme:85MEax-tuhcWbT6RkcxZ1BTZHgiy-rQ-MBlWFEU4madszXwT2vKwR3uf265VcYvD0
+    ZgTChjqo_5moYjF7p1_I5OlAng7XJjFpPTzyTBfCvibZ70NbDsp_G_j>
+X-ME-Proxy-Cause: dmFkZTEA1QeBJ+cNKop6aMm6b4TlFnKwp+U1RX/xmcrzP/Zcw06VmFgbgIhMmGRK9db2SX
+    OBVl2k/0AIxMOyZrNnBwJHhVyCsVPBvjTB6BMs0XniWhfbKAhgFbmrNVwU9sI3pu7tu5b2
+    FRlGr85n/OC/7Po9FMRzoA1pj5mXvgN6k2hA4UX3VO2MU9AlsYlDHzN+FiL2rpMw6cvVBw
+    /xlgotLb3UevrLD2JStJV6L1n6Euj0SQPCfJFjP4VgKggKYGs86JeWNmmxatMBSfYBIBm4
+    4jx+MeMrdn3lV9xT/TGBKHhvwVGlGe2sgUhBnPBA23qqv4dxbfGvt7J3JJ50YWY6qOYTbC
+    wvBdPywgk5tOyFz287O77t97+2FzNcFrWlA7dtjHlJ+XlcCoP12SWOE4eZ2IyCO9l+ItcE
+    hny7AXrzzowju2dztWzYFYg/+fY6bos3SmAk9caSO2ZgpTGJDnVmagNCSh5voxR/IQpm0e
+    SqMwgdfJ6ab7kzUUPytBycn2vu9KLLE4DTGwkCefdaE6KwKLtUOP1g/ZRHNW6uleRcaMMg
+    LhEw2KPcn+JFKL6UCMIzHrZYhpilt+YRjCHUDocD4uidsI8VImpbhmz0REo02aGzh0l6JU
+    PpJAYI/6RehQ6jsyJhp3PEvpSfJXK6ZEwhrLcWSHpUTtMOG+srPXQkkNmpwQ
+X-ME-Proxy: <xmx:9JMEa3mgz5Y6wjxOdLQZB96sr6Ckur-QCGTO3qIsLX6JkJYcF98_tg>
+    <xmx:9JMEaymN6oZ5JjzIOkguMWIdDGAiF55IO7yr5ki1kZhwxvCOWaBlBg>
+    <xmx:9JMEawts3kaUUzLatk2fnMgVxsX1RmVXPF2iSeL0QpOaNMIGQBHieg>
+    <xmx:9JMEa9ljezAtheTFTTA85fUGxHEs3Uy4usEG9Yhen3SgQtOv3rklAA>
+    <xmx:9ZMEa92JyPZaK1FIh2fU4Hd07hAJGUmFOvO1ilK629nx1hygkamxsGqL>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 7CECF32A009F; Mon, 23 Nov 2026 14:28:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,376 +114,52 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-ThreadId: AK-j5Z36gAC7
+Date: Mon, 23 Nov 2026 20:28:21 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Mark Brown" <broonie@kernel.org>
+Message-Id: <1d91c6bc-a6a3-4e3e-b047-412e8b156652@app.fastmail.com>
+In-Reply-To: <20261123201524.iJHCcGa0-lkp@intel.com>
+References: <20261123201524.iJHCcGa0-lkp@intel.com>
+Subject: Re: [mda-next:usb-j722s-fix 68/222] do_mounts.c:undefined reference to
+ `__st_r13_to_r19'
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mda/linux-next.git usb-j722s-fix
-head:   adcad7f4e6332cff3d6d7165f41584899f598534
-commit: 274f32b374f68e4e1cbd9085e656467b9b29ea74 [68/222] Merge branch 'master' of https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic
-config: arc-randconfig-r2106-20261122 (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/reproduce)
+On Mon, Nov 23, 2026, at 20:21, kernel test robot wrote:
+> tree:   
+> https://git.kernel.org/pub/scm/linux/kernel/git/mda/linux-next.git 
+> usb-j722s-fix
+> head:   adcad7f4e6332cff3d6d7165f41584899f598534
+> commit: 274f32b374f68e4e1cbd9085e656467b9b29ea74 [68/222] Merge branch 
+> 'master' of 
+> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic
+> config: arc-randconfig-r2106-20261122 
+> (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 12.5.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20261123/20261123201524.iJHCcGa0-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/20261123201524.iJHCcGa0-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    arc-linux-ld: init/main.o: in function `do_early_param':
+>    main.c:(.init.text+0x8c): undefined reference to `__st_r13_to_r15'
+>    arc-linux-ld: main.c:(.init.text+0x8c): undefined reference to 
+> `__st_r13_to_r15'
+>    arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to 
+> `__ld_r13_to_r15_ret'
+>    arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to 
+> `__ld_r13_to_r15_ret'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261123201524.iJHCcGa0-lkp@intel.com/
+I've already merged a fix for this, hopefully this is gone tomorrow.
 
-All errors (new ones prefixed by >>):
-
-   arc-linux-ld: init/main.o: in function `do_early_param':
-   main.c:(.init.text+0x8c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x8c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: main.c:(.init.text+0xd4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `unknown_bootoption':
-   main.c:(.init.text+0x1f4): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0x1f4): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0x328): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: main.c:(.init.text+0x328): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/main.o: in function `setup_command_line':
-   main.c:(.init.text+0x344): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x344): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x3f8): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: main.c:(.init.text+0x3f8): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: init/main.o: in function `initcall_blacklist':
-   main.c:(.init.text+0x438): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x438): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x45e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: main.c:(.init.text+0x45e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `initcall_blacklisted':
-   main.c:(.init.text+0x4e8): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x4e8): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: main.c:(.init.text+0x522): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: main.c:(.init.text+0x522): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: init/main.o: in function `trace_initcall_finish_cb.constprop.0':
-   main.c:(.init.text+0x568): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x568): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x632): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: main.c:(.init.text+0x632): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: init/main.o: in function `start_kernel':
-   main.c:(.init.text+0x6e4): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: main.c:(.init.text+0x6e4): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: init/main.o: in function `do_one_initcall':
-   main.c:(.init.text+0xa4c): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.init.text+0xa4c): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: main.c:(.init.text+0xb30): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: main.c:(.init.text+0xb30): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: init/main.o: in function `do_initcalls':
-   main.c:(.init.text+0xb68): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0xb68): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0xc88): undefined reference to `__ld_r13_to_r20'
-   arc-linux-ld: main.c:(.init.text+0xc88): undefined reference to `__ld_r13_to_r20'
-   arc-linux-ld: init/do_mounts.o: in function `do_mount_root':
->> do_mounts.c:(.init.text+0x12c): undefined reference to `__st_r13_to_r19'
->> arc-linux-ld: do_mounts.c:(.init.text+0x12c): undefined reference to `__st_r13_to_r19'
->> arc-linux-ld: do_mounts.c:(.init.text+0x252): undefined reference to `__ld_r13_to_r19_ret'
->> arc-linux-ld: do_mounts.c:(.init.text+0x252): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root_generic':
-   do_mounts.c:(.init.text+0x310): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x310): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: do_mounts.c:(.init.text+0x46c): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x46c): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: init/do_mounts.o: in function `mount_root':
-   do_mounts.c:(.init.text+0x558): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x558): undefined reference to `__st_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x590): undefined reference to `__ld_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x590): undefined reference to `__ld_r13_to_r21'
-   arc-linux-ld: do_mounts.c:(.init.text+0x718): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: do_mounts.c:(.init.text+0x718): undefined reference to `__ld_r13_to_r21_ret'
-   arc-linux-ld: init/do_mounts.o: in function `prepare_namespace':
-   do_mounts.c:(.init.text+0x720): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: do_mounts.c:(.init.text+0x720): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: do_mounts.c:(.init.text+0x822): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: do_mounts.c:(.init.text+0x822): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: init/calibrate.o: in function `calibrate_delay':
-   calibrate.c:(.text+0xc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0xc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0x78): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: calibrate.c:(.text+0x78): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `arcompact_mumbojumbo.constprop.0':
-   setup.c:(.text+0x90): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: setup.c:(.text+0x90): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: setup.c:(.text+0x238): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: setup.c:(.text+0x238): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `arc_cpu_mumbojumbo.constprop.0':
-   setup.c:(.text+0x24c): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: setup.c:(.text+0x24c): undefined reference to `__st_r13_to_r20'
-   arc-linux-ld: setup.c:(.text+0x466): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: setup.c:(.text+0x466): undefined reference to `__ld_r13_to_r20_ret'
-   arc-linux-ld: arch/arc/kernel/setup.o: in function `show_cpuinfo':
-   setup.c:(.text+0x494): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: setup.c:(.text+0x494): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: setup.c:(.text+0x506): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: setup.c:(.text+0x506): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: arch/arc/kernel/irq.o: in function `arch_do_IRQ':
-   irq.c:(.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: irq.c:(.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: irq.c:(.text+0x30): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: irq.c:(.text+0x30): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: arch/arc/kernel/kprobes.o: in function `setup_singlestep':
-   kprobes.c:(.kprobes.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x92): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x92): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: arch/arc/kernel/kprobes.o: in function `kprobe_exceptions_notify':
-   kprobes.c:(.kprobes.text+0x264): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x264): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x310): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kprobes.c:(.kprobes.text+0x310): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: arch/arc/mm/init.o: in function `early_init_dt_add_memory_arch':
-   init.c:(.init.text+0xc0): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0xc0): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0x120): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: init.c:(.init.text+0x120): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `arc_cache_mumbojumbo':
-   cache.c:(.text+0x108): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x108): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x232): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: cache.c:(.text+0x232): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `flush_icache_range':
-   cache.c:(.text+0x268): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x268): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x2aa): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x2aa): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: cache.c:(.text+0x2d4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: cache.c:(.text+0x2d4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: arch/arc/mm/cache.o: in function `copy_user_highpage':
-   cache.c:(.text+0x2fc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x2fc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x344): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: cache.c:(.text+0x344): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: arch/arc/plat-axs10x/axs10x.o: in function `axs101_set_memmap':
-   axs10x.c:(.init.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: axs10x.c:(.init.text+0x4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: axs10x.c:(.init.text+0x6e): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: axs10x.c:(.init.text+0x6e): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: kernel/fork.o: in function `raw_copy_from_user':
-   fork.c:(.text+0xe8): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0xe8): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x122): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x122): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `sysctl_max_threads':
-   fork.c:(.text+0x234): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x234): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x29e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x29e): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `copy_signal':
-   fork.c:(.text+0x494): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0x494): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0x658): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: fork.c:(.text+0x658): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/fork.o: in function `copy_sighand':
-   fork.c:(.text+0x740): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x740): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x782): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x782): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `__pgd_alloc_noprof.constprop.0':
---
-   arc-linux-ld: kernel/fork.o: in function `copy_clone_args_from_user':
-   fork.c:(.text+0xc90): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0xc90): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0xcd0): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: fork.c:(.text+0xcd0): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: kernel/fork.o: in function `dup_task_struct':
-   fork.c:(.text+0x1088): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: fork.c:(.text+0x1088): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: fork.c:(.text+0x1238): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: fork.c:(.text+0x1238): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: kernel/fork.o: in function `mm_alloc':
-   fork.c:(.text+0x1280): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x1280): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x12ec): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x12ec): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x1332): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x1332): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `set_mm_exe_file':
-   fork.c:(.text+0x133c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x133c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x1378): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x1378): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `dup_mm.constprop.0':
-   fork.c:(.text+0x1488): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x1488): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x1530): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x1530): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `replace_mm_exe_file':
-   fork.c:(.text+0x1620): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x1620): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x16d0): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x16d0): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `mm_access':
-   fork.c:(.text+0x1750): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x1750): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x17b4): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x17b4): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `pidfd_prepare':
-   fork.c:(.text+0x18bc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x18bc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x195c): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x195c): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `copy_process':
-   fork.c:(.text+0x1974): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0x1974): undefined reference to `__st_r13_to_r24'
-   arc-linux-ld: fork.c:(.text+0x19ec): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: fork.c:(.text+0x19ec): undefined reference to `__ld_r13_to_r24_ret'
-   arc-linux-ld: kernel/fork.o: in function `create_io_thread':
-   fork.c:(.text+0x2880): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x2880): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x28d8): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x28d8): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `kernel_clone':
-   fork.c:(.text+0x28e0): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x28e0): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x29e2): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: fork.c:(.text+0x29e2): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: kernel/fork.o: in function `kernel_thread':
-   fork.c:(.text+0x2b50): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0x2b50): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text+0x2b9c): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: fork.c:(.text+0x2b9c): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/fork.o: in function `user_mode_thread':
-   fork.c:(.text+0x2ba4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x2ba4): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x2be6): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x2be6): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `__se_sys_clone':
-   fork.c:(.text+0x2c44): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x2c44): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: fork.c:(.text+0x2c94): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: fork.c:(.text+0x2c94): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/fork.o: in function `walk_process_tree':
-   fork.c:(.text+0x2ca0): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x2ca0): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x2d64): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x2d64): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: fork.c:(.text+0x2d7a): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: fork.c:(.text+0x2d7a): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: kernel/fork.o: in function `ksys_unshare':
-   fork.c:(.text+0x2d84): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x2d84): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.text+0x2df6): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.text+0x2df6): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/fork.o: in function `kmem_cache_create_usercopy.constprop.0':
-   fork.c:(.text.unlikely+0x58): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: fork.c:(.text.unlikely+0x58): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: fork.c:(.text.unlikely+0xa2): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: fork.c:(.text.unlikely+0xa2): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: kernel/fork.o: in function `__kmem_cache_create.constprop.0':
-   fork.c:(.text.unlikely+0xac): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text.unlikely+0xac): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: fork.c:(.text.unlikely+0xe2): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: fork.c:(.text.unlikely+0xe2): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/fork.o: in function `fork_init':
-   fork.c:(.init.text+0x68): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.init.text+0x68): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: fork.c:(.init.text+0x15e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: fork.c:(.init.text+0x15e): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/exec_state.o: in function `alloc_task_exec_state':
->> exec_state.c:(.text+0xcc): undefined reference to `__st_r13_to_r16'
->> arc-linux-ld: exec_state.c:(.text+0xcc): undefined reference to `__st_r13_to_r16'
->> arc-linux-ld: exec_state.c:(.text+0x1a2): undefined reference to `__ld_r13_to_r16_ret'
->> arc-linux-ld: exec_state.c:(.text+0x1a2): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/panic.o: in function `sysctl_panic_print_handler':
-   panic.c:(.text+0x158): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: panic.c:(.text+0x158): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: panic.c:(.text+0x184): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: panic.c:(.text+0x184): undefined reference to `__ld_r13_to_r17'
-   arc-linux-ld: kernel/panic.o: in function `_print_tainted':
-   panic.c:(.text+0x1f8): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x1f8): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x268): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: panic.c:(.text+0x268): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/panic.o: in function `do_oops_enter_exit.part.0':
-   panic.c:(.text+0x2f0): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x2f0): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x334): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x334): undefined reference to `__ld_r13_to_r16'
-   arc-linux-ld: panic.c:(.text+0x3ea): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: panic.c:(.text+0x3ea): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/panic.o: in function `add_taint':
-   panic.c:(.text+0x514): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: panic.c:(.text+0x514): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: panic.c:(.text+0x5b0): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: panic.c:(.text+0x5b0): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/panic.o: in function `proc_taint':
-   panic.c:(.text+0x5b8): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: panic.c:(.text+0x5b8): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: panic.c:(.text+0x622): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: panic.c:(.text+0x622): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: kernel/panic.o: in function `__warn':
-   panic.c:(.text+0x6f8): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: panic.c:(.text+0x6f8): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: panic.c:(.text+0x76e): undefined reference to `__ld_r13_to_r18'
-   arc-linux-ld: panic.c:(.text+0x76e): undefined reference to `__ld_r13_to_r18'
-   arc-linux-ld: kernel/panic.o: in function `warn_slowpath_fmt':
-   panic.c:(.text+0x7ba): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: panic.c:(.text+0x7ba): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: panic.c:(.text+0x86e): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: panic.c:(.text+0x86e): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: kernel/panic.o: in function `alloc_taint_buf':
-   panic.c:(.init.text+0x15c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: panic.c:(.init.text+0x15c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: panic.c:(.init.text+0x218): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: panic.c:(.init.text+0x218): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/panic.o: in function `vpanic':
-   panic.c:(.text.unlikely+0xc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: panic.c:(.text.unlikely+0xc): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: kernel/cpu.o: in function `cpuhp_invoke_callback.constprop.0':
-   cpu.c:(.text+0x10c): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: cpu.c:(.text+0x10c): undefined reference to `__st_r13_to_r19'
-   arc-linux-ld: cpu.c:(.text+0x140): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: cpu.c:(.text+0x140): undefined reference to `__ld_r13_to_r19_ret'
-   arc-linux-ld: cpu.c:(.text+0x162): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: cpu.c:(.text+0x162): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: cpu.c:(.text+0x1a4): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: cpu.c:(.text+0x1a4): undefined reference to `__ld_r13_to_r19'
-   arc-linux-ld: kernel/cpu.o: in function `cpuhp_issue_call.constprop.0':
-   cpu.c:(.text+0x230): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.text+0x230): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.text+0x2de): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: cpu.c:(.text+0x2de): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/cpu.o: in function `__cpuhp_remove_state_cpuslocked':
-   cpu.c:(.text+0x2fc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x2fc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x366): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x366): undefined reference to `__ld_r13_to_r15'
-   arc-linux-ld: kernel/cpu.o: in function `__cpuhp_state_remove_instance':
-   cpu.c:(.text+0x3cc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.text+0x3cc): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.text+0x43a): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: cpu.c:(.text+0x43a): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/cpu.o: in function `__cpuhp_setup_state_cpuslocked':
-   cpu.c:(.text+0x490): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: cpu.c:(.text+0x490): undefined reference to `__st_r13_to_r18'
-   arc-linux-ld: cpu.c:(.text+0x596): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: cpu.c:(.text+0x596): undefined reference to `__ld_r13_to_r18_ret'
-   arc-linux-ld: kernel/cpu.o: in function `__cpuhp_state_add_instance_cpuslocked':
-   cpu.c:(.text+0x5b0): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: cpu.c:(.text+0x5b0): undefined reference to `__st_r13_to_r17'
-   arc-linux-ld: cpu.c:(.text+0x63c): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: cpu.c:(.text+0x63c): undefined reference to `__ld_r13_to_r17_ret'
-   arc-linux-ld: kernel/cpu.o: in function `set_cpu_online':
-   cpu.c:(.text+0x68c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x68c): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x6d4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: cpu.c:(.text+0x6d4): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/cpu.o: in function `set_cpu_possible':
-   cpu.c:(.text+0x6fc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x6fc): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: cpu.c:(.text+0x73c): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: cpu.c:(.text+0x73c): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/cpu.o: in function `mitigations_parse_cmdline':
-   cpu.c:(.init.text+0x4): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.init.text+0x4): undefined reference to `__st_r13_to_r16'
-   arc-linux-ld: cpu.c:(.init.text+0xae): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: cpu.c:(.init.text+0xae): undefined reference to `__ld_r13_to_r16_ret'
-   arc-linux-ld: kernel/exit.o: in function `will_become_orphaned_pgrp':
-   exit.c:(.text+0x80): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: exit.c:(.text+0x80): undefined reference to `__st_r13_to_r15'
-   arc-linux-ld: exit.c:(.text+0xa0): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: exit.c:(.text+0xa0): undefined reference to `__ld_r13_to_r15_ret'
-   arc-linux-ld: kernel/exit.o: in function `try_to_set_owner':
-..
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
