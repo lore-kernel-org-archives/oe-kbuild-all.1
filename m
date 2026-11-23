@@ -1,77 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795427296;
-	b=IEp3hPV1nsUtfaaWYIoLPCd99i2Wtzon8ITzc2kINFl8XnZ21zDSpQf7JqV2UE7G1FKM
-	 XWjjcXHrY8eqodXpkolUQZi/3Fimjuf/ylqL/myOr+9IVZPwC72Q8+tVHoRuIoz91tLCc
-	 094eHdCOThKnG08JEHyvLRJezEC+USfgekCa3kZpnfKWmRUD84rf36e4P3lEtVqlzneqw
-	 A1n1ibXhbk2aO4/DnZ3md5P6Ap+UwQm0NjLXQwSbM9m93McjwlO3HdmYzmlWoqnArXPdJ
-	 3qmPM6i3vPwmlGS65Mt/kX81uYODf64HefQ8t6z83V2zySSOZpSG/6CmZMkLelANVMw==
+	t=1795428140;
+	b=UHBTTCffEO7A2PF5ab0PwuIwErApFYHnx3UV8XbX0tnhtXYCNFgusL57KtZaxzGNCWbj
+	 sYNfFZ1SW9KvGQTKCH5/apY1w0jUaIPkBAvnSIXEpy149/crvEUpqmQ2H1yM/+CP7Tnt7
+	 PGQXmWaixqhAZAgUa02NhabeYJOnA1yc3sgWYJwWk8dhufpg1V9I23AoWzfC4XD9GrzGR
+	 tcPQ4f43+VIIJKlFNGtK1Icqb8zrfkMjoS3C0qINf4YYPRefiR6LtHoh16IGx3cib448Q
+	 VTGjNNVfGifE0C2r60AeRcAVNqvx8uagcddYdqaGmdF1urR4qYmCpYJzhVRWsssjsng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795427296;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=cWZpBhDqNHZ7OOEEIRJTwjTd8bE65OY0/Xt9j7AHp2c=;
-	b=gJv/mYm4HG1cwM4xYw8QMxRuQ5pcKtS87ckw8j9pgSR96ZFi7PB8RfTW5ssLA2MgIKqb
-	 PgrWOSedSGtEeOq66o1bzZYmb9YfVfEhqqmEDIZaWh5NBSsngslUt1v/JPmbabpkeGbDc
-	 MdbCPT+1b0ro11tTIj6gqanJB6hDi9+HV0cRh7FAhCpHA0jsRryQFjBMK0ZNXiL6dp2B9
-	 bWFIi1Y3tfsbFsxUySNmN5IBCmpDl37xbzOQRNfYwIycJxie3HWhcmaWAJQ/Tpv2W1crW
-	 2lHvpyx9b+bzhDTPx2QRyMaqNCoKDarfKJdY8k5LzP3MGm5Ybmz3s8Jg12w1YNnhTIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795428140;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=15Mj0BrGC2NAYztbkaE5WpzFaLQ2BzWJq4bvVV7LUFI=;
+	b=TcMRqyyAYUMzscPt2cUvahZI7ULHPL6HuFRJk5qNQGpKJ+NbNBobSq2/iSBY/efIhgg2
+	 ue29+sQjcJ6qYuNrdEMWU8LE5FzTgbmzIp5E2A2/7Ctj1uEsGtftDdOGKpMQyoGKpKfQo
+	 XqVfqcJn3mtsWWHXyMhTYpDi9YP+MPWVjI4PISCKYfq2ZhM8sZa2gNuZ3hJ8Za+RxnMhr
+	 dY3w/auIv38Pc3+XufCrDIZWmlccAb/vwri5UjAcTynl3blxNnWZ+fppXMpy0FP663FkS
+	 w3+JOUVsb0U7EWxHNljut+9fau0RJkdedGP9qYEgABJNw769VS9ehL1bKRNCExwnQUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.217.50
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h6p2MWah;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF08606A327
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 09:48:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAF08606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-7cc0e865dd1so938318137.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 01:48:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795427294; x=1796032094;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cWZpBhDqNHZ7OOEEIRJTwjTd8bE65OY0/Xt9j7AHp2c=;
-        b=oioZ54vgD872ym2Ii3NrPLIss6pOoi2mr8qZ7m7NVkscCLD3ceH0YfR4NM5cwiNhFg
-         NQC2KNtvbM2GiEow20awjRuEFP87D3RVAArZvcrFvn8ScVS2DBiXZs4mzUUZ8YkTbWyR
-         Gf4xR+0Wch/p4+sIu/w/UxCVsUnLyZUZhh7jon6JzGnCwEde8T6sv6pCCOs97BjhiVJo
-         SoNX3yFwG71lsFrAKK9DuW3O6791WvTVe96yvUnvtDuR1lrdtmRJNLMvgcVIUhw3aDtr
-         rSodGjSyBvCpyD0DFDuAf5zcVL6Wau73C9+pGmamVIUyYoZgSiLQ/t2oyXDc2Q6wK3J5
-         Biwg==
-X-Forwarded-Encrypted: i=1; AL+hErEi9oZYWCEthCQE+YYPSE5E9X01ce9ny3MTJ3/SYJP+6A9TrBGvQN0gm8cCctZVTwUYq1q6e+eQ/zSyzDs2@lists.linux.dev
-X-Gm-Message-State: APuU4Z96W5jVPfETLtcI/Wxbipb6VR/kIfTXIBNw/UnU4UzOQ/aRpECU
-	SRhTiiSPNHXozL48sEpEffVjwcBpywK2kiJxEcvPQ5D8qI2J53En82zzTxm4HKsy
-X-Gm-Gg: AZFdTZfPVXcdj1j7qI18zD2OcP7p+Li58vTCl0hFt7PwkATXQmvO4ELeBYv+604a6u6
-	zZAOg5CnjKuOQ/YSAAW3ebSHba93Iv+UaSjK8XY6S/spIVcYZIpb6HTIqRe5Rg7XuDN94a5DUyL
-	RBboBFRPZJnY0bZpbtcSWUeXIUjk43FkQPNUtpk20D06r5dqbOaxESUcwLpz7DlPGTApm550Oe6
-	+Sn0tP+P6UFdzpI4/DdlBcd9h7fmpc97Sf/Olr0tzeejCWxaRgpolsF3t4nYsXvdhj8Fes3MtVZ
-	xr4XhvZdD3HB7cE3WgOnClSKuGDqeYI5ryYLC0odt+W8KjXVcga1GUhOMWG7OYLsQZoH5Lm6ApC
-	zzfF3n0HQ6UJ77gKeCy99JiNF4304CW5OqrvjlApOGZEhgNErh1p2setUdBKc8M6T9aZZevvdCR
-	Izj/jI3Nn4ezYBmoA0/eRpSjAZlOPcCWrtrWr8JURiGryj469QKLpInlM7skKtzAq3tg9uOQQGW
-	FYyeWqVa7vjcX06dqdJcdW4VrQKybIt6VAcTvj0Ib1uDtCaHV3Z6IEUkwymg/Q9mdDjRN49anvT
-	lYGaq5WzGafiTP3PqjrSJ2UviKvF8sw8BqsAHyhSYa4qYS/GR/uktnsCD+jcrlqGjQuidSFVTfK
-	i8vCa8bmA21HS
-X-Received: by 2002:a05:6102:6f06:b0:7d2:8e49:f90e with SMTP id ada2fe7eead31-7d7395fe209mr2886039137.27.1795427294346;
-        Mon, 23 Nov 2026 01:48:14 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99e6df8a29csm10872695241.5.2026.11.23.01.48.13
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 01:48:13 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-99e0d9b3438so605996241.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 01:48:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGaDuwBasAGErIa9sjid8eSt8Fz9LLDwm0izSKnz73qLaOBkpjY9PjcaYeyTtedKLQ8flWQs7L7g2o0jIEG@lists.linux.dev
-X-Received: by 2002:a05:6102:5813:b0:7b2:508e:3d57 with SMTP id
- ada2fe7eead31-7d72b3688c2mr4372703137.4.1795427293752; Mon, 23 Nov 2026
- 01:48:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BFE606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 10:02:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1BFE606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h6p2MWah
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795428138; x=1826964138;
+  h=date:from:to:cc:subject:message-id;
+  bh=K3SLx6wnuXTnUXYpJEvL77YY340ebqZNdOLZHpT0tds=;
+  b=h6p2MWahxU7i8SJHRUbK8Rkt0+nKcUw2TiisgjSYmMMtw/TeBpk3iol4
+   2wjE+ovCpW7GwHl2b6gGLtts8z0IcXlNpw8vXyDXyQrbWrqDB4SNrNS8Q
+   S9zEDmQHgrR4SUBMiSCdL9XiOLyEVWpDSPrh6QwkLEeni1OsBeRki07Wo
+   QLdbbTig8OF1A5q+xliqeodXUPZ9aym1FSDfpxA7h4v9FA3nAUMoDCrYl
+   dDtOhgtzMlHYOhSCG9YFi9YWnj5LopzG0jkB0MpCqlR/ecT4GZdZ2yOwq
+   0Zd2t3WfuJE6jw4xzsCZLvO7Jmr5rZgTJRFAiOPXwxtm1UZiqEItIU7Rh
+   A==;
+X-CSE-ConnectionGUID: mMcpgQ+jQmuFtbdX4Hm0+w==
+X-CSE-MsgGUID: msR5kkSPQAiCOMWh0UVeRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4210165"
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="4210165"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 02:02:18 -0800
+X-CSE-ConnectionGUID: mZC79lUKTqqosrXt+aLPow==
+X-CSE-MsgGUID: 8bw9PMPrSf2XAcMrJc23Aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
+   d="scan'208";a="11143384"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 23 Nov 2026 02:02:16 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVQsH-000000004oz-0m2b;
+	Mon, 23 Nov 2026 10:02:13 +0000
+Date: Mon, 23 Nov 2026 11:01:21 +0100
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>,
+ Alexander Mikhalitsyn <alex@amutable.com>
+Subject: [brauner-vfs:vfs.fixes 73/76] WARNING: modpost: vmlinux:
+ section mismatch in reference: csot_init_sequence+0x6f8 (section: .text) ->
+ slab_late_init (section: .init.text)
+Message-ID: <20261123110016.hg6iGZdN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,48 +82,227 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261121034304.2dPxVKzk-lkp@intel.com> <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org>
-In-Reply-To: <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 23 Nov 2026 10:48:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
-X-Gm-Features: Aa3M54rqU2bNqHYEoVpo9DgHQN7kUDp7nLSe10xRxRC_Yz7fZEF6xyok7yTvw-g
-Message-ID: <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
-Subject: Re: include/linux/compiler_types.h:631:45: error: call to
- '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
- failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) != sizeof(*u)
-To: Finn Thain <fthain@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Arnd Bergmann <arnd@arndb.de>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Finn,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.fixes
+head:   d5b84d3d7e902c44b05b106718c579f3d3834812
+commit: a23a784fac2aab55497886626292670bc4972ef9 [73/76] ns: don't call the namespace LSM hooks for kernel-internal namespaces
+config: loongarch-randconfig-r2106-20261122 (https://download.01.org/0day-ci/archive/20261123/20261123110016.hg6iGZdN-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123110016.hg6iGZdN-lkp@intel.com/reproduce)
 
-CC scsi
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261123110016.hg6iGZdN-lkp@intel.com/
 
-On Sat, 21 Nov 2026 at 05:10, Finn Thain <fthain@linux-m68k.org> wrote:
-> On Sat, 21 Nov 2026, kernel test robot wrote:
-> > FYI, the error/warning still remains.
->
-> That's because the qla2xxx maintainers at Marvell did not respond to any
-> of the three fixes I sent. I'm not a paying customer so all bets are off.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-That's "[PATCH] scsi: qla2xxx: Rework BUILD_BUG_ON() assertion",
-first submittted in March, right?
-https://lore.kernel.org/all/4808a5dc1a71528ffa3360868561009744277450.1791502886.git.fthain@linux-m68k.org
+WARNING: modpost: vmlinux: section mismatch in reference: setup_trace_scratch+0x178 (section: .text) -> .LVL613 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: btf_parse_fields+0x718 (section: .text) -> .LVL613 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: an30259a_probe+0x12c (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: bcm6328_leds_probe+0x2c0 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: bcm6358_leds_probe+0x208 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: gpio_leds_create+0xf8 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: pca955x_probe+0x190 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: syscon_led_probe+0xd4 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: rv770_init+0x2b4 (section: .text) -> __TRACE_SYSTEM_WB_REASON_PERIODIC (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: evergreen_init+0x224 (section: .text) -> __TRACE_SYSTEM_WB_REASON_PERIODIC (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: cayman_init+0x224 (section: .text) -> __TRACE_SYSTEM_WB_REASON_PERIODIC (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: si_init+0x3ec (section: .text) -> __TRACE_SYSTEM_WB_REASON_PERIODIC (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: cik_init+0x474 (section: .text) -> __TRACE_SYSTEM_WB_REASON_PERIODIC (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: mxm_shadow_dsm+0x4c (section: .text) -> .LBI1437 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mxm_shadow_dsm+0xa8 (section: .text) -> .LBB1437 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mxm_shadow_dsm+0xac (section: .text) -> .LBI1439 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wmi_wmmx_mxmi.isra.0+0x40 (section: .text) -> .LBI1443 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mxm_shadow_wmi+0x7c (section: .text) -> .LVL435 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mxm_shadow_wmi+0xe4 (section: .text) -> .LBB1463 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvkm_mxm_new_+0x94 (section: .text) -> .LBI1465 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvkm_mxm_new_+0x9c (section: .text) -> .LBB1465 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvkm_mxm_new_+0xa0 (section: .text) -> .LBI1467 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvkm_mxm_new_+0x150 (section: .text) -> .LBB1437 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvkm_mxm_new_+0x154 (section: .text) -> .LBB1472 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gf117_volt_new+0x40 (section: .text) -> param_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gf117_volt_new+0x44 (section: .text) -> .LVL209 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nv10_sw_chan_new+0x24 (section: .text) -> .Lpcadd_hi76 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nv10_sw_chan_new+0x7c (section: .text) -> .Lpcadd_hi106 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nv10_sw_chan_new+0x80 (section: .text) -> .Lpcadd_hi107 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nv10_sw_new+0x18 (section: .text) -> .Lpcadd_hi106 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nouveau_read_string+0x1c (section: .text) -> .LVL141 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nouveau_hwmon_set_pwm1_max+0x40 (section: .text) -> .LVL143 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nouveau_hwmon_set_pwm1_max+0x8c (section: .text) -> .LVL145 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ota7290b_get_modes+0xc (section: .text) -> mmap_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ota7290b_probe+0x18 (section: .text) -> .LVL84 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x6bc (section: .text) -> .LVL4077 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x6d0 (section: .text) -> .LVL4078 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x6e4 (section: .text) -> .LVL4086 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x6f8 (section: .text) -> slab_late_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x70c (section: .text) -> slab_late_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x720 (section: .text) -> slab_late_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x734 (section: .text) -> .LVL4093 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x748 (section: .text) -> .LVL4094 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x75c (section: .text) -> .LVL4104 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x770 (section: .text) -> .LVL4098 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x784 (section: .text) -> .LVL4095 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x798 (section: .text) -> .LVL4102 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: csot_init_sequence+0x7ac (section: .text) -> .LVL4105 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: it6505_parse_link_capabilities+0x404 (section: .text) -> .LBB1255 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mfd_add_device+0x204 (section: .text) -> .LVL33 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mfd_add_device+0x244 (section: .text) -> .LVL37 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mfd_add_device+0x338 (section: .text) -> .LBB14 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: mfd_add_device+0x354 (section: .text) -> jffs2_lzo_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mfd_add_device+0x36c (section: .text) -> .LBB19 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ntxec_probe+0x128 (section: .text) -> autofs_dev_ioctl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ntxec_probe+0x12c (section: .text) -> autofs_dev_ioctl_init (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: doc_register_readb+0x128 (section: .text) -> init_trusted (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: doc_register_readb+0x17c (section: .text) -> cleanup_trusted (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: doc_register_readb+0x1e0 (section: .text) -> init_trusted (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: flashcontrol_show+0x7c (section: .text) -> cleanup_trusted (section: .exit.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: flashcontrol_show+0x88 (section: .text) -> capability_init (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: dps0_is_key_locked+0x16c (section: .text) -> capability_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dps0_is_key_locked+0x1b4 (section: .text) -> capability_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dps0_is_key_locked+0x1d4 (section: .text) -> capability_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: version_show+0x14 (section: .text) -> .LBB226 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: autoresize+0x1e8 (section: .text) -> .LVL73 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: uif_init+0x28 (section: .text) -> security_initcall_early (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: uif_init+0x88 (section: .text) -> security_initcall_early (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: uif_init+0x228 (section: .text) -> security_initcall_pure (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x2c (section: .text) -> .LFB5725 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x68 (section: .text) -> .LBI263 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x74 (section: .text) -> .LBB263 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x80 (section: .text) -> avc_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x98 (section: .text) -> .LBB265 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0xa8 (section: .text) -> .LVL204 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0xd0 (section: .text) -> .LVL205 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0xe8 (section: .text) -> .LVL208 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x108 (section: .text) -> .LVL211 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x130 (section: .text) -> .LVL212 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x148 (section: .text) -> .LVL213 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x170 (section: .text) -> .LVL214 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x190 (section: .text) -> .LVL215 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show.part.0+0x1b0 (section: .text) -> .LVL216 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show+0xc (section: .text) -> .LVL217 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show+0x20 (section: .text) -> .LVL220 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: dev_attribute_show+0x68 (section: .text) -> early_security_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: io_init+0x2e0 (section: .text) -> .LVL197 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: io_init+0x2e4 (section: .text) -> .LVL198 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: io_init+0x30c (section: .text) -> .LVL199 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: io_init+0x310 (section: .text) -> .LVL200 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: io_init+0x330 (section: .text) -> security_add_hooks (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_volume_notify+0x7c (section: .text) -> .LBI248 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_get_device+0x28 (section: .text) -> .LBI250 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_get_by_major+0x68 (section: .text) -> .LBB252 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_get_by_major+0xbc (section: .text) -> .LVL189 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_major2num+0x18 (section: .text) -> .LVL194 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_major2num+0xa4 (section: .text) -> .LFB5721 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0xe8 (section: .text) -> lsm_init_single (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x130 (section: .text) -> lsm_init_single (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x198 (section: .text) -> lsm_blob_size_update (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x1f0 (section: .text) -> lsm_enabled_set (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x208 (section: .text) -> lsm_debug_enable (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x228 (section: .text) -> lsm_choose_lsm (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x408 (section: .text) -> lsm_choose_security (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: ubi_attach_mtd_dev+0x560 (section: .text) -> lsm_prepare.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_notify_add+0x28 (section: .text) -> .LVL106 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_notify_add+0x2c (section: .text) -> .LVL107 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_notify_add+0x74 (section: .text) -> .LVL108 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_notify_add+0xa8 (section: .text) -> .LVL109 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x20 (section: .text) -> .LVL110 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x3c (section: .text) -> .LVL111 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x70 (section: .text) -> .LVL112 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x7c (section: .text) -> .LVL113 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x9c (section: .text) -> .LVL114 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0xa0 (section: .text) -> .LVL115 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0xbc (section: .text) -> lsm_order_parse.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0xd8 (section: .text) -> lsm_order_parse.isra.0 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0xf0 (section: .text) -> .LVL118 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x11c (section: .text) -> .LVL119 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x120 (section: .text) -> .LVL120 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x180 (section: .text) -> .LVL121 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x184 (section: .text) -> .LVL122 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x1e4 (section: .text) -> .LVL123 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_detach_mtd_dev+0x234 (section: .text) -> .LVL125 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vol_cdev_read+0x31c (section: .text) -> securityfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vol_cdev_ioctl+0x430 (section: .text) -> securityfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: eraseblk_count_seq_show+0x100 (section: .text) -> checkreqprot_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dfs_file_write+0x8c (section: .text) -> .LBI2926 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dfs_file_read+0x288 (section: .text) -> .LVL80 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: dfs_file_read+0x2b0 (section: .text) -> selinux_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: eraseblk_count_open+0x1c (section: .text) -> selinux_enabled_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_dump_flash+0xc8 (section: .text) -> .LBI2922 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init+0x30 (section: .text) -> .LVL76 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init+0x34 (section: .text) -> checkreqprot_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_exit+0x8 (section: .text) -> .LVL76 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init_dev+0x2c (section: .text) -> enforcing_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init_dev+0x4c (section: .text) -> .LVL76 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init_dev+0x70 (section: .text) -> .LBI2918 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init_dev+0xd8 (section: .text) -> .LVL72 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ubi_debugfs_init_dev+0xec (section: .text) -> selinux_enabled_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gsw1xx_setup+0x1c (section: .text) -> cast5_mod_fini (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gsw1xx_setup+0x154 (section: .text) -> cast6_mod_fini (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gsw1xx_port_setup+0x94 (section: .text) -> cast5_mod_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gsw1xx_port_setup+0x98 (section: .text) -> cast6_mod_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mv88e6xxx_get_rxnfc+0x10c (section: .text) -> crypto842_mod_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mv88e6xxx_port_db_get+0x3c (section: .text) -> rng_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mv88e6xxx_port_db_load_purge+0x4c (section: .text) -> crypto842_mod_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mv88e6xxx_port_db_load_purge+0x124 (section: .text) -> drbg_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: qca8k_parse_port_leds+0x1e0 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: rtl8366rb_setup_led+0xe4 (section: .text) -> __TRACE_SYSTEM_WB_REASON_FS_FREE_SPACE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: mt76x02_init_beacon_config+0x2c (section: .text) -> .LVL116 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt76x02_init_beacon_config+0x158 (section: .text) -> .LVL117 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt76x02_mac_set_beacon+0x1c (section: .text) -> .LVL124 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt76x02_enqueue_buffered_bc+0x50 (section: .text) -> .LBB367 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_wiphy+0xb4 (section: .text) -> ltc4283_gpio_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x154 (section: .text) -> ltc4283_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x15c (section: .text) -> ltc4283_gpio_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x184 (section: .text) -> max7300_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x1c4 (section: .text) -> max7300_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x1e0 (section: .text) -> ltc4283_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x1ec (section: .text) -> max732x_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x1fc (section: .text) -> max7300_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x220 (section: .text) -> max77759_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x22c (section: .text) -> max7300_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x264 (section: .text) -> max77759_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x290 (section: .text) -> mb86s70_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x2b4 (section: .text) -> gpio_mockup_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x330 (section: .text) -> max7300_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_register_ext_phy+0x344 (section: .text) -> max7300_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x88 (section: .text) -> gpio_mockup_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0xb4 (section: .text) -> max7300_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0xc8 (section: .text) -> gpio_mockup_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x108 (section: .text) -> gpio_mockup_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x14c (section: .text) -> palmas_gpio_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x16c (section: .text) -> palmas_gpio_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x18c (section: .text) -> palmas_gpio_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x1b0 (section: .text) -> palmas_gpio_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x1dc (section: .text) -> pca953x_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x20c (section: .text) -> pca9570_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x24c (section: .text) -> pca9570_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x28c (section: .text) -> pcf857x_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x2cc (section: .text) -> idio_24_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x308 (section: .text) -> idio_24_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x33c (section: .text) -> max77759_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x378 (section: .text) -> max77759_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x3b0 (section: .text) -> idio_16_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x3d0 (section: .text) -> rdc321x_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x404 (section: .text) -> rdc321x_gpio_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_init_device+0x44c (section: .text) -> gpio_shared_proxy_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_mac_add_txs+0x498 (section: .text) -> pca953x_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_mac_write_txwi+0x60 (section: .text) -> pca953x_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_mac_tx_free_token+0xc8 (section: .text) -> pca953x_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_pm_wake_work+0x84 (section: .text) -> pca953x_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7615_pm_power_save_work+0x74 (section: .text) -> pca9570_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7925e_mac_reset+0x3e4 (section: .text) -> __TRACE_SYSTEM_WB_REASON_DONTCACHE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: mt7925e_mcu_init+0x9c (section: .text) -> __TRACE_SYSTEM_WB_REASON_DONTCACHE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: qtnf_shm_ipc_init+0x100 (section: .text) -> meson_pcie_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_flush_deferred_work+0xac (section: .text) -> sky81452_bl_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_flush_deferred_work+0xc8 (section: .text) -> sky81452_bl_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_ap_set_probe_resp_tmpl_legacy+0x13c (section: .text) -> sky81452_bl_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_bss_info_changed_sta+0x304 (section: .text) -> sky81452_bl_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_bss_info_changed_sta+0x324 (section: .text) -> tps65217_bl_driver_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_bss_info_changed_sta+0x590 (section: .text) -> tps65217_bl_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_bss_info_changed_sta+0x5f0 (section: .text) -> tps65217_bl_driver_exit (section: .exit.text)
+WARNING: modpost: vmlinux: section mismatch in reference: wl1271_init_ieee80211.isra.0+0x2ec (section: .text) -> .Lpcadd_hi0 (section: .init.text)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
