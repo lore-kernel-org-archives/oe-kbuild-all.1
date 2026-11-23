@@ -1,77 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795399060;
-	b=fvQbppfgh1egJvW/tgkk9N0ECjJb7qYOzvua3mUDYcR1m1590mFvGS5pkcSPgcanyHRp
-	 tXsbX6obl7hcSXszKVg80d44gu5p1sBYvPrLfFXoqRKyh+At/dA3qgR9sLO8ZM1xZCFim
-	 ffxeSBJX4U3BECmJHy/0h5IBnGQwDGCnh5BQEu3Xb/0QO1Hctp5FzDibUCF40PtIm+P90
-	 grA2glnj0Mb2bIPjjbYF8IGMZG0TG3YCIdNsvAX+xmJRMqRXveMSB7pWZPnXVfkJdYkS8
-	 /lPW7+ir8qQaitC4LerN6XiI9ehkSnZqc52ETD+BuyGpgUs1lwyu5Q8Z3CFJw4xR4XA==
+	t=1795405707;
+	b=oVn9QHUSQbifeNPF2dveV9O0rNrxT4JQat9tnWS7qLmVrORksrr4jhdmXk6mia6InQFl
+	 WClgNVI0/c82ZwKuDRvgAWrq5/kIkQBO0NAwU4COakkbSTdpv3YiMFNqol8eAA/B1UkHl
+	 s+22gfPfPS+urfdYhNudqaHCVQm7XDJw2nyDBfgSBSy5/8DTTM/TKQF7r6fM+2MasRJoB
+	 PuQZPwCSOfE9qsQ8iwSSgKxDo1cOAq0revwGYycELmT5116bsJCZW/TqjkN6zCBdXBw+a
+	 eXzwyWjw+EmeXax7YfeNlKlMPbMCm5EZy1ubFgToTrctEHt2W0iiGu0FGS70v+X1ITA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795399060;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=i6KYxXGx/ZsQOrZgIuM2Fz+DA8NX+nErkU65F0Ozbl8=;
-	b=y8Rj04sYKA8JRX0rS9rS3K1E8g1ZMT9rbP7Cwvn0bDL65wFYF19mAI169RjWnQfPN2eY
-	 v5ly75ApDQDP9E3Ya0eAjEnu4BK5xbqN2SUPhrCt/FQze+GCRDcbiaK0Bu6gaScTOSMZy
-	 tXCCYFryJ6euSj18585QEYP75NK2RfPGZFyoZeXqv4nZ94mV3v0ryQ3R0/VrMaPiIj2Zr
-	 WAGecd6J7TwbELZCxkmYphRg4LCfwrjf/e3TyUUP6fI9P1Lf38btr63RMKAwlsmh428EX
-	 m2m6AgYQBTu5O5J3siw9+CF3FSbJ5uPWXNkR3AYkc1mLbGeisAdvuLkHVCe/Y/UufGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795405707;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=4ixwLYNHrzYtUov5QUyLh0SBuMoy5xQNhmCQu9M+e0U=;
+	b=NzacN+cZphchZUTnHJ5BYh5V2TxVsdAAkBxsKqd8qbjwW04hFvHF6lwRdOyVvTSfwKZ8
+	 PZVNnhynBMkR0lYFCuQesI2my69U0/pIjcJ2c+hgX8wXkKEgiZZhckTMau/4tFCwQ4YqL
+	 yx0Wjf3uULBWuuzq+IrknPQW3GRCA+h2RptRu60pl0/pxvfoqISgo70hGdwVmJTCfNV3x
+	 WtWV+NOFDBJQW0nWNrItnfCMB/BWHLPZMd3jtVHUoKbdw6ErFLnlRnnFyLoVqm3U9Zv+P
+	 LI95ixcU8vLLOgE/fKVZF5+ndZ2IYUE1/qQQeXe2q3cRaAkmA8VHT3B19USNfreSvKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YMTpDorJ;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=SQPSg2UH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ACD606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 01:57:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82ACD606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A023606A31A;
+	Mon, 23 Nov 2026 03:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YMTpDorJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795399059; x=1826935059;
-  h=date:from:to:cc:subject:message-id;
-  bh=stBfDloQOZXkdkN0MeTYrVweGJpuvSvrEE/t409N9yg=;
-  b=YMTpDorJFUdjgm1jPH06N//MNS4dNEptHUpcEQ99bMWMBykd2atbARAs
-   YQtoSokDTjZTjePhydpf1GtFnq/2O/gcA/IB3kOm1dwWXNxHJgOKniVi8
-   V6FjxdoZU32htTBQc0mYKXF6DrMwq/348GB5s4QZQAiX5POu5Ci7RQ46N
-   3dA3nNVYDMcIERSnJ6+HLpFoR4hLMIBtY9rB6qhtKP11rQb3gatmILAUF
-   oB37RNYqyxF6b1qBN+wUjuzrBMeFnr2ySzy9MMgdYnRPYDhtikjGTyQUd
-   5PVFzDxxa5zsR3VB+eku9QX8Uo+v3hk6bIYzcUREroqxlVgohuBX0BNj4
-   w==;
-X-CSE-ConnectionGUID: /lY0F5MDQlSO69Gi2NcR0A==
-X-CSE-MsgGUID: IL9ctrwcQpCQyaf2ziT2dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4242008"
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="4242008"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 17:57:37 -0800
-X-CSE-ConnectionGUID: F6KVHfMOQDiKz1O8fppUcg==
-X-CSE-MsgGUID: zShxC8TBQWGXINmmmGBgjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="11260822"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Nov 2026 17:57:26 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVJJ6-000000004h4-2cMD;
-	Mon, 23 Nov 2026 01:57:24 +0000
-Date: Mon, 23 Nov 2026 02:57:02 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- kernel/module/gki_module.c:31:6: warning: no previous prototype for function
- 'gki_is_module_unprotected_symbol'
-Message-ID: <20261123025048.fxzfwYXZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=SQPSg2UH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCB21F000CA;
+	Mon, 23 Nov 2026 03:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1795405706;
+	bh=4ixwLYNHrzYtUov5QUyLh0SBuMoy5xQNhmCQu9M+e0U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=SQPSg2UHPTiaBzka5y0mmvvcTp3eQnHFgEXA7m0SMy9eRlCqM6kIwVvhacMrOZOG+
+	 bGJN9vKoFa04CpsE6GqWRbd00xIF+BlY8+1VrdQtHwWbZUJvpV3fUoXTEJAhJjtm/u
+	 F6AIt0IcMleoKcGSPOOhw0j2BZ0fpRHAA6JzsyE4=
+Date: Sun, 22 Nov 2026 19:48:25 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Christoph Lameter <cl@linux-foundation.org>,
+ oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
+ Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org,
+ David Rientjes <rientjes@google.com>
+Subject: Re: [akpm-mm:mm-unstable 327/327]
+ arch/arm64/include/asm/percpu.h:261:1: sparse: sparse: cast truncates bits
+ from constant value (ffffffffffffd8f0 becomes f0)
+Message-Id: <20261122194825.2541c7389c2f958ef3d07fbc@linux-foundation.org>
+In-Reply-To: <20261121133112.48w1QOqw-lkp@intel.com>
+References: <20261121133112.48w1QOqw-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,59 +59,78 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ramji,
+On Sat, 21 Nov 2026 13:34:45 +0100 kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   7d1a16abe4cc5dccd21e3d6262e44433a5885d27
+> commit: 7d1a16abe4cc5dccd21e3d6262e44433a5885d27 [327/327] mm: vmstat_kunit: add synthetic benchmark for mm stats
+> config: arm64-randconfig-r2305-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 15.3.0
+> sparse: v0.6.5-rc1-21-g84ec0658
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    mm/tests/vmstat_kunit.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h, include/linux/kref.h, include/kunit/test.h):
+> >> arch/arm64/include/asm/percpu.h:261:1: sparse: sparse: cast truncates bits from constant value (ffffffffffffd8f0 becomes f0)
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   93473194761869a1469683e0505517914f6b19e6
-commit: e9669eeb2f4580e44226cf1b582340f4b6388387 [1/1] ANDROID: GKI: Add module load time symbol protection
-config: arm64-randconfig-2002-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123025048.fxzfwYXZ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8db60b003f961f25c5cafe91ee44176f61374279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123025048.fxzfwYXZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261123025048.fxzfwYXZ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/module/gki_module.c:31:6: warning: no previous prototype for function 'gki_is_module_unprotected_symbol' [-Wmissing-prototypes]
-      31 | bool gki_is_module_unprotected_symbol(const char *name)
-         |      ^
-   kernel/module/gki_module.c:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      31 | bool gki_is_module_unprotected_symbol(const char *name)
-         | ^
-         | static 
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=n])
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
-   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
-   Depends on [n]: INTERCONNECT [=n] && ARCH_QCOM [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+Thanks.  sparse is being a bit silly here.  Using a variable instead of
+a constant silences it.
 
 
-vim +/gki_is_module_unprotected_symbol +31 kernel/module/gki_module.c
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: mm/vmstat_kunit: avoid sparse warning in vm event cleanup
+Date: Sun, 22 Nov 2026 18:51:40 -0800
 
-    25	
-    26	/**
-    27	 * gki_is_module_unprotected_symbol - Is a symbol unprotected for unsigned module?
-    28	 *
-    29	 * @name:	Symbol being checked in list of unprotected symbols
-    30	 */
-  > 31	bool gki_is_module_unprotected_symbol(const char *name)
+Sparse warns about -TEST_COUNT in an unreachable 1-byte arm64 per-CPU
+case; the actual counter is 8 bytes.  Pass the completed loop count
+instead to silence the warning, with no behavior change.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Link: https://lore.kernel.org/r/21183f5b-2697-cbe6-6370-dbd27c5e2b60@google.com
+Fixes: 7d1a16abe4cc ("mm: vmstat_kunit: add synthetic benchmark for mm stats")
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
+Cc: Christoph Lameter <cl@gentwo.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Liam R. Howlett <liam@infradead.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Sarthak Sharma <sarthak.sharma@arm.com>
+
+ mm/tests/vmstat_kunit.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/mm/tests/vmstat_kunit.c~mm-vmstat_kunit-add-synthetic-benchmark-for-mm-stats-fix
++++ a/mm/tests/vmstat_kunit.c
+@@ -107,7 +107,7 @@ static void vmstat_test_interleaved_zone
+ 
+ /*
+  * Test 3: count_vm_event() benchmark.
+- * Restores counter balance with count_vm_events(item, -TEST_COUNT).
++ * Restores counter balance after measurement.
+  */
+ static void vmstat_test_count_vm_event(struct kunit *test)
+ {
+@@ -124,7 +124,7 @@ static void vmstat_test_count_vm_event(s
+ 	time2 = get_cycles();
+ 
+ 	/* Restore balance */
+-	count_vm_events(SLABS_SCANNED, -TEST_COUNT);
++	count_vm_events(SLABS_SCANNED, -(long)i);
+ 
+ 	time = time2 - time1;
+ 	avg_cycles = div_u64(time, TEST_COUNT);
+_
+
