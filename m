@@ -1,76 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795453159;
-	b=r5jKoN8toZfC+IA6XjOdbUNZ29/ljhgGVQBLAdcirbLSLotuER7KX4hZv637TrAkQVeW
-	 tQtmhxZ9PD/8L8/otmxZQMr26ZJxRJxDj3jKXmWn8lFpbeCcn3Qd5mibMwT3B02/ziP1y
-	 FkgIrLS/I/j0NcTCi4OuJfMHeGUepDA1tCQxdRwPvhadREM+m5NJmEORVO5vNzlGBJuCZ
-	 jJ0Jocp/t8cG6+QqaLIm79nuBestOtK6QJcI2Zqe9zlk3/TLoXVmxgBHnmrE+39DQQ+Ze
-	 h052Vmf4mIAha8zulvz9nGBWbBe0y/eFPe2bLAuEu4biJHvps50W8P/jPIL3MRkl4GQ==
+	t=1795453167;
+	b=l5880jDlfB7MKA6RW8mu+XY0vzI4T5ktjOTAV+ozlFsFcaJEpgTgrOO/r6SYbDliKiYN
+	 JpjnlMVF6BrE7HRdyu6hky4jQcmD6ID1frnqhtxwZCvCgKHWEXJc2R4E9l/zT9EMRbvbU
+	 CykLgAk+Gf7PE/MuO0tYfhM0R23ZVMtNPT2alqw7mb0xEQFsQiANzzdiYgVMheoiGZ6Kl
+	 mnK32pp6SzZ2So2vt1wS1EvPALwaC/cXo6mRB3MjlQo1Cix++zD6ndlJWps0TYS2byPZ/
+	 duOhtY3gNdNznkSzxe8Hl4Jp72MAkDCfIrOjhWnBjoZ3IUaHaOZrFafX+mPqMfkTD1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795453159;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795453167;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=LoOLTgeVOr2u3jo2L9B4a45A3WMr7vCA6NGVMbELKuY=;
-	b=CdbuwJSCdIKOF2RUwaNA3PS0b2Z4ucDXVYPVzH2THgga/bwNIV1WNOqRvGN96uXLo19U
-	 bVFyq8pyketwov30CCIFZnh0g+CSmP2Sm1980hC8ErKxirjnNyhgfKPcct5K/sixmx75c
-	 LmatGo6gbR91Ghyyv62riaX27vpPfwaCfn6bSkGwvauzT+kpb+bu0/y8Vm8dg6nBe0wzk
-	 l+aKcmRAJOqgZa/nndyFPvUQWZDqf4AVchkiQgHJr33XPQTkB1WrTKKeuNUZHKZg5FqYZ
-	 KWumjuv4ZHWD0AiyL7vKQa3jHIeXIdypVMhuTm9rG83k6x12BwX5RqgG2nYOAkwDW3w==
+	bh=CWdtdmUDsu4jYsl/PGZciSVG8Aw09KFBay3bK4ulJxo=;
+	b=IepLCAzVRlICqaJC0bdJfutFB4B2OxGz3eL3jOqNMShEQApoHgc56PYZ6Qx6iLwn2EpU
+	 8qv22AOtwKlvMw5aX/mPYylfQ8c5rkf0nhokazTNrua+1cZXlib7nvCas4orO8bEF6AJo
+	 giF5Geum7CFZWnFwRxkO67oNUjjzrUn4IV4Vp6y2d497WBFYQx75Ay82RDYcAWFcvsM3R
+	 LPdVGGRIMQoTK0T8wwFImGr4FfrcoYzEjNzF4kyuP62okKZJUx+thlHl/uSGt97PM0NW1
+	 9479HhQ3+zzdgKlSlyOUFp8YwCWq5XXlTMMwAGSrTfjsou9fnTi6fC5Nyek4SUfKGuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VpQpMkz9;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UVXZvPI+;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AC606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:59:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB3AC606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117E7606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:59:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 117E7606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VpQpMkz9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UVXZvPI+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795453159; x=1826989159;
+  t=1795453167; x=1826989167;
   h=date:from:to:cc:subject:message-id;
-  bh=7p8v0YMd9eOc7ZAIQT2OzgMKxUcjB+dmzrM62U9nAdw=;
-  b=VpQpMkz9HSYkOCWNBFW8FcBza2uresenMhogLQbOKm0ywGBgjlAXN0Rf
-   RvJoY4IMs2oRSiGQ6WdU6srz98KQhgG3K/PMGZ1SMWfwW9S8Sj1vgzgFQ
-   eH/crT40G7RR46OyrqfjsdRuS84YsXpR1oPvD78+rfvYc/MV5GLUhb+iR
-   pIpbEqzTaAWW1BPDJSKvh9TOipaWEjEZTq/tMiO0cRg/pqsl2okramnA2
-   WYDI9AbtHup8cmWvEm5Y/qpuyjBNdOQac8coJm5oqG8Jbz2OT0Kd5dK+L
-   yP8bLpsTSsYYAdFe9yvwMAvCt4ntMcPJw3HHKebZe4dg85HM3grsY+zbT
-   A==;
-X-CSE-ConnectionGUID: RTiJOjVYRAi1OJBteyjwjg==
-X-CSE-MsgGUID: sn3zQtIZTp6kcib5KIUfQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4304386"
+  bh=5tlnE/ZzG2nb+1RoUCDSppYhrUfJPqCd6/nCMUmWVg4=;
+  b=UVXZvPI+AvqcfmWi/14BtMahPJef+QkzjJ7KFUfVbpMjd1947rPsDRvf
+   abgtzwV8VcqkDocnl+MZvzlUHvcho39MyX42i1W96EAtwRs5aKlAEZfa5
+   Xol9ZrAAIQPp04NmcU8dIQX+J3h3DVW30A5kjE74vFnpoTN5XXvv3wSNK
+   Z5s/zn5fsi4irCMy/NvbnKyJjZPae+hZrZ3dSEfzBS3h3cSjVbOfVykrk
+   MmjDEnOeMGr8TR8Tl+Fbb7qom/dWYzFE3umaQbSwlw2a1IZ5I+b5LLzvx
+   DxdqdhbORUfBU3v2sGNB+7F3K35DDHYS7DQHe1cA6cWAZduN8HyeClQnc
+   Q==;
+X-CSE-ConnectionGUID: 8HqdR5pzR2OFdYZLaEAqbA==
+X-CSE-MsgGUID: ywU8qT0cS++u5xPhzHOd+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4165794"
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4304386"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 08:59:18 -0800
-X-CSE-ConnectionGUID: NwR40+dCQPe4Rlm92jWnQg==
-X-CSE-MsgGUID: 4LmeoSXfQui6Ppc8Z0Avlw==
+   d="scan'208";a="4165794"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 08:59:27 -0800
+X-CSE-ConnectionGUID: OsGbsMPyQq+Y4Qyf86y1Lg==
+X-CSE-MsgGUID: 4F7H+3ERQUS1Nlq4EOTL0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="11675692"
+   d="scan'208";a="13335231"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Nov 2026 08:59:16 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 23 Nov 2026 08:59:25 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xVXNq-000000004sH-26ig;
+	id 1xVXNq-000000004sJ-3gFB;
 	Mon, 23 Nov 2026 16:59:14 +0000
-Date: Mon, 23 Nov 2026 17:59:00 +0100
+Date: Mon, 23 Nov 2026 17:58:47 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 330/330]
- arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits
- from constant value (ffffffffffffff00 becomes 0)
-Message-ID: <20261123175809.JEwkidA8-lkp@intel.com>
+Subject: [android-common:android17-6.18-lts 318/318]
+ arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000
+ (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71,
+ 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4],
+ [0, 85, 4], [0, 140, 4]] is ...
+Message-ID: <20261123174810.IQwAncUB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,62 +83,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   1b09ce8b32c8782b06415be8b3627cac08ae1100
-commit: 1f8645b7686d6cadc50b7b93b0ab2f94a677db09 [330/330] arm64: percpu: Fix this_cpu_and() mask generation
-config: arm64-randconfig-r2301-20261123 (https://download.01.org/0day-ci/archive/20261123/20261123175809.JEwkidA8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123175809.JEwkidA8-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
+head:   17b8bfe5ce7568445def263dc609f839f3b469f6
+commit: c83255f3cf22d13c5b9736668cbe38a098fd6d5a [318/318] arm64: dts: allwinner: a523: Add missing GPIO interrupt
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261123/20261123174810.IQwAncUB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+dtschema: 2026.10.dev7+g0fcb8d81a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123174810.IQwAncUB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261123175809.JEwkidA8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261123174810.IQwAncUB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/printk/printk_safe.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h):
-   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (10000000 becomes 0)
-   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (10000000 becomes 0)
-   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (fffffffff0000000 becomes 0)
-   arch/arm64/include/asm/percpu.h:126:1: sparse: sparse: cast truncates bits from constant value (fffffffff0000000 becomes 0)
-   arch/arm64/include/asm/percpu.h:128:1: sparse: sparse: cast truncates bits from constant value (8000000 becomes 0)
-   arch/arm64/include/asm/percpu.h:128:1: sparse: sparse: cast truncates bits from constant value (8000000 becomes 0)
->> kernel/printk/printk_safe.c:334:9: sparse: sparse: cast truncates bits from constant value (f7ffffff becomes ff)
->> arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffffffffff00 becomes 0)
->> kernel/printk/printk_safe.c:334:9: sparse: sparse: cast truncates bits from constant value (f7ffffff becomes ffff)
->> arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffffffff0000 becomes 0)
-
-vim +127 arch/arm64/include/asm/percpu.h
-
-f97fc810798c261 Steve Capper 2014-11-19  109  
-959bf2fd03b59fc Will Deacon  2018-09-13  110  #define PERCPU_OP(name, op_llsc, op_lse)				\
-959bf2fd03b59fc Will Deacon  2018-09-13  111  	__PERCPU_OP_CASE(w, b, name,  8, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  112  	__PERCPU_OP_CASE(w, h, name, 16, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  113  	__PERCPU_OP_CASE(w,  , name, 32, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  114  	__PERCPU_OP_CASE( ,  , name, 64, op_llsc, op_lse)
-959bf2fd03b59fc Will Deacon  2018-09-13  115  
-959bf2fd03b59fc Will Deacon  2018-09-13  116  #define PERCPU_RET_OP(name, op_llsc, op_lse)				\
-959bf2fd03b59fc Will Deacon  2018-09-13  117  	__PERCPU_RET_OP_CASE(w, b, name,  8, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  118  	__PERCPU_RET_OP_CASE(w, h, name, 16, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  119  	__PERCPU_RET_OP_CASE(w,  , name, 32, op_llsc, op_lse)		\
-959bf2fd03b59fc Will Deacon  2018-09-13  120  	__PERCPU_RET_OP_CASE( ,  , name, 64, op_llsc, op_lse)
-959bf2fd03b59fc Will Deacon  2018-09-13  121  
-959bf2fd03b59fc Will Deacon  2018-09-13  122  PERCPU_RW_OPS(8)
-959bf2fd03b59fc Will Deacon  2018-09-13  123  PERCPU_RW_OPS(16)
-959bf2fd03b59fc Will Deacon  2018-09-13  124  PERCPU_RW_OPS(32)
-959bf2fd03b59fc Will Deacon  2018-09-13  125  PERCPU_RW_OPS(64)
-959bf2fd03b59fc Will Deacon  2018-09-13  126  PERCPU_OP(add, add, stadd)
-959bf2fd03b59fc Will Deacon  2018-09-13 @127  PERCPU_OP(andnot, bic, stclr)
-959bf2fd03b59fc Will Deacon  2018-09-13  128  PERCPU_OP(or, orr, stset)
-959bf2fd03b59fc Will Deacon  2018-09-13  129  PERCPU_RET_OP(add, add, ldadd)
-959bf2fd03b59fc Will Deacon  2018-09-13  130  
-
-:::::: The code at line 127 was first introduced by commit
-:::::: 959bf2fd03b59fc107584c21425f3dc73c49f762 arm64: percpu: Rewrite per-cpu ops to allow use of LSE atomics
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+>> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+>> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+--
+   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+>> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
 
 -- 
 0-DAY CI Kernel Test Service
