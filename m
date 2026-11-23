@@ -1,79 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795453167;
-	b=l5880jDlfB7MKA6RW8mu+XY0vzI4T5ktjOTAV+ozlFsFcaJEpgTgrOO/r6SYbDliKiYN
-	 JpjnlMVF6BrE7HRdyu6hky4jQcmD6ID1frnqhtxwZCvCgKHWEXJc2R4E9l/zT9EMRbvbU
-	 CykLgAk+Gf7PE/MuO0tYfhM0R23ZVMtNPT2alqw7mb0xEQFsQiANzzdiYgVMheoiGZ6Kl
-	 mnK32pp6SzZ2So2vt1wS1EvPALwaC/cXo6mRB3MjlQo1Cix++zD6ndlJWps0TYS2byPZ/
-	 duOhtY3gNdNznkSzxe8Hl4Jp72MAkDCfIrOjhWnBjoZ3IUaHaOZrFafX+mPqMfkTD1w==
+	t=1795453490;
+	b=3Tt3XzBgy51aYtc965P4dZNV5QJM22OiNVEjbXlxRs4M19rbc7ijTxfHk9UU+CJb2r2C
+	 Y5JKbWBhwmboSVS2RLA5p4/vBy6VdPB6sPwjLjhySri9aTunxX9dPebiJ1+zGeRZVaN2n
+	 WRFseBGV0MhLovUMnnuHtkNTTaj1DtvtD4h+FNCpiNm3K6fu/Im+v8zy6mhY35Qn75C7l
+	 OHNXpn+0uPoXBQKvX0yy4/Q83v4GxdRtyu1ysOWyGZUiWTqUJiB5MIDHIDgBq/ygR/SMV
+	 Agvs1HNDXkp8ovoIeAFTbamu5Ign9g3bIyrpIibeDcUlV+cXQyIy8xks7ZOtvxZ/xeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795453167;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=CWdtdmUDsu4jYsl/PGZciSVG8Aw09KFBay3bK4ulJxo=;
-	b=IepLCAzVRlICqaJC0bdJfutFB4B2OxGz3eL3jOqNMShEQApoHgc56PYZ6Qx6iLwn2EpU
-	 8qv22AOtwKlvMw5aX/mPYylfQ8c5rkf0nhokazTNrua+1cZXlib7nvCas4orO8bEF6AJo
-	 giF5Geum7CFZWnFwRxkO67oNUjjzrUn4IV4Vp6y2d497WBFYQx75Ay82RDYcAWFcvsM3R
-	 LPdVGGRIMQoTK0T8wwFImGr4FfrcoYzEjNzF4kyuP62okKZJUx+thlHl/uSGt97PM0NW1
-	 9479HhQ3+zzdgKlSlyOUFp8YwCWq5XXlTMMwAGSrTfjsou9fnTi6fC5Nyek4SUfKGuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795453490;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	bh=6z6ak377Awv+mxJYPSVQS/ONw5MrRNWXM3G9SGJDdio=;
+	b=rNdZG0IaA/DjUbV/wbuywQLfAb8ZTv3h1xnNEQFPPjuHA6xQjjYK3YU00vuTuET8xacz
+	 X79BBFkDABqV65jXEElxcw/VfK0uMsQ73VFYHuca4P2VtnaHsn1n563IuACu99lm5gNIL
+	 rWs6pR+y7V9HSjClDa+Tt2y1HDyhAeGLB/al3TgdH0vDM/tKQY9ARCWnyMK2bEFKAiMzs
+	 ZWp9A3uTC/fYdCw2Mh6vGuBsYRSg19ebWeFll+A3Z+ZTE1k19qEHl4TCMXD7G9afnhe+j
+	 T+fjkMciMmbRXN4qzPXDTqqMwQmJx/h3mVQh0zx0PdFmcAmPAbzK2PeiknGrCxfKC6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UVXZvPI+;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="N/0CW2Fm";
+	arc=none smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117E7606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 16:59:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 117E7606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15B5606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 17:04:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E15B5606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UVXZvPI+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795453167; x=1826989167;
-  h=date:from:to:cc:subject:message-id;
-  bh=5tlnE/ZzG2nb+1RoUCDSppYhrUfJPqCd6/nCMUmWVg4=;
-  b=UVXZvPI+AvqcfmWi/14BtMahPJef+QkzjJ7KFUfVbpMjd1947rPsDRvf
-   abgtzwV8VcqkDocnl+MZvzlUHvcho39MyX42i1W96EAtwRs5aKlAEZfa5
-   Xol9ZrAAIQPp04NmcU8dIQX+J3h3DVW30A5kjE74vFnpoTN5XXvv3wSNK
-   Z5s/zn5fsi4irCMy/NvbnKyJjZPae+hZrZ3dSEfzBS3h3cSjVbOfVykrk
-   MmjDEnOeMGr8TR8Tl+Fbb7qom/dWYzFE3umaQbSwlw2a1IZ5I+b5LLzvx
-   DxdqdhbORUfBU3v2sGNB+7F3K35DDHYS7DQHe1cA6cWAZduN8HyeClQnc
-   Q==;
-X-CSE-ConnectionGUID: 8HqdR5pzR2OFdYZLaEAqbA==
-X-CSE-MsgGUID: ywU8qT0cS++u5xPhzHOd+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4165794"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4165794"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 08:59:27 -0800
-X-CSE-ConnectionGUID: OsGbsMPyQq+Y4Qyf86y1Lg==
-X-CSE-MsgGUID: 4F7H+3ERQUS1Nlq4EOTL0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13335231"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 23 Nov 2026 08:59:25 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVXNq-000000004sJ-3gFB;
-	Mon, 23 Nov 2026 16:59:14 +0000
-Date: Mon, 23 Nov 2026 17:58:47 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-lts 318/318]
- arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000
- (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71,
- 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4],
- [0, 85, 4], [0, 140, 4]] is ...
-Message-ID: <20261123174810.IQwAncUB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=N/0CW2Fm
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2f0afdb97abso42075ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 09:04:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795453489; x=1796058289; darn=lists.linux.dev;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6z6ak377Awv+mxJYPSVQS/ONw5MrRNWXM3G9SGJDdio=;
+        b=N/0CW2FmhG6NHCzXnTvvmlR/WJh8uUEJ75uWfac4yc1gnalHoozdxyHotM4JlzdLWs
+         ARXbg51Jx/FCBJbq21Qd7WkwuwNQObDjYmuUiuCOCCZbr7TMBMCOmiSx6wqbT/rxO+da
+         Jyfi9gF18qTs2NyZBaUsFCKwTGi6SY7/h/BGuEzP49n4dl/pET9rVpfriufl3zrYGRSb
+         G5EDN6fGL4SfzRbE8cnVucmNHWOKpcD1YB46j1jSwKmClfcs+nUqO6rZ012x4MvwXQwn
+         qlqQPHxDMTEfpMUu0Wji04Cfamw0NwK8/cf83bCS/kSP17tQKAD7Sb4qCu6qlTrnu5Ef
+         aYFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795453489; x=1796058289;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6z6ak377Awv+mxJYPSVQS/ONw5MrRNWXM3G9SGJDdio=;
+        b=FDCBOCCeb+TUDoHd4OMiEhcX82pkZREdOCIbsdckHyOit5Fg5j6t5pC1NARxLVaWG6
+         zY6WdQwgh4M4VYTm+KEVNtVzQUZWHO01Zib/w6RPyHRoLUuRvBQMwDPm/JZnLp1077a3
+         LacjrDxrU80wGk5vkaFWlgQov/dGI76YjSV52+8lqIB1CfKzJmxqkUoI8bKppVOhVHMb
+         0K4hmuiynhzmj4l/9U0pYXCOwpTFbb3k6moOoezuOb24+nYQBoqa4oHS4hnJWtih5jWd
+         Vz7+S33xSswgfdTn2fJrPgU6kWBeHak8j7EpIbr24n/HidEhAkdmBzYNmNGR97QdZLH2
+         YA0w==
+X-Forwarded-Encrypted: i=1; AL+hErFMgAlTrh7QO7/pGlpLYuiUpSWE9eYiWGo5mwY/13BSz84Prq3VDmlMEvcqG9siqSimgE3O5AnYyLSXS31+@lists.linux.dev
+X-Gm-Message-State: APuU4Z9w9iY17xYKHArsmqsfAIUmMTdPR7LdVHC140eB48kiL5V9SLDy
+	/CjJOYYAQikguZW9BsEHazy0CSCko5tMDrIcpTKQDi4o9h1lHS0f67rkNzG6y99hpAf0FBRII22
+	85Zs8/Z96
+X-Gm-Gg: AZFdTZf5pGP8uB5dAnv8Z3uH/x9TAaLiSxGFap0+Ng7Zh6z6f56mfxHTuJb4ES6C+rC
+	z9SLvs1CAzslXgg2r1RG4G881k6+7pzgEheg86ej7BHMqH2+4x28bguozxr4Vff0+g/8XqNIyFr
+	y8bHQJQ8eyHMDX5fsCouzcXJ7Km7L/HgsX5nuS84i8yeJZhpWTJ6vLoOCU7tjPTTD+vNDq1XhqA
+	GL5D8aV67e6XmqoKd7UTVH1uGWFibIblxGCvzaKwI/yluNAk1ZiKsq/d7NEr2+kgJ5Ol5v2qr7v
+	wFMzq5UONYK4H05ee4QisONobTQVm0tJnFGLSfVCRisdri0zHg/U/Aup2w/AmNOmt6q/EF21vB2
+	Go3LG1fsGILHdeslThB81SGnwTPCNxd79mkU9sDg/XhGUdDUHR9H4wftcG9JxYyRnrfHRRGxh9Z
+	uWVCrkT5fzB7CNZ/wA4jt03scwyzgcDk5ne6nUusyNvdipI9GCAyT1vuxUMBfVqy2QjHOIwROlD
+	4NAHHUnxIt50TEFw1PHevpCI3jc1FjoCbIt59ynb/D90tpyDklSarZa9htFFulEqbJAJuEOHe7/
+	+QxNu4gZjGnYFsm6B8LEFK5HSiRdcUu6i+k0KEnjAfLKwpKISv7jT+m5R5y+UIwyx00+6EpcfKN
+	1EA9ljybbsLve81rOO18Hd29LpTVsa1QXR3ai95YiT/Xb89zJlzj9msJqXGbpUht1t4U+MgoFl9
+	HSy5848jQ59EQK5KDLn5JIC+m3M9NOHawpzm3o/Ty0X2CMLQ==
+X-Received: by 2002:a17:902:f790:b0:2e5:9bdf:6b65 with SMTP id d9443c01a7336-2f0615ca0f5mr7681115ad.0.1795453488528;
+        Mon, 23 Nov 2026 09:04:48 -0800 (PST)
+Received: from [2a00:79e0:2eb4:9:2973:837c:48c1:1e91] ([2a00:79e0:2eb4:9:2973:837c:48c1:1e91])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87285b60csm5993799b3a.9.2026.11.23.09.04.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 09:04:47 -0800 (PST)
+Date: Mon, 23 Nov 2026 09:04:45 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+cc: kernel test robot <lkp@intel.com>, 
+    Christoph Lameter <cl@linux-foundation.org>, oe-kbuild-all@lists.linux.dev, 
+    David Hildenbrand <david@kernel.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    mm-commits@vger.kernel.org
+Subject: Re: [akpm-mm:mm-unstable 327/327] arch/arm64/include/asm/percpu.h:261:1:
+ sparse: sparse: cast truncates bits from constant value (ffffffffffffd8f0
+ becomes f0)
+In-Reply-To: <20261122194825.2541c7389c2f958ef3d07fbc@linux-foundation.org>
+Message-ID: <7d1f916f-2a4b-c31e-617c-e1da7623fca3@google.com>
+References: <20261121133112.48w1QOqw-lkp@intel.com> <20261122194825.2541c7389c2f958ef3d07fbc@linux-foundation.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,45 +103,83 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
-head:   17b8bfe5ce7568445def263dc609f839f3b469f6
-commit: c83255f3cf22d13c5b9736668cbe38a098fd6d5a [318/318] arm64: dts: allwinner: a523: Add missing GPIO interrupt
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261123/20261123174810.IQwAncUB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev7+g0fcb8d81a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261123/20261123174810.IQwAncUB-lkp@intel.com/reproduce)
+On Sun, 22 Nov 2026, Andrew Morton wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261123174810.IQwAncUB-lkp@intel.com/
+> On Sat, 21 Nov 2026 13:34:45 +0100 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> > head:   7d1a16abe4cc5dccd21e3d6262e44433a5885d27
+> > commit: 7d1a16abe4cc5dccd21e3d6262e44433a5885d27 [327/327] mm: vmstat_kunit: add synthetic benchmark for mm stats
+> > config: arm64-randconfig-r2305-20261121 (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 15.3.0
+> > sparse: v0.6.5-rc1-21-g84ec0658
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/20261121133112.48w1QOqw-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
+> > 
+> > sparse warnings: (new ones prefixed by >>)
+> >    mm/tests/vmstat_kunit.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h, include/linux/kref.h, include/kunit/test.h):
+> > >> arch/arm64/include/asm/percpu.h:261:1: sparse: sparse: cast truncates bits from constant value (ffffffffffffd8f0 becomes f0)
+> 
+> Thanks.  sparse is being a bit silly here.  Using a variable instead of
+> a constant silences it.
+> 
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:107.6-735.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
->> arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dtb: pinctrl@2000000 (allwinner,sun55i-a523-pinctrl): interrupts: [[0, 67, 4], [0, 69, 4], [0, 71, 4], [0, 73, 4], [0, 75, 4], [0, 77, 4], [0, 79, 4], [0, 81, 4], [0, 83, 4], [0, 85, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+Thanks very much for taking care of this, Andrew!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> From: Andrew Morton <akpm@linux-foundation.org>
+> Subject: mm/vmstat_kunit: avoid sparse warning in vm event cleanup
+> Date: Sun, 22 Nov 2026 18:51:40 -0800
+> 
+> Sparse warns about -TEST_COUNT in an unreachable 1-byte arm64 per-CPU
+> case; the actual counter is 8 bytes.  Pass the completed loop count
+> instead to silence the warning, with no behavior change.
+> 
+> Link: https://lore.kernel.org/r/21183f5b-2697-cbe6-6370-dbd27c5e2b60@google.com
+> Fixes: 7d1a16abe4cc ("mm: vmstat_kunit: add synthetic benchmark for mm stats")
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/20261121133112.48w1QOqw-lkp@intel.com/
+> Cc: Christoph Lameter <cl@gentwo.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Liam R. Howlett <liam@infradead.org>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Sarthak Sharma <sarthak.sharma@arm.com>
+> 
+>  mm/tests/vmstat_kunit.c |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> --- a/mm/tests/vmstat_kunit.c~mm-vmstat_kunit-add-synthetic-benchmark-for-mm-stats-fix
+> +++ a/mm/tests/vmstat_kunit.c
+> @@ -107,7 +107,7 @@ static void vmstat_test_interleaved_zone
+>  
+>  /*
+>   * Test 3: count_vm_event() benchmark.
+> - * Restores counter balance with count_vm_events(item, -TEST_COUNT).
+> + * Restores counter balance after measurement.
+>   */
+>  static void vmstat_test_count_vm_event(struct kunit *test)
+>  {
+> @@ -124,7 +124,7 @@ static void vmstat_test_count_vm_event(s
+>  	time2 = get_cycles();
+>  
+>  	/* Restore balance */
+> -	count_vm_events(SLABS_SCANNED, -TEST_COUNT);
+> +	count_vm_events(SLABS_SCANNED, -(long)i);
+>  
+>  	time = time2 - time1;
+>  	avg_cycles = div_u64(time, TEST_COUNT);
+> _
+> 
+> 
