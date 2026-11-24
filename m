@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795498826;
-	b=Bg2p7ydHNMQZywf7CI/2ZbJmbB6ekO9cRMVAyQDeasnHYhqe58ED9vtpLPLSYiHTvbKG
-	 RCXwcZ8N3YskBsCMEJj5stl7/WnIe9/IdgwTlH4Kzvvx4pi60II6CNOSGXudtvD7UntwM
-	 6KsCmLqKK5O9NB5OXfGJxFcp815+vBkX2VCgJTXViOkvvmax2Krssf1tahT1uIBYibL4v
-	 Z/fqIkNjieBb7tLsxYOPWR+2hPHeONP/ks2LPBIo5pRrGuyBgAaZqY/CRHFrqmgDK7Be2
-	 5jJ7aiNWXHUV0qYFSf6BCFbJLahxBJKVMWpR5LhWy1D8JLFNslyg22wUgptCjB+VTfQ==
+	t=1795506633;
+	b=tM/jD7UHJK1BzKkhrtxU3zzPnGXDEzbF0Xax6uaGGiSHcXZbJWGO5ROtNpEc2HFP8Jll
+	 /K88qf/ZCB9dJ5zXZ1bujuBuB81Ixj/gpNWrV7fcAX6CBDTCMrd3sGqvcWnsldlI1RPHt
+	 gPOsZgPEdlBbDtv+CIamfydDLX883Tfg3oiZSgS4mX5bvgBnkmMo+sej2G7h7IIRwazQS
+	 V58iY0SEXDEYCGyHmcd/qr51gEIq5LAnHsM5kGMJSPKumnCdbaRbhiy0ZKmr9KcZ+IKKi
+	 MbbqWg8vTIrlTr2oQxDMJlqIrvWY6mt0v6wixMBV7YgutkiRi2SY5vgM9qpDSdY+HBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795498826;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=A8Q09a4dES6QQ5TG8UKgsKYYXz+8dnpoMSRQXu99C/s=;
-	b=1c6C3RsP6yUDq9GwyQQOGCpjpBhg0TlLiycqEHeWLjB6zUVNegoyesY03Zx1/1Clb9bI
-	 VA7iIKXymKgmF/NxgstIy8YtWFsJv7sEJllkQ9mFlj92CaXUyXFnrV0hW36X49kM6c9Y1
-	 BpAP1YBAJS7Z3FB5BkxUssOqD7Oy8TmJJiPLcvG3SDH0Wl59E4qpjy7E9aFN98IKz5MgE
-	 HgDUenP9f5ICXK8pxF2ScIiuzLqtPXGVWq+s68uXOettmdiIMBEsQpTpT5nFlzY7d3cBL
-	 fBUBMQvR1eTaL+FIxfL3rNmxWzAvpYmHEQi9Mw48azbjpo94vxZL7U3CkoA0L960Hng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795506633;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=MqaB2BpqXpnr6vschbFa0Ao+UcImvsijmSEBlYZdRts=;
+	b=Z3xvcLe5yqlGWXMLu9RIcuzFzeq7wu4uoNysmJE5qq13m4PFBs7qffxQpnabbRVhcDa3
+	 RbvqzXgWVhrmOW6JVmfPLvXHc6yjjko+PQkGWeG2w261DAG8lf1T3qpdl6gIAKxO7Z1A1
+	 gofaoK8awcrgii7ZwKTf9RbUWW3ft8LRUs1717qq+v0uPEJJiRlA1KS1eNMJHWCR7yhAG
+	 LhoFBniSkfBxkRgK6YdEdATxxnL8EtVHOym2lbcs2I/ZzBe6ptueir/ex3qG23RtMKPDE
+	 gJmiBw4DIndtoGFTbDF+6MGbRZ9FYRsLxCEx5VYs5n7eb5OyzZ+Wec1o1Ukj12u9+8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vhy65RO1;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="fdG/iEoh";
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45FC606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 05:40:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C45FC606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD40606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 07:50:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AD40606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vhy65RO1
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so35434045e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Nov 2026 21:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795498824; x=1796103624; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=A8Q09a4dES6QQ5TG8UKgsKYYXz+8dnpoMSRQXu99C/s=;
-        b=vhy65RO1vsF5W2zga3GgIdPAEIaDa9wtpKNNg2m54GDVxl9R+dmVyGy5S7MDhvk43z
-         6kC/4GJf3s4WSnYtPuTz0PI/4fbakEVjxtKViLdO2F/0Wzf1D25GZgQr9pAdYGtfMnr6
-         TvrRXmZroX0p2ncw5B9w+SKrmUrchd+kNOkZPq8AjQCmVsazVs2I3DLRWRCqNyj3GoYC
-         eH/T94ilzhMgNDwSWwT+HlyXRXI5vgcYcPXRjfYc9Xle1db5MnfHkcm/gIaE5mBcjYZE
-         yntCnHJvDtyxBa3Mq8oYgZGKKU8oTQGjakT0Fef4rdM1TKjTMWrMLBBox2MxYUZkFqIw
-         lSbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795498824; x=1796103624;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A8Q09a4dES6QQ5TG8UKgsKYYXz+8dnpoMSRQXu99C/s=;
-        b=ZBZcdE1iQlch5pXtcZGz8POuCLrtdLCDwPjJcfsWaURX8f1OsWyNccS58AbSrpaLhL
-         aDztbGm5xdCAiE109D3KbUBEVT3HFVtDUEoGGgN9CqPuhxwjLwiYqzMpp/RS0Zc2rWOn
-         mjHV6SFYXFLeg/poqho3uUCdneWj6g7b7456c2MuPicjYtzFTuYYglQDmxWGrBOVTgI2
-         G/eQ7xrRqkMKwKVtqQARzsV61LGHFg4dmE6D9gV1s6lsGpt6ZAiNdi0bTTB8FLKOmTgS
-         EvrbkxwGGirLm8DVMzwIBX1XxEh5BfE28v97M7ReAdM1xUT86mYx5pw5FUFBLEmJVEFv
-         nlQA==
-X-Forwarded-Encrypted: i=1; AL+hErG/Wg+Xg3ixmW22VmWhOttCCxnFswtPq+n8I4TdWHPoE6lWOPEosyb6ORYn3ZYyKL9z+L98k0mBNsnfVhva@lists.linux.dev
-X-Gm-Message-State: APuU4Z/zNpgkR1QdJaGeqDwBevltMGrE7Wk2df4DRUWoGsPWFJvd9dVl
-	QyxhfFm83HhO6uqCLCm+SEiHvS5ItV3CS8WbE4yvYhqIIKmcwersWJ/O28x4IkowjfBO6Fie
-X-Gm-Gg: AZFdTZdK1k6X2gT6oXTyuodqHB+PNpv4vuyAhN9HaR4EO2GW6M5HekUkZXhK0a2yO71
-	PFO9oJYaz7N0v7H/8zY3WNcC8+HndM9G/3AmGkLmCqdfjK6TTIfz226pDxI2y86QeDAtlUMjdIx
-	H/QUHMXGOS56Nvg9PVgaRlx8rC7A/WPJQ7sIa/96GXCK0lGiUvllvgaykAf4y6Y656HNUgP1ysN
-	Id2EZvbmlZkVhxyuueCwNmZnIZXbvbZtzcg3mvfEgJ2XLpOChUjdsFKOYblT3e/7WSdmcWtke+M
-	wLZTPGYPnpAZBCRPdiojWCes54ZlW/v+oSi52OBOSlgY721wpCGPWTGrYG5C34qffAJI1yEdhie
-	26h8iwlTSy1e9OSDuzytL1EA0ouPSvmA5GjU06+bj4qamXzneDJ5f+1lVrSSf7RzYjq5uqbG777
-	9/K5ewaNZCMmIqlgp0oPH/sulp24DOrMt9+FIiIoHAyxeqgQl/uDxUf56KduTPVFUpDZizPzUFq
-	xSS1tkmHhHXXMaX/8xd3w06iRHdrIfuc0Yq/pCTQ5KJ3fvhXPOzbNoOhSr2eaEN4t0lV8XmiI9+
-	nNa6H1eWMItTZEy/H9zOL/y2qPNk9l6YxtS3rimDC97oke1kN/s674wOvPVlHvDmxjWEBeLIzjT
-	UXCLIXhivmVA6M06HdOx5KTGlvyFG31AvwjlFQrN2rMDi1e0RkGE7IUz+HrXTAg9fKgI=
-X-Received: by 2002:a05:600c:64c6:b0:4bb:6a75:d04f with SMTP id 5b1f17b1804b1-4bb88807d96mr263479525e9.8.1795498824066;
-        Mon, 23 Nov 2026 21:40:24 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb85399d52sm395386355e9.6.2026.11.23.21.40.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 21:40:23 -0800 (PST)
-Date: Tue, 24 Nov 2026 08:40:20 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Vikram Singh <vikram.singh3@oss.qualcomm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>,
-	Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
-Subject: [avpatel:riscv_sbi_watchdog_v3 118/122] drivers/perf/riscv_ctr.c:435
- riscv_pmu_ctr_sched_task() warn: variable dereferenced before check
- 'pmu_ctx' (see line 427)
-Message-ID: <20261122185842.ByS8sFyu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fdG/iEoh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795506633; x=1827042633;
+  h=date:from:to:cc:subject:message-id;
+  bh=4TSVwhLWQJzJJGK5Ij5it60qwPCvWpQgsinx6q7Xofg=;
+  b=fdG/iEohG1rGLsPByW0k1suMPj8umdrVB1SbnaB3zFsFNB1M9Ep89nwq
+   OOiH+W4pLp1QauMUnacppEkoRBbfhR5HAw9CVWC1dJDaZhTu3U77DA98K
+   j912PX7HMevL5yIcUV1SikiQY5gmw1YEWpk39rn5PXE0HV0+pONWSeW7S
+   oqBXLZ/62y5n85ukwb+SjPAu0V4n1qwRge60ZsTsZy3i5enKZq7ZK7ld9
+   /5Q0biCX9VMzL4qI/yi7rBpXxXELGTRsUcc2FHgK1CI/cNOL/hkmpDB2y
+   4Y4+yuL8FRdG2d8wiLrlRaeFTUTEb/oOIx2EOJ46Nk/RNhity3nxgSu7k
+   Q==;
+X-CSE-ConnectionGUID: QHM/2wY+R5+btNaoM8XHaA==
+X-CSE-MsgGUID: BXLmWf1cR7uqE7AJ83Fgkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4177485"
+X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
+   d="scan'208";a="4177485"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 23:27:05 -0800
+X-CSE-ConnectionGUID: FJnRClmCRuq/hlO/1P7baA==
+X-CSE-MsgGUID: a47JwLCwSMu6ASb9+5uDVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
+   d="scan'208";a="13285791"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 23 Nov 2026 23:25:25 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVku2-0000000059V-2tx2;
+	Tue, 24 Nov 2026 07:25:22 +0000
+Date: Tue, 24 Nov 2026 08:24:42 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 0/1]
+ drivers/bluetooth/btusb.c:2708:15: error: implicit declaration of function
+ 'btmtk_usb_subsys_reset'
+Message-ID: <20261124081941.r8JLW5ic-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -98,60 +80,95 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_watchdog_v3
-head:   e16e3a60fbbf3fa3da230a7151235d2e7aac1066
-commit: 9a740a6a4e590a1cc20dc8aa7d80a73171ba6229 [118/122] riscv: pmu: Add driver for Control Transfer Records Ext
-config: riscv-randconfig-2200-20261122 (https://download.01.org/0day-ci/archive/20261122/20261122185842.ByS8sFyu-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   329f9ae918a9e18da3c488e531adf9b7995e2aae
+commit: ade787f04790654849d20cd0706644ba51589aa5 [0/1] Bluetooth: btmtk: Fix btmtk.c undefined reference build error
+config: x86_64-randconfig-2004-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124081941.r8JLW5ic-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124081941.r8JLW5ic-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/20261122185842.ByS8sFyu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124081941.r8JLW5ic-lkp@intel.com/
 
-smatch warnings:
-drivers/perf/riscv_ctr.c:435 riscv_pmu_ctr_sched_task() warn: variable dereferenced before check 'pmu_ctx' (see line 427)
+All errors (new ones prefixed by >>):
 
-vim +/pmu_ctx +435 drivers/perf/riscv_ctr.c
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_reset':
+>> drivers/bluetooth/btusb.c:2708:15: error: implicit declaration of function 'btmtk_usb_subsys_reset' [-Wimplicit-function-declaration]
+    2708 |         err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_setup':
+>> drivers/bluetooth/btusb.c:2730:16: error: implicit declaration of function 'btmtk_usb_setup' [-Wimplicit-function-declaration]
+    2730 |         return btmtk_usb_setup(hdev);
+         |                ^~~~~~~~~~~~~~~
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_shutdown':
+>> drivers/bluetooth/btusb.c:2735:16: error: implicit declaration of function 'btmtk_usb_shutdown'; did you mean 'btusb_mtk_shutdown'? [-Wimplicit-function-declaration]
+    2735 |         return btmtk_usb_shutdown(hdev);
+         |                ^~~~~~~~~~~~~~~~~~
+         |                btusb_mtk_shutdown
 
-9a740a6a4e590a Vikram Singh 2026-11-18  424  void riscv_pmu_ctr_sched_task(struct perf_event_pmu_context *pmu_ctx, struct task_struct *task,
-9a740a6a4e590a Vikram Singh 2026-11-18  425  			      bool sched_in)
-9a740a6a4e590a Vikram Singh 2026-11-18  426  {
-9a740a6a4e590a Vikram Singh 2026-11-18 @427  	struct riscv_pmu *rvpmu = to_riscv_pmu(pmu_ctx->pmu);
-                                                                                       ^^^^^^^^^^^^
-Dereference
 
-9a740a6a4e590a Vikram Singh 2026-11-18  428  	struct cpu_hw_events *cpuc = this_cpu_ptr(rvpmu->hw_events);
-9a740a6a4e590a Vikram Singh 2026-11-18  429  	void *task_ctx;
-9a740a6a4e590a Vikram Singh 2026-11-18  430  
-9a740a6a4e590a Vikram Singh 2026-11-18  431  	if (!cpuc->ctr_users)
-9a740a6a4e590a Vikram Singh 2026-11-18  432  		return;
-9a740a6a4e590a Vikram Singh 2026-11-18  433  
-9a740a6a4e590a Vikram Singh 2026-11-18  434  	/* Save branch records in task_ctx on sched out */
-9a740a6a4e590a Vikram Singh 2026-11-18 @435  	task_ctx = pmu_ctx ? task->perf_ctx_data : NULL;
-                                                           ^^^^^^^
-Checked too late.
+vim +/btmtk_usb_subsys_reset +2708 drivers/bluetooth/btusb.c
 
-9a740a6a4e590a Vikram Singh 2026-11-18  436  	if (task_ctx) {
-9a740a6a4e590a Vikram Singh 2026-11-18  437  		if (sched_in)
-9a740a6a4e590a Vikram Singh 2026-11-18  438  			riscv_pmu_ctr_restore(task_ctx);
-9a740a6a4e590a Vikram Singh 2026-11-18  439  		else
-9a740a6a4e590a Vikram Singh 2026-11-18  440  			riscv_pmu_ctr_save(task_ctx, rvpmu->ctr_depth);
-9a740a6a4e590a Vikram Singh 2026-11-18  441  		return;
-9a740a6a4e590a Vikram Singh 2026-11-18  442  	}
-9a740a6a4e590a Vikram Singh 2026-11-18  443  
-9a740a6a4e590a Vikram Singh 2026-11-18  444  	/* Reset branch records on sched in */
-9a740a6a4e590a Vikram Singh 2026-11-18  445  	if (sched_in)
-9a740a6a4e590a Vikram Singh 2026-11-18  446  		riscv_pmu_ctr_reset();
-9a740a6a4e590a Vikram Singh 2026-11-18  447  }
+044014ce85a17c0 Hilda Wu  2023-04-27  2688  
+aa58d8366269e7b Hao Qin   2024-05-15  2689  static int btusb_mtk_reset(struct hci_dev *hdev, void *rst_data)
+aa58d8366269e7b Hao Qin   2024-05-15  2690  {
+aa58d8366269e7b Hao Qin   2024-05-15  2691  	struct btusb_data *data = hci_get_drvdata(hdev);
+73377cf3056ad72 Chris Lu  2024-07-04  2692  	struct btmtk_data *btmtk_data = hci_get_priv(hdev);
+aa58d8366269e7b Hao Qin   2024-05-15  2693  	int err;
+aa58d8366269e7b Hao Qin   2024-05-15  2694  
+aa58d8366269e7b Hao Qin   2024-05-15  2695  	/* It's MediaTek specific bluetooth reset mechanism via USB */
+f344a2d77d47e5f Chris Lu  2024-07-04  2696  	if (test_and_set_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags)) {
+aa58d8366269e7b Hao Qin   2024-05-15  2697  		bt_dev_err(hdev, "last reset failed? Not resetting again");
+aa58d8366269e7b Hao Qin   2024-05-15  2698  		return -EBUSY;
+aa58d8366269e7b Hao Qin   2024-05-15  2699  	}
+aa58d8366269e7b Hao Qin   2024-05-15  2700  
+aa58d8366269e7b Hao Qin   2024-05-15  2701  	err = usb_autopm_get_interface(data->intf);
+aa58d8366269e7b Hao Qin   2024-05-15  2702  	if (err < 0)
+aa58d8366269e7b Hao Qin   2024-05-15  2703  		return err;
+aa58d8366269e7b Hao Qin   2024-05-15  2704  
+aa58d8366269e7b Hao Qin   2024-05-15  2705  	btusb_stop_traffic(data);
+aa58d8366269e7b Hao Qin   2024-05-15  2706  	usb_kill_anchored_urbs(&data->tx_anchor);
+aa58d8366269e7b Hao Qin   2024-05-15  2707  
+f344a2d77d47e5f Chris Lu  2024-07-04 @2708  	err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
+aa58d8366269e7b Hao Qin   2024-05-15  2709  
+aa58d8366269e7b Hao Qin   2024-05-15  2710  	usb_queue_reset_device(data->intf);
+f344a2d77d47e5f Chris Lu  2024-07-04  2711  	clear_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags);
+25b6d7593a3af75 Jing Cai  2023-06-29  2712  
+25b6d7593a3af75 Jing Cai  2023-06-29  2713  	return err;
+25b6d7593a3af75 Jing Cai  2023-06-29  2714  }
+25b6d7593a3af75 Jing Cai  2023-06-29  2715  
+a1c49c434e15050 Sean Wang 2019-06-02  2716  static int btusb_mtk_setup(struct hci_dev *hdev)
+a1c49c434e15050 Sean Wang 2019-06-02  2717  {
+a1c49c434e15050 Sean Wang 2019-06-02  2718  	struct btusb_data *data = hci_get_drvdata(hdev);
+f344a2d77d47e5f Chris Lu  2024-07-04  2719  	struct btmtk_data *btmtk_data = hci_get_priv(hdev);
+0b70151328781a8 Jing Cai  2023-06-29  2720  
+f344a2d77d47e5f Chris Lu  2024-07-04  2721  	/* MediaTek WMT vendor cmd requiring below USB resources to
+f344a2d77d47e5f Chris Lu  2024-07-04  2722  	 * complete the handshake.
+1c770a550df2fb2 Hao Qin   2024-05-15  2723  	 */
+f344a2d77d47e5f Chris Lu  2024-07-04  2724  	btmtk_data->drv_name = btusb_driver.name;
+f344a2d77d47e5f Chris Lu  2024-07-04  2725  	btmtk_data->intf = data->intf;
+f344a2d77d47e5f Chris Lu  2024-07-04  2726  	btmtk_data->udev = data->udev;
+f344a2d77d47e5f Chris Lu  2024-07-04  2727  	btmtk_data->ctrl_anchor = &data->ctrl_anchor;
+f344a2d77d47e5f Chris Lu  2024-07-04  2728  	btmtk_data->reset_sync = btusb_mtk_reset;
+1c770a550df2fb2 Hao Qin   2024-05-15  2729  
+f344a2d77d47e5f Chris Lu  2024-07-04 @2730  	return btmtk_usb_setup(hdev);
+a1c49c434e15050 Sean Wang 2019-06-02  2731  }
+a1c49c434e15050 Sean Wang 2019-06-02  2732  
+a1c49c434e15050 Sean Wang 2019-06-02  2733  static int btusb_mtk_shutdown(struct hci_dev *hdev)
+a1c49c434e15050 Sean Wang 2019-06-02  2734  {
+f344a2d77d47e5f Chris Lu  2024-07-04 @2735  	return btmtk_usb_shutdown(hdev);
+a1c49c434e15050 Sean Wang 2019-06-02  2736  }
+a1c49c434e15050 Sean Wang 2019-06-02  2737  
+
+:::::: The code at line 2708 was first introduced by commit
+:::::: f344a2d77d47e5fad74e1b72399380b0a8f11fdc Bluetooth: btmtk: move btusb_mtk_[setup, shutdown] to btmtk.c
+
+:::::: TO: Chris Lu <chris.lu@mediatek.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
