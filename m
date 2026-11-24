@@ -1,77 +1,91 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795479954;
-	b=QjVeRo1vKMtyUkY/S49Ezt9gSZ/0TeADsivaEgTDoBsKEWdprw7cdMc7kHA/4gCThG8E
-	 Snxqa8rDiThOw3uy7sUZBVovHPAO4dvELJMo35VQivtbfTDCjudCbljae5AWFqGFU6W7z
-	 keJv3/9l2Dni4REfEV/qYOr0h0xaLuRU723y1tGa3GzDY4aYxpIE9Ij91ojMGCGno5AT2
-	 SOeNIZGqzN+iJsA2RY46TOaBOishQ9VI1y4sx8EBnQNdh4wGz0s6WOJvOQ8Qs5t7fhAyT
-	 R6k3V95HWSETVcpf2vrzRIQaViQq9jtBPTO97X977mVIu3YlPCFgyMKIyoaPgVpplaw==
+	t=1795479957;
+	b=q8+9CKC3e129ASCBL4mErt5RSprcA2mk74Yo/ut8WMHLT98tf1YNt041gvys826QUVTk
+	 5wZSY3I554t1yTg2Zl/bgwHDKb2lIGZHiStUrDkNsZV+UOqL75/7mu3+2WfQ0TzkUCVgJ
+	 yCvIsbbk+d18rujK6ScQ+J6AtEomdI0nqvBVyHn07GxG+CKsjtrXKgOBOXgCAqknaxBnv
+	 W2IsVbq7PyjoGe+t6mF6GmadagJQgecC6rr5i6EeV4ZLoFMdGvDo28uQg1ngIIc0PKfgh
+	 73qJav9p3PUi6Wx6nHiAOLrvbr8W/PGayrTifR1ulUeibG/T6O9Zs8jJ+D4QV/0iIsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795479954;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479957;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=QALjCj9XdBQDb9VYY8OKLeNBt3tGzHGX/evd40vs1tI=;
-	b=NwBH2NqhSvZCy2IRK3ehn+BuDlfrmFpHOfL0I9H52Cv/pyMjihjRZ9jBaH5gWw6IwYUz
-	 JlBywm1yjz4Z9ycLDPDa82v4Encyo8CC0iGoEGu6ig9ArqAB8oaUyIQoxtofvIYOr2Gic
-	 bEgypBa0H6Tcy3KSZ0z5BquYDF0YLF3+CCZZIcosh/Zsj8cT+PMgUwAsemf3vu2s96xA2
-	 Mozn7Rm0F6vE47p56ITUftTYFpdfunvy24hvdHGMNlVuN2w0eIRj+fiso6rpgKZ4SqbaC
-	 tjmZeTFKSn0EYC9KoNi/E5pleqYBtwLpsdeIluRPyYjxrGyiuuTIN2umSHv2Htppw7g==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Kxj3LTKCk8n1ShsiLvXIwCrcjkbbdAXHYZZDDBMTS0o=;
+	b=yqp+zixcvibyW/Y+kSVvkU6Vsi4qG1hEBHoFl4s3LeTB1YdxjPS6ibcDqHfrUC7tdY5L
+	 21vJAJFuQQGpTnHEHEOt+1ZrlFJRTgs/BvSqOPgFZcjO/VM4RQpdFwu7P8Az1vTeNTzsf
+	 4Fx5CiGrHGy8t44GQrlez231PG9sKTXe8qBijMU4We9MtR0wlRcn0z5FBB5BTYx84DGCX
+	 zM2gGK2yEXlMl0MEPL7rDzVRLI5HaAKJ8MyXKcO81Hj63kbCTJZ00jmPYn5G0xvrIp+ZX
+	 PLbN6SNTFV0HDth50h3bXfkrjRP41nOULCVSjsMp6xUfosSQQr3SDQWN+o09zx9MI1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RXpc41MS;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kkJ1gsnK;
 	arc=none smtp.remote-ip=192.198.163.9
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F776606A321
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 00:25:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F776606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA70606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 00:25:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCA70606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RXpc41MS
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kkJ1gsnK
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795479953; x=1827015953;
-  h=date:from:to:cc:subject:message-id;
-  bh=jUqd2j7Fi/dq6JQ6J5XdEEqcOw78mxfeBRt4hIJHesg=;
-  b=RXpc41MSEkvL786Aab7awGzItN+LI3dunDX9opLUk8YTeCHMbQmCmbQL
-   P4Sa9dVjGVxYfQggO3rMk1gNhAQG/yWn5kVpuvcezqe/RIqPGCpc5oUbd
-   QTuvAxGJo1dpJR82J1J3OZ074d5WkuWUnHgtoPloNMtC14h0kBSISBZCo
-   n30UfzS/w+NA4+WMWf0KkgCvwhjikNboykOkzWT9F2QJF5eVtsYpgfQfA
-   gUoMjA4YKFOzsIuPP8zOIIezTF8aT4LvpTXyZ39RMEqoY5+zZl6GjMQrK
-   ID8pYU9xZDxCm/LO3eeChMuMnuBtnV0RmxpqHDdhzQ7+ZII535b3Zp1v1
-   A==;
-X-CSE-ConnectionGUID: TIQOx78KTj+i/I7uXEumqA==
-X-CSE-MsgGUID: pQenTZI1Rc2KT1AAffmC9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4189348"
+  t=1795479957; x=1827015957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nVAmdEDaDnYRQHSgXYadxkqn7jxNQZQ2b8Lekb4iy7U=;
+  b=kkJ1gsnKbwRrS57wVSV8XJUcI+bEEdguOMSEXtDdwDLdunoxUxHkNoLd
+   0KnipJzWcZuDrMmYMmaIg3JvaoEUekpv3R88pDW67s5Dob35Z9ObXWLBr
+   kqxl2W5Xo18xGjiRxtzeXeTm6K/2uNYSea5gpmtDNi7pq/YG4Zko5N3mw
+   ytv4n2m/Cn2Cl5vJFvfbGnI/mP26RzREnBLlndmFU9PPu0RGnmyTQZsuy
+   hVWxMjfc0uuF31J081TsQrSceR5GyhJyYtA6VwyfuH0SFBMAoquKT4N+Q
+   qDefPWVSgcBlNrssdiuj7c9mtNeDWNTLeWEpQIsYR0vJtaosVjRl0AVgf
+   w==;
+X-CSE-ConnectionGUID: PwQLn5d3QF+eKrgBpiBasg==
+X-CSE-MsgGUID: ZJqah1ZVThyl6/2ir803VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4189352"
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4189348"
+   d="scan'208";a="4189352"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 16:25:53 -0800
-X-CSE-ConnectionGUID: 9Vg/AvL9TviI4X5AbTcxRw==
-X-CSE-MsgGUID: cO8TGoybQ0eF/F+5KULmCg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 16:25:57 -0800
+X-CSE-ConnectionGUID: k14Qo0u8TLu1N32wmi9GQw==
+X-CSE-MsgGUID: dPCKt2FpRF6mZjF3kBUgNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="11543165"
+   d="scan'208";a="11543163"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 23 Nov 2026 16:25:52 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xVeM1-00000001OBk-0nUZ;
+	id 1xVeM1-00000001OBi-0g1j;
 	Tue, 24 Nov 2026 00:25:49 +0000
-Date: Tue, 24 Nov 2026 08:25:07 +0800
+Date: Tue, 24 Nov 2026 08:25:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:b4/acpi-static-table-irq-probe-defer-v2 3/10]
- include/linux/acpi.h:71:10: error: implicit declaration of function
- 'FIELD_PREP'
-Message-ID: <20261124081558.2nqvgOis-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Srinivas Kandagatla <srini@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die
+ temperature as a thermal zone
+Message-ID: <20261124081056.uJlgRhV6-lkp@intel.com>
+References: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,133 +94,176 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/acpi-static-table-irq-probe-defer-v2
-head:   ca8bd1758c478a6d6f4ee72816f935c38cdb1169
-commit: c692f3d86b735adeead52e7d58f1b943135cfaae [3/10] ACPI: Introduce irq_get() for static fwnodes
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261124/20261124081558.2nqvgOis-lkp@intel.com/config)
+Hi Srinivas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20261120]
+[cannot apply to broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus robh/for-next v7.4-rc3 v7.4-rc2 v7.4-rc1 linus/master v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-soc-pcm-add-multi_direction_codecs-link-flag/20261122-161415
+base:   next-20261120
+patch link:    https://lore.kernel.org/r/20261122161437.5994-9-srinivas.kandagatla%40oss.qualcomm.com
+patch subject: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die temperature as a thermal zone
+config: i386-buildonly-randconfig-1001-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124081056.uJlgRhV6-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124081558.2nqvgOis-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124081056.uJlgRhV6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261124081558.2nqvgOis-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124081056.uJlgRhV6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/tables.c:19:
-   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
->> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
-         |          ^~~~~~~~~~
-   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
-     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
-         |                      ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/acpi/property.c:16:
-   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
->> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
-         |          ^~~~~~~~~~
-   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
-     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c: At top level:
->> drivers/acpi/property.c:1792:12: error: static declaration of 'acpi_static_fwnode_irq_get' follows non-static declaration
-    1792 | static int acpi_static_fwnode_irq_get(const struct fwnode_handle *fwnode,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:92:5: note: previous declaration of 'acpi_static_fwnode_irq_get' with type 'int(const struct fwnode_handle *, unsigned int)'
-      92 | int acpi_static_fwnode_irq_get(const struct fwnode_handle *fwnode,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c: In function 'acpi_static_fwnode_irq_get':
-   include/linux/acpi.h:75:9: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      75 |         FIELD_GET(ACPI_STATIC_IRQ_TRIGGER_MASK, (flags))
-         |         ^~~~~~~~~
-   drivers/acpi/property.c:1803:50: note: in expansion of macro 'ACPI_STATIC_IRQ_TRIGGER'
-    1803 |         return acpi_register_gsi(NULL, irq->gsi, ACPI_STATIC_IRQ_TRIGGER(irq->flags),
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from sound/hda/controllers/intel.c:38:
-   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
->> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
-         |          ^~~~~~~~~~
-   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
-     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from arch/x86/include/asm/div64.h:100,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:12,
-                    from sound/hda/controllers/intel.c:23:
-   sound/hda/controllers/intel.c: At top level:
-   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
-     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
-     528 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/hda/controllers/intel.c:127:1: note: in expansion of macro 'module_param_array'
-     127 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/hda/controllers/intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
-     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from intel.c:38:
-   include/linux/acpi.h: In function 'acpi_static_fwnode_add_irq':
->> include/linux/acpi.h:71:10: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      71 |         (FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))    | \
-         |          ^~~~~~~~~~
-   include/linux/acpi.h:126:22: note: in expansion of macro 'ACPI_STATIC_IRQ_FLAGS'
-     126 |         irq->flags = ACPI_STATIC_IRQ_FLAGS(trigger, polarity);
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from arch/x86/include/asm/div64.h:100,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:12,
-                    from intel.c:23:
-   intel.c: At top level:
-   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
-     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
-     528 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   intel.c:127:1: note: in expansion of macro 'module_param_array'
-     127 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
-     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
+   sound/soc/codecs/wsa884x.c: In function 'wsa884x_probe':
+>> sound/soc/codecs/wsa884x.c:2248:60: warning: passing argument 3 of 'thermal_tripless_zone_device_register' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    2248 |                                                            &wsa884x_tz_ops,
+         |                                                            ^~~~~~~~~~~~~~~
+   In file included from sound/soc/codecs/wsa884x.c:26:
+   include/linux/thermal.h:333:73: note: expected 'struct thermal_zone_device_ops *' but argument is of type 'const struct thermal_zone_device_ops *'
+     333 |                                         struct thermal_zone_device_ops *ops,
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +/FIELD_PREP +71 include/linux/acpi.h
+vim +2248 sound/soc/codecs/wsa884x.c
 
-    69	
-    70	#define ACPI_STATIC_IRQ_FLAGS(trigger, polarity) \
-  > 71		(FIELD_PREP(ACPI_STATIC_IRQ_TRIGGER_MASK, (trigger))	| \
-    72		 FIELD_PREP(ACPI_STATIC_IRQ_POLARITY_MASK, (polarity)))
-    73	
+  2143	
+  2144	static int wsa884x_probe(struct sdw_slave *pdev,
+  2145				 const struct sdw_device_id *id)
+  2146	{
+  2147		struct device *dev = &pdev->dev;
+  2148		struct wsa884x_priv *wsa884x;
+  2149		unsigned int i;
+  2150		int ret;
+  2151	
+  2152		wsa884x = devm_kzalloc_obj(dev, *wsa884x);
+  2153		if (!wsa884x)
+  2154			return -ENOMEM;
+  2155	
+  2156		mutex_init(&wsa884x->sp_lock);
+  2157	
+  2158		for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
+  2159			wsa884x->supplies[i].supply = wsa884x_supply_name[i];
+  2160	
+  2161		ret = devm_regulator_bulk_get(dev, WSA884X_SUPPLIES_NUM,
+  2162					      wsa884x->supplies);
+  2163		if (ret)
+  2164			return dev_err_probe(dev, ret, "Failed to get regulators\n");
+  2165	
+  2166		ret = regulator_bulk_enable(WSA884X_SUPPLIES_NUM, wsa884x->supplies);
+  2167		if (ret)
+  2168			return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+  2169	
+  2170		ret = devm_add_action_or_reset(dev, wsa884x_regulator_disable,
+  2171					       wsa884x->supplies);
+  2172		if (ret)
+  2173			return ret;
+  2174	
+  2175		ret = wsa884x_get_reset(dev, wsa884x);
+  2176		if (ret)
+  2177			return ret;
+  2178	
+  2179		dev_set_drvdata(dev, wsa884x);
+  2180		wsa884x->slave = pdev;
+  2181		wsa884x->dev = dev;
+  2182		wsa884x->dev_mode = WSA884X_SPEAKER;
+  2183		wsa884x->sconfig.ch_count = 1;
+  2184		wsa884x->sconfig.bps = 1;
+  2185		wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
+  2186		wsa884x->sconfig.type = SDW_STREAM_PDM;
+  2187	
+  2188		/*
+  2189		 * Port map index starts with 0, however the data port for this codec
+  2190		 * are from index 1
+  2191		 */
+  2192		if (of_property_read_u32_array(dev->of_node, "qcom,port-mapping", &pdev->m_port_map[1],
+  2193						WSA884X_MAX_SWR_PORTS))
+  2194			dev_dbg(dev, "Static Port mapping not specified\n");
+  2195	
+  2196		pdev->prop.sink_ports = GENMASK(WSA884X_MAX_SWR_PORTS - 1, 0) & ~BIT(WSA884X_PORT_VISENSE);
+  2197		pdev->prop.source_ports = BIT(WSA884X_PORT_VISENSE);
+  2198		pdev->prop.simple_clk_stop_capable = true;
+  2199		pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
+  2200		pdev->prop.src_dpn_prop = wsa884x_src_dpn_prop;
+  2201		pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+  2202	
+  2203		wsa884x_reset_deassert(wsa884x);
+  2204		ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
+  2205		if (ret)
+  2206			return ret;
+  2207	
+  2208		wsa884x->regmap = devm_regmap_init_sdw(pdev, &wsa884x_regmap_config);
+  2209		if (IS_ERR(wsa884x->regmap))
+  2210			return dev_err_probe(dev, PTR_ERR(wsa884x->regmap),
+  2211					     "regmap_init failed\n");
+  2212	
+  2213		/* Start in cache-only until device is enumerated */
+  2214		regcache_cache_only(wsa884x->regmap, true);
+  2215	
+  2216		if (IS_REACHABLE(CONFIG_HWMON)) {
+  2217			struct device *hwmon;
+  2218	
+  2219			hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x",
+  2220								     wsa884x,
+  2221								     &wsa884x_hwmon_chip_info,
+  2222								     NULL);
+  2223			if (IS_ERR(hwmon))
+  2224				return dev_err_probe(dev, PTR_ERR(hwmon),
+  2225						     "Failed to register hwmon sensor\n");
+  2226		}
+  2227	
+  2228		pm_runtime_set_autosuspend_delay(dev, 3000);
+  2229		pm_runtime_use_autosuspend(dev);
+  2230		pm_runtime_mark_last_busy(dev);
+  2231		pm_runtime_set_active(dev);
+  2232		ret = devm_pm_runtime_enable(dev);
+  2233		if (ret)
+  2234			return ret;
+  2235	
+  2236		if (IS_REACHABLE(CONFIG_THERMAL)) {
+  2237			char tz_name[THERMAL_NAME_LENGTH];
+  2238			struct thermal_zone_device *tz;
+  2239	
+  2240			/*
+  2241			 * Register after runtime PM is enabled, as the zone is read
+  2242			 * right away. dev_name() is too long for a zone name.
+  2243			 */
+  2244			scnprintf(tz_name, sizeof(tz_name), "wsa-%d-%u",
+  2245				  pdev->bus->id, pdev->id.unique_id);
+  2246			tz = thermal_tripless_zone_device_register(tz_name,
+  2247								   wsa884x,
+> 2248								   &wsa884x_tz_ops,
+  2249								   NULL);
+  2250			if (IS_ERR(tz)) {
+  2251				dev_warn(dev,
+  2252					 "thermal zone '%s' registration failed (%ld); SP T0 kcontrol will read 0 for this codec\n",
+  2253					 tz_name, PTR_ERR(tz));
+  2254			} else {
+  2255				ret = devm_add_action_or_reset(dev,
+  2256							       wsa884x_tz_unregister,
+  2257							       tz);
+  2258				if (ret)
+  2259					return ret;
+  2260	
+  2261				thermal_zone_device_enable(tz);
+  2262			}
+  2263		}
+  2264	
+  2265		return devm_snd_soc_register_component(dev,
+  2266						       &wsa884x_component_drv,
+  2267						       wsa884x_dais,
+  2268						       ARRAY_SIZE(wsa884x_dais));
+  2269	}
+  2270	
 
 -- 
 0-DAY CI Kernel Test Service
