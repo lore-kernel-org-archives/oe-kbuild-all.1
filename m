@@ -1,79 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527751;
-	b=ZJC7ZVxT8LOJPuMGITRq82jt7rJFxoVw2U1xOwOZmX2WzkNOnERCJcWXu9Rvtw9z5ebM
-	 EfzaWgmPCoYEX5rnB4Bk8cMMSmBtfve0/p+eiIQK2GNTallu/e063+gmy7tMXSNwag6kX
-	 1EcSaKLeLZN1jvGLzjpmESsWYSx2L6wn/8TpJFSTJpwg47IpSgXfS5S8Jfv0fBNPQNgbw
-	 7Hzy6Oo2szrw4NfQaEA8ilMYNmKkksmoMqWv0Ym/5V8vUOiAUJxG/0HeSxzhmXpbdJ6pm
-	 FRyQKQaObiyIem3iQry50GM7MA10llRyLQ3nI3y1GPkbJ6b3H9G8uxEJhAhprfyoreQ==
+	t=1795537803;
+	b=vAu7XBHS7MKXy+1cSSmMm8loBjvvqEze+L4dxwTkzq4+huoXhYLzjqIQ5DTpoMoczTs5
+	 rdA3t8hYokzHxuy28fXf7FG5Jeefqnk8oXeavaBstK/myJTybFORoQJQXQQGTNHe3TRY6
+	 7iNfWu6G9IGpnUPn/u4Scg8GGL5JxeWpy5LTBEnxsIfckDxrWkGhpPFCjusD6CqHXnCeL
+	 cmlYtnj5wxV8GBS4FxsyMZJ/AaY1MPluOY1+pVSBXbYzx8g4cvr0bejRq24qrjnO+CbRS
+	 AdcoUyaHVhqUfDFiG15oAL9fA93kFbLxXYhEOWQMVP6UfNv2dS+JIWesceHqljF2KOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527751;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795537803;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=W0y7eSdzZOdL287C7Dl6llyptLT1adUT1BZK2u4A3fQ=;
-	b=nFi+kXp4iDfL4rIxE+xXuNfLHvVkiu5Ql51Qkxj43iOEu10vImE88uZNHQp0s8SPcyPi
-	 rtBvM9o4GgXaRZ6onjhmDwdICKY0T8OYDS3vrWRB47Sqjq+bN3ErT572GsKKiCyijjiJS
-	 U5pn86f85yj1L6xUIRPsGpVajMzAFRL/LCEgyu40f0HNeh8oat7412ia+H5PEdAvIFvZn
-	 CfkR6ySTPRdJzCLrLQpiZYk7Z10ZIJ5XwEEs/7ahnG5CnfuUERKvmpWWaISPx7g/L6lOi
-	 wkMgdh7ICdtYYGQtzLbiYVZTYxuyOae0QNAKcG4ygfYvN5fSCICjgLLvLTIM9GyK/Bw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=X/vNezg/LV9JUzYAFJhN0ZdrCxxx3+0MzuLhJR/Rv1Y=;
+	b=jJhYTwICulPOyNz9UGgLvKouufsd9VULC+7dSrkUkVzAnanXjcBkKziXdm0gOcCrLnj5
+	 mvP+zuMLPFp/EXBxH5RhaJmo83r3G5ujEDUB8I7VQJbx3Z4EREwJc3XO8PI9PzxAbBGOP
+	 hkOan/rkjr8lzGJBTIaKmShp7WHTvyfrEHzYEN0fW9hA1Zb/xM6ajT+c1Dyyt4zyllDO6
+	 T1wbkN/dI8deX3ZqhJShm656613959EjN6OdFFRUNXykzPi/w4xXYR/skNMA5O+FOKY6o
+	 GRLJS4cRYESh0VgUdI6NkApQIGpcLtB3xiKpdhGqv1LoVqhyHnnU3XZOLqSpU87zghQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W6Bs8KH9;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KPz1RU6j;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A4B606A31E;
-	Tue, 24 Nov 2026 13:42:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06A4B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36AE606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 16:30:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F36AE606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W6Bs8KH9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KPz1RU6j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795527751; x=1827063751;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xrF09vv+ciashULbO0v5LVsOaLbzLGwInEB/NeEGsQY=;
-  b=W6Bs8KH9vqIhN6pDhwhkvYFARtbBIpQZN8nP3xoF/Q/jr5MaGYxuDxZ2
-   ATTIhmKC3IB2wVqWKbHz8J4wKgylTEI9R/F3p2ImQ6Fw/ZNkA54n1/fpk
-   OW5nh4SJ7IsyAob0wxg17s+hpvaZ70MBWg3/6pr+VUUsV9CazhzHY3+6z
-   zTywx9JO++wNEPY/7fcK07x4zmMsDhnN7idmwQYVZGJBOrtspXyzf+cC1
-   dT4sJFB4y1aaIlLLdNu6hSPhwR/fpw3jqBtmzKas7KeGiaAo6bHDo1AeU
-   N/sf8FVyMQqv4v7/wuxhXkV/ciugLWK6pq/Ogbd5s1Fqb6jG+nYmys65J
-   A==;
-X-CSE-ConnectionGUID: HL7oJi7sRkS4QZH02gaSFA==
-X-CSE-MsgGUID: y8SouzihTY+kvLtu2CxW8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4244444"
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="4244444"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 05:42:30 -0800
-X-CSE-ConnectionGUID: 3NJENb3hTNC/OsDt2BlJTQ==
-X-CSE-MsgGUID: 9SLlxSfJS4mTQ6t0GI0CzQ==
+  t=1795537803; x=1827073803;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ehva+mkV70v/sA6TTEZ/xpMHbyfLVmSE6rLtw03CPeg=;
+  b=KPz1RU6jhmv3hGVN5Wmajud5iaA++IPrFmDiVfAS26jeAs1cPKAhuWnh
+   Dr1rdGtnVRa0QGrO9Oz37VFg41oBv9Dol5+gh3sGxvKAXcubY9kxrFbK4
+   eMgPzdNrYkvfj7WmzfYbBUGj41pF3lERuj4AcY5kV0tPMqWvyker3qDk4
+   9fSTTtGvfqKpzJeLzKyA29bFqnSEHu03tkGabKS0KMJ2/Ps1YqGhn2oaf
+   VsnWnwPmILMgrJyF1pIxMZs2HN9LylgT5VzdxfYd+OhI4sGGKjdePHJpE
+   9A+UGUlgDsQhn/kAo/JSI8O5A+TPCEyhp+H7iDvOd+QsiWguS+/9r0zkh
+   w==;
+X-CSE-ConnectionGUID: d7YIskedTRyv1K+U2+4paA==
+X-CSE-MsgGUID: w5eIVHs4QmuuA6XCnONW6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4446978"
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="4446978"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 08:30:02 -0800
+X-CSE-ConnectionGUID: lGPtBAdCTdmX6Hu+Xr4BvQ==
+X-CSE-MsgGUID: 0eWxm+WIQi6lYd4uE4MqKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="11923085"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Nov 2026 05:42:29 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="11922180"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 24 Nov 2026 08:30:00 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xVqmw-000000005Cf-1ltf;
-	Tue, 24 Nov 2026 13:42:26 +0000
-Date: Tue, 24 Nov 2026 14:42:21 +0100
+	id 1xVtP3-00000001Pio-3nEX;
+	Tue, 24 Nov 2026 16:29:57 +0000
+Date: Wed, 25 Nov 2026 00:29:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ville =?utf-8?Q?Syrj=C3=A4l=C3=A4"?= <ville.syrjala@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: [drm-i915:for-linux-next 5/6]
- drivers/gpu/drm/i915/display/intel_de.c:350:18: warning: use of bitwise '|'
- with boolean operands
-Message-ID: <20261124143710.bu4mng1e-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Rupesh Majhi <zoone.rupert@gmail.com>
+Subject: Re: [PATCH v1 1/1] iio: core: Split debugfs routines
+Message-ID: <20261125002412.n7KFlU4e-lkp@intel.com>
+References: <20261124094502.557175-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,61 +86,66 @@ List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124094502.557175-1-andriy.shevchenko@linux.intel.com>
 
-tree:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-head:   6d00cec4c9becea6540f75820bc0837d14ea7611
-commit: 1a6684ee830ff0a15147e332991e1a5d34c55592 [5/6] drm/i915/de: Optimize the mmio_debug checks in intel_de_{read,write}()
-config: riscv-randconfig-2005-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124143710.bu4mng1e-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124143710.bu4mng1e-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v7.4-rc4 next-20261123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-core-Split-debugfs-routines/20261124-104410
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20261124094502.557175-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] iio: core: Split debugfs routines
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261125/20261125002412.n7KFlU4e-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125002412.n7KFlU4e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261124143710.bu4mng1e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125002412.n7KFlU4e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_de.c:350:18: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
-     350 |         return unlikely(!!READ_ONCE(display->params.mmio_debug) |
-         |                ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                                 ||
-     351 |                         READ_ONCE(display->mmio.mmio_debug_oneshot));
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:47:41: note: expanded from macro 'unlikely'
-      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:32:34: note: expanded from macro '__branch_check__'
-      32 |                         ______r = __builtin_expect(!!(x), expect);      \
-         |                                                      ~^~
-   drivers/gpu/drm/i915/display/intel_de.c:350:18: note: cast one or both operands to int to silence this warning
->> drivers/gpu/drm/i915/display/intel_de.c:350:18: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
-     350 |         return unlikely(!!READ_ONCE(display->params.mmio_debug) |
-         |                ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                                 ||
-     351 |                         READ_ONCE(display->mmio.mmio_debug_oneshot));
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:47:68: note: expanded from macro 'unlikely'
-      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/compiler.h:34:19: note: expanded from macro '__branch_check__'
-      34 |                                              expect, is_constant);      \
-         |                                                      ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_de.c:350:18: note: cast one or both operands to int to silence this warning
-   2 warnings generated.
+>> drivers/iio/industrialio-debugfs.c:138:13: error: static declaration of 'iio_device_unregister_debugfs' follows non-static declaration
+     138 | static void iio_device_unregister_debugfs(struct iio_dev *indio_dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iio/industrialio-debugfs.c:20:
+   drivers/iio/iio_core.h:23:6: note: previous declaration of 'iio_device_unregister_debugfs' with type 'void(struct iio_dev *)'
+      23 | void iio_device_unregister_debugfs(struct iio_dev *indio_dev);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/industrialio-debugfs.c:145:13: error: static declaration of 'iio_device_register_debugfs' follows non-static declaration
+     145 | static void iio_device_register_debugfs(struct iio_dev *indio_dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/iio_core.h:24:6: note: previous declaration of 'iio_device_register_debugfs' with type 'void(struct iio_dev *)'
+      24 | void iio_device_register_debugfs(struct iio_dev *indio_dev);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/industrialio-debugfs.c:145:13: warning: 'iio_device_register_debugfs' defined but not used [-Wunused-function]
+     145 | static void iio_device_register_debugfs(struct iio_dev *indio_dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/industrialio-debugfs.c:138:13: warning: 'iio_device_unregister_debugfs' defined but not used [-Wunused-function]
+     138 | static void iio_device_unregister_debugfs(struct iio_dev *indio_dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +350 drivers/gpu/drm/i915/display/intel_de.c
+vim +/iio_device_unregister_debugfs +138 drivers/iio/industrialio-debugfs.c
 
-   345	
-   346	static __always_inline bool
-   347	__mmio_debug_is_enabled(struct intel_display *display)
-   348	{
-   349		/* with || gcc emits two branches for this */
- > 350		return unlikely(!!READ_ONCE(display->params.mmio_debug) |
-   351				READ_ONCE(display->mmio.mmio_debug_oneshot));
-   352	}
-   353	
+   137	
+ > 138	static void iio_device_unregister_debugfs(struct iio_dev *indio_dev)
+   139	{
+   140		struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+   141	
+   142		debugfs_remove_recursive(iio_dev_opaque->debugfs_dentry);
+   143	}
+   144	
+ > 145	static void iio_device_register_debugfs(struct iio_dev *indio_dev)
 
 -- 
 0-DAY CI Kernel Test Service
