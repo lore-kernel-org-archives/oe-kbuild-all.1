@@ -1,96 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795491123;
-	b=4fKrpxYM1xtTr100YiKrfz5groCyO6JgmjQy22Qw8fohfS/3d0uVULUmjPpVTIvTwmJb
-	 viiCAqAjO0hs8QkHKNQ+/x/5eAAJPpuy1hfursm75yzjftQGx67mUpqjdBVAT9yZMVtal
-	 L1aqh6zwTdhUCLHuxRJ6z09ClThN34FHJBIETWqrHKy3VrpmKeSQOlDVtfoKSKOuzLAOn
-	 +3gx7XGM9j/tue4ncZ2IoOVpKPqG1RnFAE/Dy6m+IrCoo+lm4LVAdD0wkzEzGBSjd765q
-	 bDo602KSK2g73ubggCx5I9cAaJwkWn8E2O+mlBv11mJ3FcpVUXnQaAKKCLauv1BXRLQ==
+	t=1795491656;
+	b=alT721xAYWYE6S4f82cuUm0m0WaaZqzlym7c97ZneWHhnTETIerKfvgesefJvuJI+B74
+	 LEdvMOQiaCLsK5bT/dROzn57XvglB3xSe3Q1Is797DWTudqzu6XiCuCl9Our+9gQlVloS
+	 25iy2rK7so83gjwqv4coE+e4J2+30BBC9CHyDSMHgq1ALiJ/1oa9mxF1eswNvkIjvIT8R
+	 sqTv8kIXmCaf58IaIYNwb18SIn9LBbUyssfjcjD2n53SX9apBFBtbOLsQX9QAH//Ov3dt
+	 x5kJpZYQUiq6/RL7iJwEqF+0633aF+PrEUoPAwpDcK8sasVLjujjTeM93vFfgDVQhZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795491123;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:X-ME-Sender:
-	 X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:
-	 From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:
-	 Content-Type;
-	bh=kLoOysGNtZOXt/ESdOdZUsUDPWGwGSckCxOKgDV/zUQ=;
-	b=EdZbGEx39nFrWeWcAKvFrV9/IYOBlW3VEpLRoecJwV0wJUtta1ifHs1K/EXR0Q1IvjEK
-	 OfiAhHS0/y0KbTQg/skCxtnuGlIwUh2rEKRNuE1ruaEdD0K7XDZ3NB4eAC1yJ5h/ZtzhP
-	 EJEAPHle2O365VPN144rPSs88b68T8dZ63nRNh2nAzhYbJBleNAqLmsQE4rn9/wpdP3TX
-	 Iiy1o864Ni+sH7TpuFDWqhG2hbTZQmmpW49fYNuVBsAEDliFZvF4M1RVk3iEpNmkugGMC
-	 XpXARLzenoLaaiSKN20H/Ty/Up/R7c7s4lVE4UM4H+cCnazrCNdS1pI9SFj4JebTRbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795491656;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=zHDUrPTd0xfoRrZ6w5OeSD5r9HSpIWB36fmU+3KQKiM=;
+	b=5GRoWIWeSGownSqSgAKQgIT5SPT0VLt/lhW0+9DtioftAcSJl8EjZ5DT54CXJ58cxY9O
+	 TZTcLI2VRNk38itb8eaTkm2H+5tHkrCt1vsPiB83pyodtoQuoaq/QcADZH3PBHSAIh+Re
+	 J5EqCvCYUaYdDKGFyt+QNUTJ3sksk2XHPTdJS6S3huxkFIWRCvVXTxRFuNQXuajuzxK+m
+	 jdml7emJEA5XyjhaWXbEgKkKfP7qOCEUzMLIOP7W4Ksnztj1jSqcefR/Js3aJrEPGXbTX
+	 DRGCDA21pqX1C1Al5E8L3U+Z7M1x0xqDrCCF8lgTXdpcdG7GjF/aGhlsFl6N6LWUolw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=none smtp.mailfrom=linux-m68k.org;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=alvoVMjB;
-	arc=none smtp.remote-ip=202.12.124.147
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cOhdPduZ;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B9B606A321
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 03:32:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3B9B606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A818606A321
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Nov 2026 03:40:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A818606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=alvoVMjB
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 494051D00373;
-	Mon, 23 Nov 2026 22:32:01 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Mon, 23 Nov 2026 22:32:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795491121; x=1795577521; bh=kLoOysGNtZOXt/ESdOdZUsUDPWGwGSckCxO
-	KgDV/zUQ=; b=alvoVMjBTX/NhdGQNY67fq6toV3OveCnp8MX6fU00cHvAWxPtC4
-	ympw8pvh8bdxyvT5bi3/2ra7zcPOe/wmLVS8ATj/gc9iPzIr+IYO9zlXpwrGCMWI
-	rgCa4KE4bg033482/hBxGda2xGIRbYb1tQq4hLirbfMid6xJkLfw0xlG4182WM4k
-	oxeB2/Xm9FZv4s64e9GatzkU1zp4B+g0KjX1L15GnESJZLqS/5ILMbxdwBIkjWHe
-	vl8YQHkRS30QcFuifqWpM3gguKlxzNwwbVV/w5Gify+F60Jj6rlSQ/gkhYcoJ58r
-	XLrcpnZcqndBeNJUCd7RODSWTkRHl0RE2hg==
-X-ME-Sender: <xms:MAUFawWGOnSUhWCK0n74bj7S1daW3O9f576fnuZBdtB2EcJdtRQvsQ>
-    <xme:MAUFawdh1Oq1_8bgtEdvN2rh8_xUeMjHNPlGbeEdfIm0rLylKVuY1fhblFZavmMsi
-    aKJzVjTZY_cN7_Sx-Us_5uFIHv3RgfyOANrbzf9l_jc-6Kycz5etmAF>
-X-ME-Received: <xmr:MAUFaxa12B8uS99cStoGsMwr3Isi2Nli3r3p_566paxqcxu05KiF3rhPgnYA>
-X-ME-Proxy-Cause: dmFkZTEHpoa40k3wkgDvOYjTRBvpK2fU0Wmubuw4eAWknCsm19yPzDmblnHSkM0C/foDkE
-    /gviTWxt7HQRY5tmC9+x10NSQo0Bq5MpD9NiZJ7ttBURF38crzHj43Sf6Z/S3cnKayTquP
-    PKjvAHSMdyFHCMEE1T9j7G93Kkr7I+yDMMUpn7GfRFAIRiSZXM76u5jjSNIOIHZOB6frXq
-    bjJ3B1+mU+Nt3nbZLZFZBsuem5iFzQIthvogegQ9qLmKoPl5H8LfO5i760EAdLiJ2bqtSv
-    KaNgOXFO8n+CVAGQ7IGAOCRFzIX4CBPqojZY7xDeh7hXhQTL1/9VYK8v/FFA7yA5iT+0pJ
-    BOdUtpePdwHKmey1pZteSsBtug5yTvXdetkn5a9A3YnjCwy264sUhaM/ZHCVwgeAOC9zHK
-    8QzihtUER3Bb+SX9rIKiMoGFXDhFj3TDuf/6kAI/TEN8FtYcZN+XyKtnhdYVwJC+TcNkv7
-    ooSAKkydzZ88wn+MvgEaE52JcfSFkejrUSYifUubi3KlttCP8TEf33jV2U6r6P8Fe1btqH
-    l+0+SB9wX+5gDeyfyRpmHlDApLZQDv4yNStzUm/FtJNM8gNP1/LecqyJT/LpT9u4wyGUUw
-    ZWfoEubPJ9J01lnKs6OYSAUDoKGHjVdWjAO7AyfpItAUQIN0sGh949DE22vA
-X-ME-Proxy: <xmx:MAUFa0NJcAMrK4LX3DZf9VjPaWJ1uLZaOlQ6JPNpHp8OAiHPKbTgbw>
-    <xmx:MAUFa_WctsRYYHPzbviSHjYtIrgXnYfkSm3hE1g3_BgZrHJ5FnOSzA>
-    <xmx:MAUFa5IvTy3YsMBjmQC5_pD-7eUo9R7wpLZ6E_AMbaeCxxPpKzoiIg>
-    <xmx:MAUFa6oDlywPuE8zIwr6hpSod7L4drQyEeIbXVIYF5BbzahKgp81mA>
-    <xmx:MQUFa69GKEJBYb63VNweSDGNzNTTWOWlYWyYE5O0yuX0LS1PtMSn9EPt>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Nov 2026 22:31:58 -0500 (EST)
-Date: Tue, 24 Nov 2026 14:31:48 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Bart Van Assche <bvanassche@acm.org>
-cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
-    kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-    Linux Memory Management List <linux-mm@kvack.org>, 
-    Arnd Bergmann <arnd@arndb.de>, 
-    James Bottomley <James.Bottomley@hansenpartnership.com>, 
-    "Martin K. Petersen" <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>
-Subject: Re: include/linux/compiler_types.h:631:45: error: call to
- '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
- failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
- sizeof(*u)
-In-Reply-To: <8a0f78e3-5483-42a2-ae27-473bbb6de915@acm.org>
-Message-ID: <85e103fe-acca-0880-1be3-cb1e7f79f9a4@linux-m68k.org>
-References: <20261121034304.2dPxVKzk-lkp@intel.com> <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org> <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com> <669b9ce8-bb33-f7ee-1087-88c1e9d3b610@linux-m68k.org>
- <8a0f78e3-5483-42a2-ae27-473bbb6de915@acm.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cOhdPduZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795491655; x=1827027655;
+  h=date:from:to:cc:subject:message-id;
+  bh=NOQb0HrH8/nBjH2x+NGR+ps0ReZxS/NkKNiyBPqH78I=;
+  b=cOhdPduZbwfcEhtvr7Y8JHkSwMA5Zn8XueY5etd0UAQVo3yaz9k11NTQ
+   yjtYpjCQIrpM68RqnyxFQ/upNkZtcBr/YWYKDy8UJhXdEclRRS/Xk6J60
+   ZUZ99h18J/s127R/2UZgOnKBY8calvV+CUBEz07lhwCFzlqCqFxe9012g
+   TNynjHI/CkaolKzNZ3Ag/NNy0jbg4G+Oq+4KEAT8jiX5YKpPgZsFJLjqp
+   i8p7BmhkcQYdVVjtwQ7r/ZIQYRZccADlBucSjZsELU1628Ht385J8mFtK
+   mBKrjwU0Pfhvxl9NCsXbSfQl1NcOmYnWelV6JiTJno//kd6eJqaOCxM0R
+   A==;
+X-CSE-ConnectionGUID: SC1HLLfdSryquIZu5JfFxw==
+X-CSE-MsgGUID: qvkx5V8IQO2pvswQg1HOqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4224288"
+X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
+   d="scan'208";a="4224288"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 19:40:55 -0800
+X-CSE-ConnectionGUID: Dy01rSTfQnqKH3VgJZ20JA==
+X-CSE-MsgGUID: iuqu3Ej4TP6pcAbzdD3K9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
+   d="scan'208";a="11490405"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 23 Nov 2026 19:40:53 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVhOk-0000000057V-3vkv;
+	Tue, 24 Nov 2026 03:40:50 +0000
+Date: Tue, 24 Nov 2026 04:40:47 +0100
+From: kernel test robot <lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:fermata 198/293] kernel/bpf/coro.c:174:13:
+ warning: variable 'ret' set but not used
+Message-ID: <20261124043844.rOZgtOG3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -99,55 +79,71 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+
+tree:   https://github.com/kkdwivedi/linux fermata
+head:   21eee2b16f3dde7280a4fa6c30e2ddbb02197140
+commit: 8ab3f2ab1341cb46c5c546c9fe484a44a0c26db0 [198/293] bpf: Add a runtime to resume suspended coroutine frames
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261124/20261124043844.rOZgtOG3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124043844.rOZgtOG3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124043844.rOZgtOG3-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/bpf/coro.c: In function 'bpf_coro_run':
+>> kernel/bpf/coro.c:174:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     174 |         u64 ret, kind;
+         |             ^~~
 
 
-On Mon, 23 Nov 2026, Bart Van Assche wrote:
+vim +/ret +174 kernel/bpf/coro.c
 
-> On 11/23/26 3:05 PM, Finn Thain wrote:
-> > Yes, two alternative solutions were submitted in March (either remove the
-> > assertion or rework it). The build bot reported the problem again in
-> > September so I resubmitted the "rework" alternative. Sashiko-bot didn't
-> > have much praise for that*, so now I'm leaning towards the "remove"
-> > alternative. I have been advised to keep re-submitting, and I will do so
-> > after a suitable back-off in retry rate i.e. 2027 or 2028.
-> > 
-> > *
-> > https://lore.kernel.org/r/93e35f60-e465-7f76-0043-f997fe2ec8c7@linux-m68k.org
-> 
-> What an LLM came up with after I asked it to fix 
-> https://lore.kernel.org/lkml/202603030747.VX0v4otS-lkp@intel.com/ can be 
-> found below. One of the comments of the LLM is "This is essentially Finn 
-> Thain's "Rework BUILD_BUG_ON() assertion" patch with your two review 
-> comments from this morning applied". Sashiko reports "No issues found" 
-> for the patch below. No Signed-off-by from me because I think Finn 
-> should be credited for his work instead of I.
-> 
+   134	
+   135	/*
+   136	 * Resume the coroutine of @frame: call the resume function in its first slot with the frame
+   137	 * as its argument. It is a subprogram of the program that the frame holds a reference on, and
+   138	 * runs like any invocation of the program, under RCU with migration disabled, in a context
+   139	 * where the kfuncs of the program type are valid, which the caller sees to. Like the call of
+   140	 * any async callback it is an invocation of its own for the time of may_goto, see
+   141	 * bpf_timed_may_goto_save().
+   142	 *
+   143	 * It is never called inside an invocation of a program, from a kfunc that the program calls:
+   144	 * a continuation that suspends its frame again to such a kfunc would nest without bound. Where
+   145	 * that happens the same task is in here twice at the same context level of the CPU. The
+   146	 * warning catches that much, see bpf_coro_runners: not a kfunc that resumes a frame in the
+   147	 * call of a program that no bpf_coro_run() entered, nor one that nests while another task's
+   148	 * call of this CPU, which was preempted, holds the task level.
+   149	 *
+   150	 * The continuation owns the frame and may free it, and with it the reference that keeps the
+   151	 * program loaded. A program is freed after a grace period of RCU, or of RCU Tasks Trace if it
+   152	 * runs sleepable, see __bpf_prog_put_noref(): the call and what follows it here are in a read
+   153	 * section of the one that applies.
+   154	 *
+   155	 * The call has a landing pad, like the call of a helper whose callback may unwind, see
+   156	 * bpf_call_cb(). The verifier has a continuation leave with kexit when the kernel unwinds it,
+   157	 * see push_coro_suspend(), and kexit returns here, behind the label: the pads of the program
+   158	 * have released what the continuation held. Nothing on the way to it says who is told, so this
+   159	 * tells a struct_ops, as bpf_prog_unwound_to_kernel() would where kexit finds no landing pad.
+   160	 * unwind_exit of the program comes to the label too: the continuation did not return either,
+   161	 * and nobody else is told, as where such a frame returns into the kernel.
+   162	 *
+   163	 * Returns true when the continuation did not return: the kernel unwound it, or the program's
+   164	 * own unwinding left it. The kfunc can react, by closing a connection or waking a waiter, say.
+   165	 */
+   166	noinline bool bpf_coro_run(void *frame)
+   167	{
+   168		struct bpf_prog *prog = bpf_coro_frame_hdr(frame)->prog;
+   169		bpf_callback_t resume = READ_ONCE(*(bpf_callback_t *)frame);
+   170		bool sleepable = bpf_prog_runs_sleepable(prog);
+   171		struct bpf_timed_may_goto saved;
+   172		struct task_struct *runner;
+   173		bool unwound = false;
+ > 174		u64 ret, kind;
 
-Thanks, Bart. I'll take that as a vote for "rework". There is an 
-associated risk though: I can't test the patch as I don't have access to 
-suitable hardware. (Perhaps someone with such access will volunteer.) 
-
-Whereas, the "remove" alternative doesn't require testing as it doesn't 
-risk a regression.
-
-I have a question for your LLM. Sashiko-bot said, in response to my patch:
-
-    Similarly, get_datalen_for_atio() accesses the array out-of-bounds 
-    when len > 0:
-
-    drivers/scsi/qla2xxx/qla_target.h:get_datalen_for_atio() {
-    ...
-        return get_unaligned_be32(&atio->u.isp24.fcp_cmnd.add_cdb[len * 4]);
-    ...
-    }
-
-I don't understand why the patch from your LLM did not raise the same OOB 
-access concerns.
-
-Adding a flex array to struct qla_tgt_sess_op can prevent new struct 
-members being added in the wrong spot in that struct but can't prevent new 
-struct members being added to struct atio7_fcp_cmnd. Neither does the 
-assertion. So the "remove" alternative doesn't have all the disadvantages 
-that you might expect.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
