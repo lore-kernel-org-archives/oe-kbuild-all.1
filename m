@@ -1,81 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795572376;
-	b=GBvSHa5E1XgrGuqIwOB7bYZfPH6LSybkyHyAuE2eYFl4/U53eBL18G7UifW1Fr10oy9b
-	 yxhnhqvo4A+iw1uAIUKTUQar9UGDQjvYV5rrsYf6rdE7i+f04KxESjzL0bkVjZWvIDExa
-	 BHoOoOWINxDhoGN2J3MfPJR5eNmQvXkhxbos90tPXYja0woFtdq71UVWRZofnydN1Ulwx
-	 0AfcgPU9jTfu6miUKVkA1o3R2LbOWJ0KG3iCyvI0rMIg0wfdYS+6eOnlhuPhndxl15v9q
-	 uoSpo96KPleM8rUJSNIedVNMh8smPBD5FJ1xirOflBYqhf/X7ZfFfq6rb8gczYk/0ZA==
+	t=1795575020;
+	b=RP2tofHmEyHEAuQ7B7YQJh1OKE44VxHDMw25HK7XPU2cRNyo75hGQlJIFkKBC4a1s61e
+	 QPRv12yiBEVYseDMXbUIFMenRo8Wfpj4/mhZcdMCPPPlCP5GHD8QmrzuRSaIpq4ENhh9p
+	 cy16sdqO5/3imhc5HtNi0FQoADOf/Ry9w8XLB2L+2N+qZ6tBSvJ3fz41pKf9Pt7x0tf9C
+	 SbJzaUJpbeAvElvjvtDJqMokVPCUMNdTBGBEq6wjKE0IMlmIQNYn6vfOtuq2MAokIOudU
+	 ttLosW4097+FF554xuKJ1+45Zy/2sYFtVVXvJ9yPkt282WErM091lyzzOE9jMl45xNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795572376;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795575020;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=YqHrQYvYK1mTiBdyQkyNMnJO6MOU5pDaqra27f6WUYg=;
-	b=us4UEshrLdZrFEfHp8xw0GTiW6AAUVD4TrW12RwybhdKo/o2Vh7mNIpnVXfgX/Ug1jXD
-	 4G/U8g2SZD9nyugSG64DO7bjzifhFXbR12BcSMjQGAem/d8TbQCuvvPx2vojwO+To5Xa+
-	 FlPNwbk0IzsjFv6B0DI79Fmh3yg/4yCo2vTd2UrTRGJ9AfzwmbKqAEjcIZCW+VA/sCjV3
-	 eCMaIS2UTP4wOEtyAC6Im/9N5dTcpJUr2lS93vEsIjT6HKEh9mVtecWFJk3czSuwL5KVU
-	 aO3iLO7qelcuJjymiDfaQqGeqkt0wRwUvYhzQwuZUN8WPRts+ZeUa6liTwqYyxwnm0A==
+	bh=hjTsEiHsB3scrTtDDV5jrh4xR7hyZtuQPmXQXJ4G5oA=;
+	b=HguGbNyVr9B6AIcGU+GnrPx9Oz69+2hNqlkrBYi3UeZjqbkottZB8Fh1IwQnEng8Ss8Z
+	 Tyd8UZA6j/ImSDxKX8xjJ9T93QMkbGsyP4aNwJW5WYiEK2KBD7HUxwyWpZjCXFhr7i21v
+	 LVniLE/6U6I9qFUxBaT5xS3cUSU/+BFJN76WqjpT6flkggudXl2ncn4wqRN5rEOmXAUae
+	 YBTzNINsC12Opaa2w50P2E+FRhvmBxnZjAC00hWqxK1/DkVmKxlTstIWQskbvaJhDTtte
+	 7C1dcBSHrLMHmsmKaMuFgWq9dQo6Yomn6ihZD6bXcWiW1flXOxB+VPkXclhg8mlt2RA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="e2z6iw7/";
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YqFq14zg;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A65606A330;
-	Wed, 25 Nov 2026 02:06:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86A65606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129ED606A33F;
+	Wed, 25 Nov 2026 02:50:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 129ED606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e2z6iw7/
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YqFq14zg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795572376; x=1827108376;
+  t=1795575019; x=1827111019;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J6tI0oNu5ipgac+ZyULfo7Y10gS1m3hJ23/QN8OCwxg=;
-  b=e2z6iw7/1cdQZI85GYFGKKAe6m3elnm5OLbjsTKffby5Vsw6F4tApD8f
-   0vbhpPt5a+GCfxDkehn4cNTleryNu8d2Wsbd5BeF5Jf+OcwDsG3oKmq9B
-   JgezIUqnUcaNPUmr/I6uaD+c1Gz0YQA/lMfwHGGPvyo+edLoJQPcptH/P
-   YEF1Ts96GK5BFDMSsUYa1pC55Tfs1b9NosBxTbskclTWGzcqMaEWBwH71
-   SXxgiLGN7onuVctp8teNDUZAEeKiXzxvx9Rs3k4uMuOgDReqXuWZ/xUU3
-   YCihdce6nPTsw5tP4woNMGKnBqAFR+eufEL7s5j9GSzQLMTnDsy1Trhy4
+  bh=FMJRwqJHxhDPXVt+DDIaX5xHOfNnwmDVihBZyK76jyw=;
+  b=YqFq14zgaQoW6sdIxFjmKVUmQswP7w+TU8pTEbz3pZhnes5nPpCXmeR3
+   pcErAriQhH/ZFTUq7iNqtGQzKLjiWgxjJNN+CYTT4RzLi12tKQigk8Xpr
+   0WeY4dLoOOPNh5Bf/apH9xSdy2umM2tBL+Lfr5CV3gxl1bPyrdOVl28Y2
+   95qVxPVMSrxfAz5vqpTtzntXZtu5CZWVJk6wgOFmBzJdp0tPunAxFB8uv
+   dszJb4UeKCo8ZYHU6/0WvSTn7IAXDo8DTFn76a1EJOrxNyOMyx4DhPJff
+   TSvhqNuyZvdS4kMB177DwZBX0GyxJuir1U7ouIr3NDc5o9tDDtLQSvaMQ
    w==;
-X-CSE-ConnectionGUID: 3rTtSGbWTcmArHBRBWsSgA==
-X-CSE-MsgGUID: c5lCRMWVS3u2eX0JvR4o2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4322167"
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="4322167"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 18:06:15 -0800
-X-CSE-ConnectionGUID: puKRDXZcRYeLkoNKbfjorw==
-X-CSE-MsgGUID: ClHvdapeSayvNMoP7nMyIg==
+X-CSE-ConnectionGUID: RQAYVx90T36oqe6IJPv3+Q==
+X-CSE-MsgGUID: CqPlPi4qTnmkcY50g19lUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4312486"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4312486"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 18:50:18 -0800
+X-CSE-ConnectionGUID: LGuQYm+xS0WWm+/cuAibYA==
+X-CSE-MsgGUID: BbyHB66dR1+vA+YgeLPFng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="12161971"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11851290"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Nov 2026 18:06:12 -0800
+  by orviesa001.jf.intel.com with ESMTP; 24 Nov 2026 18:50:16 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xW2Of-00000001Qg2-44Mj;
-	Wed, 25 Nov 2026 02:06:09 +0000
-Date: Wed, 25 Nov 2026 10:06:00 +0800
+	id 1xW35I-00000001Qio-3vrh;
+	Wed, 25 Nov 2026 02:50:12 +0000
+Date: Wed, 25 Nov 2026 10:49:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
-	Intel Graphics <intel-gfx@lists.freedesktop.org>,
-	DRI <dri-devel@lists.freedesktop.org>
+To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+	linux-security-module@vger.kernel.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20261125095513.u60l5aJo-lkp@intel.com>
-References: <awXJ__-grexFFPb4@sirena.org.uk>
+	linux-kernel@vger.kernel.org, jmorris@namei.org, serge@hallyn.com,
+	keescook@chromium.org, john.johansen@canonical.com,
+	penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH 1/1] LSM: infrastructure management of mount options
+Message-ID: <20261125104210.ICeMgnNL-lkp@intel.com>
+References: <20261124181522.30415-2-casey@schaufler-ca.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,77 +88,85 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awXJ__-grexFFPb4@sirena.org.uk>
+In-Reply-To: <20261124181522.30415-2-casey@schaufler-ca.com>
 
-Hi Mark,
+Hi Casey,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20261123]
-[cannot apply to drm-tip/drm-tip linus/master v7.4-rc4 v7.4-rc3 v7.4-rc2 v7.4-rc4]
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v7.4-rc4 next-20261124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-build-failure-after-merge-of-the-drm-misc-tree/20261124-173143
-base:   next-20261123
-patch link:    https://lore.kernel.org/r/awXJ__-grexFFPb4%40sirena.org.uk
-patch subject: linux-next: build failure after merge of the drm-misc tree
-config: arm64-randconfig-1002-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125095513.u60l5aJo-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-infrastructure-management-of-mount-options/20261124-101522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20261124181522.30415-2-casey%40schaufler-ca.com
+patch subject: [PATCH 1/1] LSM: infrastructure management of mount options
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261125/20261125104210.ICeMgnNL-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125095513.u60l5aJo-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125104210.ICeMgnNL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125095513.u60l5aJo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125104210.ICeMgnNL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:217:3: error: call to undeclared function 'dma_buf_unmap_sgt_unlocked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     217 |                 dma_buf_unmap_sgt_unlocked(buffer->attach, buffer->sgt,
-         |                 ^
-   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:217:3: note: did you mean 'dma_buf_vunmap_unlocked'?
-   include/linux/dma-buf.h:596:6: note: 'dma_buf_vunmap_unlocked' declared here
-     596 | void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
-         |      ^
->> drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:437:8: error: call to undeclared function 'dma_buf_map_sgt_unlocked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     437 |         sgt = dma_buf_map_sgt_unlocked(attach, DMA_BIDIRECTIONAL);
-         |               ^
-   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:437:8: note: did you mean 'dma_buf_vmap_unlocked'?
-   include/linux/dma-buf.h:595:5: note: 'dma_buf_vmap_unlocked' declared here
-     595 | int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
-         |     ^
-   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:437:6: error: incompatible integer to pointer conversion assigning to 'struct sg_table *' from 'int' [-Wint-conversion]
-     437 |         sgt = dma_buf_map_sgt_unlocked(attach, DMA_BIDIRECTIONAL);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:552:3: error: call to undeclared function 'dma_buf_unmap_sgt_unlocked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     552 |                 dma_buf_unmap_sgt_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
-         |                 ^
-   4 errors generated.
+>> security/selinux/hooks.c:2887:6: warning: variable 'opts' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2887 |         if (!fc->security) {
+         |             ^~~~~~~~~~~~~
+   security/selinux/hooks.c:2903:2: note: uninitialized use occurs here
+    2903 |         opts->initialized = true;
+         |         ^~~~
+   security/selinux/hooks.c:2887:2: note: remove the 'if' if its condition is always true
+    2887 |         if (!fc->security) {
+         |         ^~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:2878:31: note: initialize the variable 'opts' to silence this warning
+    2878 |         struct selinux_mnt_opts *opts;
+         |                                      ^
+         |                                       = NULL
+   1 warning generated.
 
 
-vim +/dma_buf_unmap_sgt_unlocked +217 drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+vim +2887 security/selinux/hooks.c
 
-   208	
-   209	/*
-   210	 * Cleans up imported dmabuf.
-   211	 * Should be called with mutex held.
-   212	 */
-   213	static void vc_sm_clean_up_dmabuf(struct vc_sm_buffer *buffer)
-   214	{
-   215		/* Handle cleaning up imported dmabufs */
-   216		if (buffer->sgt) {
- > 217			dma_buf_unmap_sgt_unlocked(buffer->attach, buffer->sgt,
-   218						   DMA_BIDIRECTIONAL);
-   219			buffer->sgt = NULL;
-   220		}
-   221		if (buffer->attach) {
-   222			dma_buf_detach(buffer->imported_dma_buf, buffer->attach);
-   223			buffer->attach = NULL;
-   224		}
-   225	}
-   226	
+  2873	
+  2874	static int selinux_fs_context_submount(struct fs_context *fc,
+  2875					   struct super_block *reference)
+  2876	{
+  2877		const struct superblock_security_struct *sbsec = selinux_superblock(reference);
+  2878		struct selinux_mnt_opts *opts;
+  2879	
+  2880		/*
+  2881		 * Ensure that fc->security remains NULL when no options are set
+  2882		 * as expected by selinux_set_mnt_opts().
+  2883		 */
+  2884		if (!(sbsec->flags & (FSCONTEXT_MNT|CONTEXT_MNT|DEFCONTEXT_MNT)))
+  2885			return 0;
+  2886	
+> 2887		if (!fc->security) {
+  2888			int rc;
+  2889	
+  2890			rc = lsm_mnt_opts_alloc(&fc->security);
+  2891			if (rc)
+  2892				return rc;
+  2893			opts = selinux_mnt_opts(fc->security);
+  2894			opts->initialized = true;
+  2895		}
+  2896	
+  2897		if (sbsec->flags & FSCONTEXT_MNT)
+  2898			opts->fscontext_sid = sbsec->sid;
+  2899		if (sbsec->flags & CONTEXT_MNT)
+  2900			opts->context_sid = sbsec->mntpoint_sid;
+  2901		if (sbsec->flags & DEFCONTEXT_MNT)
+  2902			opts->defcontext_sid = sbsec->def_sid;
+  2903		opts->initialized = true;
+  2904		return 0;
+  2905	}
+  2906	
 
 -- 
 0-DAY CI Kernel Test Service
