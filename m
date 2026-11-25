@@ -1,108 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600817;
-	b=tc9Rvju9gye50ixZQV9uLJEvOyzltvurRSijJNBDD4/OcfvXL41cdEwErH4hPjQjeGii
-	 l7id7CRdaK9nT3DfMIQ58fYr1KNXXLer3xeonZGe48qANdS/rHrEVq/7ZMa6KN3HHNxK/
-	 Do1SzBSnODyiR5T/uF7SN29FG2kN49intRHL8bzXD+hNCWLXQWeDy82prH6P8psw1T4qW
-	 Jxqou67gPnd/JD8N+9/wlzEhB4IRAlRKoIcNVpZoMSmHGBwZNnWGwXpSBGhnlTxNmGPBz
-	 rB7eb43DGXyfq36KZZIG4bO5FcbBn4elzH9f1UO74rbRBeTtQdRlLbXZGcFdd4m560g==
+	t=1795602400;
+	b=AbuqRyvyswPomv/QLWBJOuzXsioeuP0cBHNxicOsiBvtSU1Lb3HOOAAhCqO3gPBmnVkH
+	 JB5tDqVXWhpWLMrigSqZKlE9P3uJRov/u1Ze6zheQFI31r74t+1Gu+QCw+joif6p0BY4z
+	 pKBxJnMR7W7Ew9Tx7DfTOUh2D5zdEVxY0atZT4KN8pafx6RHkciKzMhFgfeuuN0uDsz44
+	 N8kZT3axHXhpXU81AQ2khq94ec4cieupIldx/rd/bAwpN9GB1mONM5TUDs6A7ofeGyoPW
+	 YwOut0JMaNMPbGDHNb/lyPzhS++xY+CV1AJF2LW/l/rsUo9I5vk+g1aKwiGDmcXjMYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600817;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6Xv5qPmm0dHiJb1NJzGm83vzcGRgH+0sehHVb5Pqb2I=;
-	b=D0+OIqfRImeY8+Sc4Rc2dws97228uWc7qzGgdjHvxmw+9qV//VzfUqjiC6qexX8+dH9t
-	 b0t5GK6R+NXAdEudpOQdgvQGM4oVshd9spx3TFl+SmGg4EhT9xvNWnsfKfeFHFhnx4cyB
-	 OHRFEJgFVEwgC8L7/0mVpReGh24pmrq+o6yiUGeruV6GMdy9T8QRgZ+IVdKl+2AH/IU15
-	 /wVRuMhNOFCa+L6NuENUZbykml9BZ7q42zzHzO5Tk7WoWH75crbaF9kSbcK5Y1sqd+wnc
-	 6bn0NhgNjdwWwa3PDw1in5IodzBc+uI84ubJU/dFR1wCt6hgS+wYJOrmM6mKfqy92aw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795602400;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=zuE4J4l0qg09OFRCXhQ9L/aabV4WTGQ8Y3ktg05Mo94=;
+	b=v4EwUsDU/T56on/OVQ3zqXtb7RgRR3uPIbHKlX94C96ESRyqCwvfyyQ1e5yqE+pKbbUZ
+	 Rl9UmymeGkNyZhTk9LJmbrWdx4hpjzYYMtYFKtfxuTsZ1/fhkQnen8loS0IljJ4xKOKnb
+	 QtWFSLVI2l9U+1k+uP3lMd7u3hrD65CUEY+spnHNKDfTAJ/jgeWGjwuZRz++W2vqEpNxZ
+	 iCncix0oigqBseUSXcvTi+xFk2Wb0LDUi8uIis5gwTchRZIcT7xJ9B2bKWv/rHbQcish1
+	 jkLrZs6EIUBvAhemFsWRGUzvJRUn07zjQIlZyk6C8LjVsKs7CZQBz4QXz5q97T7hbXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xdWZnU1L;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OxhKHvxE;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52D1606A333
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 10:00:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C52D1606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A23606A32D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 10:26:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4A23606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xdWZnU1L
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-492690dd5daso4200990f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 02:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795600815; x=1796205615; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6Xv5qPmm0dHiJb1NJzGm83vzcGRgH+0sehHVb5Pqb2I=;
-        b=xdWZnU1LfsAQMASARSqO9IgP+kejuZkv9n0olIkg0HPmgxl43wf26O67gGvxcN25Bk
-         Al9h9xof1/drZ9eV5TbP9AexEDrV59dPIEris6qiEnNcHgrpLkakud/BVs7k/jVycboA
-         xfJe78ZRbXKio3l+mCWsKx4TbbzktEWujrRyqUD8TwvAhYXT0wEMoMgC3Iie/8GtKK4b
-         +VbNDcsOwX0VBt5jWCBhmi9cjGWPWjqSB6ZvOrEUTClnn9MZjhs8hEZLmchWKXdIkum3
-         78o5p/DPp2FFN754gm6rzcNDk63ZTInI3igjnOgb9Jc01U4+dccu75bYVFU7nvZy/yjT
-         hx+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795600815; x=1796205615;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6Xv5qPmm0dHiJb1NJzGm83vzcGRgH+0sehHVb5Pqb2I=;
-        b=A6xTjDbRUrY30ZO+WhfFm/LCffE5bv3n9WBCHrZWYzgbUC7tMm9qC1DkHiKLsGA//d
-         jEkPyjEpuvx1HMBTsRTEZ2IQsxv+H2vPbqMRcrwH19emljySAEPxy3Gjx4WUn86WyK2P
-         a62zq6MZdYEgmZ2S1KhuS1FnMJEUDp/vhKpATkZowK0nPNVtcaNqwRyR0xB5F/NNa8qS
-         QXckVwlw6J1OrpEL6M+9h1OSo+8P1nL7U/muA2sgi8M1BdZ6loLz3WSrWtZXYdwMB3pp
-         9PsM9eh2ibOEuLIo8dpdcAYCBXcu7DkGSvAGB5qeNJyuHL5NzZm/cDUDUE1ukBQBcaV6
-         eUzw==
-X-Forwarded-Encrypted: i=1; AL+hErGiiA6jfInQdIAbHp6/lIMH2CEK3Xlw10KdFoG8pgbPeVCwPtc5eyrl77gxF6zQihyg9TLzopfvMSr8vt7T@lists.linux.dev
-X-Gm-Message-State: APuU4Z+SECqNgSI1wU4TYBfI4B1vQ4rvflODkHgiylAvaMO7EjGGi0uJ
-	1Bc6zXdqsZMujdJ5R8A1mhOcIs02g8Z2bnmVFxG8h4gsa1lovh7gV04J
-X-Gm-Gg: AZFdTZc0nX4JqgJoj+r5HQC9lO1qlLi35HwAOSKtdzXJ5wpmVgkR1qNUQH1/kVRySxu
-	UkTj6O4o7bL12Hc05iKjR9rkkP9ylP2mIQYk+GwoTFr58AvnmUiXHjD+WdLC7MP5xzTiYVtAw4E
-	vqH9uJfYSmKG9ladQP+Dj/lI83p6vK0B42VBjV9HRXO3Z4OUGiGmnQWO99exCLCyhwi3HrJ6vL6
-	dD5f7wKqMcFC0mkCH4UIG/JhpGJpeWqzOPAZmW/QPmF3swfW21kMuCTWu27NGjx9SUZaHPUfgw3
-	wkAWNAc3MrBDVBg/6665EjIcf22UVXWMzmg+XiMMur/DSflYt6ZiIzdsYkDr+Bj6IHGbdh1RxsQ
-	FdGnkaZ+TcQgCJX7VrqhlxumaVlP4zyGeeNmyNF277W8TX1aMP4PZ0lfWNY7Ej3+9oBRoM1I3gF
-	iBR6UDh65fnDIz0zwgnwmXeV7+PdTWWxZmpzrenMECI2sb5yY1YN7elvrmT5yzr82yUtutVkztV
-	dtBX8AA1QI4RJYk8A6cj1N0rB8XINqgj6VxIBgwY5LOeWyOIRzZmpP6y3qoGn/IAEdfOoQrK75y
-	5G1v8vRzOmClWF6H6m8xPnuoOyXiQRwCCV8zmGBoTzM/03d8ChsAi8GPuifHw+VuLw==
-X-Received: by 2002:a05:6000:454f:b0:48e:6419:ddf2 with SMTP id ffacd0b85a97d-4abb2168ec7mr22189006f8f.17.1795600814661;
-        Wed, 25 Nov 2026 02:00:14 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm30001376f8f.17.2026.11.25.02.00.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 02:00:14 -0800 (PST)
-Date: Wed, 25 Nov 2026 10:00:13 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Finn Thain" <fthain@linux-m68k.org>, "Bart Van Assche"
- <bvanassche@acm.org>, "Geert Uytterhoeven" <geert@linux-m68k.org>, "kernel
- test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Andrew Morton" <akpm@linux-foundation.org>,
- "Linux Memory Management List" <linux-mm@kvack.org>, "James E . J .
- Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>
-Subject: Re: include/linux/compiler_types.h:631:45: error: call to
- '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
- failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
- sizeof(*u)
-Message-ID: <20261125100013.356bc7c7@pumpkin>
-In-Reply-To: <f0ec2845-245d-43ac-9c96-242e0d1d11ea@app.fastmail.com>
-References: <20261121034304.2dPxVKzk-lkp@intel.com>
-	<0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org>
-	<CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
-	<669b9ce8-bb33-f7ee-1087-88c1e9d3b610@linux-m68k.org>
-	<8a0f78e3-5483-42a2-ae27-473bbb6de915@acm.org>
-	<85e103fe-acca-0880-1be3-cb1e7f79f9a4@linux-m68k.org>
-	<f0ec2845-245d-43ac-9c96-242e0d1d11ea@app.fastmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OxhKHvxE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795602400; x=1827138400;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r+au8qRldkgPRV24KTZEaaIK3iE3Avcm18aW46N1flo=;
+  b=OxhKHvxEYrDH39lsPfvhaMGYgmMzVuDQUM3FCjYelgjHMpwXAkO94I4f
+   0zh8EdbFjauPJOGEqd7hgyfwkQvki8eioRnGnqTamI2LlUBhWBnSJG2o3
+   7UW1Jlrggyh+9CdMNXb0lMzbolWlwrxcLqZi1T/Mn1H1ju82a7LKDyDUM
+   LMkxqlPj2VrGmQjSQIGt0Fb0chndktYeSfzmT/8MOTedmU97MgCtcuhOC
+   v19nSFrydSZWw4zzuZUCRvz02Jtkv6MxAzbfxDtH5Ut7mwQMmGTvj8Pwd
+   Tgeou/DZL0O12xuSBSnesu9BP/9KUDrx9G/dZ0p7saJoFT2ngfXxAFPjy
+   Q==;
+X-CSE-ConnectionGUID: zgi/XLdGTeGZ5mhEgzShaw==
+X-CSE-MsgGUID: 53PHREXBRdKKAPNaUTqwgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4364086"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4364086"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 02:26:40 -0800
+X-CSE-ConnectionGUID: gVRl3oTGSEW/vZelTwrw+g==
+X-CSE-MsgGUID: cv7+69coRj+Q/EBnw9ALsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11958543"
+Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2026 02:26:38 -0800
+Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWACw-0000000006p-3McR;
+	Wed, 25 Nov 2026 10:26:34 +0000
+Date: Wed, 25 Nov 2026 11:26:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <helgaas@kernel.org>
+Subject: drivers/pci/rebar.c:142:31: warning: implicit conversion
+ from 'unsigned long long' to 'u32' (aka 'unsigned int') changes value from
+ 140737488355328 to 0
+Message-ID: <20261125112105.GGL4bTAX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -112,132 +82,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 
-On Tue, 24 Nov 2026 11:18:19 +0100
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4dce97c6c265544342e716e62fd24bbb232590c5
+commit: 48f014356698a3525959a9eb343dc67b5a5c6842 PCI: Validate pci_rebar_size_supported() input
+date:   1 year ago
+config: s390-randconfig-r2101-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125112105.GGL4bTAX-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125112105.GGL4bTAX-lkp@intel.com/reproduce)
 
-> On Tue, Nov 24, 2026, at 04:31, Finn Thain wrote:
-> > On Mon, 23 Nov 2026, Bart Van Assche wrote:
-> >  
-> >> On 11/23/26 3:05 PM, Finn Thain wrote:  
-> >> > Yes, two alternative solutions were submitted in March (either remove the
-> >> > assertion or rework it). The build bot reported the problem again in
-> >> > September so I resubmitted the "rework" alternative. Sashiko-bot didn't
-> >> > have much praise for that*, so now I'm leaning towards the "remove"
-> >> > alternative. I have been advised to keep re-submitting, and I will do so
-> >> > after a suitable back-off in retry rate i.e. 2027 or 2028.
-> >> > 
-> >> > *
-> >> > https://lore.kernel.org/r/93e35f60-e465-7f76-0043-f997fe2ec8c7@linux-m68k.org  
-> >> 
-> >> What an LLM came up with after I asked it to fix 
-> >> https://lore.kernel.org/lkml/202603030747.VX0v4otS-lkp@intel.com/ can be 
-> >> found below. One of the comments of the LLM is "This is essentially Finn 
-> >> Thain's "Rework BUILD_BUG_ON() assertion" patch with your two review 
-> >> comments from this morning applied". Sashiko reports "No issues found" 
-> >> for the patch below. No Signed-off-by from me because I think Finn 
-> >> should be credited for his work instead of I.
-> >>   
-> >
-> > Thanks, Bart. I'll take that as a vote for "rework". There is an 
-> > associated risk though: I can't test the patch as I don't have access to 
-> > suitable hardware. (Perhaps someone with such access will volunteer.) 
-> >
-> > Whereas, the "remove" alternative doesn't require testing as it doesn't 
-> > risk a regression.
-> >
-> > I have a question for your LLM. Sashiko-bot said, in response to my patch:
-> >
-> >     Similarly, get_datalen_for_atio() accesses the array out-of-bounds 
-> >     when len > 0:
-> >
-> >     drivers/scsi/qla2xxx/qla_target.h:get_datalen_for_atio() {
-> >     ...
-> >         return get_unaligned_be32(&atio->u.isp24.fcp_cmnd.add_cdb[len * 4]);
-> >     ...
-> >     }
-> >
-> > I don't understand why the patch from your LLM did not raise the same OOB 
-> > access concerns.  
-> 
-> I suspect that is just from Bart specifically calling it out in the changelog
-> already as a known limitation "Do not modify the memcpy() call in
-> qlt_queue_unknown_atio(), which still writes past the end of the 'atio'
-> member.".
-> 
-> > Adding a flex array to struct qla_tgt_sess_op can prevent new struct 
-> > members being added in the wrong spot in that struct but can't prevent new 
-> > struct members being added to struct atio7_fcp_cmnd. Neither does the 
-> > assertion. So the "remove" alternative doesn't have all the disadvantages 
-> > that you might expect.  
-> 
-> This is probably just a difference in perception: atio_from_isp and
-> everything inside is clearly marked as a hardware structure that is
-> meant to align exactly to the 64 byte cacheline, so it would not
-> make any sense to change its layout and add more members here.
-> qla_tgt_sess_op on the other hand is clearly not a hardware structure
-> but an in-kernel one, so it is quite unexpected that one of its members
-> extends past the end, especially when the other three instances of
-> atio_from_isp in data structures don't seem to do that.
-> 
-> >> @@ -227,7 +224,7 @@ static void qlt_queue_unknown_atio(scsi_qla_host_t *vha,
-> >>   		add_cdb_len =
-> >>   			((unsigned int) atio->u.isp24.fcp_cmnd.add_cdb_len) * 4;
-> >> 
-> >> -	u = kzalloc(sizeof(*u) + add_cdb_len, GFP_ATOMIC);
-> >> +	u = kzalloc_flex(*u, extra_cdb, add_cdb_len, GFP_ATOMIC);
-> >>   	if (u == NULL)
-> >>  		goto out_term;  
-> 
-> While this does make the current implementation more correct by having
-> the correct length, I'm worried that it just ends up establishing
-> the complexity more in the sense that extra_cdb extends both into
-> the padding and beyond qla_tgt_sess_op.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 48f014356698 ("PCI: Validate pci_rebar_size_supported() input")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125112105.GGL4bTAX-lkp@intel.com/
 
-Isn't the struct also embedded in the middle of other structures
-so can't end in a flex array?
+All warnings (new ones prefixed by >>):
 
-> If the driver is still actively maintained, it would be nice to
-> reduce the complexity instead, in one of two ways:
-> 
-> a) make atio_from_isp naturally aligned by dropping the bogus
->    __packed attribute, so it is actually at the end of qla_tgt_sess_op
->    as the driver was written to expect. Note that having the
->    outer structure as __packed but the union and the inner
->    structs as aligned is itself problematic and can lead to
->    undefined behavior, if some code ever takes a pointer to
->    one of the inner aggregates and expects it to be aligned.
->    The only effect that I see from the __packed annotation is
->    that it forces expensive byte access on dma-coherent memory
->    despite it being fully aligned.
+>> drivers/pci/rebar.c:142:31: warning: implicit conversion from 'unsigned long long' to 'u32' (aka 'unsigned int') changes value from 140737488355328 to 0 [-Wconstant-conversion]
+     142 |         if (size < 0 || size > ilog2(SZ_128T) - ilog2(PCI_REBAR_MIN_SIZE))
+         |                                ~~~~~~^~~~~~~~
+   include/linux/sizes.h:70:20: note: expanded from macro 'SZ_128T'
+      70 | #define SZ_128T                         _AC(0x800000000000, ULL)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~~~~~~
+   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
+      20 | #define __AC(X,Y)       (X##Y)
+         |                          ^~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/log2.h:162:14: note: expanded from macro 'ilog2'
+     162 |         __ilog2_u32(n) :                \
+         |         ~~~~~~~~~~~ ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   1 warning generated.
 
-It looks to me like almost all of the __packed in that header
-are bogus - there is one on an le64 member which could easily
-be on an odd 32bit boundary.
-What it really wants is an 'error if any padding' flag.
-(And maybe a compile-time check on the longer structures.)
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
-If the hardware does dma onto those structures then you really
-don't want them misaligned either.
 
-Bag of worms :-)
+vim +142 drivers/pci/rebar.c
 
-David
+   128	
+   129	/**
+   130	 * pci_rebar_size_supported - check if size is supported for BAR
+   131	 * @pdev: PCI device
+   132	 * @bar: BAR to check
+   133	 * @size: encoded size as defined in the PCIe spec (0=1MB, 31=128TB)
+   134	 *
+   135	 * Return: %true if @bar is resizable and @size is supported, otherwise
+   136	 *	   %false.
+   137	 */
+   138	bool pci_rebar_size_supported(struct pci_dev *pdev, int bar, int size)
+   139	{
+   140		u64 sizes = pci_rebar_get_possible_sizes(pdev, bar);
+   141	
+ > 142		if (size < 0 || size > ilog2(SZ_128T) - ilog2(PCI_REBAR_MIN_SIZE))
+   143			return false;
+   144	
+   145		return BIT(size) & sizes;
+   146	}
+   147	EXPORT_SYMBOL_GPL(pci_rebar_size_supported);
+   148	
 
-> 
-> b) rework the driver more broadly to never actually do any
->    accesses beyond a struct boundary and make it work with
->    sanitizers enabled. One way to do this would be to
->    have a separate isp24 atio structure that is not in the
->    union but that encloses the actual maximum length.
->    Not sure how this would actually be done, but it appears
->    that the current design keeps causing problems, see e.g.
->    091719c21d5a ("scsi: qla2xxx: target: Fix invalid memory
->    access with big CDBs") which adds more complexity around
->    keeping an extra copy for it.
-> 
->       Arnd
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
