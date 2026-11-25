@@ -1,99 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795596802;
-	b=sy4BmwfdJMxNhlbLppbmzim1cBVULemLIwl/d6nGvdCU+XqNCzwdQrn5ubUUyHU41QUw
-	 4Hj1su8uXrQKcGLMqwGO/pLoYbltYvsixcfK8kAphW35ZnibJHwPbE+JlMPhqxpdm8Zrm
-	 5OnR8wVImy94KM9VyCXHpj5XpC70Gz5mmu03AqOqWLWEXs28/aWc9htcGwbqjAj3wW7LY
-	 5wqYH2KJ0A2URicOye+TwzU0u4z+9Apg6SkXwqQJVYMH4Ij25E6XNwDeKRWuppKSYCXhr
-	 VxOi02f24zkiZwXyJ+uLsQMvvcn9w7hjRKDAjfHrAXeRTKfX4dt6rwYZVuOIBV/KZTg==
+	t=1795597487;
+	b=yyolYqTCga9Qa+h2l0jAuwxPiLouAuccnv+qCyyLIhYlSWaDqfT2jkPcaP4qe0ZHBIZJ
+	 rD6eZg/L8AjWCJOccH+1s3Leq2VRnSIMynBQDHcjgBDDjCcV7IA+7PIZJFU2ZPP7TfvkJ
+	 l3KxAlsLSdUloCQYXVRikTHVZHG8xddavTSPoebWDFncblnUt0bWUHYid8l9kV/px3ise
+	 MHGXt0mqSfu24vTmdtOF1HnE3VwnA0lkAk4yJGC3nObdhJifN9bgS50Lw/0N0JdkIPqf/
+	 QkPuVAAxiLTQrcNCImbz1qtcHiYcBKBzD4CLG4u4QfMn8Bwo1cEOps/rIdO4kGr5M9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795596802;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:X-ME-Sender:
-	 X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:
-	 From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:
-	 Content-Type;
-	bh=Nq5Ty1n7WI1400BfK5t4dJ5itvlOKXYtVXJbOMjndJU=;
-	b=jR4CBVYOqYkypZKIl6KlInQOnSA0vJUlk8WkrhOzEFpKyeiGZHmLFdHKfY2J64U5UDd+
-	 /kf0EVcbn6dD4a20owllkX1dpvJ9UnBGcfTxvZf+g5DmLHNh+3lMbfsmkkvUr03t1QOkX
-	 xIAI1O8QSzZG0GgDIPjaKeorsNgKrtZ2BE1VjPi86kRH0ayIHOk53nBaxUdNRzQHbFYIt
-	 aH5sYs84DlLhQz/3QCNKy1N0lO5YaEu2K/NNbOAOrlY5CN3k3q0zOFPqpNUywdsLx7SUi
-	 BzkQ50oQN1mokFg3Rtaf4F8BvCm5WZylZUfkvPNDG9TcbGGWamYETiCa0RIJeu76acA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597487;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=FiQu5duTdZDOO1sS8f353s7nlfCaf+YomMSk/GsfJbw=;
+	b=NdYBrOMB8OO5Nq5ilQhi5xoURjR2Dy/typ+zqC2B6PYLNStb70G7HWbqHGi0lMXzcG6e
+	 ZcTV/YhQxGpKwXXBl+XCDWv2UWsRHw1MavyDpdM3p1xdO5BfSXKM8fvRfztU+4X0kB4m0
+	 jFQBLFKUVQcyIBF2p7MU14XdRfANYS4nl7Kih/CjkdihAbSBmdUeHkQz0xlGHTx7R4geH
+	 dUtepRtH9mSSbkzGJpNY1pXAc2lVXj84gWNvnqR9s8sn/H7d3CPWGJBnJVClem0zpbo1D
+	 4V+Y5WbhLvTTrUuEcOBLzgWT85YX5GGzw3Y3tYefc3m3jNGLJnBHWOgXD2IsUDfLRSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=none smtp.mailfrom=linux-m68k.org;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=mG1WdPQe;
-	arc=none smtp.remote-ip=202.12.124.158
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HxYBBuLq;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7565F606A326
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 08:53:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7565F606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620FF606A321;
+	Wed, 25 Nov 2026 09:04:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 620FF606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=mG1WdPQe
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 72AFC7A03DA;
-	Wed, 25 Nov 2026 03:53:20 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 25 Nov 2026 03:53:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795596800; x=1795683200; bh=Nq5Ty1n7WI1400BfK5t4dJ5itvlOKXYtVXJ
-	bOMjndJU=; b=mG1WdPQeI7YENxWxm4IAEHymREVU21ImpiPjBt0RW9IODa7x4Wb
-	9hv9sd6h7PrD/SVlxVxyG3G4OkQULTOQKxtja9rmwHfdMHcsEqg6jR4H0s7p38Lm
-	GM2QKzfAqid1b0mNUlqZdkDB0nc9XLEKMecW/sZBqWcVaWTnwhiL9ApaJhnRjj+B
-	fZjBdJIhfAfm0YD6KcxJew+RY56DpEdALb/R6ohYaz+gUqXdEZNIKZjnZVUcRUiv
-	UBCyJCeg2YzZjZPYm1MZGGRixjqFTJunnhVtFQgYEgkkQ7luHGftrj6nm5aYGr0P
-	i5iQPpdiSdQy7JwZZMlPf+Cy3KIfn3gB8Cw==
-X-ME-Sender: <xms:_6EGa2Il-wIV7KtGZYc5LNSgVbgUCH4Do4VHv3Gib5RHjH654nYZbg>
-    <xme:_6EGa61Ch2jE8OBz0rSxN9kJG2Kq6SvcHMBtESNrLD4d2eggtwHV8MIXSSkkkaY_8
-    q5a5baSLRtbSrChu50zIQdbWPmJM32EBX3zFuiH343sor2R0bJWgnU>
-X-ME-Received: <xmr:_6EGa6m06P7zk-ctlH0W67gUurH-fdJD1fq5AmR1YGFNWCH5t016r6kZXdRyZU3l0VNJ_tD0apC5iPJ3efwC3mgU77GSw-7E95s>
-X-ME-Proxy-Cause: dmFkZTFUA/bVlCZCxsrJPN57JQkSodsFTremyaU8vLIrFvsXwTNWYk2VNB9uZ9a2iI5Z3C
-    fkg4XZJYnM2zUNLSxNJmL/LHiuhLaEM7I92MUT+pCIdHx6dou4NJgT4ApWZ9ZqFc0B/dbu
-    +fD3sDxsarhJdXX9MaiesjmZnzfVENUmNYVIgCddxnecxd2d4lxZXNPYx8Pbtv7Yoksaxl
-    IZe9LbNGNhunuBqUdau3bUUNG0WB1j7fGS3Lxg/GdBswdOelGTFXcJmk/TGB0zGe0Noxg6
-    R5kLVS+IQmwHUo9CBfuJ9xu4Vm3I0b2lDWBLH/tbrkVHKJZTYhn2JvYqB3O542KHaBrdY9
-    8wNi8VNdi9+NudiWRrEVaKqM6KrW4Z0AY3BTox8wR20sbkivRpmFAaE+5dF5+KtrY9ENkB
-    UIjziclwSdh/YCSomPRWsvnBeWDk9IQdW33hAGrW91gJlI4S3icAFUrDY/VEBCoKeXd4kk
-    COVGjEst/ei4z/VfDFSn6enbiGe2Fon537AQfb86SikeVuBd7ImRiARVzR0CkC6c/f55A4
-    0n0C6jSXm50TtyOjOx6mN0/rPzMpNQJwa2H5gfR1zBg0Q4UGGBgGLiOCAu/0GeT70ZDrr1
-    3oM7H1uFHCsD5PJGVLi1z3eQV6GW9gPE2d5nnBVTMCgErxG+w0ndMvj50E1g
-X-ME-Proxy: <xmx:_6EGa1i19lL7_1sroUhxgWQ0REvtDIQmTRHg1JZ-jbKZ18O-UNtLXA>
-    <xmx:_6EGaxSUjz5XPdSGgyKAW4j2tMGAs3rKbfh1_uzW_HL4C1LkLWCFHQ>
-    <xmx:_6EGa_9LHK1iUYfaauOSmFsr9RDSoJ1NK76AW-obFmAMIfcxhV3kgw>
-    <xmx:_6EGa6P90XGX5J9kk--sudaMc8H3_BBke4hKkmusjrUbEUQs6k5PoQ>
-    <xmx:AKIGa0eaql-mFaqeRtd6baB4XvuzSOi0uFT--W3-9z4vMstDHmKVRcM6>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Nov 2026 03:53:16 -0500 (EST)
-Date: Wed, 25 Nov 2026 19:53:11 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Arnd Bergmann <arnd@arndb.de>
-cc: Andrew Morton <akpm@linux-foundation.org>, 
-    Bart Van Assche <bvanassche@acm.org>, 
-    Geert Uytterhoeven <geert@linux-m68k.org>, 
-    kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, 
-    Linux Memory Management List <linux-mm@kvack.org>, 
-    "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
-    "Martin K. Petersen" <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>, 
-    Nilesh Javali <njavali@marvell.com>, 
-    GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: include/linux/compiler_types.h:631:45: error: call to
- '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
- failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
- sizeof(*u)
-In-Reply-To: <9ada54e5-d80a-4d3c-a491-87e7a99f2ac8@app.fastmail.com>
-Message-ID: <cb52daef-8182-1821-60bf-ccb6475b613c@linux-m68k.org>
-References: <20261121034304.2dPxVKzk-lkp@intel.com> <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org> <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com> <669b9ce8-bb33-f7ee-1087-88c1e9d3b610@linux-m68k.org> <8a0f78e3-5483-42a2-ae27-473bbb6de915@acm.org>
- <85e103fe-acca-0880-1be3-cb1e7f79f9a4@linux-m68k.org> <f0ec2845-245d-43ac-9c96-242e0d1d11ea@app.fastmail.com> <9120b892-6a31-d161-381b-809191017bdc@linux-m68k.org> <9ada54e5-d80a-4d3c-a491-87e7a99f2ac8@app.fastmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HxYBBuLq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795597486; x=1827133486;
+  h=date:from:to:cc:subject:message-id;
+  bh=CiqWfNlS/QOhimcggpMWZCjah4/Jps6I/U/qVj1biso=;
+  b=HxYBBuLqX2kEZxovRr4062U/5Ds5Qzi3qz1g1c3lt/PS/U0QR+JsKCki
+   Kwi8HZ8CEIdfK+/vg5wrE/3Mbeq4i4EIZtut5pWuGxNhLD1bKVySVm/M4
+   lzzTEMCGNaaYfmZUwd4fIUh47C8bmm3VbOrk66+PhLLFKC/7vJK/x0P6K
+   fOXqYFRHT2Oiq3ElAF0n6PlUAZkuq31klUggpmE1Bh3bEa+ESRbw0rVef
+   glqSf+ieM/cwQZtJqAKum/BbhpY+yHjJVYgVIt2+xtvm9/7/wHrWVZzAP
+   d+S2y31/X6XvoqfbboF9p6uGD5DgnhtrNv54PoEaYJQuIgCDREEgAd8mt
+   Q==;
+X-CSE-ConnectionGUID: Fvq4Uz2mSDqgRJTQCwRN3g==
+X-CSE-MsgGUID: HLpEhjs8S7yJ2WHbqmTILA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4367907"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4367907"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 01:04:45 -0800
+X-CSE-ConnectionGUID: 69SrQfgLRnaNw2YQEGoXbQ==
+X-CSE-MsgGUID: jZcIerbnQUiMhr0dDaXGDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="13596923"
+Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 25 Nov 2026 01:04:35 -0800
+Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xW8vO-00000000067-0Sy6;
+	Wed, 25 Nov 2026 09:04:22 +0000
+Date: Wed, 25 Nov 2026 10:03:48 +0100
+From: kernel test robot <lkp@intel.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 1/56] .b4-config: warning: ignored by one of
+ the .gitignore files
+Message-ID: <20261125095730.33sXw3jm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -102,66 +79,26 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   1cec70813ada37937c1048b76c60cb6b44fdf0ab
+commit: 5f69d4b14f44927147300eb49548589e60d3029a [1/56] DO-NOT-MERGE: git markup: net
+config: arc-randconfig-2200-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125095730.33sXw3jm-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.4.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125095730.33sXw3jm-lkp@intel.com/reproduce)
 
-On Wed, 25 Nov 2026, Arnd Bergmann wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125095730.33sXw3jm-lkp@intel.com/
 
-> >> >> @@ -227,7 +224,7 @@ static void qlt_queue_unknown_atio(scsi_qla_host_t *vha,
-> >> >>   		add_cdb_len =
-> >> >>   			((unsigned int) atio->u.isp24.fcp_cmnd.add_cdb_len) * 4;
-> >> >> 
-> >> >> -	u = kzalloc(sizeof(*u) + add_cdb_len, GFP_ATOMIC);
-> >> >> +	u = kzalloc_flex(*u, extra_cdb, add_cdb_len, GFP_ATOMIC);
-> >> >>   	if (u == NULL)
-> >> >>  		goto out_term;
-> >> 
-> >> While this does make the current implementation more correct by having
-> >> the correct length, I'm worried that it just ends up establishing
-> >> the complexity more in the sense that extra_cdb extends both into
-> >> the padding and beyond qla_tgt_sess_op.
-> >> 
-> >> If the driver is still actively maintained, it would be nice to
-> >> reduce the complexity instead, in one of two ways:
-> >> 
-> >> a) make atio_from_isp naturally aligned by dropping the bogus
-> >>    __packed attribute, 
-> >
-> > I don't think I follow. "Natural" alignment would be at integer multiples 
-> > of the struct size, right? Moreover, the correct alignment for a hardware 
-> > struct is a question for the hardware vendor, isn't it?
-> 
-> I should have been clearer here, I meant having it aligned to the 
-> highest alignment of any of its members, in this case alignof(u64), 
-> which would avoid both the warning and the slow byte-at-a-time access.
-> 
-> >>    so it is actually at the end of qla_tgt_sess_op
-> >>    as the driver was written to expect. 
-> >
-> > FWIW, I think __packed on a hardware struct is at least as desirable as 
-> > portable drivers are.
-> 
-> I can certainly see an argument for marking the inner structures 
-> "__packed __aligned(8)" or similar, to ensure that the members are 
-> tightly packed but can still be accessed worth multi-byte load/store 
-> instructures.
-> 
-> The way the __packed it written on the outer struct, it only causes 
-> problems but does not actually enforce packing of the inner struct.
-> 
+All warnings (new ones prefixed by >>):
 
-Perhaps there is a way to alter the struct layouts in a portable way (so 
-as to avoid the build failure) but it's simply not worth it.
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 
-There is no actual bug here, that affects actual users, to justify the 
-churn, or the complexity, or the regression testing effort, or the 
-fruitless discussion to-date.
-
-If there was a maintainer who cared about this issue, perhaps that would 
-put a different light on it. Maybe.
-
-As I pointed out in March, there is already a comment in the driver to 
-make the bogus BUILD_BUG_ON() effectively redundant. So, at some point in 
-the future, when I can get interested again, I will re-send the same 
-untested yet risk-free patch that I sent back in March, to remove it.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
