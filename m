@@ -1,72 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629989;
-	b=zNfZ/bmQV7RKRKngF5ZsNVeV0SEopLTOlKS5GJhDWjx4vxvM/rNQjDp5WNDk+NTqhclA
-	 puGyQHcOCHrdiuOK8DGjbsg/nxIZbkwxkMbfgJcXGAG0CS9s7GcCcrkuHGKKTQ8SRAHvO
-	 cwBBjtPZPAPU3yXbwGOESIr3JNiCZLPSP91GTCJF+3TXD5TAK4zWeByQ/ZBqbjTgvmSE9
-	 54rTsfvg0KeIVbTm7U9YFr8uhJ8QUYXqtmVpOU1QM/b9gKZGj0WwdVagfIZmsy+wRU0qH
-	 +yUZE/yhgwijwF+gAxJEpvKpiBRYp3607IrVxlHf59reDANaKLLdnUyhjiShP+jH00w==
+	t=1795632996;
+	b=dFGrFUVpQR7ikoe4SIEuoMWjHDRCFtP9dQqcHncR26PuW1p3h7/djY6uFMRCxnGjHj3m
+	 C/+sYjvQEwm5mB1s+E7a2XHgIgIBP2IByKlxOSQ26Fckd66bjLKoygpFx/TFbSwNtnQFX
+	 H6iPt60k9/lIGXkYmbc450eMFIAzFBbUdYR0oJedeYbxCJWO2GVKjJB0mG8sFNBzuK034
+	 ccY7FGUFB8vLfRF6r2olbztyvX32lzy4BBgkk9b4MtA97iG/RAGvdxaCtFXv/Sv/nz7/n
+	 tXpBNfdx1PfCTMf/6T2iMXF/PmkbcAm0o2eH7PkvESOeIg7ESWTkqhUdBrbwjn8jF3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629989;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=kB0v6EVehb/RoxPUQoMs0TMRRrXGkjijuKU6iXWhWvg=;
-	b=R4jlEKuIfWhI0b6Y4qgFAT2TKoyGn4DgUIbs3pC3xUUllcorUCkxKV9xSf5jjPBPnEwR
-	 t/xrMemSHiCu5owq7nwYVH0TcUULXtfGcbkkJjV+Hw5nwsMAkrIgeh2wK6sdDEvWqb+9L
-	 Qdq88XsIXfDfIteSckX5v2/hy4QZWfBBxKKolFUmM6yFh5h5WpeEQCkJRv3YRef0GG3v0
-	 SMqpHDuGOqH0KrRKONwnspDtLdItpcAitPT+ngFQ2NWUxCyzOhU9TLWnyoE6U83GVLdTm
-	 0nZErRINwcrKuJ6xF3CCNz3dJ1zCPye47XQC5AO2ThByFmQnJbszlQILZBxg7ryanxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795632996;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=+3WNH+NgbgURTGbMZYKoXfd2WDmkhfNyQhDH4KeNlp4=;
+	b=QQ/iAT8UnhgJvg/zQc8FmNkWcogz5TRhDhAA7B1q81PmXOrLSPJGUOytJqW/iLpldneP
+	 bktElOOwnCDQSG93Bq/Xl1Msuc2IzX1GKgyZOSEwylJoS967JIX4oGHSJ6ahOa8DEe6mQ
+	 CbXxXPpTzY1z9rTyzB+r/1ym9ctSXcnFzkxmz1/EsKf8yhuiv3YKuZ4Gdtf/K33iVL8Jb
+	 vH2GayiYtan74Rf7a0CCOirWJ3CogfEm5KgdESDBnODQ1c7LcdDzBp3UQCoj1U509EXZp
+	 0K+JVryhuZtr86FyNirnonf4vKA6lzBGXgXUN+X8OvOnPct2Jj+xRe6d5Dtn+j3W/UQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--zyta.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XSdEU57w;
-	arc=none smtp.remote-ip=209.85.218.72
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oH3kh82X;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5644606A32E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 18:06:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5644606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--zyta.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79E7606A321
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 18:56:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A79E7606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XSdEU57w
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c429d9d05f0so563354466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 10:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795629987; x=1796234787; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kB0v6EVehb/RoxPUQoMs0TMRRrXGkjijuKU6iXWhWvg=;
-        b=XSdEU57wAIWKPTsskYlvkHSbsybVqOnuQ2MX51OTc47QGqU06JocFbLES+E75mCE9d
-         iJflSvqWrVyqxMrG50QugdVLw+R1cNIWFjFQHMAxULRvdLhUWGToWDLQXVrWwVAGz5We
-         hCjnXXMTbV3QXJpKmpZfUxYeD7GIfDGMuijkOwAP126NNN4L1esGv3rFekSJoSh9QpDy
-         c6QemAUXdYcXJpefHw13E5mnyTf0N+1YtHyH6ENRJOxCv2NV8YWcwgXPCPl1EZWaKiUb
-         qFJjSSG7K+y5cGEiGP/8wbrP7h9FNCmZHzQG44+MHQFjcR7lLz2RWrtaitMqf3S9NPRC
-         ff3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795629987; x=1796234787;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kB0v6EVehb/RoxPUQoMs0TMRRrXGkjijuKU6iXWhWvg=;
-        b=ce9OdVv0ezBHEV5JiNVkR7dkQWsvxRWaKnxybKA1cn0vbkdxskkYnyhE8x0bbKvcY6
-         m9RfYLGiQmX7KgMIcgw+jvZ7pyu/nGCUeTLaOJgbFoV1+WTb4IATxEYRl4P54/DgEMRw
-         LNe+FO49VeHK5Vb4jAlNEKsGHBhWWALARnCswG1SufLUUUOHDPkC1pPPRJiWUikeZMzV
-         HdQLo2ozFcUCaU+HU7k5deZdKAbhwkg/HLf5Qe3sY2SRUG9WqjzJNGYwMjuzjrAN6Fsg
-         Q2EGS+Akntp5BcJE59i6VXOZMg2Z0XXaXMnry1C53RdkJkQbzZu/M87QsIw4h14kwDea
-         kCwQ==
-X-Forwarded-Encrypted: i=1; AL+hErFXMkL2UhxZ9RRDGWAMjuTxUY9wA+kS8UixUIgpzGRYKJOOrGOrH6f93L/QYF6o0ljx9Lpx+ZDYPupxChOJ@lists.linux.dev
-X-Gm-Message-State: APuU4Z8AxWI/DNejoJ4h1UFYMdzdBqKlbfs3RWRTERPH/ztenD8Js9y6
-	6yobI/RqhOilfu4l8xnAIs/lcSrYOvFU9oZr7IUnsV170MZM80MrT0x+eb1/ljhP4QXdw9tjqw=
-	=
-X-Received: from ejc14-n2.prod.google.com ([2002:a05:6938:a00e:20b0:c50:6127:2777])
- (user=zyta job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:2da8:b0:c51:9abe:f3b4
- with SMTP id a640c23a62f3a-c519abef596mr491882666b.6.1795629986942; Wed, 25
- Nov 2026 10:06:26 -0800 (PST)
-Date: Wed, 25 Nov 2026 18:06:20 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oH3kh82X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795632994; x=1827168994;
+  h=date:from:to:cc:subject:message-id;
+  bh=lVrBYANnp61eMqtayDABiTLDHDIhfjYmeiloBR8rPvc=;
+  b=oH3kh82Xv4oIq46H5m0rMh0YHMCNrROR62avuF7AkHkAVw65a6AmRmTo
+   chWmMM3wNU4+vAO1tFrVzjAYXwJGuhMgSV5kYzN6nxj6waAgaZAFyU7AH
+   E7zOJ3hc1QGcPoTr4nx2DL8fKCZAHoSWrvFqONFwJb7a1JdNspf1uB+pQ
+   jdK0AyvWpUtJwYcCwahGAnzB7GjGmR8clNiLYQ0mwfCfpeaDDrN8RdSB7
+   tXjZHcwS3rw94//DhreXdRqeGNozOKWLYj23F3fxV0XrjyMOtn/iUHFFE
+   WHElUXI6im6BmKNaYWzkQgqwjfdPn9wcchVtwEjS6asmB2kEvJ6NDXIRA
+   w==;
+X-CSE-ConnectionGUID: 1Weg1U97SA23wqjyjlfhFQ==
+X-CSE-MsgGUID: kRcHtSQkTsSoOyDqB2ruNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4428337"
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="4428337"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 10:27:11 -0800
+X-CSE-ConnectionGUID: BGFqD0lBTOOu8mWQEXWc2g==
+X-CSE-MsgGUID: TTeP87l+QKygccWuhPtQnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="12075781"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2026 10:26:51 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWHhg-0000000002x-1w8p;
+	Wed, 25 Nov 2026 18:26:48 +0000
+Date: Wed, 25 Nov 2026 19:26:13 +0100
+From: kernel test robot <lkp@intel.com>
+To: Anubhav Shelat <ashelat@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
+Subject: [trace:eventfs/for-next 1/1] Warning:
+ fs/tracefs/event_inode.c:667 expecting prototype for eventfs_root_lookup().
+ Prototype was for __eventfs_root_lookup() instead
+Message-ID: <20261125192418.uQSoI87B-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -75,53 +80,23 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
-Message-ID: <20261125180620.578175-1-zyta@google.com>
-Subject: [PATCH] irqchip/mediatek: Add OF and HAS_IOMEM dependencies for MTK_IRQ
-From: Zyta Szpak <zyta@google.com>
-To: Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	oe-kbuild-all@lists.linux.dev, Zyta Szpak <zyta@google.com>, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
 
-Enabling COMPILE_TEST for CONFIG_MTK_IRQ allows building irq-mtk-cirq.c
-without CONFIG_OF enabled, which causes of_match_node() to expand to
-NULL and triggers a W=1 compiler warning:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace eventfs/for-next
+head:   42ecc8eec33880139eaec065cd33c81d2aa1f4e2
+commit: 42ecc8eec33880139eaec065cd33c81d2aa1f4e2 [1/1] tracefs: Add read-only eventfs filesystem at /sys/kernel/events
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261125/20261125192418.uQSoI87B-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125192418.uQSoI87B-lkp@intel.com/reproduce)
 
-  drivers/irqchip/irq-mtk-cirq.c:292:34: warning: unused variable 'mtk_cirq_of_match' [-Wunused-const-variable]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125192418.uQSoI87B-lkp@intel.com/
 
-Both irq-mtk-sysirq and irq-mtk-cirq are Device Tree-only MMIO drivers
-using IRQCHIP_DECLARE() and of_iomap(), so building them without OF or
-HAS_IOMEM serves no purpose and can fail on !HAS_IOMEM configurations.
+All warnings (new ones prefixed by >>):
 
-Add explicit dependencies on OF and HAS_IOMEM to CONFIG_MTK_IRQ.
+>> Warning: fs/tracefs/event_inode.c:667 expecting prototype for eventfs_root_lookup(). Prototype was for __eventfs_root_lookup() instead
 
-Fixes: 702ae15488ce ("irqchip/mediatek: Add Kconfig option for MediaTek SYSIRQ and CIRQ")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/20261117144350.wOuBa9ZW-lkp@intel.com/
-Signed-off-by: Zyta Szpak <zyta@google.com>
----
- drivers/irqchip/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 90daedb7554a..9e6658289ae0 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -795,6 +795,7 @@ config MST_IRQ
- 
- config MTK_IRQ
- 	bool "MediaTek Interrupt Controller"
-+	depends on OF && HAS_IOMEM
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
- 	default ARCH_MEDIATEK
- 	select IRQ_DOMAIN
-
-base-commit: aab02e49f0b54a0837e58c67651c4abdad1a3208
 -- 
-2.56.1.839.g22a8290db9-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
