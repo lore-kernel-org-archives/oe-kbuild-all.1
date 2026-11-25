@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795614172;
-	b=cymYcIIT7TbD48KSoBWrWZQ6fwPISahHj0SP8igJ0gYoT4vwhiXmlX+Vd1pNYtsTrmQL
-	 sq1c41a7SbfCQBvpwxOge1fntMgCDTFoBcNDMeLAKMxjkRoJ7HBfVsBlYT7rTR5ApO+ac
-	 w3Au2b7X0BQGM9Y+Wq8VMefJKJFASgzG/cpIu8YMFo1f1QM3ywSjXj/Vwu9y7ZiCNYEA4
-	 Nz1VLtZwMHL14ByBe8wnFl260clBBPpLIQygqYbxjCljbTtt2KKc8FOJu9oMbWzwWHpVA
-	 zbOrBr4Ei5njgzskQhlVhkDgd6hpVmAObzuMnM+Y/BqfExEwLzAUpsZdWdbtA0J0r6w==
+	t=1795615634;
+	b=3+r31/QDORfMdg6GLB0KpQDUjJCw98crP/bRtqVm434r2vbIG/8AUxWCJkJlyeoNJorG
+	 c9gyYch1YR3awckDl0eYYqYmcyxKOKAgHLAYVT2W04ThxbbvPe/SAQgs/qGS44Vgxp8nh
+	 JJryTCpay7Wc9TVk91qhPlPDzxv9PQ942nvfelq4zEgum1VS9+7gMV3hS5DUVJhmoubEm
+	 K2d7v2yDzVDHGylrKuDa7l33mY+DFMZhT76vmdRK11wwQTaNcOnRItjdmloS00VZfoUSo
+	 LeO1Eq673y1TpVjSH7WKoD0QNzDNcoVtslVnSIp7K2D5SM7tDpbKeGTZuBNQKx8kCzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795614172;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795615634;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=Z+bFzdbVLN2D+lZsuPAXWmapC/tcJCM6ivPex4GdFYo=;
-	b=xFomDGPV76z8wk8qhpPoo5fvQgM7byA8mhTZn7ZHpube7FQZB230WfrNWXPQ9M6+O87y
-	 4GExthbEzEoWhu61NLj2KUrmqxrmM9MFj0U+KQzoDzEYylfRBZZuRbUREsUHQJIK9OnkD
-	 pBuVc7KqfsHSrFEKFqI2ObWKQzKHVr+Gm7FHAeVkAaPnSwZYsQsdjrVd2Uo7zzynVnMFs
-	 fgvWiRaQdvPaOIX8XvcDs9NYgHrBYTzrmxqNAf/YAkpgqSguh115kCt49+10oViz/TYKI
-	 ynPzDiI7Od+WcW/iEEZPXiFKP/jhArZL0sEmnhyz78w1ECiY/SiO1gnazuGJSZrahfA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=xMl4eFxWkUzn+CMJ78m+0k/IisCIkzxv7Xzb0Xdv1Ik=;
+	b=DtG6BTVy04555NRIRE0nXrpsnsiNgA8GgOkphpgE359qcTqDaOZz/nBYPVbA7Us2I9Al
+	 fTo9/hDFh3Zg9E8HoMrJtM2kFK6WakGQ7uPSrvGdSyOeoZ3R9DyPq4urDU78TUHqtQ5J/
+	 or/2qJ7VmgtwDcpWMnoOLErVIPRX2nd8BykXY/n8mnKJsPVjEvo80vjn6OZfNUSJx5ljk
+	 eCSa30b4fArguyWPMJvdU3L6oE1JEg/PDzgEdGL2fNOJKC89XpQd11lwcpuOO5xhBlI3W
+	 GVNnZpx2ux24cP4Bggi/sP1Q0/oMYtcvUSGmXZqu107dNvvsNlpF3CaK05ZSmPmZG4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q+Nn56zr;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=X6v++aS9;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0346D606A321
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 13:42:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0346D606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08329606A321
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 14:07:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08329606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q+Nn56zr
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=X6v++aS9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795614171; x=1827150171;
-  h=date:from:to:cc:subject:message-id;
-  bh=VXG+MwojxPxv7q2scO39XHQZZoTAO6s60o44hCniOzE=;
-  b=Q+Nn56zrVjsuHpAnvB77GF8uyDobistJ2XfZwAtugc3/sQ/vVbjB8+YT
-   W6R3RAEFGJK/tycqN0R9FVcvXI7kk0V/Of2//+Dh8Tsc9+aOzdvQblsHw
-   twr3rXf7lqAQ6HXzD5fEHkswBfFEhhvPmxeZjfjupkrPAU8Dw2cDfK0sw
-   oM6dhQlSnPhPwF9/SF9o0Y3JeDmAyM7uNwTjV3RzDtOM63qQSQ144I5xq
-   zrzcdgHqdpcZAPz2dJcIqmiMjvFNGmjpXhnQqTCady47nwTAOrPVJ7ePp
-   +EO9gbPsvxRimgfGrQmHJCXs6V6wsBpNGFsiLaXJhO0I0nM5yRo7AnYHv
-   g==;
-X-CSE-ConnectionGUID: AffCW4EmQYiy9xc7prbxfQ==
-X-CSE-MsgGUID: sg0UBHsmSO67ev5wvEIruQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4396893"
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4396893"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 05:42:50 -0800
-X-CSE-ConnectionGUID: J5LetRNlRd6F14ptEOsfzw==
-X-CSE-MsgGUID: r3dZbi4xS4aZATHZF2ngQA==
+  t=1795615634; x=1827151634;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KeYOf75Z/8+vjZolThFV16xZ7f4fxMRhbKAxsweSYkM=;
+  b=X6v++aS9PERupo+CSYs6URyFfVUc3z0lBq11qkOGDVOl2OsKSA15wQjJ
+   aflxUosMg27iAYKNKZ+aXeGTQA3s67Hdveo2Ce32ySnAv84vpc4t96QqU
+   beWbjl1UKecabXdtmVJvStC3DCTRYuWXg0gMr9nxVyE8NuzIo3gKhxM9V
+   nCrEL+4HYMsQ0FXuqkHLf9lJY7SvYqB2bxsiFwx9YokWlXTmjoUOCC1EN
+   jtwCBWbiP4+S+UW1iqgedff0ggLKk10tiV+f10GzYc8rm7zGJJMvommqc
+   sw3stYB/5KC20o5sLo3wlRilNhnJAlVnyvwlXubXFyOUFDYKzXoGzjHA/
+   w==;
+X-CSE-ConnectionGUID: G87LZlPCRh+4DjlSqxbqZg==
+X-CSE-MsgGUID: 10W1aR5AQl6idjuJq+K2QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4486631"
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="4486631"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 06:07:13 -0800
+X-CSE-ConnectionGUID: GPuoG+ptSeGdvPSSmoXnIw==
+X-CSE-MsgGUID: l4qBFp6CTraX+JlcpmsW8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="12465449"
-Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Nov 2026 05:42:47 -0800
-Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="11873266"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 25 Nov 2026 06:07:11 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWDGm-0000000008d-3PpG;
-	Wed, 25 Nov 2026 13:42:44 +0000
-Date: Wed, 25 Nov 2026 14:42:22 +0100
+	id 1xWDeO-00000001Rnq-2t50;
+	Wed, 25 Nov 2026 14:07:08 +0000
+Date: Wed, 25 Nov 2026 22:06:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
-Subject: [linux-next:master 8898/11500] net/6lowpan/nhc.c:140:13:
- sparse: sparse: cast removes address space '__rcu' of expression
-Message-ID: <20261125143949.UXhG7C7o-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Hefei <3066883572@qq.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	robh@kernel.org, conor@kernel.org, Hefei <3066883572@qq.com>
+Subject: Re: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
+Message-ID: <20261125220244.8Pj15HWb-lkp@intel.com>
+References: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,36 +82,102 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3dd8c790a7b7027abdd568e36db5e82ffaea7c77
-commit: 111e1b0b985e3dbb41fffc6b5832c3322b6e38d5 [8898/11500] 6lowpan: nhc: use RCU instead of lowpan_nhc_lock
-config: riscv-randconfig-r2305-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125143949.UXhG7C7o-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125143949.UXhG7C7o-lkp@intel.com/reproduce)
+Hi Hefei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus lee-backlight/for-backlight-next lee-backlight/for-backlight-fixes linus/master v7.4-rc4 next-20261124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hefei/dt-bindings-input-add-Jadard-JD9365TX-touchscreen-binding/20261125-101123
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07%40qq.com
+patch subject: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261125/20261125220244.8Pj15HWb-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125220244.8Pj15HWb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125143949.UXhG7C7o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125220244.8Pj15HWb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/6lowpan/nhc.c:140:13: sparse: sparse: cast removes address space '__rcu' of expression
+All errors (new ones prefixed by >>):
 
-vim +/__rcu +140 net/6lowpan/nhc.c
+   drivers/gpu/drm/panel/panel-viewe-jd9365tx.c: In function 'jd9365tx_probe':
+   drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:304:15: error: implicit declaration of function 'of_drm_get_panel_orientation' [-Werror=implicit-function-declaration]
+     304 |         ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:308:9: error: implicit declaration of function 'drm_panel_init'; did you mean 'drm_panel_put'? [-Werror=implicit-function-declaration]
+     308 |         drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
+         |         ^~~~~~~~~~~~~~
+         |         drm_panel_put
+   cc1: some warnings being treated as errors
 
-   137	
-   138	int lowpan_nhc_add(const struct lowpan_nhc *nhc)
-   139	{
- > 140		if (cmpxchg(&lowpan_nexthdr_nhcs[nhc->nexthdr], NULL,
-   141			    RCU_INITIALIZER(nhc)))
-   142			return -EEXIST;
-   143	
-   144		return 0;
-   145	}
-   146	EXPORT_SYMBOL(lowpan_nhc_add);
-   147	
+
+vim +308 drivers/gpu/drm/panel/panel-viewe-jd9365tx.c
+
+   273	
+   274	static int jd9365tx_probe(struct mipi_dsi_device *dsi)
+   275	{
+   276		struct device *dev = &dsi->dev;
+   277		struct jd9365tx_panel *ctx;
+   278		int ret;
+   279	
+   280		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+   281		if (!ctx)
+   282			return -ENOMEM;
+   283	
+   284		ctx->dsi = dsi;
+   285		mipi_dsi_set_drvdata(dsi, ctx);
+   286	
+   287		dsi->lanes = 2;
+   288		dsi->format = MIPI_DSI_FMT_RGB888;
+   289		dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+   290				  MIPI_DSI_MODE_LPM;
+   291	
+   292		ctx->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   293		if (IS_ERR(ctx->reset))
+   294			return PTR_ERR(ctx->reset);
+   295	
+   296		ctx->vdd = devm_regulator_get(dev, "vdd");
+   297		if (IS_ERR(ctx->vdd))
+   298			return PTR_ERR(ctx->vdd);
+   299	
+   300		ctx->iovcc = devm_regulator_get(dev, "iovcc");
+   301		if (IS_ERR(ctx->iovcc))
+   302			return PTR_ERR(ctx->iovcc);
+   303	
+   304		ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
+   305		if (ret)
+   306			return ret;
+   307	
+ > 308		drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
+   309		ctx->panel.prepare_prev_first = true;
+   310	
+   311		ret = drm_panel_of_backlight(&ctx->panel);
+   312		if (ret)
+   313			return ret;
+   314	
+   315		drm_panel_add(&ctx->panel);
+   316	
+   317		ret = mipi_dsi_attach(dsi);
+   318		if (ret < 0) {
+   319			drm_panel_remove(&ctx->panel);
+   320			return ret;
+   321		}
+   322	
+   323		return 0;
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
