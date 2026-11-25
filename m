@@ -1,95 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795582531;
-	b=jl70IamvG3ndDjx6/g1bl+A3cfA6uTdUl0uU1cewguDk9Z8okN/K1x4tqA+1/vyI38Fy
-	 gbjcLRjBXNd70g4ctlhjBDyz+A7pynJOmN7j8p4Rzld+ejMP49lS7+qgqEQzF94lK8sdz
-	 yFM7xWevNlnlp1+FWoRjK7fRq9jT6xJFF06rfDgBfkcWmeFqOiAACr/gylHCBmDIqc57g
-	 HJ6SkTgOJwMWA+UkVfB3C1Z/qSpMApYDKkWgC6QSoyeAPAypUBWadbvOwi4AO+grp2Rks
-	 0VonpBGPNCyKFctkRi4F7qV0s9ofWPoLYZL3v7KavuIgJWsxa7TDZXw18Gkuj1ZSmQg==
+	t=1795588173;
+	b=uQRILlUpGbhiUkHoG0GrMItfycX69rFrYV1pl3UqqDswM14IbfQhdPxmY4TQNYo2TAnH
+	 VtXvuBrCB0ZLL3SzkT173JCQJTCWTGDLP8kwxzN2dI3tEX02B12oSWZrCITNxmsh1p3WD
+	 tT6CJXAlPetRF7CQ6VhmPxjb3BGq/dFL5tehNdJSLSVXyabRNUpOMdXjS8YkjAMrmsqrw
+	 MSLk66eUCDAIujp24ajTOWnIWFQbh0MC9hO4zkOVTXm8eDWHPH1arrpndj121tn2VTrDs
+	 uvec92OIqHxEFt01Edyf9hB4iBCVkupgBhpFLUBzTRcNEJphk0BX5x/2HHqH67ov3NA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795582531;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795588173;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=Cx1Omfyaca82v5is2yCAZpsaBqeUc6p8sVzDBGAlWPs=;
-	b=qw8FeO2ShbhkYfR3nsIppNsJwaaK9Ib0GDNkLmiFPMkwubEcIrGZ5jJfwJfM8K4uRwHU
-	 VTscoVLyu2SqUQ82BikDo49Vj8aWKfPnO5KsTlXOkGHr7OKhQNV3CU9RagDsuaMPx5o4+
-	 3etCVzSj/IRi+E2ABsW/app1nxLgT6b06XdqCTeSBY4xNiy5ItTm9ZIWPxTYXWhz8WuwN
-	 /CsY5M3DdpksZp+oPG3PmOOEXnLQEFcv4+YurljBV7Lsh5YC4tHbe7hYzmbd1SmwTbhBj
-	 V0HRF4Zgr+aAL0u/9Z7FyFsEQIcSvfu+njkRzRRnRsrUF7XCwglGcyvNaXuhYqO8VBA==
+	bh=fUGmkZ5pnD7Ji+vwezUPcu5hIMdhnLtQNfaT/AXBEjw=;
+	b=TvhntD74twFzXrIVS6lmkYkOGe0ISEvxdnGt803i7ZoBTGJszHiXqJskQ+n4d8TFnH37
+	 ICH48VReNzCsRSlsLcPAyDwOZehno5j9dB+bVMGVTUDpEtDv0SB6jWkEh5nKIEmk3PFBd
+	 Z5jiqa1FUD0wJ/Xt3nxmbb3DHFHJ75wPuDKp+mLb9O6r3lm8MiJV9o2o5gZNR+g7QajGj
+	 +mm5093FCQX1R/VFHsiul5jLd0B1flNqUzs4TJF95nf4HoTvJn74h2+EORZQHMT7qKC/y
+	 jV/oeGsoAjFEnrRKwAl2+eHOW0T9NxtPtNSpODRhlorw56/dfS5FBSqVlD0l8GlXciw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C3vWzSNt;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QWCJMN0G;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3E606A323;
-	Wed, 25 Nov 2026 04:55:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6C3E606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EE7606A321;
+	Wed, 25 Nov 2026 06:29:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31EE7606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C3vWzSNt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QWCJMN0G
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795582530; x=1827118530;
+  t=1795588173; x=1827124173;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mpdq3uSKN8ttNJvXd+YNSoqlifaG1JC4jLUHr6XomgY=;
-  b=C3vWzSNto22KUNIjdL+ESZynLHX15KFfrCczz2lMr8jX25fWmDu6cBFO
-   W769PwgWOpHxvv0UIOVu76qjbGHr21/mZDSOK9OjwkTFm2vHMnZmfA1/S
-   QvOcDqRWggTSsGpk1CgwZROCs3qoRFGoVOIovfMplF/53Emy2a5E3Hwm/
-   hC3wIL+lL3M2+fjhKFaZd45kUIOH5B32auRbiyIKqhk4yrs7+2r3xZo7J
-   RbUDciGj/jfdvEAfxv/5Xqxhw7Y504XssMibPPVmYESEde5nuhfX4lwOc
-   UdMODUMvtT9pQBFvmHahr1oTT5GaJCJzcl8eJ+7BzA3URyFd4ESUKVN7G
-   A==;
-X-CSE-ConnectionGUID: Gg5u8JYUS7qltPJdpJumJA==
-X-CSE-MsgGUID: ZlZ7M+oDRaiJ1bSTatNn/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4446853"
+  bh=zbfSXjIyKSD5Zk3TOvJSq6/F/aAsespPwza+20D7QQc=;
+  b=QWCJMN0GGnZNj0/toHQaOglw3+Fh46UhlhLoJncF7dpgPXkBRtFbSXO2
+   XlTlg+nEJViRgdIWuR+MELw/Bs6754WvuOA2Wju/rwutbKkwurBKrQ8kf
+   c46Yn+vHZ4API8g30cENTJRUVkpB1bSQ3tjF1Mw47OCg15H0o6oKbbQRK
+   TDRIBm8GuxWNHyEKV7YNr2ap0EH2rPZlu3ZboZ9i/FQRFTTcMWbErpraJ
+   SghGefEnykmpFUsmDTRAqvSaACtucxTAdENwtaRpGRH+zmkeK5ymiv7Lq
+   9Y572YUESA32z/+kZ2z405ipMdilNavArW+QwZvOR7FWw2cxd4mBCP3K3
+   w==;
+X-CSE-ConnectionGUID: GErM0kS3Q9uAcqu3hFeH0g==
+X-CSE-MsgGUID: d1Cz8DMpSz+j+ujKjiVe0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4327647"
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4446853"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 20:55:29 -0800
-X-CSE-ConnectionGUID: YJPP7F0sTCO4jA6G1nUPlw==
-X-CSE-MsgGUID: swp/MOFVTYu7DyJZn5r4Tg==
+   d="scan'208";a="4327647"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 22:29:32 -0800
+X-CSE-ConnectionGUID: U2iK7523Q6OhqPtrIr3ZOw==
+X-CSE-MsgGUID: oWoe1juLSb2zHvTRnd4GDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="12353210"
+   d="scan'208";a="11764984"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Nov 2026 20:55:24 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Nov 2026 22:29:28 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xW52O-00000001Qsc-3UJF;
-	Wed, 25 Nov 2026 04:55:20 +0000
-Date: Wed, 25 Nov 2026 12:55:07 +0800
+	id 1xW6VS-00000001Qyu-0xCE;
+	Wed, 25 Nov 2026 06:29:26 +0000
+Date: Wed, 25 Nov 2026 14:28:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Dowsett via B4 Relay <devnull+nick42d.gmail.com@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+To: Robert Ijtsma via B4 Relay <devnull+robertijtsma.gmail.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Armin Wolf <W_Armin@gmx.de>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, Nick Dowsett <nick42d@gmail.com>
-Subject: Re: [PATCH 4/4] platform/x86: clevo-laptop: register 5-step white
- keyboard backlight LED device
-Message-ID: <20261125125051.uZKXewqY-lkp@intel.com>
-References: <20261122-clevo-laptop-v1-4-881debf4d4b0@gmail.com>
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Robert Ijtsma <robertijtsma@gmail.com>
+Subject: Re: [PATCH 2/2] iio: light: add ams OSRAM TCS3430 XYZ and ambient
+ light sensor driver
+Message-ID: <20261125142230.FjfgcgpD-lkp@intel.com>
+References: <20261124-iio-tcs3430-v1-2-0f2a38a6a4c1@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -101,41 +93,182 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261122-clevo-laptop-v1-4-881debf4d4b0@gmail.com>
+In-Reply-To: <20261124-iio-tcs3430-v1-2-0f2a38a6a4c1@gmail.com>
 
-Hi Nick,
+Hi Robert,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on 4843f6873f7c4835e62f2c73ba0fd538e57a2f22]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Dowsett-via-B4-Relay/platform-x86-clevo-laptop-add-minimal-WMI-driver-skeleton-and-Kbuild-plumbing/20261122-123538
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Ijtsma-via-B4-Relay/dt-bindings-iio-light-add-ams-OSRAM-TCS3430/20261124-234657
 base:   4843f6873f7c4835e62f2c73ba0fd538e57a2f22
-patch link:    https://lore.kernel.org/r/20261122-clevo-laptop-v1-4-881debf4d4b0%40gmail.com
-patch subject: [PATCH 4/4] platform/x86: clevo-laptop: register 5-step white keyboard backlight LED device
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20261125/20261125125051.uZKXewqY-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125125051.uZKXewqY-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20261124-iio-tcs3430-v1-2-0f2a38a6a4c1%40gmail.com
+patch subject: [PATCH 2/2] iio: light: add ams OSRAM TCS3430 XYZ and ambient light sensor driver
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261125/20261125142230.FjfgcgpD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125142230.FjfgcgpD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125125051.uZKXewqY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125142230.FjfgcgpD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0223]: ambiguous associated type
-   --> drivers/platform/x86/clevo-laptop.rs:168:17
-   |
-   168 |         self: &<Self::Mode as led::Mode>::Device<'bound, Self>,
-   |                 ^^^^^^^^^^
-   |
-   help: if there were a trait named `Example` with associated type `Mode` implemented for `FixedColorLedOperations<'a, MAX_BRIGHTNESS>`, you could use the fully-qualified path
-   |
-   168 -         self: &<Self::Mode as led::Mode>::Device<'bound, Self>,
-   168 +         self: &<<FixedColorLedOperations<'a, MAX_BRIGHTNESS> as Example>::Mode as led::Mode>::Device<'bound, Self>,
-   |
+>> drivers/iio/light/tcs3430.c:175:2: error: cannot jump from switch statement to this case label
+     175 |         default:
+         |         ^
+   drivers/iio/light/tcs3430.c:166:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     166 |                 guard(mutex)(&data->lock);
+         |                 ^
+   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
+     299 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:22:1: note: expanded from here
+      22 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:28:1: note: expanded from here
+      28 | __UNIQUE_ID_unlock_541
+         | ^
+   drivers/iio/light/tcs3430.c:166:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:416:15: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:16:1: note: expanded from here
+      16 | __UNIQUE_ID_guard_540
+         | ^
+   drivers/iio/light/tcs3430.c:142:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     142 |                 guard(mutex)(&data->lock);
+         |                 ^
+   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
+     299 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:17:1: note: expanded from here
+      17 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:23:1: note: expanded from here
+      23 | __UNIQUE_ID_unlock_537
+         | ^
+   drivers/iio/light/tcs3430.c:142:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:416:15: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:11:1: note: expanded from here
+      11 | __UNIQUE_ID_guard_536
+         | ^
+   drivers/iio/light/tcs3430.c:170:2: error: cannot jump from switch statement to this case label
+     170 |         case IIO_CHAN_INFO_INT_TIME:
+         |         ^
+   drivers/iio/light/tcs3430.c:166:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     166 |                 guard(mutex)(&data->lock);
+         |                 ^
+   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
+     299 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:22:1: note: expanded from here
+      22 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+
+
+vim +175 drivers/iio/light/tcs3430.c
+
+   132	
+   133	static int tcs3430_read_raw(struct iio_dev *indio_dev,
+   134				    const struct iio_chan_spec *chan,
+   135				    int *val, int *val2, long mask)
+   136	{
+   137		struct tcs3430_data *data = iio_priv(indio_dev);
+   138		int ret;
+   139	
+   140		switch (mask) {
+   141		case IIO_CHAN_INFO_RAW:
+   142			guard(mutex)(&data->lock);
+   143			ret = i2c_smbus_read_word_data(data->client, chan->address);
+   144			if (ret < 0)
+   145				return ret;
+   146			*val = ret;
+   147			return IIO_VAL_INT;
+   148	
+   149		case IIO_CHAN_INFO_SCALE: {
+   150			u32 itime_us = TCS3430_DEFAULT_ATIME_CYCLES * TCS3430_ATIME_STEP_US;
+   151			u64 scale_nano;
+   152			u32 rem;
+   153			int gain;
+   154	
+   155			scoped_guard(mutex, &data->lock)
+   156				gain = tcs3430_gains[data->gain_idx];
+   157	
+   158			scale_nano = div_u64(TCS3430_LUX_FACTOR * NSEC_PER_SEC * USEC_PER_MSEC,
+   159					     (u32)gain * itime_us);
+   160			*val = div_u64_rem(scale_nano, NSEC_PER_SEC, &rem);
+   161			*val2 = rem;
+   162			return IIO_VAL_INT_PLUS_NANO;
+   163		}
+   164	
+   165		case IIO_CHAN_INFO_HARDWAREGAIN:
+   166			guard(mutex)(&data->lock);
+   167			*val = tcs3430_gains[data->gain_idx];
+   168			return IIO_VAL_INT;
+   169	
+   170		case IIO_CHAN_INFO_INT_TIME:
+   171			*val = 0;
+   172			*val2 = TCS3430_DEFAULT_ATIME_CYCLES * TCS3430_ATIME_STEP_US;
+   173			return IIO_VAL_INT_PLUS_MICRO;
+   174	
+ > 175		default:
+   176			return -EINVAL;
+   177		}
+   178	}
+   179	
 
 -- 
 0-DAY CI Kernel Test Service
