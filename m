@@ -1,77 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795588889;
-	b=N/Ps/3lYECZ0Vrn1fRlJ0FcepIhS9PdKSgaETpUbckdKoFAdWJbuQ38vxqsKonQ3R4Rj
-	 MktnuIXJdy/J5DAnMhWsxyIpDSJa+oPGeqU0IJ0AhidNuZF5kUby06RkmsG10hqB3kPDB
-	 x5of3dE9EM7aAIXZMhTiXyFXlCuAfbFMQAlJea41XZXOoSmvq5SNjyVyNChazCM11nhBP
-	 CaqlD63YChn4R/8X9kdujJzQf0/phRt8zhlciRI8g/3DduZ0qBCTrGid2sDFHUHrx1X8r
-	 Z97WkrsKHgoqo/FBXXACKPitWr+mn9R4vgxXAySE7kOmI8LzK+xxEFE/umoaPkqngQQ==
+	t=1795591556;
+	b=crNYlGtytp1okuc2eMayedU4gSX+rqFQ0oTPYX2/a3O/orLrZ0DXPI86ZaoXy2pPxXtH
+	 MjHZfuktWQ14IqoqWhx3diMfg9cbterAKcAY2z2+G/0C5VGB93hY2zHvrmK/sFj1094ag
+	 wDRCPsGKcgXQqlOvkX8wNEnLWV6r7D7oLpOZ2rvwoKhT328oUkAjHK63sr3do1Vm5eHmy
+	 gfcvGups15ne3Jnfcs2eG/D28Dy3ZTgT0bm5Ri+74/bEsro6PsBsRFVejn2NlVpf1oIGn
+	 rqUerqZJFfHVzPcPdszClfoRS2Zg9CieCR1jl9KhwcX1+uKAt7+3z/GX3ahF/VfJ8qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795588889;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=u5atUNrbChV5e+iAOKhnXb9EcP1M2H25brNpnAq1TSE=;
-	b=tLyyZQ8wQxK9riwn9gV0/WIvx8JXB1I5yz2fYVDuoVhuOwTOoRF2KwM5gMLK5mcZuIP6
-	 /xKAgT+RaTYYOyq6jPMTwUxCIg2td2u4H/odA8kO4I9duVkN0Bk40QglCguwTtU6bOQ95
-	 p/lFmsU49NrcOjWf0nzS3lk7yDFdNvSUUAV9F1/z6OwVWKslacpIuQGjlhvn/10rK6v6t
-	 Hz6EQ+SaPci5PWOvZezUhbDWrWb0tfoQ4NDPqw7sHCLNSBJwDWTYwhLK8yU21tLOV/SS+
-	 M9e4c/nkrPudiY/RQosLcCzth1o9fJGElM+Q/544ec3vDPWE0Chew7XNJKSdbM+9cjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795591556;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=areUyV5IGaUVKzShNrXTKucydKXnSUiEsCYf0gfgVEI=;
+	b=WoVwH5Xxhnem/XFfw+IhJ6hoRIjBixiqVaJ7QkJRBEolxCDSwO9ml9s5DxpMfWYPxDFj
+	 p4DUWJCCA/77XLzlef75strjo8W7FnpTBDFMaIwctHs4a28pmdlRdGuXtWgj5s2eebDLp
+	 pMWjJyWkCs/x9sCxEPxmDhqAk0ILszvYW32xzEePTxthNO0wYauKJepcXZ+8iSUxCnSFt
+	 q8YXXzqQmI8HgD4hwq35PJ6oFlkTSaRBSXJI//Fgxr8NY+m+zDv6rn/C72s6aHVZVTQo7
+	 zHy9Wkrt4JOWOdj1Rd7eNaGu4kq33LKrgcdlwCiccUml5auHXkTBfqjT4L64zXfLCxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hA9ksVZC;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm3 header.b=NXmQYgQf;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=mhCAzoiz;
+	arc=none smtp.remote-ip=103.168.172.156
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC128606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 06:41:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC128606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0BF606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 07:25:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E0BF606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hA9ksVZC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795588888; x=1827124888;
-  h=date:from:to:cc:subject:message-id;
-  bh=nTpDLjz3UAIv6Pwko4zY55qCasfh8XfpvNavq7IZxTQ=;
-  b=hA9ksVZCjXi284L0TDNZthlItVTcXkzwmt19Z0jZ5VLYXrc6C5+yyFAI
-   QSA5FTpEyXfaOhdAFyx9jEDtcxhnW51OSIcJhWllk6lDFjNyuTpsi7PXc
-   ppadOYQ0yMbwi2L27M+ybzQuEZOXVYkrLzcw5ywb9fKyoYsDiRW5zOcOB
-   B2I9dpkQAXeDWKMiSWmIBf6znkTkjpjK1gtYsK/Bnm1hFWdn1EOnpaN0j
-   w7Qw3f5Bic2nxkEuRILCrHO89EQng1sag6i95iwwbnX7UWX1ATJnxmERn
-   jigvW2ZmZTkjrJr9NvsqsXe8MPiTHq8v4AFS3glRCLvBDHE4yMcT5knv+
-   Q==;
-X-CSE-ConnectionGUID: bLXgjgSbSQySB1ZKIPk/rQ==
-X-CSE-MsgGUID: 5kgsWwZuRwWu1NEQedvs2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4377068"
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4377068"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 22:11:35 -0800
-X-CSE-ConnectionGUID: MQvwHGc6To6Kp5iXfs8wkg==
-X-CSE-MsgGUID: Zb+cFfc7QpKXAUX6IbCdMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="11980229"
-Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Nov 2026 22:11:31 -0800
-Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xW6E5-0000000003z-08pt;
-	Wed, 25 Nov 2026 06:11:29 +0000
-Date: Wed, 25 Nov 2026 07:10:59 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 30/30]
- file.c:(.text.f2fs_ioc_load_dmabuf+0xae): undefined reference to
- `dma_buf_get'
-Message-ID: <20261125070753.UE24exxq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm3 header.b=NXmQYgQf;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=mhCAzoiz
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id ECD7F1400428
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 02:25:53 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Wed, 25 Nov 2026 02:25:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1795591549;
+	 x=1795677949; bh=areUyV5IGaUVKzShNrXTKucydKXnSUiEsCYf0gfgVEI=; b=
+	NXmQYgQfDBGtJJqA6lvVi0OJb8T+mYZTwOFSzroe6/oEumlIDMoOoBVQyvMptNTV
+	M5GurofGyGzpx68W0qorKdy4R/xlR4nuXhn5n/LsH91e9i9qdE+OM4swCxDK2pRe
+	WHQkVYGq8tSKTHETaOuAO3Z8FoXI6HFIavffF537didW3kxqWoIcunaoADoB6sBk
+	yi6VVuji+82nyUQ5kT3qmYipitW/tzddzJkvxNyS6f8AxnBir/6VtMjMTwgnHSiQ
+	fqNcyG9LOxd9zhHwAqiRihNk0wARFFva+wqOs9XsI5BtsVhAOTmrFbcVCXOgzrlU
+	ea7/fsOx6TZ+BV1KuL4Nzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795591549; x=
+	1795677949; bh=areUyV5IGaUVKzShNrXTKucydKXnSUiEsCYf0gfgVEI=; b=m
+	hCAzoizhQKruuk5LmFRQz2d6hn2R1ksevvfdior23pCqGCzg/BtAT2Go8+nzfNeu
+	RhfWZihDkz+MljWwSE93SDxX87KckydiZQ46rEk1J1v0qcB1d0cB1rI9d2olDzUI
+	wEW3Cpuvf+NS+OX9f8B5I1O/dx6GdJkGRsbFI82xUidwKGBgrRTBva4FYeSRIaHU
+	O8KX4B/vRG7cStt+nMcV6v7pKcplsDtDd2pGQB8dBO7/a7514VNMZyYxRi9WCXMu
+	CjE4O8Zu1I/fE/ogBKLToJrDWtuMsN2lYbcPAeJL9C3Jd+fKi5MzDtAP8ML2mA8b
+	5hnotpSYgwwpsDz7ICkWA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795591549; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm3:rsa-sha256:aJ+oCDMdlGCpYLS3LUbMs3DU8bdsG7GUWOHm5ZL2xxyA78a
+	eHNYhXHsZqH/f0SwvyVNbIEvt6ZW8SywR7qIhPaC7NGCG7zDw+tnYZFsxr0Uq/NI
+	5TszTbcEDjrGdPzOKoBd7RFv0BTJ6I0sg32S2x4CdgYZOgNve38E6TAKBO8rlEFu
+	HUHZ7eLfzIdlC+k41BMjQWuxsyAFo5E7b3lZwDwanQCuNGVWWncqDUpqIWiLqYMz
+	Y8NG0LShu1GRCHP22Jk3ylPn9yCdI6eEHsQkcECr0znWawQyB7Qg2Q6biQ1TTjUy
+	5kEFW9VQR/XHaFDQJ8pWrIuj+knBsixfcq0SBxg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:ExiAzAI7ZIHsP3YwjQVuySluz/eigJ9CVIPb+SsDzuU=:qrbV5AJknoaupQ7zjDTbd8KS55zbU4af6v59P5+eBLQ=;
+X-ME-Sender: <xms:do0Ga6GSJ35BWkDWp2fNfsaepR0LXFLtkcELH66KvHrOuyTtucC9eg>
+    <xme:do0Ga2LokOoqcjP5nJFPguJ2BHyK7iWTQMVCke4O4omZ9B4ofEz_wGBv6K63B_cjc
+    pXDSEAtTEPU56NTIZ6JUuo5HtZDg9fUERtxCd8FuaJKzkx9L1cpo2fL>
+X-ME-Proxy-Cause: dmFkZTFZPq8SB5M/2S0yRtLGK0naaJDyEBcCAUFLXlW46+6wD18D2V7n4HzSTDFK4Zu1Kw
+    lUGCTgRUyrsxhkAV+GljK6xyWGLMX6/po0bC24OTwhC/yvl3WbamZka1z3vH7mEIP2a+BQ
+    r8p0BLhaxT1fv3BVPIZxSuB0NrZA8SBu7UDybYkk3RTzXTm6YGwzm2dav7RsHa/dNgBYEC
+    YwhP8Dl9H1u3n5tS0gj4z7i5ITr+MMdY5LjaWGt24PBOj8tqd25FfpcFWI52efMkFvlXLN
+    hV4JKd3Am4eI0FqzMtG0EnQJohRn7gz778dU+o0s+7DdgeK2+Wh1J+MUnGN1Rn7mO+ZdmT
+    4IDUMWZnjGt8qxGM6Bg58JGW/gHqSlvYL/PjPdsE7xvOR26o0QuBGjASNOaeF8H8wOdYB1
+    tFmBZa6aX9U2hB6XcOngW+Jz4N4UV1TZ6B1qZuMoRj0b34gf0HQ2W9sZ8KDO50YFmwFVpg
+    IkiFPfqb3nAQUS5DTaqJSKCJnk0r57xA6VPqprSgrd/Nqg9cvFs3Y6jCaU4q27ehrWJuYr
+    04vbgl0UUFovYY6lThKmmCbFbfM1dtQg+4wHu47UsA1c5cxR4XQ/2AoRhEUju0NKGbdOER
+    ndp++75cb5519xDNdHN/VoHlMTe0mNy/RZGkWXsxNkmPj/HiG0T4SHCpI0og
+X-ME-Proxy: <xmx:eY0Ga6S26rUQ_4ScmJ0YuJyWGJBwfBk5Umdal-Mg-2zuFJhou9LDNw>
+    <xmx:eY0Ga3BprrMbUkf0SGxUGKcE0aMP0HZDS05EUNpxte60g9jvjbtX-g>
+    <xmx:eY0GayvMvbdOEJERGQ8GvkbNHA_XslY0D_3LbzpTxmu1UIMgsFd5Ig>
+    <xmx:eY0Ga18YTWLRREiBOs4qyRbQofRmBO4GOwowD1_trVaFXUz_EQ41bA>
+    <xmx:fY0Ga3CeXFNz_4ixcslQkf6tb9EOKpaiJf7FkdwjRDMoKYnbLD2IBBDY>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id C30DD32A0099; Wed, 25 Nov 2026 02:25:42 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,30 +114,105 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-ThreadId: AzzadY2dYG8o
+Date: Wed, 25 Nov 2026 08:25:22 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Finn Thain" <fthain@linux-m68k.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Bart Van Assche" <bvanassche@acm.org>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, scsi <linux-scsi@vger.kernel.org>,
+ "Nilesh Javali" <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com
+Message-Id: <9ada54e5-d80a-4d3c-a491-87e7a99f2ac8@app.fastmail.com>
+In-Reply-To: <9120b892-6a31-d161-381b-809191017bdc@linux-m68k.org>
+References: <20261121034304.2dPxVKzk-lkp@intel.com>
+ <0b947a72-7a68-9bde-8b0b-adb539f09a8c@linux-m68k.org>
+ <CAMuHMdUxYwD2t8zrqs4QBCtATOtf9xE83Djo0g7qbNFGSCWAQA@mail.gmail.com>
+ <669b9ce8-bb33-f7ee-1087-88c1e9d3b610@linux-m68k.org>
+ <8a0f78e3-5483-42a2-ae27-473bbb6de915@acm.org>
+ <85e103fe-acca-0880-1be3-cb1e7f79f9a4@linux-m68k.org>
+ <f0ec2845-245d-43ac-9c96-242e0d1d11ea@app.fastmail.com>
+ <9120b892-6a31-d161-381b-809191017bdc@linux-m68k.org>
+Subject: Re: include/linux/compiler_types.h:631:45: error: call to
+ '__compiletime_assert_433' declared with attribute error: BUILD_BUG_ON
+ failed: offsetof(struct qla_tgt_sess_op, atio) + sizeof(u->atio) !=
+ sizeof(*u)
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   ff6be2559af23135abf743199d61a2d1ea23a957
-commit: 4f89cba389563d156f55da6d344d5d9a16055d33 [30/30] ANDROID: f2fs: add F2FS_IOC_LOAD_DMABUF
-config: arm-randconfig-r2309-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125070753.UE24exxq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125070753.UE24exxq-lkp@intel.com/reproduce)
+On Wed, Nov 25, 2026, at 01:18, Finn Thain wrote:
+> [Cc qla2xxx maintainers]
+> On Tue, 24 Nov 2026, Arnd Bergmann wrote:
+>> On Tue, Nov 24, 2026, at 04:31, Finn Thain wrote:
+>> > On Mon, 23 Nov 2026, Bart Van Assche wrote:
+>> > Adding a flex array to struct qla_tgt_sess_op can prevent new struct 
+>> > members being added in the wrong spot in that struct but can't prevent 
+>> > new struct members being added to struct atio7_fcp_cmnd. Neither does 
+>> > the assertion. So the "remove" alternative doesn't have all the 
+>> > disadvantages that you might expect.
+>> 
+>> This is probably just a difference in perception: atio_from_isp and 
+>> everything inside is clearly marked as a hardware structure that is 
+>> meant to align exactly to the 64 byte cacheline, so it would not make 
+>> any sense to change its layout and add more members here.
+>
+> If this driver is for x86_64 only, as you seem to be implying, then the 
+> right fix for this build failure would seem to be Kconfig:
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125070753.UE24exxq-lkp@intel.com/
+I did not say or imply that.
 
-All errors (new ones prefixed by >>):
+>> qla_tgt_sess_op on the other hand is clearly not a hardware structure 
+>> but an in-kernel one so it is quite unexpected that one of its members 
+>> extends past the end, especially when the other three instances of 
+>> atio_from_isp in data structures don't seem to do that.
+>> 
+>> >> @@ -227,7 +224,7 @@ static void qlt_queue_unknown_atio(scsi_qla_host_t *vha,
+>> >>   		add_cdb_len =
+>> >>   			((unsigned int) atio->u.isp24.fcp_cmnd.add_cdb_len) * 4;
+>> >> 
+>> >> -	u = kzalloc(sizeof(*u) + add_cdb_len, GFP_ATOMIC);
+>> >> +	u = kzalloc_flex(*u, extra_cdb, add_cdb_len, GFP_ATOMIC);
+>> >>   	if (u == NULL)
+>> >>  		goto out_term;
+>> 
+>> While this does make the current implementation more correct by having
+>> the correct length, I'm worried that it just ends up establishing
+>> the complexity more in the sense that extra_cdb extends both into
+>> the padding and beyond qla_tgt_sess_op.
+>> 
+>> If the driver is still actively maintained, it would be nice to
+>> reduce the complexity instead, in one of two ways:
+>> 
+>> a) make atio_from_isp naturally aligned by dropping the bogus
+>>    __packed attribute, 
+>
+> I don't think I follow. "Natural" alignment would be at integer multiples 
+> of the struct size, right? Moreover, the correct alignment for a hardware 
+> struct is a question for the hardware vendor, isn't it?
 
-   arm-linux-gnueabi-ld: fs/f2fs/file.o: in function `f2fs_ioc_load_dmabuf':
->> file.c:(.text.f2fs_ioc_load_dmabuf+0xae): undefined reference to `dma_buf_get'
->> arm-linux-gnueabi-ld: file.c:(.text.f2fs_ioc_load_dmabuf+0xf6): undefined reference to `dma_buf_put'
->> arm-linux-gnueabi-ld: file.c:(.text.f2fs_ioc_load_dmabuf+0x2da): undefined reference to `dma_buf_begin_cpu_access'
->> arm-linux-gnueabi-ld: file.c:(.text.f2fs_ioc_load_dmabuf+0x2ee): undefined reference to `dma_buf_vmap_unlocked'
->> arm-linux-gnueabi-ld: file.c:(.text.f2fs_ioc_load_dmabuf+0x432): undefined reference to `dma_buf_vunmap_unlocked'
->> arm-linux-gnueabi-ld: file.c:(.text.f2fs_ioc_load_dmabuf+0x43e): undefined reference to `dma_buf_end_cpu_access'
+I should have been clearer here, I meant having it aligned to the
+highest alignment of any of its members, in this case alignof(u64),
+which would avoid both the warning and the slow byte-at-a-time
+access.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>>    so it is actually at the end of qla_tgt_sess_op
+>>    as the driver was written to expect. 
+>
+> FWIW, I think __packed on a hardware struct is at least as desirable as 
+> portable drivers are.
+
+I can certainly see an argument for marking the inner structures
+"__packed __aligned(8)" or similar, to ensure that the members are
+tightly packed but can still be accessed worth multi-byte load/store
+instructures.
+
+The way the __packed it written on the outer struct, it only causes
+problems but does not actually enforce packing of the inner struct.
+
+     Arnd
