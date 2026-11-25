@@ -1,102 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795626982;
-	b=u0iguGTauSXhaSsDdFo1s3nX9NjLbY10Ug2RG/DYT+iaaEyKSpKg0u5/Bfrcsx69tIjN
-	 4HIRbpGYTj/JBlyUMKUdIxstXnpZ4kkbYTGX5U/fdCqcp1Rydi1TVSVgSXBLoma7BTxu3
-	 Dk1bwmBs7j+7pHDmUTjUTHqB4TvZEP5v1Z60Iy3gUIxWrQVUdxMhRusRhOK4nNFXj9aKz
-	 miMU5RYhojqw8IZ0+KoKOPtl6uv21ygYYQx2A98uRdhPN9uDlqN8/Yv5tJLmoDqrS6/mG
-	 s4QDxg1ckhkNsYNjiluE36Zg5TfXKtI5b+ilJDZJ8ZRggUKhH7HSB7uVASofWREGRyg==
+	t=1795629557;
+	b=VGh30i1g8L4SrZOye/Shbv42LchZmpEcBMlPuTslFSsh9ef9oMmRx3adqRLQb2489OBX
+	 +gYI81lE6zCFE27rFcgRMElEUhZFHoMutsRMEokXp/FTqnNkJU4IqTZ2V4ByNPYr7vpqw
+	 YiFFwurREr6tzyKosu4EGI2rJZKGh+DO6IxfyAdTWNn/XlofS7ojvU51kasWIWZ1W9t4+
+	 AV/XHdBCtWcilqyrmOTpMaVprAsC/2kX4uCnC4FDGwVrDsRQfJxktzE/rvgEZeQrmVpgC
+	 V6Fjhffq+a1V5HcTXA6P1ohrar0Q3+MNWB8Az7xYMYYNtE5q6jiXOsjQPM3FPncYf8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795626982;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795629557;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=0XJ99uewa+KtsNo9XkOKtjKPjKDCzD0NbSDxZp+Yar8=;
-	b=bK67NtyrnFmr8mU2x2dPFt1BUrhequYJulcQtbYu89ryHDtU0mVaZxr4hy/OV/MeJ8en
-	 CdMU5dL3vIKH0RI6ZSy24KzuEzPwF0EiXufn9S9cW9p8vg5V80NhqmvG+zP6QqFJSvOo6
-	 2p084xvxGmAl3TIRJBs6jL8+Rj72Hqv+hsRwoHPMuoLQhQ9IIq8PjALuEx0TkDlx0Ik3e
-	 kudfBYNee3gndxQPHhqj82eGEaxdV+RYd+j19LPH1A3wcTM2Jc/FKp0LmRqcNgz9Xvsva
-	 rToCMpWvDJhSpA9c0kW4rxp77OAO61W+9hjhwHVxQ06Dr9N36OrnKKhPVCvZ/kPW1RQ==
+	bh=tj3svyRH79ns9vggL+rhHTfAezewbARIYweC/Uo3nEE=;
+	b=ckPD+Nf4zrOLRJBb0r8nSdbuyUeRyn3D74sDZcUio+SCrg3MCEpOUmoeDDA5bvWIeT1f
+	 GF0lGRIrW+cjypA7WjPMnl7+A+MaqDweTtwaJAXnDeIMeBxdqNSLC4iyvkFstJOpsxt6F
+	 CMyvg+4Zrf6hqRsr1a/qbeAPzdxAmDX+J+nVAaf7uaL6gf3X0dQLCBHhrPSmcVRnxbEG8
+	 JMmOrst+VLQBHW7u2o5r0fhLComUaowoX7JLJfwaRS0xkGlGTuuSi7QZwnapodz02K2XH
+	 ZkqsWvD9eSdZ27ZKXc6OVq4K1o0C2X+n8kNYMXUsqy6t1b2TayDWS0IqDABMLG2IpDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nxNDVcFB;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Jv+p/UrP";
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927D3606A326;
-	Wed, 25 Nov 2026 17:16:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 927D3606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CA3606A32E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 17:59:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3CA3606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nxNDVcFB
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Jv+p/UrP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795626982; x=1827162982;
+  t=1795629556; x=1827165556;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WcuGcUE+EwZ5wRASadJcsmh+YFYYe0xIYYtZnCYENIY=;
-  b=nxNDVcFBI0Nvo64YuGRcS7VtYKVFHTsSDpRIrn+WEsCfNferl98GqX7N
-   iwQRPEXXZVxCWF60oBCS3ounNsYqe9msh8gG17ZMg+sdYlYOkujnDElzh
-   D8m72XmRs/XHbvY9qGS5H4Kn8AN+V8g5lEXIrK1lbL0U57BqSg+VXGekT
-   I7ewDWEHtxNj4qOxrCbqNRkgYkb7WHqtY5ogDRkOIOa6uGy+eeaGYkB6Y
-   wBqC9/5DvhSuLkX7wh61jqwe05mRTiU/6xBmWGJOjsyVT1Pz21TxDNpxL
-   0osJKFq8pLvc6B+TEgCtJqUb5e4F3eV2Q5twd6U8ouESzujN9shUm9+C9
-   g==;
-X-CSE-ConnectionGUID: W0Agm05kRDOf61RJSBx6zw==
-X-CSE-MsgGUID: mH1T0KlLSf6n3sZ/Sr+z1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4504438"
+  bh=wSgyRuFWzKiJgk6KDlG9IQ8UVmbFTW2rs/stKcnF2hg=;
+  b=Jv+p/UrP9MAbOq8pF9hIxAS2HpNBnnhwEz+3SBHzKp64UMTlQNHXBKDC
+   vmvYRv2+HtUCwA/trmHoAg8pp0zIhMG3YN473SSfCJnGEvLY3JBD0yDdL
+   5jHd3IezU631rwb7uCUkNQsI8nyfwp2FilGNXB8jZ46moA8ZMEyOn2HUm
+   qrkjT5YpXnuKTCXYJqCVYPL8yoKYuNdDUtnl9/y/h9g2Cjo5uWaBwLBfb
+   VnzwbYnoB9iXOX+GUe2O4Tywmi/bodwOBfXNqo/yWvi0X2TkQObcZkEb6
+   psnft1MUOl/hLT/HtjUSIyQXslPLhEiGHwC39z0LFv6xcC8tup8CXSNhV
+   Q==;
+X-CSE-ConnectionGUID: vAbOuLC5TGiDwdhkOHpBEA==
+X-CSE-MsgGUID: mE4OqohpSRi5ODuCxHz/rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4462379"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4504438"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 08:45:12 -0800
-X-CSE-ConnectionGUID: N09VVOjbRLiZ5trnYphJjA==
-X-CSE-MsgGUID: KqMnJCIJQsSP7hGHZ+fvdA==
+   d="scan'208";a="4462379"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 09:59:15 -0800
+X-CSE-ConnectionGUID: b6g6o16sSziElsYiflcf/A==
+X-CSE-MsgGUID: bz1FLTcZTgqonjOMC4JBzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="11802730"
+   d="scan'208";a="13597395"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2026 08:45:06 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 25 Nov 2026 09:59:14 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWG7C-00000001S7G-0Bev;
-	Wed, 25 Nov 2026 16:45:02 +0000
-Date: Thu, 26 Nov 2026 00:44:36 +0800
+	id 1xWHGw-00000001SGO-3u2B;
+	Wed, 25 Nov 2026 17:59:10 +0000
+Date: Thu, 26 Nov 2026 01:58:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivank Garg <shivankg@amd.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dev Jain <dev.jain@arm.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-	Peter Xu <peterx@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Andrei Vagin <avagin@gmail.com>,
-	Paul Gofman <pgofman@codeweavers.com>,
-	Bharata B Rao <bharata@amd.com>, Daniel Wade <danjwade95@gmail.com>,
-	Yin Tirui <yintirui@gmail.com>,
-	Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shivank Garg <shivankg@amd.com>
-Subject: Re: [PATCH 1/3] mm: move the soft-dirty fallbacks up in pgtable.h
-Message-ID: <20261126003542.QALFbvl0-lkp@intel.com>
-References: <20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c@amd.com>
+To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jack@suse.cz
+Subject: Re: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
+Message-ID: <20261126015002.1lcIDaq1-lkp@intel.com>
+References: <20261125111055.3672233-3-yebin@huaweicloud.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -108,62 +84,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c@amd.com>
+In-Reply-To: <20261125111055.3672233-3-yebin@huaweicloud.com>
 
-Hi Shivank,
+Hi Ye,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 98f6b507621822477db7ec7cef8519de0dd243c4]
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on linus/master v7.4-rc4]
+[cannot apply to brauner-vfs/vfs.all next-20261124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivank-Garg/mm-move-the-soft-dirty-fallbacks-up-in-pgtable-h/20261125-133227
-base:   98f6b507621822477db7ec7cef8519de0dd243c4
-patch link:    https://lore.kernel.org/r/20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c%40amd.com
-patch subject: [PATCH 1/3] mm: move the soft-dirty fallbacks up in pgtable.h
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261126/20261126003542.QALFbvl0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126003542.QALFbvl0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/quota-Forbid-Q_XGETQUOTA-and-Q_XGETNEXTQUOTA-for-frozen-filesystem/20261125-191054
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20261125111055.3672233-3-yebin%40huaweicloud.com
+patch subject: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126003542.QALFbvl0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126015002.1lcIDaq1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/asm-offsets.c:14:
->> include/linux/mm.h:972:19: error: call to undeclared function 'pgtable_supports_soft_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     972 |         VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-         |                          ^
-   include/linux/mm.h:985:19: error: call to undeclared function 'pgtable_supports_soft_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     985 |         VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-         |                          ^
-   include/linux/mm.h:1000:19: error: call to undeclared function 'pgtable_supports_soft_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1000 |         VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-         |                          ^
-   3 errors generated.
-   make[3]: *** [scripts/Makefile.build:185: arch/arm/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1417: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   fs/ext4/super.c: In function 'ext4_write_dquot':
+>> fs/ext4/super.c:7165:13: error: 'freeze_protected' undeclared (first use in this function); did you mean 'freeze_processes'?
+    7165 |         if (freeze_protected)
+         |             ^~~~~~~~~~~~~~~~
+         |             freeze_processes
+   fs/ext4/super.c:7165:13: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/pgtable_supports_soft_dirty +972 include/linux/mm.h
+vim +7165 fs/ext4/super.c
 
-027232da7c7c1c Kiryl Shutsemau    2018-07-26  967  
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  968  /* Use when VMA is not part of the VMA tree and needs no locking */
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  969  static inline void vm_flags_init(struct vm_area_struct *vma,
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  970  				 vm_flags_t flags)
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  971  {
-277a1ae3879a82 Chunyan Zhang      2025-11-13 @972  	VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-9ea35a25d51b13 Lorenzo Stoakes    2025-11-25  973  	vma_flags_clear_all(&vma->flags);
-9ea35a25d51b13 Lorenzo Stoakes    2025-11-25  974  	vma_flags_overwrite_word(&vma->flags, flags);
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  975  }
-bc292ab00f6c7a Suren Baghdasaryan 2023-01-26  976  
+  7144	
+  7145	static int ext4_write_dquot(struct dquot *dquot)
+  7146	{
+  7147		int ret, err;
+  7148		handle_t *handle;
+  7149		struct inode *inode;
+  7150	
+  7151		inode = dquot_to_inode(dquot);
+  7152		handle = ext4_journal_start(inode, EXT4_HT_QUOTA,
+  7153					    EXT4_QUOTA_TRANS_BLOCKS(dquot->dq_sb));
+  7154		if (IS_ERR(handle))
+  7155			return PTR_ERR(handle);
+  7156		ret = dquot_commit(dquot);
+  7157		if (ret < 0)
+  7158			ext4_error_err(dquot->dq_sb, -ret,
+  7159				       "Failed to commit dquot type %d",
+  7160				       dquot->dq_id.type);
+  7161		err = ext4_journal_stop(handle);
+  7162		if (!ret)
+  7163			ret = err;
+  7164	
+> 7165		if (freeze_protected)
+  7166			sb_end_intwrite(dquot->dq_sb);
+  7167	
+  7168		return ret;
+  7169	}
+  7170	
 
 -- 
 0-DAY CI Kernel Test Service
