@@ -1,77 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795609583;
-	b=EbAKsIBXf7W9tp1YBemHeONYbUC2VRqk+N8jxOQ6+jWYtIUZ9ChMIzm2zGbjEmdz3Wl9
-	 6nceNdXWSAiiout9gTax/hjczLFPPyrIdE+YW5F5fAUnoeYK5L9sFFq4dwL9JBx+m9ENh
-	 ICVcCt8cUR0fsOF31uhKJ5n9UqvRRcV3/0VGAl1oirRc0NoQ6KWRiYco1oBNebwhaYMJG
-	 yIMDUdu2unoUCPFM8PI3B89rqkFBsl7RcOsRwGTEUH+OLa/qk4xWS9QvzvHf/0P47E0Ae
-	 dKlyDViw4LlP3KiPNOokBLFFaZH193pPD1YuujfsCOQpPpdm+f/O+eIJ4EO45HPnM6w==
+	t=1795609614;
+	b=lWG0+pk/Ugb540Ng7lO9T6TponXilg0cKCnhkDQcycLEpLBYieNdntB5PchtKctqvvpz
+	 ny8RwlkWqzFSgy0nH+uzLb0toAvdnBbOBJr/xBMxyuPzck3JPynTswxts37wi5Oxo1LnY
+	 aYbGLxl5O9BuJQ2FLweBYfUKp3OB1cpQGcpE+O0P0nCy4YTtaofpJS158cQgcO9xDzJm6
+	 6IRGpdmZy+7bE8Q1lV0CVRlDBkexiqccT8A6D87nZ2Isy2Umcz+TnxNtUUXkOggQDcZwq
+	 e57KYm9Xuv0sNGwQdZcB38Ed7Gsb8yyK61zazHw7rkT7h5xoSWKhaE7OhPLeXIyiY0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795609583;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=X8PccwhnAouzfKjdZNvgU0mAPR/x11Pfn8PmYZRSF5M=;
-	b=mssIAMx/AsHrtC3x8TdsOflimng+jpY9ldssIobQ7TlwyV8hQC6MBbwhWicI/dAEenm6
-	 H3pJDbLsgnZ/cb4j2/IKESlzhKGmp3ie2h2nreazhddqhCsxiEYL0qHUvivInooG/zAcg
-	 0ACAdvmgal4lOtBAKLEahCkYlsRzTOnJEaceYJOQ7FFiD3gaybKrpjJgiwKqzLMU5LC/T
-	 7g5iUzoWGxaS4igsMoeznFvyU/1/P9gl2TsJsBus37NkzOrRM/T3/3LYH3xXbPz4R4HOx
-	 aVJf2+qCA9x4aS7j+UuMqHggla3M6YKXYMeRye/HfHnwhXq2hIWew7jm2pbp+3wj0Hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795609614;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=xAqd28s4f8vn1CrPK/sg0IERT2pAzAOTznJJ6Lxcu44=;
+	b=H8Yt4Ep4pwW8+F0PBxAYBKgoYY2B+1q5fQwsHBAK9yjSJh1MIrzXeagwAnAnyS6gKX9R
+	 r6/St1ODHNVTFhk9qDTg+EmQsqKd3EL5Pa8yhq28RpCsZWHQYJpwLkmuWBP9vA9/C56GQ
+	 qg9tI6EdCmFXXP8qRG77SAO/qQeD5rQj9YE1I2rZFBJZNNtw45OM15z3Y1XEBtA16l9QK
+	 JqKVExbsqzfEIU86tqI0bvJTXIArSc8z9jT5RcGjFKuqybiiAPY5tMk/eHIgGhYJ+pc/X
+	 ba/4LU/bKyZUJfT0b4jM/r/FlJMZ4XoxdefSwIs8k0nwlmQ1ZDX7cN5MPLxxPvnyMfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OI1nOjFk;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DWeCe/ac";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D31606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 12:26:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64D31606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706C1606A31E;
+	Wed, 25 Nov 2026 12:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OI1nOjFk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795609582; x=1827145582;
-  h=date:from:to:cc:subject:message-id;
-  bh=EIoV/3C7//+bPI8KEY3EIKVHTZrpfVhq1Jzu128BP3c=;
-  b=OI1nOjFkdMA6R/GLmk3YtooUNPUmxfRzJgBhJ/S3JjbMmWTW3KsiiZXN
-   SaQ3NU69ljUNL9eZg3Gmktez7CmWUNn0RP7s8NoCxs1UzHh9gTQO/EG2l
-   IPxfzFakR0POtjQ/dqp3kxu4lEgP8Ja/FD/HuRCkOkLrxvfOQ6gHuIZDf
-   Xifavj6xQEj5alPzcmey2op15kVIR07CONfLQjwc6Ezb/2gbXDDkkcNnW
-   2ySa3EskXp16nM3rg618daya6csjx+y83Q2yxTJK8ILR3WBL8GX6R4kBo
-   XxRuwffM9PhBrY8M0cCB1vLp0U6M17jcZt4SHD9jOGp2Mkn0EhjgJfVJf
-   Q==;
-X-CSE-ConnectionGUID: 0Q5xIVAlSJ29uOykIBbvaA==
-X-CSE-MsgGUID: jrUInM+lR/ymC2G3KvnSXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4498293"
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="4498293"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 04:14:05 -0800
-X-CSE-ConnectionGUID: I7V+4R5kQzC9LX1CqEQvYw==
-X-CSE-MsgGUID: uT2rAJlfRVag74oBj+DQjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
-   d="scan'208";a="13527301"
-Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 25 Nov 2026 04:10:39 -0800
-Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xWBpc-0000000007v-0uPF;
-	Wed, 25 Nov 2026 12:10:36 +0000
-Date: Wed, 25 Nov 2026 13:10:10 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 1/1] Warning:
- drivers/gpu/buddy.c:1474 Excess function parameter 'p' description in
- 'gpu_buddy_print'
-Message-ID: <20261125130235.gzyZWjuh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DWeCe/ac
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE991F000D1;
+	Wed, 25 Nov 2026 12:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795609613;
+	bh=xAqd28s4f8vn1CrPK/sg0IERT2pAzAOTznJJ6Lxcu44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DWeCe/acoIloP0qvIzI2VYdET6w/HRxcI/8E0hOcoqIVzpvd6EgIMiNFHx1AHzZ/f
+	 wo3WBL9CJJvQjFxp9oO/sc/xu0SA0UZE5PBycT0IuvoZlhGQBrm0AjfpdINYMS32fb
+	 c9NXhaNTaECYmGgQ2Kr9BeSoqY42/3qp7TpxL2Qicqxv5pyQpmGR+JoJNgyY5iU+T9
+	 X+4ase/EPiLovIyN9YpnHElNyox2rX7Sg+E9lP5bdf3o5VdyZA5V3DhsJCHAZYTVbW
+	 896vVtiaa8XeZJ/VsP5pm3H6OI3mKbAFnXB8uainb6ggaZmSkdjLSdmZbDiq/bFe/B
+	 3kN2ajV7yqkvA==
+Date: Wed, 25 Nov 2026 12:26:49 +0000
+From: Mark Brown <broonie@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+	Intel Graphics <intel-gfx@lists.freedesktop.org>,
+	DRI <dri-devel@lists.freedesktop.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <5fc38eb6-f999-4aaa-98df-21a0b1bca01b@sirena.org.uk>
+References: <awXJ__-grexFFPb4@sirena.org.uk>
+ <20261125093804.Ygd8f4XE-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,34 +61,46 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NwNhpivsrId1/Hnp"
+Content-Disposition: inline
+In-Reply-To: <20261125093804.Ygd8f4XE-lkp@intel.com>
+X-Cookie: -- Owen Meredith
 
-Hi Carlos,
 
-First bad commit (maybe != root cause):
+--NwNhpivsrId1/Hnp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   6e4069d3308daddc8d27b337fbe2f6a9dca98ded
-commit: ae567e8652463d5b9250758367303b6a5b261fda [1/1] Merge 0d8c1134936f ("Merge tag 'v7.2-p1' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/crypto-2.6") into android-mainline
-config: i386-randconfig-2103-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125130235.gzyZWjuh-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125130235.gzyZWjuh-lkp@intel.com/reproduce)
+On Wed, Nov 25, 2026 at 09:44:55AM +0800, kernel test robot wrote:
+> Hi Mark,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on next-20261123]
+> [cannot apply to drm-tip/drm-tip linus/master v7.4-rc4 v7.4-rc3 v7.4-rc2 =
+v7.4-rc4]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125130235.gzyZWjuh-lkp@intel.com/
+This wasn't even a patch submission....=20
 
-All warnings (new ones prefixed by >>):
+--NwNhpivsrId1/Hnp
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> Warning: drivers/gpu/buddy.c:1474 Excess function parameter 'p' description in 'gpu_buddy_print'
->> Warning: drivers/gpu/buddy.c:1474 Excess function parameter 'p' description in 'gpu_buddy_print'
+-----BEGIN PGP SIGNATURE-----
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsG1AgACgkQJNaLcl1U
+h9AUcgf9FCehQxiRPZplaPK3PfRXFgPpW5RqatRU00lJ+gznpQJ+QZwuQ6ITguXe
+tX7XNPs9u7/zLqkilzRnrgCutfnONo7iQi9043zQj5jcbYxF6Mf8EcQGYWva3ASd
+h9/JgKI3e0Ye6RBr1c8fpV2LmCHDBDWP/WjIdPoGd/cnfvtl+P0CQhONuHKD20Xm
+0SStIcukvf9hdgZHm8+PK/d0wE3a331wT+aryED+ZoMLNh3o58XO4lDyKbwQmhRR
+3ExbSXNviix0GHjQJVYgGfeREGMuvkWCBs320YG1jwaJ1lQyVIywg+JUlzgOp0yM
+zDNd4HjDyZw4Hg+plhuj63WjdUjhOA==
+=ufWC
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--NwNhpivsrId1/Hnp--
