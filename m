@@ -1,78 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620864;
-	b=hBlGAqvy2NaXSxbj2Rzh8a4QMjmw3WB2S4JtjcYS3edvF6sOVlgE1r6KCUqNlFCOboC4
-	 FTbswa5w/PCK2ft2v45BUfJcFaJJshdKmx/RDAz6VHtg5+WWFqe2K+H5hisg7AL/ngOYS
-	 OwMiQ4hHlNeq7llLi2cV4cA9a2LLSSG3k2JfhJt9GN8Xs3yQcj1HFdyK9oAlBtXvjkQ5G
-	 vqMEqfejzKXUgZaRxyqp0OO5McNSXzRlS5jDVFDELSDTomkm/4shuYt03ZHA3poPz5w5E
-	 R/jlXzOH2qQANlTUemjXbDmdqUbFoaOBFGD4KAlFlvJBIAmQyHy5cxzMMl/aw7JT7MA==
+	t=1795623489;
+	b=sJVU6kZAPdGnQBIO6lJczxqbBnXte48kYuFVcWUj5s9wqJDfa+YgYEKV0fs3Nn/qkw9J
+	 1Ryyy1Q0clhvBRZUIv7KPr/08mLcHfJiK4U/bW3h3xlYYyXsf/VnunBIkPS73/rPeMHkZ
+	 5BZmwNpIOfisqW7DQ9iP6FGVIwVsh4JNmtJ3ErSXpi82yj1tq4v/HbXugmG69wEFS5TS8
+	 or1NLYSs6No1syH17gY5M8Ro6Sns59RRdP71nA/zm9zkUyZPvuGudSWQcXgh/p5dwybB3
+	 foSFoNl3r/9gNPBU0hQHk6nGrFovFePCmzVQaUWgcHGUsQvcG+Wb9lxxWme36daK13w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620864;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795623489;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=25JXtbAlt2tLMVRfj7TuB23TMvAKMBRElClbTOOQe0U=;
-	b=Ay05AEolkHh+k1GRt+P3b4dxE34fzeSikJk9ivjM7GeBydZaEftBcv+em/FVYgwwB7iR
-	 jrExn9oDQchfDuQu4eZD8KJpeR1YTgaSHftdkE1Gus+xWCuTB7bF0jExKqrGh3Wy1QdRd
-	 GCseFlGUy4fMdb/Dd6rtCDwvngW7j24J6odMFv8aD2yquGgm1VMDZrlpYEdG0WiK3rcG5
-	 ieey7OCPmJSm8uXBI2jcCvwmM74ex3PkyObKZ1+3LyyMP2vnpwYvKjtUWKpXLLM1YvfC1
-	 fDrV3z2JJve3ROPf0yTUYGNKAHDNurkSRDJGtk2eYuqJXoM0PH0kDPVd0q/vRN7aCbg==
+	bh=WwWsoSs2J5qpWhNs56AVQmBfYke5YnSSuODOR4ultkM=;
+	b=EMrPiCI3rfEsOxbnrUnBMvcXoO5B/h8WKYhKIj0idp4T7xgan8Eh/HhO4b00Jy2gFJT0
+	 7q+xedJCcilu1pXcx7lEFIX3448ctQ2fjF1UpKyZncA2C4s8s4JEkijFfwlFV/QumaEPe
+	 e9n2/kfciwsGB8N8jYRBrUGT94M3SZjJo0ae0jm1CBgrGC19vjQqvC3VSFUdXCPQvTBTk
+	 cBuRILUev+kPz1CsIhaGci9JqUWfCXEmw6vhifySNDgR/fNeFEuvanYcG6p9OgzWYIlSW
+	 5g6JB8/LqkBwzXJY3ckRFULtZeo7Bzw2WLNvY40WUuV1QDHMGR9DndyMIRAgK7m7HXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lkXkuPF5;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c8vX9bEe;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30D6606A323;
-	Wed, 25 Nov 2026 15:34:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E30D6606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC44B606A31E;
+	Wed, 25 Nov 2026 16:18:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC44B606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lkXkuPF5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c8vX9bEe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795620863; x=1827156863;
+  t=1795623489; x=1827159489;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BV2RRGKOn1EadqDTDRoU+tQK6IX9SzMJtTECBKgt5K8=;
-  b=lkXkuPF5TkCAKLUari7Yhp1juJwVvRisbtqbx7PzgI94mEsr+8hHev0B
-   KXqjOtixqzh/SKxHhGRNieFe9L/mPtzyptanqhlYP8oKPnIeRxcAi7oQ7
-   /xFhk31wHkJQPuNOTHwgEvMuH7zCPJng7CFTdJJMN+/1dXA/JRK9CKhXN
-   dlnIN/BiXk4rIB3jD/cvR72JkPOXvv/dl44ySG1f25pKpf5KSyD15DHK7
-   glZ+ceDlekwVnFAWgjVmVLrp7Px9eZu2TkGLXaPz+xzyGoGkC7sz4+KX2
-   Jbt6FdD5Pw8Aww1YYOP68KQ4PCgbKJkuzWPqxvvRdMRTPJ387GjZkMYk5
+  bh=9+tiGBNKlGAcbgLvr/9pQGLti36ZdFJyzGzi5HXaUoE=;
+  b=c8vX9bEeLTML4tMpf8utLXlQtQCgMO3xiimgmpiezaNd8IrXXJ1P12dj
+   qFATB0OFAU+yAEQqT3mjtspPec83HnaenJPf/8RqmwPS9yHItqPqeEW3/
+   QLlYgMky46LwX+hW9ynshf32EdRRF6p4XKuvE6BPTchdmJgvTyee1thkm
+   0ngw4A+PQR/wIgPdgPvteOVlJ1lFF3vugcWhS5EQAkRQlwGaCBoxisQHr
+   exNLkDOeiNHJl2t2u58rot+8vVoPxHatRhJhmxeo79dygH0xEj1tfQOcQ
+   NCIheQ2zlnRKOclJvxGmZ90ad21ELVXcd2jLncm7RmjO6I6uT5qSL2Qb+
    w==;
-X-CSE-ConnectionGUID: 6/JEkkCTStOJsabcFFALWA==
-X-CSE-MsgGUID: CMBWHuVFSFunwR6h9FlcYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4407526"
+X-CSE-ConnectionGUID: DR0ajpduQMi/GR6lVlN18Q==
+X-CSE-MsgGUID: Zqma7boGSTC1ScqhHcnXYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4498981"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4407526"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:21:16 -0800
-X-CSE-ConnectionGUID: Q+pQqTcHT0SgFJ9GdqkMqg==
-X-CSE-MsgGUID: dF/d+D2RQNSKY8+qV++DWA==
+   d="scan'208";a="4498981"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 08:07:03 -0800
+X-CSE-ConnectionGUID: rs80A/RtRHmkmjDfIQjjAQ==
+X-CSE-MsgGUID: DiFJ+MTDSaW9EKAtEObxag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12217261"
+   d="scan'208";a="12375211"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Nov 2026 07:20:53 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2026 08:03:58 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWEni-00000001RvW-3MHv;
-	Wed, 25 Nov 2026 15:20:50 +0000
-Date: Wed, 25 Nov 2026 23:19:57 +0800
+	id 1xWFTP-00000001S0s-3iSt;
+	Wed, 25 Nov 2026 16:03:55 +0000
+Date: Thu, 26 Nov 2026 00:03:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jack@suse.cz
-Subject: Re: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-Message-ID: <20261125231648.ZdN8QBCN-lkp@intel.com>
-References: <20261125111055.3672233-3-yebin@huaweicloud.com>
+To: Hefei <3066883572@qq.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, robh@kernel.org, conor@kernel.org,
+	Hefei <3066883572@qq.com>
+Subject: Re: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
+Message-ID: <20261125235231.H9Nhpv9l-lkp@intel.com>
+References: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,80 +86,97 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125111055.3672233-3-yebin@huaweicloud.com>
+In-Reply-To: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
 
-Hi Ye,
+Hi Hefei,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on linus/master v7.4-rc4]
-[cannot apply to brauner-vfs/vfs.all next-20261124]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus lee-backlight/for-backlight-next lee-backlight/for-backlight-fixes linus/master v7.4-rc4 next-20261124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/quota-Forbid-Q_XGETQUOTA-and-Q_XGETNEXTQUOTA-for-frozen-filesystem/20261125-191054
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20261125111055.3672233-3-yebin%40huaweicloud.com
-patch subject: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20261125/20261125231648.ZdN8QBCN-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hefei/dt-bindings-input-add-Jadard-JD9365TX-touchscreen-binding/20261125-101123
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07%40qq.com
+patch subject: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261125/20261125235231.H9Nhpv9l-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125231648.ZdN8QBCN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125235231.H9Nhpv9l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125231648.ZdN8QBCN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125235231.H9Nhpv9l-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/ext4/super.c:7165:6: error: use of undeclared identifier 'freeze_protected'; did you mean 'freeze_processes'?
-    7165 |         if (freeze_protected)
-         |             ^~~~~~~~~~~~~~~~
-         |             freeze_processes
-   include/linux/freezer.h:84:19: note: 'freeze_processes' declared here
-      84 | static inline int freeze_processes(void) { return -ENOSYS; }
-         |                   ^
->> fs/ext4/super.c:7165:6: warning: address of function 'freeze_processes' will always evaluate to 'true' [-Wpointer-bool-conversion]
-    7165 |         if (freeze_protected)
-         |         ~~  ^~~~~~~~~~~~~~~~
-   fs/ext4/super.c:7165:6: note: prefix with the address-of operator to silence this warning
-    7165 |         if (freeze_protected)
-         |             ^
-         |             &
-   1 warning and 1 error generated.
+   drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:304:8: error: call to undeclared function 'of_drm_get_panel_orientation'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     304 |         ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
+         |               ^
+>> drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:308:2: error: call to undeclared function 'drm_panel_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     308 |         drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
+         |         ^
+   2 errors generated.
 
 
-vim +7165 fs/ext4/super.c
+vim +/drm_panel_init +308 drivers/gpu/drm/panel/panel-viewe-jd9365tx.c
 
-  7144	
-  7145	static int ext4_write_dquot(struct dquot *dquot)
-  7146	{
-  7147		int ret, err;
-  7148		handle_t *handle;
-  7149		struct inode *inode;
-  7150	
-  7151		inode = dquot_to_inode(dquot);
-  7152		handle = ext4_journal_start(inode, EXT4_HT_QUOTA,
-  7153					    EXT4_QUOTA_TRANS_BLOCKS(dquot->dq_sb));
-  7154		if (IS_ERR(handle))
-  7155			return PTR_ERR(handle);
-  7156		ret = dquot_commit(dquot);
-  7157		if (ret < 0)
-  7158			ext4_error_err(dquot->dq_sb, -ret,
-  7159				       "Failed to commit dquot type %d",
-  7160				       dquot->dq_id.type);
-  7161		err = ext4_journal_stop(handle);
-  7162		if (!ret)
-  7163			ret = err;
-  7164	
-> 7165		if (freeze_protected)
-  7166			sb_end_intwrite(dquot->dq_sb);
-  7167	
-  7168		return ret;
-  7169	}
-  7170	
+   273	
+   274	static int jd9365tx_probe(struct mipi_dsi_device *dsi)
+   275	{
+   276		struct device *dev = &dsi->dev;
+   277		struct jd9365tx_panel *ctx;
+   278		int ret;
+   279	
+   280		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+   281		if (!ctx)
+   282			return -ENOMEM;
+   283	
+   284		ctx->dsi = dsi;
+   285		mipi_dsi_set_drvdata(dsi, ctx);
+   286	
+   287		dsi->lanes = 2;
+   288		dsi->format = MIPI_DSI_FMT_RGB888;
+   289		dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+   290				  MIPI_DSI_MODE_LPM;
+   291	
+   292		ctx->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   293		if (IS_ERR(ctx->reset))
+   294			return PTR_ERR(ctx->reset);
+   295	
+   296		ctx->vdd = devm_regulator_get(dev, "vdd");
+   297		if (IS_ERR(ctx->vdd))
+   298			return PTR_ERR(ctx->vdd);
+   299	
+   300		ctx->iovcc = devm_regulator_get(dev, "iovcc");
+   301		if (IS_ERR(ctx->iovcc))
+   302			return PTR_ERR(ctx->iovcc);
+   303	
+   304		ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
+   305		if (ret)
+   306			return ret;
+   307	
+ > 308		drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
+   309		ctx->panel.prepare_prev_first = true;
+   310	
+   311		ret = drm_panel_of_backlight(&ctx->panel);
+   312		if (ret)
+   313			return ret;
+   314	
+   315		drm_panel_add(&ctx->panel);
+   316	
+   317		ret = mipi_dsi_attach(dsi);
+   318		if (ret < 0) {
+   319			drm_panel_remove(&ctx->panel);
+   320			return ret;
+   321		}
+   322	
+   323		return 0;
+   324	}
+   325	
 
 -- 
 0-DAY CI Kernel Test Service
