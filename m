@@ -1,80 +1,102 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795623489;
-	b=sJVU6kZAPdGnQBIO6lJczxqbBnXte48kYuFVcWUj5s9wqJDfa+YgYEKV0fs3Nn/qkw9J
-	 1Ryyy1Q0clhvBRZUIv7KPr/08mLcHfJiK4U/bW3h3xlYYyXsf/VnunBIkPS73/rPeMHkZ
-	 5BZmwNpIOfisqW7DQ9iP6FGVIwVsh4JNmtJ3ErSXpi82yj1tq4v/HbXugmG69wEFS5TS8
-	 or1NLYSs6No1syH17gY5M8Ro6Sns59RRdP71nA/zm9zkUyZPvuGudSWQcXgh/p5dwybB3
-	 foSFoNl3r/9gNPBU0hQHk6nGrFovFePCmzVQaUWgcHGUsQvcG+Wb9lxxWme36daK13w==
+	t=1795626981;
+	b=AIYNwZmxbQl2BYtqXcrZUkSZjzvOayws5ccytuyl7JYBL///3nrvK6+GQVrTvo2GHIMX
+	 5HpBzQ+uMHQnvtrzI73PjZ3QSYctkGKUBWeG1m1m71eAx9FH6xEABpQ7dNnh54jYyRd7m
+	 y+RL++wWHkXttyfMXavPIMgD8SqKfpRQNiUtJz9GDhTB0YkEGJaG6Bj8fBliR4MpNQGPW
+	 Zrqu671n5+PjJMmHjRlLbQNWXW+69bGNiRLVkJ15H8IxPzvufZIAZOVeI3DTHtO1FBBYl
+	 UqY+GDQCvLw8BXxlHxrLUNolOSz27Fy3cBKHI8t7DKqjxXleYC1vHzOencI+oc2R0ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795623489;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626981;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=WwWsoSs2J5qpWhNs56AVQmBfYke5YnSSuODOR4ultkM=;
-	b=EMrPiCI3rfEsOxbnrUnBMvcXoO5B/h8WKYhKIj0idp4T7xgan8Eh/HhO4b00Jy2gFJT0
-	 7q+xedJCcilu1pXcx7lEFIX3448ctQ2fjF1UpKyZncA2C4s8s4JEkijFfwlFV/QumaEPe
-	 e9n2/kfciwsGB8N8jYRBrUGT94M3SZjJo0ae0jm1CBgrGC19vjQqvC3VSFUdXCPQvTBTk
-	 cBuRILUev+kPz1CsIhaGci9JqUWfCXEmw6vhifySNDgR/fNeFEuvanYcG6p9OgzWYIlSW
-	 5g6JB8/LqkBwzXJY3ckRFULtZeo7Bzw2WLNvY40WUuV1QDHMGR9DndyMIRAgK7m7HXA==
+	bh=nv3AVi2ii8sDqpBUYLroZbzyYAj1uyi+9hphR1p4z60=;
+	b=rKRDCI5h7lPCCvQURODOgpx44jMJK2KnrvtidOJXxD3NBdzb4uXXq+YFctkd6jJtncno
+	 dD2YCp1j4MQeR+MVXJ8zICd9E35J8VJL6rn83QKqMDT6euHunzBt1CnhkI1n4e8w5NzgP
+	 c2vH/KgFKnMy0qKu80nwjeW7HwnK4RscIVPue4Oloz7LT4yfUM2+p5OnHvRN9PahaoqsF
+	 OG+IxBb+bXCv7FoSaBZN2A/YLNAV2irURLpokC8IOnBoqjwLq2ZM97LytEgAzhjFd3KMr
+	 MAbDNZ+HU7r3nEeCKKz2cYGhgS1ke/Wu7XAfZKMCyx1U77j7P/BtQWZdn3DTOfli6pA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c8vX9bEe;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c037JGq+;
 	arc=none smtp.remote-ip=192.198.163.17
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC44B606A31E;
-	Wed, 25 Nov 2026 16:18:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC44B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F40D606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 17:16:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F40D606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c8vX9bEe
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c037JGq+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795623489; x=1827159489;
+  t=1795626981; x=1827162981;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9+tiGBNKlGAcbgLvr/9pQGLti36ZdFJyzGzi5HXaUoE=;
-  b=c8vX9bEeLTML4tMpf8utLXlQtQCgMO3xiimgmpiezaNd8IrXXJ1P12dj
-   qFATB0OFAU+yAEQqT3mjtspPec83HnaenJPf/8RqmwPS9yHItqPqeEW3/
-   QLlYgMky46LwX+hW9ynshf32EdRRF6p4XKuvE6BPTchdmJgvTyee1thkm
-   0ngw4A+PQR/wIgPdgPvteOVlJ1lFF3vugcWhS5EQAkRQlwGaCBoxisQHr
-   exNLkDOeiNHJl2t2u58rot+8vVoPxHatRhJhmxeo79dygH0xEj1tfQOcQ
-   NCIheQ2zlnRKOclJvxGmZ90ad21ELVXcd2jLncm7RmjO6I6uT5qSL2Qb+
-   w==;
-X-CSE-ConnectionGUID: DR0ajpduQMi/GR6lVlN18Q==
-X-CSE-MsgGUID: Zqma7boGSTC1ScqhHcnXYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4498981"
+  bh=+k9uvO9rNhYlF7PPTcvzGNkwTo+8Re6JcWEKubDKrlc=;
+  b=c037JGq+3j84hTSE4kvQyrMYpwi22M2i2qIL+k6VQccWf2+OaW40obUd
+   TeaZNdFnTYz7JRBP4F0NIZ4YrEK/6WUbS1Gm6kBI3uEhscyaoYHp7TKIj
+   R4lM9/q8SJISSDN+9/DKeFDt67ME/yGxdku3ANfDrMb6+2YloAcnaepL4
+   jYhPBNks6cSPFDTAi1/p6cDFUpgk3SdeGPYjgpIxhniqQIiKTVrJ5AzP4
+   flzhoPXg2Rb2W9mKlJ4PwE24YcFj3p1yhWux+UbiC7t9DVOwcyUqk8st4
+   JYQk1z4ZjmMhjac3oTDJ7zFT3RirpyheEYGeTCINHSjCN7W6pMsswxWcM
+   A==;
+X-CSE-ConnectionGUID: JjdXGHGmQOuMvp787fg5Hg==
+X-CSE-MsgGUID: O4PTFJQnQcidfanz7DMKUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4504424"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4498981"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 08:07:03 -0800
-X-CSE-ConnectionGUID: rs80A/RtRHmkmjDfIQjjAQ==
-X-CSE-MsgGUID: DiFJ+MTDSaW9EKAtEObxag==
+   d="scan'208";a="4504424"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 08:45:12 -0800
+X-CSE-ConnectionGUID: UMC9+qpYRaONe4cUeA5ZZg==
+X-CSE-MsgGUID: PgM3kGfERdagckdYk/vZsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12375211"
+   d="scan'208";a="11802729"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2026 08:03:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2026 08:45:06 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWFTP-00000001S0s-3iSt;
-	Wed, 25 Nov 2026 16:03:55 +0000
-Date: Thu, 26 Nov 2026 00:03:08 +0800
+	id 1xWG7C-00000001S7E-06jJ;
+	Wed, 25 Nov 2026 16:45:02 +0000
+Date: Thu, 26 Nov 2026 00:44:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hefei <3066883572@qq.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, robh@kernel.org, conor@kernel.org,
-	Hefei <3066883572@qq.com>
-Subject: Re: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
-Message-ID: <20261125235231.H9Nhpv9l-lkp@intel.com>
-References: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
+To: Shivank Garg <shivankg@amd.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Dev Jain <dev.jain@arm.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Peter Xu <peterx@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Bharata B Rao <bharata@amd.com>, Daniel Wade <danjwade95@gmail.com>,
+	Yin Tirui <yintirui@gmail.com>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shivank Garg <shivankg@amd.com>
+Subject: Re: [PATCH 1/3] mm: move the soft-dirty fallbacks up in pgtable.h
+Message-ID: <20261126003419.x9qXgaij-lkp@intel.com>
+References: <20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c@amd.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,97 +108,79 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07@qq.com>
+In-Reply-To: <20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c@amd.com>
 
-Hi Hefei,
+Hi Shivank,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus lee-backlight/for-backlight-next lee-backlight/for-backlight-fixes linus/master v7.4-rc4 next-20261124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 98f6b507621822477db7ec7cef8519de0dd243c4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hefei/dt-bindings-input-add-Jadard-JD9365TX-touchscreen-binding/20261125-101123
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/tencent_3D3EC29E27E9DF37D4C9F1A60F2F2BA3EF07%40qq.com
-patch subject: [PATCH v3 4/6] drm/panel: add VIEWE JD9365TX 7 inch DSI panel
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261125/20261125235231.H9Nhpv9l-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125235231.H9Nhpv9l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivank-Garg/mm-move-the-soft-dirty-fallbacks-up-in-pgtable-h/20261125-133227
+base:   98f6b507621822477db7ec7cef8519de0dd243c4
+patch link:    https://lore.kernel.org/r/20261125-b4-mm-soft-dirty-fixes-v1-1-538e3cdb618c%40amd.com
+patch subject: [PATCH 1/3] mm: move the soft-dirty fallbacks up in pgtable.h
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20261126/20261126003419.x9qXgaij-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126003419.x9qXgaij-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125235231.H9Nhpv9l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126003419.x9qXgaij-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:304:8: error: call to undeclared function 'of_drm_get_panel_orientation'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     304 |         ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
-         |               ^
->> drivers/gpu/drm/panel/panel-viewe-jd9365tx.c:308:2: error: call to undeclared function 'drm_panel_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     308 |         drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
-         |         ^
-   2 errors generated.
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:31,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:107,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:18,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/jump_label.h:243,
+                    from include/linux/once.h:6,
+                    from include/linux/prandom.h:12,
+                    from kernel/sched/sched.h:8,
+                    from kernel/sched/rq-offsets.c:5:
+   include/linux/mm.h: In function 'vm_flags_init':
+>> include/linux/mm.h:972:26: error: implicit declaration of function 'pgtable_supports_soft_dirty' [-Wimplicit-function-declaration]
+     972 |         VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+         |                                                               ^
+   include/linux/mm.h:972:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
+     972 |         VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
+         |         ^~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1417: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/drm_panel_init +308 drivers/gpu/drm/panel/panel-viewe-jd9365tx.c
+vim +/pgtable_supports_soft_dirty +972 include/linux/mm.h
 
-   273	
-   274	static int jd9365tx_probe(struct mipi_dsi_device *dsi)
-   275	{
-   276		struct device *dev = &dsi->dev;
-   277		struct jd9365tx_panel *ctx;
-   278		int ret;
-   279	
-   280		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-   281		if (!ctx)
-   282			return -ENOMEM;
-   283	
-   284		ctx->dsi = dsi;
-   285		mipi_dsi_set_drvdata(dsi, ctx);
-   286	
-   287		dsi->lanes = 2;
-   288		dsi->format = MIPI_DSI_FMT_RGB888;
-   289		dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-   290				  MIPI_DSI_MODE_LPM;
-   291	
-   292		ctx->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-   293		if (IS_ERR(ctx->reset))
-   294			return PTR_ERR(ctx->reset);
-   295	
-   296		ctx->vdd = devm_regulator_get(dev, "vdd");
-   297		if (IS_ERR(ctx->vdd))
-   298			return PTR_ERR(ctx->vdd);
-   299	
-   300		ctx->iovcc = devm_regulator_get(dev, "iovcc");
-   301		if (IS_ERR(ctx->iovcc))
-   302			return PTR_ERR(ctx->iovcc);
-   303	
-   304		ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
-   305		if (ret)
-   306			return ret;
-   307	
- > 308		drm_panel_init(&ctx->panel, dev, &jd9365tx_funcs, DRM_MODE_CONNECTOR_DSI);
-   309		ctx->panel.prepare_prev_first = true;
-   310	
-   311		ret = drm_panel_of_backlight(&ctx->panel);
-   312		if (ret)
-   313			return ret;
-   314	
-   315		drm_panel_add(&ctx->panel);
-   316	
-   317		ret = mipi_dsi_attach(dsi);
-   318		if (ret < 0) {
-   319			drm_panel_remove(&ctx->panel);
-   320			return ret;
-   321		}
-   322	
-   323		return 0;
-   324	}
-   325	
+027232da7c7c1c7 Kiryl Shutsemau    2018-07-26  967  
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  968  /* Use when VMA is not part of the VMA tree and needs no locking */
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  969  static inline void vm_flags_init(struct vm_area_struct *vma,
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  970  				 vm_flags_t flags)
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  971  {
+277a1ae3879a82a Chunyan Zhang      2025-11-13 @972  	VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
+9ea35a25d51b130 Lorenzo Stoakes    2025-11-25  973  	vma_flags_clear_all(&vma->flags);
+9ea35a25d51b130 Lorenzo Stoakes    2025-11-25  974  	vma_flags_overwrite_word(&vma->flags, flags);
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  975  }
+bc292ab00f6c7a6 Suren Baghdasaryan 2023-01-26  976  
 
 -- 
 0-DAY CI Kernel Test Service
