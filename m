@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617896;
-	b=ABc5apgvcsxi89iDF1qTxUVoTgCgp6z9NLTkF7gIEjyvoxhR9vhTuu5/Aohm61kYXUxU
-	 mnEODpmQGk2uXPYH33rfd8ChwtQZ2fG4/3NlwKqNJ25/PjhXUz4me+gQzJJuHMWklhTF+
-	 8I/snHGH68ngDApf3J2US97sH3msj0TB50kbRyEOvFjlX95sJZTbNIuFlr12q2WC3twSk
-	 yGoimPQGJvg4nWdInv5K5fsupsFVmjC130VOk1E2KJ5VTz5HKcnK6BX1yF2HkeTQXNhYg
-	 7sH7KPbHc4LbLFCxc8nWar9Q81/zHJh/RTuP1PEEzwYy3c+ooibOniRXnubPu29X3yw==
+	t=1795620864;
+	b=hBlGAqvy2NaXSxbj2Rzh8a4QMjmw3WB2S4JtjcYS3edvF6sOVlgE1r6KCUqNlFCOboC4
+	 FTbswa5w/PCK2ft2v45BUfJcFaJJshdKmx/RDAz6VHtg5+WWFqe2K+H5hisg7AL/ngOYS
+	 OwMiQ4hHlNeq7llLi2cV4cA9a2LLSSG3k2JfhJt9GN8Xs3yQcj1HFdyK9oAlBtXvjkQ5G
+	 vqMEqfejzKXUgZaRxyqp0OO5McNSXzRlS5jDVFDELSDTomkm/4shuYt03ZHA3poPz5w5E
+	 R/jlXzOH2qQANlTUemjXbDmdqUbFoaOBFGD4KAlFlvJBIAmQyHy5cxzMMl/aw7JT7MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617896;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620864;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=kAaLPPsQOaueor0xfIiuL6YBfAxmmLMrN100IbJMdeU=;
-	b=v7TaG0UF6L8W5Nk1WaERQpmaEw2Cu2FbkBwVVOTLWCq9SXCKeDpqBComtTaI9h4tvl9v
-	 Ke7yBVkIB1utsISghVMJlajbD+LhPMQjbUvKrVRN6IcHcB0BanrON4seAQkGlFFh/S3CC
-	 YN+lNkRYV2BK3RG6s9cakFnNFFs7Ja5MekuM24NB7p/k5R6ZR6Lx16CiV1Kh0EqY7BLD9
-	 Adjy1KVH07jVjgQE6Alz6VSnzTV3NbtdNoIKbyc3RHwzxAD7xlrYnfuD59/6Nty5WkLfn
-	 EqlFZtppHADeypj8fvrmLdlx/Phc3oXK1Iy+Z3ZZ7eR/yPrr+ZL/DZqcB5zjJGPHugw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=25JXtbAlt2tLMVRfj7TuB23TMvAKMBRElClbTOOQe0U=;
+	b=Ay05AEolkHh+k1GRt+P3b4dxE34fzeSikJk9ivjM7GeBydZaEftBcv+em/FVYgwwB7iR
+	 jrExn9oDQchfDuQu4eZD8KJpeR1YTgaSHftdkE1Gus+xWCuTB7bF0jExKqrGh3Wy1QdRd
+	 GCseFlGUy4fMdb/Dd6rtCDwvngW7j24J6odMFv8aD2yquGgm1VMDZrlpYEdG0WiK3rcG5
+	 ieey7OCPmJSm8uXBI2jcCvwmM74ex3PkyObKZ1+3LyyMP2vnpwYvKjtUWKpXLLM1YvfC1
+	 fDrV3z2JJve3ROPf0yTUYGNKAHDNurkSRDJGtk2eYuqJXoM0PH0kDPVd0q/vRN7aCbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O31WhqPT;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lkXkuPF5;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81690606A326
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 14:44:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81690606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30D6606A323;
+	Wed, 25 Nov 2026 15:34:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E30D6606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O31WhqPT
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lkXkuPF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795617895; x=1827153895;
-  h=date:from:to:cc:subject:message-id;
-  bh=n0kkWzB412WhG1XMAiu+x2YVXHd00biHVZkow5vucmA=;
-  b=O31WhqPT5LQvfLWdhzTsOSTvsCxTxd92hT1oBdWXM3xKPq18Xxs0t4b4
-   Gk7jRsEAp9yBpDlQCfug0oQlK+NLoFh+cGZRKD/NfWGZEDCqInFRdivHz
-   GJuaMjvoSJPHa2hdbYr5tWcze/LkrjpZ+n5UKyDAVPhLPe1dVPIY/sVtC
-   hmyTvjlaHn0iRO8PIOaw19WYMH6j623yabGCw9sAijSsdhnnahNnwSZLl
-   7bbIqk9Ux8cV9SQzYERdfZ1x9xCPmvC83/lp+EzFqsg1ef1e9WhHvXtTT
-   FhUOlmPVjYen6CaUEkpDFtJvuFgP8XaLC1PtpAbwVaj9YRa+uoI4bzddX
+  t=1795620863; x=1827156863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BV2RRGKOn1EadqDTDRoU+tQK6IX9SzMJtTECBKgt5K8=;
+  b=lkXkuPF5TkCAKLUari7Yhp1juJwVvRisbtqbx7PzgI94mEsr+8hHev0B
+   KXqjOtixqzh/SKxHhGRNieFe9L/mPtzyptanqhlYP8oKPnIeRxcAi7oQ7
+   /xFhk31wHkJQPuNOTHwgEvMuH7zCPJng7CFTdJJMN+/1dXA/JRK9CKhXN
+   dlnIN/BiXk4rIB3jD/cvR72JkPOXvv/dl44ySG1f25pKpf5KSyD15DHK7
+   glZ+ceDlekwVnFAWgjVmVLrp7Px9eZu2TkGLXaPz+xzyGoGkC7sz4+KX2
+   Jbt6FdD5Pw8Aww1YYOP68KQ4PCgbKJkuzWPqxvvRdMRTPJ387GjZkMYk5
    w==;
-X-CSE-ConnectionGUID: GfThH+4JRaeCZggzH4TecQ==
-X-CSE-MsgGUID: IoRZ0KQhRp66gxptBsd6Tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4386601"
+X-CSE-ConnectionGUID: 6/JEkkCTStOJsabcFFALWA==
+X-CSE-MsgGUID: CMBWHuVFSFunwR6h9FlcYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4407526"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4386601"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 06:44:55 -0800
-X-CSE-ConnectionGUID: kcOTT9NzRpWEMLCqJr+5DA==
-X-CSE-MsgGUID: Y+gvkGzgSgCjexWwPFdoug==
+   d="scan'208";a="4407526"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 07:21:16 -0800
+X-CSE-ConnectionGUID: Q+pQqTcHT0SgFJ9GdqkMqg==
+X-CSE-MsgGUID: dF/d+D2RQNSKY8+qV++DWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12476179"
-Received: from igk-lkp-server01.igk.intel.com (HELO 99c479ab0aeb) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Nov 2026 06:44:52 -0800
-Received: from kbuild by 99c479ab0aeb with local (Exim 4.98.2)
+   d="scan'208";a="12217261"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 25 Nov 2026 07:20:53 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWEEr-0000000009D-2KHb;
-	Wed, 25 Nov 2026 14:44:49 +0000
-Date: Wed, 25 Nov 2026 15:44:32 +0100
+	id 1xWEni-00000001RvW-3MHv;
+	Wed, 25 Nov 2026 15:20:50 +0000
+Date: Wed, 25 Nov 2026 23:19:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harsh Kumar Bijlani <quic_hbijlani@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Ripan Deuri <quic_rdeuri@quicinc.com>,
- Vasanthakumar Thiagarajan <vasanthakumar.thiagarajan@oss.qualcomm.com>,
- Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-Subject: drivers/net/wireless/ath/ath12k/wifi7/hw.c:127:21-23:
- WARNING !A || A && B is equivalent to !A || B
-Message-ID: <20261125153656.0ye4b8d7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jack@suse.cz
+Subject: Re: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
+Message-ID: <20261125231648.ZdN8QBCN-lkp@intel.com>
+References: <20261125111055.3672233-3-yebin@huaweicloud.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,66 +81,83 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125111055.3672233-3-yebin@huaweicloud.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4dce97c6c265544342e716e62fd24bbb232590c5
-commit: ee16dcf573d5e3283fda601dd4bca6bc52251017 wifi: ath12k: Define ath12k_dp_peer structure & APIs for create & delete
-date:   1 year, 1 month ago
-config: x86_64-randconfig-2103-20261124 (https://download.01.org/0day-ci/archive/20261125/20261125153656.0ye4b8d7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Ye,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on linus/master v7.4-rc4]
+[cannot apply to brauner-vfs/vfs.all next-20261124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/quota-Forbid-Q_XGETQUOTA-and-Q_XGETNEXTQUOTA-for-frozen-filesystem/20261125-191054
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20261125111055.3672233-3-yebin%40huaweicloud.com
+patch subject: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
+config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20261125/20261125231648.ZdN8QBCN-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261125/20261125231648.ZdN8QBCN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ee16dcf573d5 ("wifi: ath12k: Define ath12k_dp_peer structure & APIs for create & delete")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261125153656.0ye4b8d7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261125231648.ZdN8QBCN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath12k/wifi7/hw.c:127:21-23: WARNING !A || A && B is equivalent to !A || B
+All error/warnings (new ones prefixed by >>):
 
-vim +127 drivers/net/wireless/ath/ath12k/wifi7/hw.c
+>> fs/ext4/super.c:7165:6: error: use of undeclared identifier 'freeze_protected'; did you mean 'freeze_processes'?
+    7165 |         if (freeze_protected)
+         |             ^~~~~~~~~~~~~~~~
+         |             freeze_processes
+   include/linux/freezer.h:84:19: note: 'freeze_processes' declared here
+      84 | static inline int freeze_processes(void) { return -ENOSYS; }
+         |                   ^
+>> fs/ext4/super.c:7165:6: warning: address of function 'freeze_processes' will always evaluate to 'true' [-Wpointer-bool-conversion]
+    7165 |         if (freeze_protected)
+         |         ~~  ^~~~~~~~~~~~~~~~
+   fs/ext4/super.c:7165:6: note: prefix with the address-of operator to silence this warning
+    7165 |         if (freeze_protected)
+         |             ^
+         |             &
+   1 warning and 1 error generated.
 
-   111	
-   112	static bool
-   113	ath12k_wifi7_is_frame_link_agnostic_wcn7850(struct ath12k_link_vif *arvif,
-   114						    struct ieee80211_mgmt *mgmt)
-   115	{
-   116		struct ieee80211_vif *vif = ath12k_ahvif_to_vif(arvif->ahvif);
-   117		struct ath12k_hw *ah = ath12k_ar_to_ah(arvif->ar);
-   118		struct ath12k_base *ab = arvif->ar->ab;
-   119		struct ath12k_dp *dp = ath12k_ab_to_dp(ab);
-   120		struct ath12k_dp_peer *peer;
-   121		__le16 fc = mgmt->frame_control;
-   122	
-   123		spin_lock_bh(&dp->dp_lock);
-   124		if (!ath12k_dp_link_peer_find_by_addr(dp, mgmt->da)) {
-   125			spin_lock_bh(&ah->dp_hw.peer_lock);
-   126			peer = ath12k_dp_peer_find_by_addr(&ah->dp_hw, mgmt->da);
- > 127			if (!peer || (peer && !peer->is_mlo)) {
-   128				spin_unlock_bh(&ah->dp_hw.peer_lock);
-   129				spin_unlock_bh(&dp->dp_lock);
-   130				return false;
-   131			}
-   132			spin_unlock_bh(&ah->dp_hw.peer_lock);
-   133		}
-   134		spin_unlock_bh(&dp->dp_lock);
-   135	
-   136		if (vif->type == NL80211_IFTYPE_STATION)
-   137			return arvif->is_up &&
-   138			       (vif->valid_links == vif->active_links) &&
-   139			       !ieee80211_is_probe_req(fc) &&
-   140			       !ieee80211_is_auth(fc) &&
-   141			       !ieee80211_is_deauth(fc) &&
-   142			       !ath12k_is_addba_resp_action_code(mgmt);
-   143	
-   144		if (vif->type == NL80211_IFTYPE_AP)
-   145			return !(ieee80211_is_probe_resp(fc) || ieee80211_is_auth(fc) ||
-   146				 ieee80211_is_assoc_resp(fc) || ieee80211_is_reassoc_resp(fc) ||
-   147				 ath12k_is_addba_resp_action_code(mgmt));
-   148	
-   149		return false;
-   150	}
-   151	
+
+vim +7165 fs/ext4/super.c
+
+  7144	
+  7145	static int ext4_write_dquot(struct dquot *dquot)
+  7146	{
+  7147		int ret, err;
+  7148		handle_t *handle;
+  7149		struct inode *inode;
+  7150	
+  7151		inode = dquot_to_inode(dquot);
+  7152		handle = ext4_journal_start(inode, EXT4_HT_QUOTA,
+  7153					    EXT4_QUOTA_TRANS_BLOCKS(dquot->dq_sb));
+  7154		if (IS_ERR(handle))
+  7155			return PTR_ERR(handle);
+  7156		ret = dquot_commit(dquot);
+  7157		if (ret < 0)
+  7158			ext4_error_err(dquot->dq_sb, -ret,
+  7159				       "Failed to commit dquot type %d",
+  7160				       dquot->dq_id.type);
+  7161		err = ext4_journal_stop(handle);
+  7162		if (!ret)
+  7163			ret = err;
+  7164	
+> 7165		if (freeze_protected)
+  7166			sb_end_intwrite(dquot->dq_sb);
+  7167	
+  7168		return ret;
+  7169	}
+  7170	
 
 -- 
 0-DAY CI Kernel Test Service
