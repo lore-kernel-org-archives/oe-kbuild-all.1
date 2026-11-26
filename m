@@ -1,77 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795709712;
-	b=fDeGJ18tGkUHdwXBaLEyE+3+0HjWYW7ZikXWtzuE3L3vZYXCOPScSsKuajGjnUSDzM7C
-	 6p3/EvWMLrF5ISpvjt9vfkj1dVlcKRloSqKImjj6p9g/TGvneJ0/lhUVF9BSPDJY63hZW
-	 vc/G2BiXAVrqq/5jiXt0vDf0ORMD4bhAlLvTC/2tvIRprjfB+7PqPjQ9iW+Ud0DLnFWnW
-	 88czKZAFDiSk8ZQOgAinQlVpEiXmNVl8yBrFjG2cPs++gE8acTH8oT6jEqywdqOkGsvw+
-	 BtKuJAI69ar7WhFQhpgvVT8oFF3BUDPj5kJU+TBVSDuhegByzkT/ztoLDRmojDV8zVA==
+	t=1795711500;
+	b=LvrRt+QAPhYVod5nKrGUTQgqNZssGHikqCMuPl+neQfCDc9D9XXgvhrFCht9sVaoGT7m
+	 F+mqkdXUMxGOqTX0t2Zxaezt5jH2djV8DUQwoBj9qhNKfFZzhuqQ52XvDjnQa73fj9+Ao
+	 xt417wuwn+ZPTa9tI8C0iEbc3KczreZ7Vd8Vv8CSLtobJInqdcZU5LkZlE5uf4OYbddiJ
+	 hpTZpLIjYsxGQvlCfqxvAVVs/uoyTWh77X1CUaAv1gsqXiLK5xOZMOqaVCHWRQVHnBkwA
+	 V1AmqinipF9h3JdGiO3lhv9HC72tklBPqtla2j0vojhXfBu2JeYfvQQQUjofVa6wOMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795709712;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795711500;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=PcKo2kVjFeogWNNj5epZrpaQS92KJBRSATnC++pwXO4=;
-	b=jJrNz79Hz1H3I7gv1K1BLbCzePeldl4Rbb8WxCkIYL3/tvyflWtVBtfWQaryEo1rvplF
-	 /MDvRYhEVkzmCBMTa1/+83khso1tvDmyoii3xG+D9iX+ULfxbjqkQo+GBMObFfKmOkMXp
-	 YtU1OH26F1WJirEz8jb6R0K2EK3/UrsmzlClX2PTNdKw2V7QkDsmvwcyp2W+opHsxJ0G1
-	 DC/Li+lT/JdvDOZmXb03JwS2feZadoKxCPTOa+3RDnKkuRrWv2hv9Lpy+QrbIftJwuzjv
-	 Sz/X0J0dmT8qPgdTtUj9Y8GhN5wsEpVC0OkCUdRLyhtMDlGyFbVHkrpalmbB2c4URmw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=2CRRRbF+HzuCgfrzATzh0N0sKz/emwy+epNHXjfziJg=;
+	b=IP2Igvs0eIHuMK98wfUEzILgZaYmUcaZS0F0+2Valo/uU/+0Z8MLV/VWVRG5upFRJ+rk
+	 BdxfK45pzsyAaIzjib2xOJ6HwNWsMBF9rEjiBpfvD6fbzN/h5s6MI1Q7zLpyyN/Yhlomt
+	 GXf9DGZCEfpn9Dp/vxVdGZvnczn9C6ersMonFD6GsWDiPPx4EZ3mmFJf1z2VHkPHLvOkJ
+	 xBtv42Y/MVt+uOjApqGi3wMiEStkBQLmk+iB8wISDZqe1mZpAQhty5hEmRTDY9M8VtxRi
+	 z5eny67zSaAXB92OaKdU/P6SGVitM0vUfTZNW3zo0J7Owc0IwgpV6TklqfTESkr3TgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DpyGih6v;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TUJsFVee;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3148E606A6AA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 16:15:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3148E606A6AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED649606A321;
+	Thu, 26 Nov 2026 16:44:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED649606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DpyGih6v
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TUJsFVee
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795709710; x=1827245710;
-  h=date:from:to:cc:subject:message-id;
-  bh=xifJypi8lRa/01FufU3pfQ/Nel+DinT1EBmoT4LaVGw=;
-  b=DpyGih6vSaq3s8hZXzAHKKUaXi6R7tRknj+7uEBU55JFtdSvhm/mO8iP
-   fBvmINgsYw1ew+FkCykR/d87TYN4y5T4c8SvSeqrpeKJLjs2h/xzOR7Lr
-   DFrl2Zets/KYJtCqQuZ330tM2CMtGmeI28FWUd4BSsrSrEemcphCg62Cw
-   HOf41z1rI6Ywusm4VnQWSf6RqN/tVj8HxhT0eDT6iHuC6Lf4Li/E+T49t
-   ywbE9xZ4aQ3qKDM5O5zYdVMWojUBh2hD+vFOZBkoSvOu7y56s7VTv3wK2
-   J1fuezrAaDPNl2BjL/2iPR2Ph6N4VUjyTWlU4FLEbloN3ziHwDSkeNbRF
-   w==;
-X-CSE-ConnectionGUID: 25ThtNFETB2q/i7CHj9/AQ==
-X-CSE-MsgGUID: CFr1N6WoQvib8WZKoxizEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4635645"
+  t=1795711500; x=1827247500;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u6RrqXr5k7GIgp+/6Jmq+EmTixoza/s1U4UKEnhwwJ0=;
+  b=TUJsFVeeysAXOkG3yLwLDyhSgZNZ0/HfiAtG6m8FHqJeIS2KSWytpLru
+   WYqZAPff4QJfrl69E9jwWXLgf7NU6OQmNOpK8LxSYuUnu/yFtGI1D5pIB
+   XKQitiGWqyG1ivO1gjTBVb6yoK/sv9wy0fwxv7LDOblPlx5cC7k38DCEn
+   +exJu0KeP0A3h/VQnXuCl1pbZtYn10AB88NIhQ+BV+W4ejUgSPM3lqSCH
+   Es8XinjVt5yrk/b5ekBvyOnSsdB0p7C5Z/HVq9mWhkC6y+ixEtihwp9TL
+   yLmYzlTgf/zo2Bw7koK6BacI5edEcfQlXHm9cno3xxsyC6ssC7XNKdTzn
+   g==;
+X-CSE-ConnectionGUID: QnS28U3cTmGweUuR/qp4Fg==
+X-CSE-MsgGUID: xS9S/L4gQquGHSN1ZMgiqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4536150"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4635645"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 08:15:10 -0800
-X-CSE-ConnectionGUID: oFSMvvzqQISiZIgwSdKlQg==
-X-CSE-MsgGUID: 9tLTmiMAT5ajmTD+ff55yA==
+   d="scan'208";a="4536150"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 08:44:59 -0800
+X-CSE-ConnectionGUID: zjY3Oa3MQ4KN4+1MUlfLAQ==
+X-CSE-MsgGUID: LQZ7A0CRRuyfMPUOXuK6Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12541349"
-Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Nov 2026 08:15:08 -0800
-Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
+   d="scan'208";a="13894613"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 26 Nov 2026 08:44:54 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWc7m-0000000006g-2s0U;
-	Thu, 26 Nov 2026 16:15:06 +0000
-Date: Thu, 26 Nov 2026 17:14:46 +0100
+	id 1xWcaY-00000001UTe-30KN;
+	Thu, 26 Nov 2026 16:44:50 +0000
+Date: Fri, 27 Nov 2026 00:44:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:generic-set-memory/rfc-v2 55/62]
- include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition
- '(addr >= 0) => (0-u64max >= 0)'
-Message-ID: <20261126170844.sSPTztuV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Abhash Kumar Jha <a-kumar2@ti.com>, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	devarsht@ti.com, u-kumar1@ti.com, sjakhade@cadence.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, s-jain1@ti.com, y-d@ti.com,
+	tomi.valkeinen@ideasonboard.com, benjamin.robin@bootlin.com
+Subject: Re: [PATCH v4] drm/bridge: cdns-mhdp8546: Add suspend resume support
+ to the bridge driver
+Message-ID: <20261127003802.xAjhLSPU-lkp@intel.com>
+References: <20261126060532.2379444-1-a-kumar2@ti.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,40 +88,124 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261126060532.2379444-1-a-kumar2@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git generic-set-memory/rfc-v2
-head:   dbcbe2371dba9ad17ac00779ddff74cbef500a77
-commit: 287ccf3401cb64154113c9776b79576a93d0c398 [55/62] s390: use the generic CPA core
-config: s390-randconfig-2200-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126170844.sSPTztuV-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 16.2.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Abhash,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v7.4-rc4 next-20261125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhash-Kumar-Jha/drm-bridge-cdns-mhdp8546-Add-suspend-resume-support-to-the-bridge-driver/20261126-113532
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261126060532.2379444-1-a-kumar2%40ti.com
+patch subject: [PATCH v4] drm/bridge: cdns-mhdp8546: Add suspend resume support to the bridge driver
+config: x86_64-buildonly-randconfig-1005-20261126 (https://download.01.org/0day-ci/archive/20261127/20261127003802.xAjhLSPU-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127003802.xAjhLSPU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126170844.sSPTztuV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127003802.xAjhLSPU-lkp@intel.com/
 
-smatch warnings:
-include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition '(addr >= 0) => (0-u64max >= 0)'
-mm/pageattr.c:373 split_large_page() warn: missing error code 'ret'
-include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition '(addr >= 0) => (0-u64max >= 0)'
+All errors (new ones prefixed by >>):
 
-vim +123 include/linux/pageattr.h
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2322:14: error: no member named 'no_hpd' in 'struct cdns_mhdp_device'
+    2322 |                 if (!mhdp->no_hpd)
+         |                      ~~~~  ^
+   1 error generated.
 
-ebb5b588a1dc24 Mike Rapoport (Microsoft  2026-11-17  119) 
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  120) #ifndef cpa_is_direct_map
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  121) static inline bool cpa_is_direct_map(unsigned long addr)
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  122) {
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11 @123) 	return addr >= PAGE_OFFSET && addr < (unsigned long)high_memory;
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  124) }
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  125) #endif
-69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  126) 
 
-:::::: The code at line 123 was first introduced by commit
-:::::: 69fb36148a23dd4d96dddd6ad37e429e68364cbe x86/mm/pat, mm: pull CPA core to mm/
+vim +2322 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 
-:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
-:::::: CC: Mike Rapoport (Microsoft) <rppt@kernel.org>
+  2259	
+  2260	static int cdns_mhdp_resume(struct device *dev)
+  2261	{
+  2262		struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
+  2263		unsigned int keep_alive, keep_alive_inc;
+  2264		unsigned long rate;
+  2265		int ret;
+  2266	
+  2267		ret = clk_prepare_enable(mhdp->clk);
+  2268		if (ret)
+  2269			return ret;
+  2270	
+  2271		rate = clk_get_rate(mhdp->clk);
+  2272		writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
+  2273		writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
+  2274		writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
+  2275	
+  2276		ret = phy_init(mhdp->phy);
+  2277		if (ret) {
+  2278			dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
+  2279			goto disable_clk;
+  2280		}
+  2281		ret = phy_power_on(mhdp->phy);
+  2282		if (ret < 0) {
+  2283			dev_err(mhdp->dev, "Failed to power on PHY: %d\n", ret);
+  2284			goto phy_exit;
+  2285		}
+  2286	
+  2287		/*
+  2288		 * The KEEP_ALIVE register is incremented at every scheduler loop of the
+  2289		 * firmware. If it changes between reads, the firmware is still running
+  2290		 * (e.g. the suspend was aborted) and only needs to be activated. If it
+  2291		 * does not change, the bridge lost power and the firmware must be loaded
+  2292		 * again.
+  2293		 */
+  2294		keep_alive = readl(mhdp->regs + CDNS_KEEP_ALIVE) & CDNS_KEEP_ALIVE_MASK;
+  2295		ret = readl_poll_timeout(mhdp->regs + CDNS_KEEP_ALIVE, keep_alive_inc,
+  2296					 (keep_alive_inc & CDNS_KEEP_ALIVE_MASK) != keep_alive,
+  2297					 2000, 2 * CDNS_KEEP_ALIVE_TIMEOUT);
+  2298		if (ret) {
+  2299			ret = cdns_mhdp_load_firmware(mhdp);
+  2300			if (ret)
+  2301				goto phy_off;
+  2302	
+  2303			ret = wait_event_timeout(mhdp->fw_load_wq,
+  2304						 mhdp->hw_state == MHDP_HW_READY,
+  2305						 msecs_to_jiffies(1000));
+  2306			if (ret == 0) {
+  2307				dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+  2308					__func__);
+  2309				ret = -ETIMEDOUT;
+  2310				goto phy_off;
+  2311			}
+  2312		} else {
+  2313			ret = cdns_mhdp_set_firmware_active(mhdp, true);
+  2314			if (ret) {
+  2315				dev_err(mhdp->dev, "Failed to activate firmware (%pe)\n",
+  2316					ERR_PTR(ret));
+  2317				goto phy_off;
+  2318			}
+  2319	
+  2320			spin_lock(&mhdp->start_lock);
+  2321			mhdp->hw_state = MHDP_HW_READY;
+> 2322			if (!mhdp->no_hpd)
+  2323				cdns_mhdp_bridge_hpd_enable(&mhdp->bridge);
+  2324			spin_unlock(&mhdp->start_lock);
+  2325		}
+  2326	
+  2327		return 0;
+  2328	
+  2329	phy_off:
+  2330		phy_power_off(mhdp->phy);
+  2331	phy_exit:
+  2332		phy_exit(mhdp->phy);
+  2333	disable_clk:
+  2334		clk_disable_unprepare(mhdp->clk);
+  2335	
+  2336		return ret;
+  2337	}
+  2338	
 
 -- 
 0-DAY CI Kernel Test Service
