@@ -1,75 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795734270;
-	b=ZCVQRkTmrdO/6yIA9N4yYJpuKAf+7d3J13tRgXzT/EwEjbYRgOMfNsrPmvt85aj4yGaq
-	 azZ4Y9s4tLTsHu7gRXTgydlkBgi4Yzpgl4MZ4iIDcHlavKFU2GbYAXXtps5P/eJreHYsa
-	 k0Iaz8bKOvPweoPJ7nz22RSv7bLgiqDgMLvBbbVJpnPHMBZDgCklev9LGVDcIig7AYwRX
-	 OFSxdEUk5/gz5NpbC9tTztkgZj+mpOG9lp2sXwJ9yegJwBZq5Qfr4eSStDZuFaOKkC8UK
-	 uVe0MEjbqTY0gddLCvNa4wQDPKiJunGBrHi/QH7EwMelQio4XEcYFR5DZFkqC6SC2ig==
+	t=1795734939;
+	b=kkxfw35aCFBAHzK8u5PRxbeuVfxN10EsZuhqAmUzhKgLDwmoEi6giX2GpDeLxMwdiWQU
+	 FGvOpSqzpO+LcJGTh6xA8Kgl1K8idEPzgAtaNKqFJbnEG441N+RIaQ9ytak+9unB6XbIJ
+	 ln07m+EiqaiRiwTS5PlVJLjbjXXSoZTJngWXeV1PNtC+YqOjaL+E6rU8+pl5xOyceS1ZE
+	 bCe6H5MrzH+SLQB2ZVlAMK2cEYYGarliPbXlmpKGxI1IYkXC6+SNTmoL4Du24d1gvz2c6
+	 A2mTnYuPP10rJrQms18CRMi7vAW8uvjKbR4cw9byrRUtDN9tmqMOa5IB5CtArihhOFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795734270;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795734939;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=jtGN2zpjey8a5pAwsaElU+4v0F4WnqXa9JYC6RQhZXs=;
-	b=VTeVgRVPf/NEGJRBqM15jUhO7n9+XgbkqV6qotvrXLWhwD0iPoBj7SsISkLvggR47c3+
-	 w7XbH+s7IvL+Vl7R4ywN+ZtbWAS8fePyuz9uRKm7GbQH+B5SUiamdC3hTp7U3gcL4554j
-	 Xx6h0sWH1AVfU/RraIqe2+moZXu2VsV0RPRcLQyyc/KivMsMp637uSFo9fl+fL1YyCZzT
-	 2v64ZL9CTdQ3+8MZW3GlqOPa0absNqKz5WPc7NNZBIoEU3TyjXvKIDVO7N5Oq8iwCo4G7
-	 sKP642wLblFMxPkKfld+mQ/Zk/jWGQQe4fK+jSeAx/4h0HGLrtpGZq3oBZR8JszESxw==
+	bh=60vvLuN6cDazj57LrWATrAO7V/mmYw10iEcyu6so+68=;
+	b=12ZCIXeWFX6h30DKbCiWWjVWVh4Y4pKrUSzje+wrNifnF6aDn6/vOoW4upXRagZg9oro
+	 Th1GHHFus/K+FMju6h0FpSdWl5SO+xtuZB3YSt/SpG/l76F2O/Ake1xwRhsKyxZb+TGvF
+	 +r+6tz0Tp85HpANipYxq9gOugiQPiEY9UMbB4vaBqXYYXaqIqQEAPpDw8f0bxFbOejoGB
+	 fKUqjUluAL9hk5PNSCUSaGq5svHxG5WGBdnHDcCDFwRDw5GbCRHM7OHObaJ9TB4t8pHqa
+	 cnMW2TcXelbandHkY0sBCs8QnxlgThA3HTwf+g59Oziywrq1NFZ5i2SyrMqjk0F4hkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iQfNBodh;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DQwwbjRm;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692BD606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 23:04:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 692BD606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB38606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 23:15:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FB38606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iQfNBodh
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DQwwbjRm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795734270; x=1827270270;
+  t=1795734938; x=1827270938;
   h=date:from:to:cc:subject:message-id;
-  bh=pU8+X4hOw+8L9049Ykzu2R6g5CPK/NTLnVbIP/hvzdk=;
-  b=iQfNBodhCoaOzqy5ApbieY6laZv+h4DyvHp+qLUd40xN16QYO1u3ocyo
-   whFxcFHITpAP23cqHsKHX52UMpJWJ2u595LuhQdDkjiySkXjKqUESBHgA
-   teGJxdatTwKj8HJdTf8y34HEYMwTE8+yeyLhL3n8DOo5F94Q76h0wmjhJ
-   Ptd9u08pV2mJAXBmGKcEKi170YId+Ceh4JFIUKW+JCOif2oQsItx5x2e5
-   ulzWF+H1zz1SlxAjSxBTwZWxzPeB7v/Jcl+7inEuDGp63lrgu6vQKawAA
-   M3QI12StYIJ5aEGdwxWV57+EZJyTTXE4qi76ioSC6oqXyeWMkxj0RKvIh
-   g==;
-X-CSE-ConnectionGUID: gh/HJWGDRV+gKvu5NwNYeQ==
-X-CSE-MsgGUID: jinPXT+8SFecksqTYdAhmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4653653"
+  bh=9melxTcORrNdY4iA4zzSPybrme3jEN29eRCU75dOS6A=;
+  b=DQwwbjRmivtmyK3HtzD7Nak09s5/1D/TpYh3BhottsxebmkEaPQoi2YZ
+   vBIS8Cc0to6n7ryDg6+FEhdWdFSx2paRuM41h/K9CLCNpE1/aIL0PjtOh
+   qeBJKKqEiR+c5nmZKQdBfIqhALooJcqvwMt5C/b2Bi0V8FbLm7IY0U09o
+   HY95cHnE+yi4kNLstqzntTu9kMu9Z0E7Ip3mic80/YlkcsgZSP7fqaslD
+   gX0KjQqDz3hduQ4olkAY++STUUSe7HZyhP89bN13jwEn38inlzXia/Ge3
+   GwvFMP++zuxa1wBliFiJatARk83QzsiqUx4zTjiszHc4emB1JBEgMAb5k
+   A==;
+X-CSE-ConnectionGUID: QB3s2D59QsmZI/PHVWtseA==
+X-CSE-MsgGUID: poUDmr2zTb+pyjfnRbeoKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4734905"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4653653"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 15:04:29 -0800
-X-CSE-ConnectionGUID: JN/SLaV+Rw2h3dXmJ5UTSA==
-X-CSE-MsgGUID: N9trTUqXSICts/Y2drtMlA==
+   d="scan'208";a="4734905"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 15:15:37 -0800
+X-CSE-ConnectionGUID: 6aPoUMezTdKZCauhxk/MEw==
+X-CSE-MsgGUID: Y77fmrqcQbiTffKfLcKunQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12770248"
+   d="scan'208";a="12300771"
 Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Nov 2026 15:04:24 -0800
+  by orviesa006.jf.intel.com with ESMTP; 26 Nov 2026 15:15:32 -0800
 Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWiVq-000000000Du-0a2q;
-	Thu, 26 Nov 2026 23:04:22 +0000
-Date: Fri, 27 Nov 2026 00:03:40 +0100
+	id 1xWigb-000000000EK-1iEj;
+	Thu, 26 Nov 2026 23:15:29 +0000
+Date: Fri, 27 Nov 2026 00:14:45 +0100
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 21/50] warning: empty line after
- doc comment
-Message-ID: <20261126235410.RN1d16i0-lkp@intel.com>
+To: Yuho Choi <oss.patchbox@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg+lists@ziepe.ca>, linux-rdma@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>
+Subject: [rdma:wip/leon-for-next 63/69]
+ drivers/infiniband/hw/bnxt_re/ib_verbs.c:953:6: warning: unused variable 'rc'
+Message-ID: <20261127001029.bEUPKsfa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,62 +82,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   fc24f7e1a3f10a336872c79b3772930633b0205c
-commit: ecb2e1ae46a0322942a626e9a773ec26aaa11b93 [21/50] rust: Add Ownable/Owned types
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261126/20261126235410.RN1d16i0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
+head:   d24184a64765d7797ff0f46f6872aa91a6a1a5da
+commit: a95c6b735017c61d92e7465d153fb06d540f2132 [63/69] RDMA/bnxt_re: Don't republish a QP whose destroy failed
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261127/20261127001029.bEUPKsfa-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126235410.RN1d16i0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127001029.bEUPKsfa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126235410.RN1d16i0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127001029.bEUPKsfa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: empty line after doc comment
-   --> rust/kernel/types.rs:461:1
-   |
-   461 | / /// into a &mut T.
-   462 | |
-   | |_^
-   ...
-   467 |   pub unsafe trait OwnableMut: Ownable {}
-   |   --------------------------- the comment documents this trait
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#empty_line_after_doc_comments
-   = note: `-W clippy::empty-line-after-doc-comments` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::empty_line_after_doc_comments)]`
-   = help: if the empty line is unintentional, remove it
-   help: if the documentation should include the empty line include it in the comment
-   |
-   462 | ///
-   |
---
->> warning: unclosed HTML tag `T`
-   --> rust/kernel/types.rs:456:53
-   |
-   456 | /// A subtrait of Ownable that asserts that an Owned<T> Rust reference is not only unique
-   |                                                     ^^^
-   |
-   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
-   help: try marking as source code
-   |
-   456 | /// A subtrait of Ownable that asserts that an `Owned<T>` Rust reference is not only unique
-   |                                                +        +
---
->> warning: unclosed HTML tag `T`
-   --> rust/kernel/types.rs:460:71
-   |
-   460 | /// When this type is implemented for an Ownable type, it allows Owned<T> to be dereferenced
-   |                                                                       ^^^
-   |
-   help: try marking as source code
-   |
-   460 | /// When this type is implemented for an Ownable type, it allows `Owned<T>` to be dereferenced
-   |                                                                  +        +
+>> drivers/infiniband/hw/bnxt_re/ib_verbs.c:953:6: warning: unused variable 'rc' [-Wunused-variable]
+     953 |         int rc;
+         |             ^~
+   1 warning generated.
+
+
+vim +/rc +953 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+
+3b921e3bc4c20a Selvin Xavier      2018-02-15  947  
+88de89f184661e YanLong Dai        2025-09-24  948  static void bnxt_re_destroy_gsi_sqp(struct bnxt_re_qp *qp)
+8dae419f9ec730 Devesh Sharma      2020-02-15  949  {
+8dae419f9ec730 Devesh Sharma      2020-02-15  950  	struct bnxt_re_qp *gsi_sqp;
+8dae419f9ec730 Devesh Sharma      2020-02-15  951  	struct bnxt_re_ah *gsi_sah;
+8dae419f9ec730 Devesh Sharma      2020-02-15  952  	struct bnxt_re_dev *rdev;
+14611b9b984125 Kalesh AP          2023-08-03 @953  	int rc;
+8dae419f9ec730 Devesh Sharma      2020-02-15  954  
+8dae419f9ec730 Devesh Sharma      2020-02-15  955  	rdev = qp->rdev;
+8dae419f9ec730 Devesh Sharma      2020-02-15  956  	gsi_sqp = rdev->gsi_ctx.gsi_sqp;
+8dae419f9ec730 Devesh Sharma      2020-02-15  957  	gsi_sah = rdev->gsi_ctx.gsi_sah;
+8dae419f9ec730 Devesh Sharma      2020-02-15  958  
+6ccad8483b2866 Devesh Sharma      2020-02-15  959  	ibdev_dbg(&rdev->ibdev, "Destroy the shadow AH\n");
+8dae419f9ec730 Devesh Sharma      2020-02-15  960  	bnxt_qplib_destroy_ah(&rdev->qplib_res,
+8dae419f9ec730 Devesh Sharma      2020-02-15  961  			      &gsi_sah->qplib_ah,
+8dae419f9ec730 Devesh Sharma      2020-02-15  962  			      true);
+063975feedb143 Chandramohan Akula 2023-07-26  963  	atomic_dec(&rdev->stats.res.ah_count);
+8dae419f9ec730 Devesh Sharma      2020-02-15  964  	bnxt_qplib_clean_qp(&qp->qplib_qp);
+8dae419f9ec730 Devesh Sharma      2020-02-15  965  
+6ccad8483b2866 Devesh Sharma      2020-02-15  966  	ibdev_dbg(&rdev->ibdev, "Destroy the shadow QP\n");
+a95c6b735017c6 Yuho Choi          2026-11-24  967  	bnxt_qplib_destroy_qp(&rdev->qplib_res, &gsi_sqp->qplib_qp);
+88de89f184661e YanLong Dai        2025-09-24  968  
+8dae419f9ec730 Devesh Sharma      2020-02-15  969  	bnxt_qplib_free_qp_res(&rdev->qplib_res, &gsi_sqp->qplib_qp);
+8dae419f9ec730 Devesh Sharma      2020-02-15  970  
+097a9d23b72503 Selvin Xavier      2020-08-24  971  	/* remove from active qp list */
+097a9d23b72503 Selvin Xavier      2020-08-24  972  	mutex_lock(&rdev->qp_lock);
+097a9d23b72503 Selvin Xavier      2020-08-24  973  	list_del(&gsi_sqp->list);
+097a9d23b72503 Selvin Xavier      2020-08-24  974  	mutex_unlock(&rdev->qp_lock);
+063975feedb143 Chandramohan Akula 2023-07-26  975  	atomic_dec(&rdev->stats.res.qp_count);
+097a9d23b72503 Selvin Xavier      2020-08-24  976  
+8dae419f9ec730 Devesh Sharma      2020-02-15  977  	kfree(rdev->gsi_ctx.sqp_tbl);
+8dae419f9ec730 Devesh Sharma      2020-02-15  978  	kfree(gsi_sah);
+8dae419f9ec730 Devesh Sharma      2020-02-15  979  	kfree(gsi_sqp);
+8dae419f9ec730 Devesh Sharma      2020-02-15  980  	rdev->gsi_ctx.gsi_sqp = NULL;
+8dae419f9ec730 Devesh Sharma      2020-02-15  981  	rdev->gsi_ctx.gsi_sah = NULL;
+8dae419f9ec730 Devesh Sharma      2020-02-15  982  	rdev->gsi_ctx.sqp_tbl = NULL;
+8dae419f9ec730 Devesh Sharma      2020-02-15  983  }
+8dae419f9ec730 Devesh Sharma      2020-02-15  984  
+
+:::::: The code at line 953 was first introduced by commit
+:::::: 14611b9b984125b2da5966d0725fdd89f6564c45 RDMA/bnxt_re: Remove unnecessary variable initializations
+
+:::::: TO: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
+:::::: CC: Leon Romanovsky <leon@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
