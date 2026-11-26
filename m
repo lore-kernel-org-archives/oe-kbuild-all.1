@@ -1,139 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.14
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795653019;
-	b=3SovXcQRMexoFgjYfFmPMTZm50uy62batRR2+sQe34hMfkbIyZrc9b/udAtnHoT/NIhZ
-	 Q6U3AWIGQ/rSLSVEdWqLHP+R6me1aXv+31I9CN/us1Q3XcoH++hqO224kAoy+aYiRYN3e
-	 sZTTj3hQH2PndZLwawoPzdcVssftsia0RfgJ5ien2o+jV1S5j4D8G01mvksLPOIWUUWJR
-	 Xl1+TsOnPzoiIeVmaxpAIi4Fu5uPSNaC8RxqLx0FGVXah6sajXYEjCWbH9B+M8LYSWHbj
-	 VtUiVXqz5DyvlUaO8fZwMM2zVfh/glgpXabBDE0fBHsmTiDYhgCCRDEd6nSk3S8Wjlg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795653019;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795654038;
+	b=rA5+VcyliMsiVZ75yuDi77dMG6artg68l7tHEoO0Xcry7MOpLWnBzLSvO0JALtRAlyR0
+	 RrbGVIqLsfDf24uNxtajgnq9bYpsgPIAQmYxoFDafoLN7ojPX99Mr/UJzz/9HKTeeFO3w
+	 M+u9QD9FC74eawev3UL7szGom1Y+R+iq0Sh+s9g23++eaPiCm9TLz8VBdHLU4a2bkbu9Q
+	 8TKxtbPg+bY6z1x9OWVqKfQGJVd7qnvmgZRDI6GXdtC49mrzJbcUzRU8WNnrLo3EJq+m0
+	 6hImFZ8754DVW8tRSjX22UuIS/tdMyNefPGE58oi16jpDvubTTpWJSGbpZ9hd5LGYzg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795654038;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Date:From:To:CC:Subject:
-	 Message-ID:References:Content-Type:Content-Disposition:In-Reply-To:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=q44XUnr67BfwdNkhq7ERaml17OzVh6VQddCUMI18FOI=;
-	b=wxAn4MNxrzoDQjQl9mzdv7lcdiV70HDSITeggch1+dwgMVpim6ElRpts6VC/VPx6NrNb
-	 1AptoYwzL1hU74FDWeFaJNATFtBdUGlqBE0KVb1VgHI69/pPDarh7NxQLWHWRZEQ7620J
-	 i/gE+kVBY29RZBhamtRkXVbddix4SAZb9F2Vjy/9nE2Y8CPcuQeeV/E6SK9VyvMkbg09L
-	 6u7Ebq2Z/ncuHSKv/0a/64KxtdwvNrIdTXNukVRV/veed55mhnEAfAsdwMrUYR4NWLrJe
-	 CwmYWB1o8we29TcnsO4smL4DTy72xGuGenluhnRzLvdHUIgq25lmNNMVEdMGKPnogwA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=JDwc4oyg8HCAMO2ZnyFUg2rF1sZ5bBUo79/5YZtawdI=;
+	b=mHimdbwOKMDNWAnwwmDW+VtA1/d1+rtXUbGnGa2PqmfF+zdRlIFDxJ6u+rK2rF/HjF0C
+	 xf+pUoZ1XTxMKxq8Q2wZcvpO0QwlLP4U6TGAzLNdZYPIedKPFeg+jKgpSf8gRx2QCMKIw
+	 /cOPtYOnorK2HwUqSTK+j5ToGmMT0qzi9mPozbsVA9+u+4jHRIIyg0772ZOtLiSE+vfhs
+	 h5Gvj7MpOXfsAqD6AEByLwqFtOyBf2fwaV8e6hmwV3vDcfAhNPsyTbT8so3HLrs15Tpiy
+	 pbM9ODuA3JxUn9tvBJG1echc18mKjM8s7rAjkxCGQpugGFUWeUE2Z5hSBnuas09eycg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="D/VBzm8r";
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=QdZXsZmU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuNjXUM4;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FDE606A321
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 00:30:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18FDE606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAAA606A321
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 00:47:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BAAA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D/VBzm8r;
-	dkim=pass (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=QdZXsZmU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WuNjXUM4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795653020; x=1827189020;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=PcqA26sVmwuPteWITNQZVqX52NG7VmjYuZfmw1mPFZg=;
-  b=D/VBzm8rN4/jZQZSmQmi6P+943g6Vf19AzxeqF2dpnszEYAAYry1o/lF
-   X7ktq3cUJZs75gZYLR28OnU/6f9pIyPu29Yn4SglFDpkvSUz0xwf+C7rf
-   bGJ0y9mjH1/OujyneZhGbd9tmJ6yNqy8IwFU1wRehAvUbcnJ3ZgTWgieF
-   paMcKI6lNfvIkz1sJJC0CNz1B3sEAka4s/OkPhpejR6SKrckxPRumnNKu
-   pxaQte5XMw8WbSOdp6pcuLMnHOTM6gnG8VpmHXBVJkEz73DRumk2AzS9O
-   4fts+m4/xuD9iQjY4+tK0KXfxTiZy/1lBW0Ll26lLzXXiela7yoA7NgMY
-   g==;
-X-CSE-ConnectionGUID: ubvEASMaTE60aj18+JeItQ==
-X-CSE-MsgGUID: VT1QN5P5SBugea/Uj94fIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4501343"
+  t=1795654038; x=1827190038;
+  h=date:from:to:cc:subject:message-id;
+  bh=pcTJ0+ZrWqTCGaNajF355rdWsB8+wPRjDaA92pdh8vU=;
+  b=WuNjXUM4ynjrvy6sy2/wiXI2Q6eCeme2qbQwND99NOvfU7MDSQkvVv4B
+   xDB4egBu3FTLwudtVHBoNNXbHw80b8lo7jou2FET/Zw2xUNFQl8MGETXS
+   qCZZcg0EOKOvZwBIgbzhOrTPJoaye+x0icTlRUyILPFc1/xZfHJintMhW
+   O5fVZ2PQSuvPv9Olgi4NELhRrjWZ4vOmZQ5alsajaD0J1LhaUGrjCUnvm
+   DIAF1VKx/KBF9i3YO+4Pz3sHzADnF0E7o5XL8G+3TvuWBg2LSciOWyZvz
+   IpHk6mgrX3KlIwa6wGNrFTciXcjLgdjmezoU6vrjS2KkyDbJvbxVybTrJ
+   Q==;
+X-CSE-ConnectionGUID: k4sp0LRUT72dfJuroDrGQg==
+X-CSE-MsgGUID: qkEQqjhrRaqK/ENY3VsLmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4616050"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4501343"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 16:30:19 -0800
-X-CSE-ConnectionGUID: F2dbYKuyS3aHtfVTmcbgqw==
-X-CSE-MsgGUID: YhQQava8RPyrXv6YNU8yqw==
+   d="scan'208";a="4616050"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 16:47:17 -0800
+X-CSE-ConnectionGUID: pwZVS9abSqKerQFJkR8woQ==
+X-CSE-MsgGUID: lamCwpmuTd6Tg1BwC+LDdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12335979"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 16:30:18 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Wed, 25 Nov 2026 16:30:17 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57 via Frontend Transport; Wed, 25 Nov 2026 16:30:17 -0800
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.59) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Wed, 25 Nov 2026 16:30:17 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QkyJR7n073CBRpQski6yxhIjLKIVVKmGGqew3RgLFPdNOI3o3AT7bMpwsIdvmlHOWpbJ+7m4RLjyJAf5Ah881bwwLjzn5Vo+P1KNuiZraEgB30NHHzmrN+rb7YDM8izjqOAil6HXGEGAQ87ApUIJqXJmO2d4LACru1WZ1J6ZKpp7rgtffzmcjjsL1gJfok3gmj2GGlj9wnvCH/VsZTTT+nSLlVgzkDrw86/m4hRvaHxrPG4rO5UDNesPkG+Ro4FGPJe1JULPxxeoLUBfaq+v2qGuOsCo4ml0IN/AFc6sl6sBYulJtbrzPq27Yr+qfNqNGgr2gLMLXQdLr9rKhITEAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q44XUnr67BfwdNkhq7ERaml17OzVh6VQddCUMI18FOI=;
- b=oehxwP4YVqVlVq/2DNLNAuomNxLo6bAW5wfwIeNk3pQh2LszzX+Rvn2F0WD/jmVyv4VddDXui4hi7P8qptrqr21ub/l7v+zbyPcoLyYxodc8br2CqQt4ELMGpsGPW2jc/ATlceFAUioTcyJlJA47jS+uLU5Qui8PKeghj8BCatajvN1Q8ElwfALzeK54OkfX3ovS4RfQR8TqHw4IjV59euLQLLKargzrtyxtLwx17kg0RIpQa5eslKW/ps9D5GfHJZRT3sAmTNngzzGxumDqxVr8sQ8txcCE+2ZWOjRCrj3Id9MNFM5zpeR0FsdbVI7eFWzoup/xGb7LvjJk0d3/Ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q44XUnr67BfwdNkhq7ERaml17OzVh6VQddCUMI18FOI=;
- b=QdZXsZmUJCtwY/W4WX6LRKjHTXxyxPumqtF8sn9iOHGwDhECD28VlUDFRc4mUX6KIjaiWVkNm/QBQjwAgIo87/V2SfnHPzcIF3Q26ubwl1JXLypqxNCth2lEn88dUb09mILHZw0W4vjUvELSXLAQgbV3ASibknME5ghsGKMpmU8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com (2603:10b6:8:4c4::14)
- by SAWPR11MB9712.namprd11.prod.outlook.com (2603:10b6:806:4ca::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Thu, 26 Nov
- 2026 00:30:15 +0000
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a]) by DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a%5]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
- 00:30:15 +0000
-Date: Thu, 26 Nov 2026 08:30:08 +0800
-From: Philip Li <philip.li@intel.com>
-To: Mark Brown <broonie@kernel.org>
-CC: kernel test robot <lkp@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>,
-	Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
-	<dri-devel@lists.freedesktop.org>, <oe-kbuild-all@lists.linux.dev>, "Linux
- Kernel Mailing List" <linux-kernel@vger.kernel.org>, Linux Next Mailing List
-	<linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <awd9kCflXloWA++W@rli9-mobl>
-References: <awXJ__-grexFFPb4@sirena.org.uk>
- <20261125093804.Ygd8f4XE-lkp@intel.com>
- <5fc38eb6-f999-4aaa-98df-21a0b1bca01b@sirena.org.uk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5fc38eb6-f999-4aaa-98df-21a0b1bca01b@sirena.org.uk>
-X-ClientProxiedBy: SJ0PR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::34) To DS6PR11MB362586.namprd11.prod.outlook.com
- (2603:10b6:8:4c4::14)
+   d="scan'208";a="11994793"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 25 Nov 2026 16:47:16 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWNdo-000000000BH-3c43;
+	Thu, 26 Nov 2026 00:47:12 +0000
+Date: Thu, 26 Nov 2026 01:47:02 +0100
+From: kernel test robot <lkp@intel.com>
+To: Frank Min <Frank.Min@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Likun Gao <Likun.Gao@amd.com>
+Subject: [agd5f:drm-next 241/243]
+ drivers/gpu/drm/amd/amdgpu/imu_v13_0.c:264:30: warning: variable 'data' is
+ uninitialized when used here
+Message-ID: <20261126014511.ZZhOMtHO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -142,74 +82,64 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS6PR11MB362586:EE_|SAWPR11MB9712:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88e40321-98f4-4c47-4c8e-08df4b5470ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|22082099003|18002099003|4143699003|56012099006|11063799006|261026121527099003|261009223027099003|10067099003;
-X-Microsoft-Antispam-Message-Info: d7kOtV2CqTHoaMZdRrhX18Wc3RGiuBeYIk68tETKtch5/N+WuBhXG8FiNYIl2bvvpdJVPv1fZVbb0qgoi4Q32imoSUtPGCXjsopEqh6l9NXr2WmynnBLnqBskuG85aKFhy5YjzxEZlG29Pr36k5QWT3TJUkiT1kS/AOeNp6O88PNR4vxe0Aj4zDmy86XbHgdZl6WWejlwNY0qmouWpLeDEiSePFJARatJMSUq+VMfeHea2hWjtnWgh3tfOo1YWij9zXK+KBkuQL41xf1A5xNpB/OsmSUi0c0qalTVUjUN4bhbq+UspGHTB2JPMq93QugPRrGo0tAXwm7xuCNmNbLuUXJfL4Ecx0Tb8E48Fa1fVJH8RMWiCju6opaZ8WvcyS5frjJjbS0Z4dgs3CdVmx3CwExRpLYmmB4ompPvnM2RmBV4meAHQhzq58aELgk2Od/3XGM8x0GW3yRUbVEjX40C68FwvdBFYPeDrJxbIU9ZvQSBMRgFhlKAKA+DbAjIFyWkYDkFUkBpSBl7yX5IX0QsRVmz6ADspa8Q5iiLVhbrBUF6hAoLinkPJrnt4P5albsB33cx5Y5k/I9bzJ/zsGTbO096ct4tLu9EktmwEX22Ts=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS6PR11MB362586.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006)(261026121527099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FVuWtxGzuD9RYmsc8/F35ZoWre46s2uYO5IrNPiXS+3azLY4C8HlRPWTnJAm?=
- =?us-ascii?Q?X2nuSl/gssdkt30HAPEbDFDpje+EXP4sI6umC4AEYUjS34GcJT6b5Wbt7bo0?=
- =?us-ascii?Q?+6LgTHA47O2dWBHqtpk3PzIyxEEJQH0B1ah+EL5qRBVvr3uOuf5o89p6rz/s?=
- =?us-ascii?Q?rtRIpOIZlFFmQv+rxrR72aRYaCm4rMfFtiJoIjO6TPcTXd+2n4ngZQ8TyKYI?=
- =?us-ascii?Q?vgQ5CgEg6jwI64gW61V0Tx4aW0JQ5OWyk/USq6ifn+nOyHZFzcDW2G8dbHCb?=
- =?us-ascii?Q?JIPQJIw/4NqCfpmHDNJ1OYjzkFIBHilrX6M61mpVpLgTBmrmrrYRIUtiedTp?=
- =?us-ascii?Q?zMnPZnTQpeMmonBxlVh3gtvOuooGCvqB1+I5bjvyahNU0J37Ms+dipziw+Q5?=
- =?us-ascii?Q?mC36LhShR2aEkeLMXvzzV1/p+wDHUx33agmZqTDoKG77AzLBtou+gZSuc3ic?=
- =?us-ascii?Q?bv+PQUvtwErdE1tVJqFDPJD7BVGxdxvZbI9Y6qQoFAj/uZWcq0sj/nBYPAWn?=
- =?us-ascii?Q?bhVxf48Yidel/FZFOVf2u2SRwmVP+slMkjU4fb3HwaEdgDxx3IO3wLR9hJWt?=
- =?us-ascii?Q?Zq67qO3MqNBgA/LyhMXISoVTB3JjFVBBKPJTKOtpmg3uqGOd/aSHv7WS24qc?=
- =?us-ascii?Q?WkybY1o7hkeu8sbk14i7vI2jGxg8sgMzfkVRn5Q9YU9u9jWqEHAgALfjwMCs?=
- =?us-ascii?Q?3RnTXHrhzMpSXXOZZhz1PkHF568buQSyfSQ2n+2l2rHNurc2hDZSfU497y5U?=
- =?us-ascii?Q?SGeGhtWuGamoGLAAx3mUVypOWtKe3K8EgOaLHPKdu6IUlnFr5iaeLk7G+kEi?=
- =?us-ascii?Q?CidpflglEMVn0gsEagN5N4ybFcaiLjhE27y/gdpITX1tgA5Gt/kasIHRbwgF?=
- =?us-ascii?Q?1IxNqFEl/D6238hXK0RfKtQUCbgk7PTrq3pM7f+y9TjkY3RnW+RKQ+BZEg3Z?=
- =?us-ascii?Q?vZGigtNyAF2Hsw9SuEjsP0Ehh/uhwL4XYACmA4N5wL9208WXbXmA7xi8eyIw?=
- =?us-ascii?Q?fkHjwm/qLkwEk8YybnvKXFGCcMfVYHfAt2l/U9xjw3sSx53a8ENQUg65cuXL?=
- =?us-ascii?Q?BO+E+MBDwDVuarAFxVSEDI4lX0OnSx8AIGmEUTLkRVnDUq4wbMK7oAI6YlUc?=
- =?us-ascii?Q?2K/C6DPUg88DmoEbsA/iB7rhoiDq2te1zeSERCrgdVNtJRWmoJjjO+gui7p8?=
- =?us-ascii?Q?ST5I2ZmJA1nfuEGcyFrTsqLwgicZWGDIP/lfGUMyu0QRaODGo495WjN/kvWA?=
- =?us-ascii?Q?+4svBvOKuzRQ6gCIoXRaUci4BVdn6OS1SsCDcbecDoxHR2yyhWZ0JEHVBDLl?=
- =?us-ascii?Q?LCVRrYct5IeO+1jXGcR4ZGFhSpedZYW705YuwEbKDFSHNa8m/E6nd3DxwjF+?=
- =?us-ascii?Q?RY9gkzdH9+Mx+sXqAW0nK17UmBPdqWrlLYN852+5o4/X7WsFmMKGIjPeZ7G5?=
- =?us-ascii?Q?10F45R2q8W+93uUl8tnhz0i7s3MSYwxQVZ9nVtjscBoUJAbl5FiEWP6kKCzF?=
- =?us-ascii?Q?yYU+9hXRjT5z/WkGf3UQBGGGU36Dwr9nUzLopmXqXnvrd9wf6lvcbL1H3FsZ?=
- =?us-ascii?Q?7qKpGRqq0Z9mDjRtv2qU90VU3EgR4rDE3kFv069F47py1SAu93Zc0vmzOxhi?=
- =?us-ascii?Q?Q12Vz3WdLqV10z9ydNHfQ9uh0/9GRIKX0NdSJPBTkLq91IeGPCLa8E7z5RsQ?=
- =?us-ascii?Q?lGDiltxyzAb/dY6TsSlukH4moJXUngfBR8Xaw4TsJJvgIV79FazrvKhcdg4y?=
- =?us-ascii?Q?+p6LiuDJJA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: mU2g4MJi4Nb7S6KgFde+X5nHZ+u3GRMAwMsxoMwFaWApWh7pvZiACTgZ5cyjunlmq5FijskPcZe6NK6wB0hK7Tw5yY+HyYmwXHRNfXirQNyk+XBFQDKsNFusvxNOoLds9VwgM0SjTgngqIH/1vI9Ko+E6DuCZKX0WuTzJ95Zi86bEEpKB2/KTdw5/+uPWISJHPjywPMXP+Orm2WTL9zBBJTCoKT4eR68qG2Nbtu+Fs9YRbD0F7GPLreTvmUVgDRFVYSEaimxMX0mr1CtWL76/Tu1NuDG/HGtkbdzx8Z44u6P8IBxTZuumwtwQ1Za9cQ+SWvZwZsuSxig4A3UUJDzjQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88e40321-98f4-4c47-4c8e-08df4b5470ad
-X-MS-Exchange-CrossTenant-AuthSource: DS6PR11MB362586.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 00:30:15.0386
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dvf2l/Rd8hMl5Cr0OMboxITujnFtdf+3rDXT1bNDBzVcIjUaYrPdHAkEeBXzn5oc8DX6494Ugt8+JserN0pZtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR11MB9712
-X-OriginatorOrg: intel.com
 
-On Wed, Nov 25, 2026 at 12:26:49PM +0000, Mark Brown wrote:
-> On Wed, Nov 25, 2026 at 09:44:55AM +0800, kernel test robot wrote:
-> > Hi Mark,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on next-20261123]
-> > [cannot apply to drm-tip/drm-tip linus/master v7.4-rc4 v7.4-rc3 v7.4-rc2 v7.4-rc4]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> This wasn't even a patch submission.... 
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   fc652f23f1c3c727e561ca66bafd58000208e3a9
+commit: 9caddf5f7de76161aaa834f9e10fc5d9df76ad81 [241/243] drm/amdgpu: Add imu v13 ip block v2
+config: mips-randconfig-2200-20261125 (https://download.01.org/0day-ci/archive/20261126/20261126014511.ZZhOMtHO-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126014511.ZZhOMtHO-lkp@intel.com/reproduce)
 
-Sorry for this false positive, I will follow up to fix the bot to avoid such
-kind of wrong judgement.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126014511.ZZhOMtHO-lkp@intel.com/
 
-Thanks
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/imu_v13_0.c:264:30: warning: variable 'data' is uninitialized when used here [-Wuninitialized]
+     264 |                         program_imu_rlc_ram(adev, data, (const u32)size);
+         |                                                   ^~~~
+   drivers/gpu/drm/amd/amdgpu/imu_v13_0.c:256:17: note: initialize the variable 'data' to silence this warning
+     256 |         const u32 *data;
+         |                        ^
+         |                         = NULL
+   1 warning generated.
+
+
+vim +/data +264 drivers/gpu/drm/amd/amdgpu/imu_v13_0.c
+
+   252	
+   253	static void imu_v13_0_program_rlc_ram(struct amdgpu_device *adev)
+   254	{
+   255		u32 reg_data, size = 0;
+   256		const u32 *data;
+   257		int r = -EINVAL;
+   258	
+   259		WREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_INDEX, 0x2);
+   260	
+   261		switch (amdgpu_ip_version(adev, GC_HWIP, 0)) {
+   262		case IP_VERSION(13, 0, 1):
+   263			if (!r)
+ > 264				program_imu_rlc_ram(adev, data, (const u32)size);
+   265			break;
+   266		default:
+   267			BUG();
+   268			break;
+   269		}
+   270	
+   271		//Indicate the latest entry
+   272		WREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_ADDR_HIGH, 0);
+   273		WREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_ADDR_LOW, 0);
+   274		WREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_DATA, 0);
+   275	
+   276		reg_data = RREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_INDEX);
+   277		reg_data |= GFX_IMU_RLC_RAM_INDEX__RAM_VALID_MASK;
+   278		WREG32_SOC15(GC, 0, regGFX_IMU_RLC_RAM_INDEX, reg_data);
+   279	}
+   280	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
