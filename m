@@ -1,108 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795691299;
-	b=NW5EcSlrruyl6Rb50Di6LOZThNU4nfm9+V6AiIDb9QvKUhd5zsFjhSSQkwspBPCgPrph
-	 dZgiUDUbiKI2QLgnebGgRxzvRzpNOo1F1QixnlJSA99er8vSf9NzGR2CzqIHFosBzRMop
-	 UmrNkHK6HQiD0AErz7sw6BqFFnzAE3Y0PO/5/TyKycrTwuLYHtDqaKhtq0pPcFVnj6ofF
-	 l9IlGQQKh0UyGK1wYxb+x/wPNlHKkZ9QZgmIsoBvSYva7KL5bD0/NYVrGdvl4usp0vpw0
-	 c7FYKoFTKdCQW1jhVsGIX/N6icqTEyzSoA2o9ZhNNkg/Tb5daZCHCqXKy52+pBwwGMw==
+	t=1795692901;
+	b=e7vcELWvhKVC2XMA0oPb1bvPvA2Wm7HDqP/tExVrLE0VZWdeiNp5zkzQaFoZFx2BOI9I
+	 B6EvVGKrR2H1+aVMToWbDVy7eZwb0JXOOm5dqCx3oPhAPPaY8o9Z3jsYbU6r2YmnCuokS
+	 PHJxPME/xfxmq8D1G7nUh55UZ0wQyBJqEqKADw54fhTMAcEdEF1tEq5YvYhutJS1w7FlE
+	 IkmIQ/Jke7di5PPZKQY07+r/237QDngw68U/7hJyNCaPKpaphjRpKRGlLHZZhcC5b2RUw
+	 khGrByyLsaNhpa5K5qTIxvl7X7ZMGNGwqp0vUTihnoKe0AntYfXMO2gKZjtsOuSgkhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795691299;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=Kmf9u4R6SMsK2oJZBBuB4ZZPXP2Acp3Pq7UI/bfXnfU=;
-	b=SWJujHw2vqpcCGGsQ9/dHQPr6MfkBvbpSHWRg4PUWcSx0zXhM/G2G50zdwCIcGkEB20N
-	 PABxH0J8TMngxRBIH08YIp9T1w6cUwrJjifmFhvNafmjaZklvaTX+QmuTu5paTki4Qh/q
-	 PpLDa5cEW3KYpjxFaLovg4di6eHOtscg570mqIVuZhH/Ea2T+eD/gJYdUPUHc4neBm2Yw
-	 S7jmJjv5GtA7OLEu81Tok0EPKNE7A4Rhw9utWHhmyRRg999zIlfgM3QjH1WgPevtUswrt
-	 pJUGIaKYTtfUYH56arvsinhsK4UebdMEQ/j75+sVZ8bKMvPXDppQorb55/Na8EPUVqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795692901;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=F1ysSIq8P4zmWw07TXTD7UWja5GSxoOEW3aTiOqMAwg=;
+	b=ZM0Huu1oirT6CRFefr5VIWAVsKUwxfFvDgX7fA609v743RzjG91jzzAKAd2a+hrqJLA6
+	 rr1Awdy4yVhrSTlUBEzLatH8LCK0GiXZXBuecHsIuHGBDh7bFZxWtpNLzDAatgfsBPawF
+	 eHx+n4oiUt7/+odLoodS4dHC08vHxP24xXvek9QOUoVUtUhc8M6eE+66m9CnpRkLoqnn8
+	 4X48/Dq6o4gtPf19stoV+I6GWCeo6hq7Td3atdZyH2wDPTqyqiSG7c/A7r9UmzGe222nR
+	 sCbIEAsDdzOHo0Psw5yFSOQ+nt3uWj/szm/lRfu5RkFSNAdc+PQb733ZzsRRf+6OJRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="rioYndF/";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="IiZFcSQ/";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="ySkd/umk";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dONGJxuI;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="IY/EzVIu";
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98721606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 11:08:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98721606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20294606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 11:35:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20294606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=rioYndF/;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IiZFcSQ/;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ySkd/umk;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dONGJxuI
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D6F541FA9F;
-	Thu, 26 Nov 2026 11:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795691291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kmf9u4R6SMsK2oJZBBuB4ZZPXP2Acp3Pq7UI/bfXnfU=;
-	b=rioYndF/CNpouzggovg46cw4DGhoB4Ka8yqeE61hZvohv2jz05CEWV1hLfg4m6/BABlmPa
-	UMISE4xymzJhZ1X3YSNk5CTlGmkyN1Ra8t1mpLPGieCwQuIWhqG/OttXfXaqlRS0sIQ+Cf
-	3SQuNlZkVOQGdNCmGc49inxXLvwaVN4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795691291;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kmf9u4R6SMsK2oJZBBuB4ZZPXP2Acp3Pq7UI/bfXnfU=;
-	b=IiZFcSQ/98BGXzxLHj6jvpPzX+mhOtzA2lbJf2Nj3Wj3jCwhMvg5uOnXvY+KYKXTxqjX82
-	4tpRt3o/ABwd+XAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795691290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kmf9u4R6SMsK2oJZBBuB4ZZPXP2Acp3Pq7UI/bfXnfU=;
-	b=ySkd/umkwJJJbUov2/IeeLF+cDwhdwoWuToZtCCg02mkImffZHgYwYNrGqsAQ/THJdf8Vv
-	cWFWrVOxDPW2QkzbmNoJfWVzVhq0bAtrbydaJoPSYfn0j5iFK04auXu2ZP9ByplQjuoPK7
-	HiUvteR1nCbsZFwAT1FNLx09BpC7pTY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795691290;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kmf9u4R6SMsK2oJZBBuB4ZZPXP2Acp3Pq7UI/bfXnfU=;
-	b=dONGJxuIb36JNgRbx4vbNz3CcFAaeohmKWLAzR0hHuxx15jLgmklSni1+XaB7xXUtJkVJ/
-	bneI3E7IvMuutuBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9FC9134C3;
-	Thu, 26 Nov 2026 11:08:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kMpKIRoTCGtTTgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Nov 2026 11:08:10 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 371C027DDB; Thu, 26 Nov 2026 12:08:10 +0100 (CET)
-Date: Thu, 26 Nov 2026 12:08:10 +0100
-From: Jan Kara <jack@suse.cz>
-To: "yebin (H)" <yebin10@huawei.com>
-Cc: kernel test robot <lkp@intel.com>, Ye Bin <yebin@huaweicloud.com>, 
-	tytso@mit.edu, adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, jack@suse.cz
-Subject: Re: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-Message-ID: <u5j2wzkkg32il2gwhuqss6eh2r45xjbchmq5lmon2qp5his7l2@7yibuej6qwe5>
-References: <20261125111055.3672233-3-yebin@huaweicloud.com>
- <20261126015002.1lcIDaq1-lkp@intel.com>
- <6B07CD46.8060109@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IY/EzVIu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795692902; x=1827228902;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qZ4auUk8+IHrdvOEBAFF06C3MVQTviD6R5qX6NqXpgQ=;
+  b=IY/EzVIuVuZ3cB50NJbqqTII0w0IJuGFZUeOll3/AmfDQpR4aWjGZXIq
+   Ed1xb9x0cvg7jfreF9b/qf9A42iPOQ6iUETNhhjvq475Pj9/LiCluJyDF
+   bizhiO9nVV6CQ8OsL7ZewZlS3t9S2XiNwwa9NiG9UhDcaEhnkq+bXFpXQ
+   2W1DZog2obrgbDOSFN5tmNFRIsWAzYIgAvA66SPcvOSH/cseSf2mprrso
+   k2/C4OYf8sGLUdi/fTT7haoIMGKl9/eAvBDrH2d5e99fNKU3ZXkpWr2EZ
+   boPEBicIPmmUP+g9Sq/VReWviWhUmPOBEral3Yu5wKz0+YcpQOjxdnHhN
+   w==;
+X-CSE-ConnectionGUID: EE5BKTPERSiZtOngWxKqOQ==
+X-CSE-MsgGUID: UFrQ7QqbTzerAHRtXoUc1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4614585"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4614585"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 03:34:33 -0800
+X-CSE-ConnectionGUID: JdG1uh/xRBaOMQe9t8sFcw==
+X-CSE-MsgGUID: IgW0FcPpSeKxGYB7k14OjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12198114"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 26 Nov 2026 03:34:26 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWXk7-00000001Tz8-1c75;
+	Thu, 26 Nov 2026 11:34:23 +0000
+Date: Thu, 26 Nov 2026 19:33:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Gal Pressman <gal@nvidia.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	Mark Bloch <mbloch@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Saeed Mahameed <saeedm@nvidia.com>, Shay Drori <shayd@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Subject: Re: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched
+ packets counter
+Message-ID: <20261126192651.xrb8kANY-lkp@intel.com>
+References: <20261125212344.243989-1-tariqt@nvidia.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -114,80 +95,110 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6B07CD46.8060109@huawei.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+In-Reply-To: <20261125212344.243989-1-tariqt@nvidia.com>
 
-On Thu 26-11-26 14:10:14, yebin (H) wrote:
-> 
-> 
-> On 2026/11/26 1:58, kernel test robot wrote:
-> > Hi Ye,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on tytso-ext4/dev]
-> > [also build test ERROR on linus/master v7.4-rc4]
-> > [cannot apply to brauner-vfs/vfs.all next-20261124]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/quota-Forbid-Q_XGETQUOTA-and-Q_XGETNEXTQUOTA-for-frozen-filesystem/20261125-191054
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> > patch link:    https://lore.kernel.org/r/20261125111055.3672233-3-yebin%40huaweicloud.com
-> > patch subject: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-> > config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/20261126015002.1lcIDaq1-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     fs/ext4/super.c: In function 'ext4_write_dquot':
-> > > > fs/ext4/super.c:7165:13: error: 'freeze_protected' undeclared (first use in this function); did you mean 'freeze_processes'?
-> >      7165 |         if (freeze_protected)
-> >           |             ^~~~~~~~~~~~~~~~
-> >           |             freeze_processes
-> >     fs/ext4/super.c:7165:13: note: each undeclared identifier is reported only once for each function it appears in
-> > 
-> 
-> This is a bit strange. The ext4_write_dquot() function hasn't been modified at
-> all, and the nearby functions don't seem to have been changed in the latest
-> version either. It's possible that the patch wasn't generated based on the
-> latest linux-next code, causing git to apply the patch incorrectly by matching
-> only the context and line numbers, thus targeting the wrong function. I'll
-> regenerate the patch and send a new version, and I'll also CC linux-fsdevel
-> this time.
+Hi Tariq,
 
-Yes, I think the the patch just misapplied in the test infrastructure.
+kernel test robot noticed the following build warnings:
 
-								Honza
+[auto build test WARNING on 612848d37e68b858e15815175f1c5e609e09d719]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-Expose-SW-RoCE-monitor-matched-packets-counter/20261125-232343
+base:   612848d37e68b858e15815175f1c5e609e09d719
+patch link:    https://lore.kernel.org/r/20261125212344.243989-1-tariqt%40nvidia.com
+patch subject: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched packets counter
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126192651.xrb8kANY-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c: In function 'mlx5_reporter_vnic_diagnose_counters':
+>> drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c:133:1: warning: the frame size of 1344 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     133 | }
+         | ^
+
+
+vim +133 drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
+
+b820864335c8b3 Akiva Goldberger 2025-02-09   63  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   64  void mlx5_reporter_vnic_diagnose_counters(struct mlx5_core_dev *dev,
+b0bc615df488ab Maher Sanalla    2023-03-21   65  					  struct devlink_fmsg *fmsg,
+b0bc615df488ab Maher Sanalla    2023-03-21   66  					  u16 vport_num, bool other_vport)
+b0bc615df488ab Maher Sanalla    2023-03-21   67  {
+b0bc615df488ab Maher Sanalla    2023-03-21   68  	u32 in[MLX5_ST_SZ_DW(query_vnic_env_in)] = {};
+2520766fb420da Moshe Shemesh    2026-11-25   69  	u32 cap_reg[MLX5_ST_SZ_DW(nic_cap_reg)] = {};
+b0bc615df488ab Maher Sanalla    2023-03-21   70  	struct mlx5_vnic_diag_stats vnic;
+2520766fb420da Moshe Shemesh    2026-11-25   71  	bool cap_reg_valid = false;
+b0bc615df488ab Maher Sanalla    2023-03-21   72  
+b0bc615df488ab Maher Sanalla    2023-03-21   73  	MLX5_SET(query_vnic_env_in, in, opcode, MLX5_CMD_OP_QUERY_VNIC_ENV);
+b0bc615df488ab Maher Sanalla    2023-03-21   74  	MLX5_SET(query_vnic_env_in, in, vport_number, vport_num);
+b0bc615df488ab Maher Sanalla    2023-03-21   75  	MLX5_SET(query_vnic_env_in, in, other_vport, !!other_vport);
+b0bc615df488ab Maher Sanalla    2023-03-21   76  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   77  	mlx5_cmd_exec_inout(dev, query_vnic_env, in, &vnic.query_vnic_env_out);
+b0bc615df488ab Maher Sanalla    2023-03-21   78  
+2520766fb420da Moshe Shemesh    2026-11-25   79  	if (MLX5_CAP_GEN(dev, nic_cap_reg))
+2520766fb420da Moshe Shemesh    2026-11-25   80  		cap_reg_valid = !mlx5_reporter_vnic_query_nic_cap(dev, cap_reg);
+2520766fb420da Moshe Shemesh    2026-11-25   81  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   82  	devlink_fmsg_pair_nest_start(fmsg, "vNIC env counters");
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   83  	devlink_fmsg_obj_nest_start(fmsg);
+b0bc615df488ab Maher Sanalla    2023-03-21   84  
+548ee049b19fb9 Lama Kayal       2023-06-11   85  	if (MLX5_CAP_GEN(dev, vnic_env_queue_counters)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   86  		devlink_fmsg_u32_pair_put(fmsg, "total_error_queues",
+548ee049b19fb9 Lama Kayal       2023-06-11   87  					  VNIC_ENV_GET(&vnic, total_error_queues));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   88  		devlink_fmsg_u32_pair_put(fmsg, "send_queue_priority_update_flow",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   89  					  VNIC_ENV_GET(&vnic, send_queue_priority_update_flow));
+548ee049b19fb9 Lama Kayal       2023-06-11   90  	}
+548ee049b19fb9 Lama Kayal       2023-06-11   91  	if (MLX5_CAP_GEN(dev, eq_overrun_count)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   92  		devlink_fmsg_u32_pair_put(fmsg, "comp_eq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   93  					  VNIC_ENV_GET(&vnic, comp_eq_overrun));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   94  		devlink_fmsg_u32_pair_put(fmsg, "async_eq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   95  					  VNIC_ENV_GET(&vnic, async_eq_overrun));
+548ee049b19fb9 Lama Kayal       2023-06-11   96  	}
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   97  	if (MLX5_CAP_GEN(dev, vnic_env_cq_overrun))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   98  		devlink_fmsg_u32_pair_put(fmsg, "cq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   99  					  VNIC_ENV_GET(&vnic, cq_overrun));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  100  	if (MLX5_CAP_GEN(dev, invalid_command_count))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  101  		devlink_fmsg_u32_pair_put(fmsg, "invalid_command",
+548ee049b19fb9 Lama Kayal       2023-06-11  102  					  VNIC_ENV_GET(&vnic, invalid_command));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  103  	if (MLX5_CAP_GEN(dev, quota_exceeded_count))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  104  		devlink_fmsg_u32_pair_put(fmsg, "quota_exceeded_command",
+548ee049b19fb9 Lama Kayal       2023-06-11  105  					  VNIC_ENV_GET(&vnic, quota_exceeded_command));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  106  	if (MLX5_CAP_GEN(dev, nic_receive_steering_discard))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  107  		devlink_fmsg_u64_pair_put(fmsg, "nic_receive_steering_discard",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  108  					  VNIC_ENV_GET64(&vnic, nic_receive_steering_discard));
+548ee049b19fb9 Lama Kayal       2023-06-11  109  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_steering_fail)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  110  		devlink_fmsg_u64_pair_put(fmsg, "generated_pkt_steering_fail",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  111  					  VNIC_ENV_GET64(&vnic, generated_pkt_steering_fail));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  112  		devlink_fmsg_u64_pair_put(fmsg, "handled_pkt_steering_fail",
+a33682e4e78e24 Lama Kayal       2023-06-06  113  					  VNIC_ENV_GET64(&vnic, handled_pkt_steering_fail));
+548ee049b19fb9 Lama Kayal       2023-06-11  114  	}
+2520766fb420da Moshe Shemesh    2026-11-25  115  	if (cap_reg_valid && MLX5_GET(nic_cap_reg, cap_reg, vhca_icm_ctrl))
+b820864335c8b3 Akiva Goldberger 2025-02-09  116  		mlx5_reporter_vnic_diagnose_counter_icm(dev, fmsg, vport_num, other_vport);
+e835faaed2f80e Akiva Goldberger 2025-09-25  117  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_bar_uar_access))
+e835faaed2f80e Akiva Goldberger 2025-09-25  118  		devlink_fmsg_u32_pair_put(fmsg, "bar_uar_access",
+e835faaed2f80e Akiva Goldberger 2025-09-25  119  					  VNIC_ENV_GET(&vnic, bar_uar_access));
+e835faaed2f80e Akiva Goldberger 2025-09-25  120  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_odp_page_fault)) {
+e835faaed2f80e Akiva Goldberger 2025-09-25  121  		devlink_fmsg_u32_pair_put(fmsg, "odp_local_triggered_page_fault",
+e835faaed2f80e Akiva Goldberger 2025-09-25  122  					  VNIC_ENV_GET(&vnic, odp_local_triggered_page_fault));
+e835faaed2f80e Akiva Goldberger 2025-09-25  123  		devlink_fmsg_u32_pair_put(fmsg, "odp_remote_triggered_page_fault",
+e835faaed2f80e Akiva Goldberger 2025-09-25  124  					  VNIC_ENV_GET(&vnic, odp_remote_triggered_page_fault));
+e835faaed2f80e Akiva Goldberger 2025-09-25  125  	}
+2520766fb420da Moshe Shemesh    2026-11-25  126  	if (cap_reg_valid &&
+2520766fb420da Moshe Shemesh    2026-11-25  127  	    MLX5_GET(nic_cap_reg, cap_reg, sw_roce_monitor_classifier))
+2520766fb420da Moshe Shemesh    2026-11-25  128  		devlink_fmsg_u32_pair_put(fmsg, "sw_roce_monitor_matched_packets",
+2520766fb420da Moshe Shemesh    2026-11-25  129  					  VNIC_ENV_GET(&vnic, sw_roce_monitor_matched_packets));
+a33682e4e78e24 Lama Kayal       2023-06-06  130  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  131  	devlink_fmsg_obj_nest_end(fmsg);
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  132  	devlink_fmsg_pair_nest_end(fmsg);
+b0bc615df488ab Maher Sanalla    2023-03-21 @133  }
+b0bc615df488ab Maher Sanalla    2023-03-21  134  
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
