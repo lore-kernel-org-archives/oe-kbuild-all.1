@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795699928;
-	b=lsvzfMncVj+T1yV+KMn5SRANXC95NepqzudAjHy6D48mbpht1h4x96xPpp1Xx2tczAQm
-	 qVFj4h9P+ryfn0y35XOs56LpssMvmEoerfEjRVgH0JIYoJEMkV7ruLJWv7hxjkbouLPo7
-	 AvKpFViFk0TBIA5r+lCEqC8cvNnED+pHzWoAOjADuABOgK8yZAbQw/MD8QRoJ5ZVaYvOe
-	 /u/wjN3PN6v4CsZQrhe4SweSMuxCW41MLOMxSRdEh58Zw6wkhpQG4J13g0Ab0HCwGnGIK
-	 aoMFCJlSJ7BYvP3yS9NmRItm5unrmNho43xHAAXe9yk9jlcyrPNphvexCHLBLwdTOpQ==
+	t=1795699980;
+	b=Q8EAbq9iEB+tWtxZD6rpUkmRo7zmq3eGrLLSR+kaQjSGJXSxe59wxudK7Nr3qSyf4T0/
+	 wC/BjiMrWkBW7dse3FT2746qPCcO+scj9aqJHjtqLLrNLFzTKzKC5at3/NucA66KRoprq
+	 erW+eLqX6qTs0rCcNFHrOsPetRKYCYJPT4+C8VyQc74tmQvtISZ9omlEaaFm+K1SgBF2z
+	 0cLsOLETermu7Gfe8Wr3siukmNo5xVl09xxPF7S4sAxdjeob9QQ3kszw1yXhkaC3oDKrL
+	 yRfumK4tVzSE7KkYUJN8nAoxMhipDy15+/BYPnejLCCjJmGie8lZ63PvPTDKRO0z+3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795699928;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795699980;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=D/XEpvbf9JdsXE99JqMaLT6k/1BSGLuJ24WCfYUFBtc=;
-	b=z49TowNzSEhXw8ZwYpUDOlitoQ8j6DRPYvi8DU/i/fIzgeLKYWg3coD6HeBEsbd+p1FA
-	 0+KxyPYwHz+DR8IsUW/td6Kl1iRQ/swVbwGE5X/jdkxh3bKTAUhl2d0LCmpuD02wjPq78
-	 DGFdomFZBx6Bg1n3SppvxoxBGP933TUCvEghVuXeh+44Z0FLLCDbayQD7Xe/zeTol7iFO
-	 U5ZXXWER/A9V7mAZWreCo3pZIYQdmN7xI79yG2ryQZCBuZjQ37gb/u3jpfy4X+ciYhBfH
-	 uVtHnHHdiWk+fdB+d+0cLOlRPK7yS2WYtaRbU1vpB9nXaoj8Dclakv8Jb8x9HpvJsxA==
+	bh=GNLMUzB6zTS7hPdFSS3LKd+hyAih6/J2fzEU83dR3vE=;
+	b=VxFQ8wuvGzgLEge8bVLw/TF8BlywKJdVEz5h3mH7pv8g8Gn2xeoYYzAPBFyYU+7/LJ4+
+	 8j/Ob+UBFmjWsKHauS3DGwAdFJH1GansZoywTBH8RfkAaT854L4XjLciEE865RlnSzZsc
+	 oMCZ9QEC0Q7Scjje1KuhwrH8hZYPMGmsTAXPz/0IVaV/jd9YXAS9kjaXB+Ky3I+ExyoHq
+	 IgRf3V2lg3wXoBAiBhgauA6K701imUmn8jKxF/2hn3UmYrfHm7UD5OF3FSXczlIiVwP6Y
+	 fgpePhXWs0M/nzsv2u9Yfs7bAnmMqps+xYzY46rN18KFXmXMIn3NpPWvKGrkeTiU8Hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlKvLIqt;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n59jSHqQ;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1526606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 13:32:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1526606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F896606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 13:33:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F896606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlKvLIqt
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n59jSHqQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795699929; x=1827235929;
+  t=1795699980; x=1827235980;
   h=date:from:to:cc:subject:message-id;
-  bh=yF6FdL1tjlvdq/rPC9zu+/H0xFf6RxqG/Kwj9M1FQfI=;
-  b=RlKvLIqtUbFEG2nnWWLl6RQSZ1r7ryvKWQt5CInh424wDY+dosJ9hfAd
-   FpZ++CArautjhjsBk/pfsDtsICi8U8PIN72+dbG4aHvU8ZCKKsGxV2hda
-   9fsV1cnGW5cQ43LbB8qTMA8KdRlY3hpMstaa+pN/LIRmpxGvgxHvZo4aw
-   K6aduGRnhSftrB8fGJ8xwlw8y+uQbPJr+TDRBtq9l06KrlGZqrT5pf5oo
-   Hse723gm8e/CqXAsGdZaOVz9/PGplLB5Lmd5gfGS0/QcsaBie5Shdeuc4
-   DCulV4rnDexQL5X2zytJ0RrcGHCW/s5hlOQBt1r3Ym15oNMZLeJxcY+i+
-   w==;
-X-CSE-ConnectionGUID: ttruT6S0QrOvh11gh9mSsg==
-X-CSE-MsgGUID: qWcm6XKeQQS4doZpNVBV4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4661949"
+  bh=wQoJjEA7ZvhUc6AbQRUUiHT6QIjnyU7WlpFgscjuebY=;
+  b=n59jSHqQhT58tBo2QZQZ09E3xbtxCdE0EU056FFUXo1DsKU3K+z9WpSY
+   n8bbrAOAUTpIUDvJj9Yk6I3jBc1hKcrPcytUfl7HHVdeDWE+oxpswOmRL
+   ryQCQwJFlfgXPH0eW1W8wWDwHe4jB/6b/0y8D/uLSqA8yao8eczbtl3nW
+   3hOO1HRmiHIw9l2ZwXgzJ8zGE8cwyMiuwKlKNXSj4l5YS4FlO08+8F08p
+   vypoN/6q0ILtMpmTPsXi6ZcyiuWa2CmSCFCcUpbSSCgz0qQ9Y5qyxIF8q
+   zRtsX5wYXSIpJ6ukZGbYV54qJNgf4l8T95nhVLZ7VdGUOrGorqw90gH6Z
+   Q==;
+X-CSE-ConnectionGUID: aYuQQqVGQ3uMEARWjuLuPg==
+X-CSE-MsgGUID: i0GJBzAwTa6ibkf7l5K/Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4679810"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4661949"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 05:32:02 -0800
-X-CSE-ConnectionGUID: Ytb0D6M4RfGnfJkl4c6LjA==
-X-CSE-MsgGUID: tl8dsI6YS0yT6A0jC7lUWw==
+   d="scan'208";a="4679810"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 05:33:00 -0800
+X-CSE-ConnectionGUID: P175iGG2SlamW+xkDGX2vQ==
+X-CSE-MsgGUID: XCifXrH8Siu5EYgDvsyLnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12206993"
+   d="scan'208";a="12088263"
 Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 26 Nov 2026 05:31:57 -0800
+  by orviesa003.jf.intel.com with ESMTP; 26 Nov 2026 05:32:59 -0800
 Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWZZr-0000000004E-0Pqi;
-	Thu, 26 Nov 2026 13:31:55 +0000
-Date: Thu, 26 Nov 2026 14:31:53 +0100
+	id 1xWZap-0000000004M-1IwR;
+	Thu, 26 Nov 2026 13:32:55 +0000
+Date: Thu, 26 Nov 2026 14:31:55 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/62]
- sound/usb/mixer_scarlett2.c:3310:48: warning: ' Volume Control Playback Enum'
- directive output may be truncated writing 29 bytes into a region of size
- between 25 and 33
-Message-ID: <20261126142058.C4IvrgGb-lkp@intel.com>
+To: Andy Chiu <tchiu@tenstorrent.com>
+Cc: oe-kbuild-all@lists.linux.dev, Cong Wang <cwang@multikernel.io>
+Subject: [congwang:riscv-vector-discard 1/5]
+ arch/riscv/kvm/vcpu.c:825:3: error: implicit declaration of function
+ 'kvm_riscv_vector_restore'; did you mean 'kvm_riscv_vcpu_timer_restore'?
+Message-ID: <20261126142427.nhAJg6U1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,136 +81,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Geoffrey,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5a11c7fa1d6b059063b6621f3392c54827910306
-commit: 771ad4dfbdbbba875f17adddf4806bd24a0835c1 [0/62] ALSA: scarlett2: Rename scarlett_gen2 to scarlett2
-config: x86_64-randconfig-2001-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126142058.C4IvrgGb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126142058.C4IvrgGb-lkp@intel.com/reproduce)
+tree:   https://github.com/congwang/linux.git riscv-vector-discard
+head:   82089161ab902778cdd13a9cd126871c69aa4e87
+commit: b1ea6b7e02031d2767b5871f3fc669ee61975cf2 [1/5] riscv: vector: refactor vector context operations
+config: riscv-randconfig-2000-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126142427.nhAJg6U1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126142427.nhAJg6U1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126142058.C4IvrgGb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126142427.nhAJg6U1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/usb/mixer_scarlett2.c: In function 'scarlett2_add_line_out_ctls':
->> sound/usb/mixer_scarlett2.c:3310:48: warning: ' Volume Control Playback Enum' directive output may be truncated writing 29 bytes into a region of size between 25 and 33 [-Wformat-truncation=]
-    3310 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_scarlett2.c:3309:25: note: 'snprintf' output between 41 and 49 bytes into a destination of size 44
-    3309 |                         snprintf(s, sizeof(s),
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-    3310 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3311 |                                  i + 1);
-         |                                  ~~~~~~
+   arch/riscv/kvm/vcpu.c: In function 'kvm_riscv_vcpu_enter_exit':
+>> arch/riscv/kvm/vcpu.c:825:3: error: implicit declaration of function 'kvm_riscv_vector_restore'; did you mean 'kvm_riscv_vcpu_timer_restore'? [-Werror=implicit-function-declaration]
+     825 |   kvm_riscv_vector_restore(gcntx);
+         |   ^~~~~~~~~~~~~~~~~~~~~~~~
+         |   kvm_riscv_vcpu_timer_restore
+   cc1: some warnings being treated as errors
 
 
-vim +3310 sound/usb/mixer_scarlett2.c
+vim +825 arch/riscv/kvm/vcpu.c
 
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3250  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3251  static int scarlett2_add_line_out_ctls(struct usb_mixer_interface *mixer)
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3252  {
-e46f2195c86b008 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3253  	struct scarlett2_data *private = mixer->private_data;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3254  	const struct scarlett2_device_info *info = private->info;
-e2cc91ac8f4e1b0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3255  	const int (*port_count)[SCARLETT2_PORT_DIRNS] = info->port_count;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3256  	int num_line_out =
-e2cc91ac8f4e1b0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3257  		port_count[SCARLETT2_PORT_TYPE_ANALOGUE][SCARLETT2_PORT_OUT];
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3258  	int err, i;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3259  	char s[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3260  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3261  	/* Add R/O HW volume control */
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3262  	if (info->line_out_hw_vol) {
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3263  		snprintf(s, sizeof(s), "Master HW Playback Volume");
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3264  		err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3265  					    &scarlett2_master_volume_ctl,
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3266  					    0, 1, s, &private->master_vol_ctl);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3267  		if (err < 0)
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3268  			return err;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3269  	}
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3270  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3271  	/* Add volume controls */
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3272  	for (i = 0; i < num_line_out; i++) {
-9cfe1276a6736fe sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3273  		int index = line_out_remap(private, i);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3274  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3275  		/* Fader */
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3276  		if (info->line_out_descrs[i])
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3277  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3278  				 "Line %02d (%s) Playback Volume",
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3279  				 i + 1, info->line_out_descrs[i]);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3280  		else
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3281  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3282  				 "Line %02d Playback Volume",
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3283  				 i + 1);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3284  		err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3285  					    &scarlett2_line_out_volume_ctl,
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3286  					    i, 1, s, &private->vol_ctls[i]);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3287  		if (err < 0)
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3288  			return err;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3289  
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3290  		/* Mute Switch */
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3291  		snprintf(s, sizeof(s),
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3292  			 "Line %02d Mute Playback Switch",
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3293  			 i + 1);
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3294  		err = scarlett2_add_new_ctl(mixer,
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3295  					    &scarlett2_mute_ctl,
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3296  					    i, 1, s,
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3297  					    &private->mute_ctls[i]);
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3298  		if (err < 0)
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3299  			return err;
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3300  
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3301  		/* Make the fader and mute controls read-only if the
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3302  		 * SW/HW switch is set to HW
-0c88f9db1910ff4 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3303  		 */
-9cfe1276a6736fe sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3304  		if (private->vol_sw_hw_switch[index])
-06250c89d47cefb sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-22  3305  			scarlett2_vol_ctl_set_writable(mixer, i, 0);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3306  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3307  		/* SW/HW Switch */
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3308  		if (info->line_out_hw_vol) {
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3309  			snprintf(s, sizeof(s),
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29 @3310  				 "Line Out %02d Volume Control Playback Enum",
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3311  				 i + 1);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3312  			err = scarlett2_add_new_ctl(mixer,
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3313  						    &scarlett2_sw_hw_enum_ctl,
-f02da6534810acb sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3314  						    i, 1, s,
-f02da6534810acb sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3315  						    &private->sw_hw_ctls[i]);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3316  			if (err < 0)
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3317  				return err;
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3318  
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3319  			/* Make the switch read-only if the line is
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3320  			 * involved in speaker switching
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3321  			 */
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3322  			if (private->speaker_switching_switch && i < 4)
-e914d8432cb4b99 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-23  3323  				scarlett2_sw_hw_ctl_ro(private, i);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3324  		}
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3325  	}
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3326  
-dbd82c0550633c1 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3327  	/* Add dim/mute controls */
-03bdbcf08a8cb7b sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3328  	if (info->line_out_hw_vol)
-dbd82c0550633c1 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3329  		for (i = 0; i < SCARLETT2_DIM_MUTE_COUNT; i++) {
-03bdbcf08a8cb7b sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3330  			err = scarlett2_add_new_ctl(
-dbd82c0550633c1 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3331  				mixer, &scarlett2_dim_mute_ctl,
-dbd82c0550633c1 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3332  				i, 1, scarlett2_dim_mute_names[i],
-dbd82c0550633c1 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2021-06-21  3333  				&private->dim_mute_ctls[i]);
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3334  			if (err < 0)
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3335  				return err;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3336  		}
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3337  
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3338  	return 0;
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3339  }
-9e4d5c1be21f0c0 sound/usb/mixer_scarlett_gen2.c Geoffrey D. Bennett 2019-07-29  3340  
-
-:::::: The code at line 3310 was first introduced by commit
-:::::: 9e4d5c1be21f0c00e747e92186784f3298309b3e ALSA: usb-audio: Scarlett Gen 2 mixer interface
-
-:::::: TO: Geoffrey D. Bennett <g@b4.vu>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+   795	
+   796	/*
+   797	 * Actually run the vCPU, entering an RCU extended quiescent state (EQS) while
+   798	 * the vCPU is running.
+   799	 *
+   800	 * This must be noinstr as instrumentation may make use of RCU, and this is not
+   801	 * safe during the EQS.
+   802	 */
+   803	static void noinstr kvm_riscv_vcpu_enter_exit(struct kvm_vcpu *vcpu,
+   804						      struct kvm_cpu_trap *trap)
+   805	{
+   806		void *nsh;
+   807		struct kvm_cpu_context *gcntx = &vcpu->arch.guest_context;
+   808		struct kvm_cpu_context *hcntx = &vcpu->arch.host_context;
+   809	
+   810		/*
+   811		 * We save trap CSRs (such as SEPC, SCAUSE, STVAL, HTVAL, and
+   812		 * HTINST) here because we do local_irq_enable() after this
+   813		 * function in kvm_arch_vcpu_ioctl_run() which can result in
+   814		 * an interrupt immediately after local_irq_enable() and can
+   815		 * potentially change trap CSRs.
+   816		 */
+   817	
+   818		kvm_riscv_vcpu_swap_in_guest_state(vcpu);
+   819		guest_state_enter_irqoff();
+   820	
+   821		/* sstatus.VS != SR_VS_OFF is guaranteed when NEED_RESTORE is set */
+   822		if (current->thread.riscv_v_flags & RISCV_V_VCPU_NEED_RESTORE) {
+   823			current->thread.riscv_v_flags &= ~RISCV_V_VCPU_NEED_RESTORE;
+   824			current->thread.riscv_v_flags |= RISCV_V_VCPU_CTX;
+ > 825			kvm_riscv_vector_restore(gcntx);
+   826			gcntx->sstatus = (gcntx->sstatus & ~SR_VS) | SR_VS_CLEAN;
+   827		}
+   828	
+   829		if (kvm_riscv_nacl_sync_sret_available()) {
+   830			nsh = nacl_shmem();
+   831	
+   832			if (kvm_riscv_nacl_autoswap_csr_available()) {
+   833				hcntx->hstatus =
+   834					nacl_csr_read(nsh, CSR_HSTATUS);
+   835				nacl_scratch_write_long(nsh,
+   836							SBI_NACL_SHMEM_AUTOSWAP_OFFSET +
+   837							SBI_NACL_SHMEM_AUTOSWAP_HSTATUS,
+   838							gcntx->hstatus);
+   839				nacl_scratch_write_long(nsh,
+   840							SBI_NACL_SHMEM_AUTOSWAP_OFFSET,
+   841							SBI_NACL_SHMEM_AUTOSWAP_FLAG_HSTATUS);
+   842			} else if (kvm_riscv_nacl_sync_csr_available()) {
+   843				hcntx->hstatus = nacl_csr_swap(nsh,
+   844							       CSR_HSTATUS, gcntx->hstatus);
+   845			} else {
+   846				hcntx->hstatus = csr_swap(CSR_HSTATUS, gcntx->hstatus);
+   847			}
+   848	
+   849			nacl_scratch_write_longs(nsh,
+   850						 SBI_NACL_SHMEM_SRET_OFFSET +
+   851						 SBI_NACL_SHMEM_SRET_X(1),
+   852						 &gcntx->ra,
+   853						 SBI_NACL_SHMEM_SRET_X_LAST);
+   854	
+   855			__kvm_riscv_nacl_switch_to(&vcpu->arch, SBI_EXT_NACL,
+   856						   SBI_EXT_NACL_SYNC_SRET);
+   857	
+   858			if (kvm_riscv_nacl_autoswap_csr_available()) {
+   859				nacl_scratch_write_long(nsh,
+   860							SBI_NACL_SHMEM_AUTOSWAP_OFFSET,
+   861							0);
+   862				gcntx->hstatus = nacl_scratch_read_long(nsh,
+   863									SBI_NACL_SHMEM_AUTOSWAP_OFFSET +
+   864									SBI_NACL_SHMEM_AUTOSWAP_HSTATUS);
+   865			} else {
+   866				gcntx->hstatus = csr_swap(CSR_HSTATUS, hcntx->hstatus);
+   867			}
+   868	
+   869			trap->htval = nacl_csr_read(nsh, CSR_HTVAL);
+   870			trap->htinst = nacl_csr_read(nsh, CSR_HTINST);
+   871		} else {
+   872			hcntx->hstatus = csr_swap(CSR_HSTATUS, gcntx->hstatus);
+   873	
+   874			__kvm_riscv_switch_to(&vcpu->arch);
+   875	
+   876			gcntx->hstatus = csr_swap(CSR_HSTATUS, hcntx->hstatus);
+   877	
+   878			trap->htval = csr_read(CSR_HTVAL);
+   879			trap->htinst = csr_read(CSR_HTINST);
+   880		}
+   881	
+   882		trap->sepc = gcntx->sepc;
+   883		trap->scause = csr_read(CSR_SCAUSE);
+   884		trap->stval = csr_read(CSR_STVAL);
+   885	
+   886		vcpu->arch.last_exit_cpu = vcpu->cpu;
+   887		guest_state_exit_irqoff();
+   888		kvm_riscv_vcpu_swap_in_host_state(vcpu);
+   889	}
+   890	
 
 -- 
 0-DAY CI Kernel Test Service
