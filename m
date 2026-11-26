@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795706048;
-	b=d+V7OMfbxtrEYaWGMJ5IVL15QvXjFE+X7DJICi0gMG2OIRUMR/hxOEXEnubwBwAwk55F
-	 I9hjyI5P1NIKFQYHEUoLC9c+YwWOIpKC2yT/Y+tHI5GLnsoHwhJURoQLSHcQ6ywR8jwKI
-	 W9u9uKKs4Zap78vdiQUmI+K3w/M7WQh526a15R1Uofao3H7EqVe6GSxOO9DPw3n4a9Qaq
-	 8WhcJSDhcJS8P6uuDUrynkudY0AVBaqZy5GYLsDYnhiS0AA+3ectRJ4SKos000z1Ho3tI
-	 VkBIyZvZhHoAGhjeogDIeNzjbO7zwueh0O0D/4HcdCCXTR3b0KBKmh9Lr+XOIBzEqOg==
+	t=1795709712;
+	b=fDeGJ18tGkUHdwXBaLEyE+3+0HjWYW7ZikXWtzuE3L3vZYXCOPScSsKuajGjnUSDzM7C
+	 6p3/EvWMLrF5ISpvjt9vfkj1dVlcKRloSqKImjj6p9g/TGvneJ0/lhUVF9BSPDJY63hZW
+	 vc/G2BiXAVrqq/5jiXt0vDf0ORMD4bhAlLvTC/2tvIRprjfB+7PqPjQ9iW+Ud0DLnFWnW
+	 88czKZAFDiSk8ZQOgAinQlVpEiXmNVl8yBrFjG2cPs++gE8acTH8oT6jEqywdqOkGsvw+
+	 BtKuJAI69ar7WhFQhpgvVT8oFF3BUDPj5kJU+TBVSDuhegByzkT/ztoLDRmojDV8zVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795706048;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795709712;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=u+sBiYFYIERMNd94PS2nPIgRS21RQdHOPhL08BKrg94=;
-	b=eKhGhQPhMNGtUtTQrrr4qjITJ6m2VSxB8X0EOliM4AVHIlfZd+1nmsI+R7bsQGSPox7j
-	 XiyYG5mWxL8Yjg7RA/CXetU1Fh/QTyPgVP0GzsLv5k8HmGZv2YWcPWm5ESdFmFVlFtkWL
-	 qQgnJlQkmpPElboVZPAoqGNTkIF6la01trPJYMl0FiXJEWWmQK8bsFV2WtSNXDaMTP4Gi
-	 DMzE4Gb+ff6imatYXnwGjoA/Zqg7DsLywcvewFtH5yk1wcncOUHs0u3dnjIkHZDA5HZrE
-	 ZjDblzpFvYyr3QzXQGKVaNJkLqu6hW8c953CwBVsYMShRR+JkwJeaFriTdaxuu/zykw==
+	bh=PcKo2kVjFeogWNNj5epZrpaQS92KJBRSATnC++pwXO4=;
+	b=jJrNz79Hz1H3I7gv1K1BLbCzePeldl4Rbb8WxCkIYL3/tvyflWtVBtfWQaryEo1rvplF
+	 /MDvRYhEVkzmCBMTa1/+83khso1tvDmyoii3xG+D9iX+ULfxbjqkQo+GBMObFfKmOkMXp
+	 YtU1OH26F1WJirEz8jb6R0K2EK3/UrsmzlClX2PTNdKw2V7QkDsmvwcyp2W+opHsxJ0G1
+	 DC/Li+lT/JdvDOZmXb03JwS2feZadoKxCPTOa+3RDnKkuRrWv2hv9Lpy+QrbIftJwuzjv
+	 Sz/X0J0dmT8qPgdTtUj9Y8GhN5wsEpVC0OkCUdRLyhtMDlGyFbVHkrpalmbB2c4URmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ktR5sfEE;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DpyGih6v;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B8D606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 15:14:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83B8D606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3148E606A6AA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 16:15:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3148E606A6AA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ktR5sfEE
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DpyGih6v
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795706047; x=1827242047;
+  t=1795709710; x=1827245710;
   h=date:from:to:cc:subject:message-id;
-  bh=1TvKxDMVI7uK00ld3jbMQK+FLNkSikwPLwzLOLpXV1E=;
-  b=ktR5sfEE8I0PwFT2PvLBTT/bbYtViwH7JAC8ezfYOEOq1Qrn8RFJuqRo
-   VIIm+49XTgb+dntpHlPFn5CTNthX3oaqEBSwBr0CIzWOFbHFDYizX1d28
-   r2eiVasn3q1DauzVt3PzVQ7x79JWq/QeEi3JYofxTl1shHK6hCmQmQr1T
-   nsqY1gCABrQ6izgpvUYRxoSgwr4/Ae8pdOy7zX7Vgwnzu4dqhluVIQH7J
-   MJy6qikEGqu/c5zlQnhwF8haSAvpFwlNSq2bFEz8tMr9JSMLQsbbwaXqt
-   aTuDec+JudQTrzRCb8fNajWKHcg/UFHUpjTCPv/5WJNrQ8eT22yy2IhTu
-   Q==;
-X-CSE-ConnectionGUID: 34qH1uqJQ/ybCaIGwhR6Dg==
-X-CSE-MsgGUID: Nn06jOSbRQSVsxkPY0IT6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4547873"
+  bh=xifJypi8lRa/01FufU3pfQ/Nel+DinT1EBmoT4LaVGw=;
+  b=DpyGih6vSaq3s8hZXzAHKKUaXi6R7tRknj+7uEBU55JFtdSvhm/mO8iP
+   fBvmINgsYw1ew+FkCykR/d87TYN4y5T4c8SvSeqrpeKJLjs2h/xzOR7Lr
+   DFrl2Zets/KYJtCqQuZ330tM2CMtGmeI28FWUd4BSsrSrEemcphCg62Cw
+   HOf41z1rI6Ywusm4VnQWSf6RqN/tVj8HxhT0eDT6iHuC6Lf4Li/E+T49t
+   ywbE9xZ4aQ3qKDM5O5zYdVMWojUBh2hD+vFOZBkoSvOu7y56s7VTv3wK2
+   J1fuezrAaDPNl2BjL/2iPR2Ph6N4VUjyTWlU4FLEbloN3ziHwDSkeNbRF
+   w==;
+X-CSE-ConnectionGUID: 25ThtNFETB2q/i7CHj9/AQ==
+X-CSE-MsgGUID: CFr1N6WoQvib8WZKoxizEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4635645"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4547873"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 07:14:07 -0800
-X-CSE-ConnectionGUID: lPoRWtN8QA+G2u6ofxZUlw==
-X-CSE-MsgGUID: f4EnbyZzSV62kP9VlW+P5g==
+   d="scan'208";a="4635645"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 08:15:10 -0800
+X-CSE-ConnectionGUID: oFSMvvzqQISiZIgwSdKlQg==
+X-CSE-MsgGUID: 9tLTmiMAT5ajmTD+ff55yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12228213"
+   d="scan'208";a="12541349"
 Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 26 Nov 2026 07:14:06 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 26 Nov 2026 08:15:08 -0800
 Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWbAh-0000000005y-0vCe;
-	Thu, 26 Nov 2026 15:14:03 +0000
-Date: Thu, 26 Nov 2026 16:13:48 +0100
+	id 1xWc7m-0000000006g-2s0U;
+	Thu, 26 Nov 2026 16:15:06 +0000
+Date: Thu, 26 Nov 2026 17:14:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 65/65]
- drivers/pci/endpoint/functions/pci-epf-vntb.c:980:5: warning: no previous
- prototype for function 'pci_write'
-Message-ID: <20261126161032.qXHtS4Pe-lkp@intel.com>
+Subject: [rppt:generic-set-memory/rfc-v2 55/62]
+ include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition
+ '(addr >= 0) => (0-u64max >= 0)'
+Message-ID: <20261126170844.sSPTztuV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,66 +81,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Frank,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   36e3098ebf6d37570aab9dc5f8f4d24bd5ffdd06
-commit: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb [65/65] PCI: endpoint: Support NTB transfer between RC and EP
-config: x86_64-randconfig-2000-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126161032.qXHtS4Pe-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126161032.qXHtS4Pe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git generic-set-memory/rfc-v2
+head:   dbcbe2371dba9ad17ac00779ddff74cbef500a77
+commit: 287ccf3401cb64154113c9776b79576a93d0c398 [55/62] s390: use the generic CPA core
+config: s390-randconfig-2200-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126170844.sSPTztuV-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 16.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126161032.qXHtS4Pe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126170844.sSPTztuV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition '(addr >= 0) => (0-u64max >= 0)'
+mm/pageattr.c:373 split_large_page() warn: missing error code 'ret'
+include/linux/pageattr.h:123 cpa_is_direct_map() warn: always true condition '(addr >= 0) => (0-u64max >= 0)'
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:80:
-   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      24 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:357:9: note: previous definition is here
-     357 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:971:5: warning: no previous prototype for function 'pci_read' [-Wmissing-prototypes]
-     971 | int pci_read(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *val)
-         |     ^
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:971:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     971 | int pci_read(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *val)
-         | ^
-         | static 
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:980:5: warning: no previous prototype for function 'pci_write' [-Wmissing-prototypes]
-     980 | int pci_write(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val)
-         |     ^
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:980:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     980 | int pci_write(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val)
-         | ^
-         | static 
-   3 warnings generated.
+vim +123 include/linux/pageattr.h
 
+ebb5b588a1dc24 Mike Rapoport (Microsoft  2026-11-17  119) 
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  120) #ifndef cpa_is_direct_map
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  121) static inline bool cpa_is_direct_map(unsigned long addr)
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  122) {
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11 @123) 	return addr >= PAGE_OFFSET && addr < (unsigned long)high_memory;
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  124) }
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  125) #endif
+69fb36148a23dd Mike Rapoport (Microsoft  2026-11-11  126) 
 
-vim +/pci_write +980 drivers/pci/endpoint/functions/pci-epf-vntb.c
+:::::: The code at line 123 was first introduced by commit
+:::::: 69fb36148a23dd4d96dddd6ad37e429e68364cbe x86/mm/pat, mm: pull CPA core to mm/
 
-   970	
- > 971	int pci_read(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *val)
-   972	{
-   973		if (devfn == 0) {
-   974			memcpy(val, ((u8 *)pci_space) + where, size);
-   975			return PCIBIOS_SUCCESSFUL;
-   976		}
-   977		return PCIBIOS_DEVICE_NOT_FOUND;
-   978	}
-   979	
- > 980	int pci_write(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val)
-   981	{
-   982		return 0;
-   983	}
-   984	
+:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
+:::::: CC: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
