@@ -1,89 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795692901;
-	b=e7vcELWvhKVC2XMA0oPb1bvPvA2Wm7HDqP/tExVrLE0VZWdeiNp5zkzQaFoZFx2BOI9I
-	 B6EvVGKrR2H1+aVMToWbDVy7eZwb0JXOOm5dqCx3oPhAPPaY8o9Z3jsYbU6r2YmnCuokS
-	 PHJxPME/xfxmq8D1G7nUh55UZ0wQyBJqEqKADw54fhTMAcEdEF1tEq5YvYhutJS1w7FlE
-	 IkmIQ/Jke7di5PPZKQY07+r/237QDngw68U/7hJyNCaPKpaphjRpKRGlLHZZhcC5b2RUw
-	 khGrByyLsaNhpa5K5qTIxvl7X7ZMGNGwqp0vUTihnoKe0AntYfXMO2gKZjtsOuSgkhw==
+	t=1795693669;
+	b=0LNVUY3Rhvs5Db7wGNibgPVa1nG4OK4Aa5b4dUW7td/0/SBdOeSxXuk0I8qfU/CKASgX
+	 DFSvNBxytVHa1RCm66XDzlY0XcWCN+UIut/mquJxt/t70cw+Rq5mUDCnelzdsL0ij42Oz
+	 6jtugiSsvlNLuCzPehrN596+k4WkAirY5+xNyMQGdhQpZ5zpHEDLPs3QpjimFvGdeYAKV
+	 dE10MJJrDeCWv9rDLZBtUlk97Uv0bQx0xTkKJt0RtlUtHT6fp9r0PmskZv/Nvb8zoeqxS
+	 86PEN4GzqjoUpdCNZ5x/KVV5r67ZefvqdbpVsn+XJAgN6+oKNLwoq9IEmc0qXTQdWFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795692901;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693669;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=F1ysSIq8P4zmWw07TXTD7UWja5GSxoOEW3aTiOqMAwg=;
-	b=ZM0Huu1oirT6CRFefr5VIWAVsKUwxfFvDgX7fA609v743RzjG91jzzAKAd2a+hrqJLA6
-	 rr1Awdy4yVhrSTlUBEzLatH8LCK0GiXZXBuecHsIuHGBDh7bFZxWtpNLzDAatgfsBPawF
-	 eHx+n4oiUt7/+odLoodS4dHC08vHxP24xXvek9QOUoVUtUhc8M6eE+66m9CnpRkLoqnn8
-	 4X48/Dq6o4gtPf19stoV+I6GWCeo6hq7Td3atdZyH2wDPTqyqiSG7c/A7r9UmzGe222nR
-	 sCbIEAsDdzOHo0Psw5yFSOQ+nt3uWj/szm/lRfu5RkFSNAdc+PQb733ZzsRRf+6OJRw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=uOeLknQsOE3eakLY7h7YKB6ViZUPOGNbogpP73zngWo=;
+	b=tF3WqC20cnlgiP0SkkWrcqXaQy65YAg22kmPnTDwoOq/d7+gCbmBKMBcA2MGARB096GR
+	 AQ42zvx4dse69wZEdCMghriHZIfdisg75gnSUNR1wOaMCrHBueIKHC8WFoEDu39rYEsur
+	 ez71VzFlmyG+w7TyUxlcy7t70wYoaBFn3Vkkau2aqL7fax8eK58K+zIeJvVVjrgHPxwVm
+	 b4oDXazakR/GnBjLlFjI4tDtMAW/ExjNCIbvGhh2FwFnQceZ41leOobiMf+bBf22H7PNZ
+	 XxWmSYEyXN6nF3dnvW9K0pqMem8CJLkT1nn5/O/QcA4UppEUtNUiPC8wSbyJUgn1oDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="IY/EzVIu";
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YHwHLPFP;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20294606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 11:35:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20294606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747FF606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 11:47:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 747FF606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IY/EzVIu
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YHwHLPFP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795692902; x=1827228902;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qZ4auUk8+IHrdvOEBAFF06C3MVQTviD6R5qX6NqXpgQ=;
-  b=IY/EzVIuVuZ3cB50NJbqqTII0w0IJuGFZUeOll3/AmfDQpR4aWjGZXIq
-   Ed1xb9x0cvg7jfreF9b/qf9A42iPOQ6iUETNhhjvq475Pj9/LiCluJyDF
-   bizhiO9nVV6CQ8OsL7ZewZlS3t9S2XiNwwa9NiG9UhDcaEhnkq+bXFpXQ
-   2W1DZog2obrgbDOSFN5tmNFRIsWAzYIgAvA66SPcvOSH/cseSf2mprrso
-   k2/C4OYf8sGLUdi/fTT7haoIMGKl9/eAvBDrH2d5e99fNKU3ZXkpWr2EZ
-   boPEBicIPmmUP+g9Sq/VReWviWhUmPOBEral3Yu5wKz0+YcpQOjxdnHhN
+  t=1795693669; x=1827229669;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZMnJBdKItCvYwIX6+/l1FBXoEkxbYgdy5bhlCoTZXTo=;
+  b=YHwHLPFPK57Gj0J4ANHLbKv4s1/9yrPuGSah/feFpqL4adx7l9XPSyh7
+   omSKPMC13hSKctT4cBa33iKjwA0uPqYp2KgnwBJUx2E+jPXpyNM3MIjev
+   CGHb9rO+Xus7/8j0bGrBH7W9XOk4Cr5Qk99hzCL4698SBsFyz6yZxDdtr
+   k3Ln+olYSx0UqtoQ8QwxbNZVHOfXSmWbshZjqc555C1ltPgGmPnBLtl0K
+   tO3USLUsINDSpuZwfSW1Y79wrEIIL/x52vwrKvaZUDOoeN3LcKEmUJH9b
+   Q59xrJ0lNM9QhQ28UAc6S1zW8fQovij2W44oFBjxixaxHsp6wqxy2RidD
    w==;
-X-CSE-ConnectionGUID: EE5BKTPERSiZtOngWxKqOQ==
-X-CSE-MsgGUID: UFrQ7QqbTzerAHRtXoUc1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4614585"
+X-CSE-ConnectionGUID: o9WVxaHGTO+Nas6cilNSHw==
+X-CSE-MsgGUID: 2FcB1epiTmCzO0JmljhzNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4525664"
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4614585"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 03:34:33 -0800
-X-CSE-ConnectionGUID: JdG1uh/xRBaOMQe9t8sFcw==
-X-CSE-MsgGUID: IgW0FcPpSeKxGYB7k14OjQ==
+   d="scan'208";a="4525664"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 03:47:48 -0800
+X-CSE-ConnectionGUID: chMCDk1CQZ+Ln4mVUgAi+A==
+X-CSE-MsgGUID: Rngfrgv+Q2Ok+do6f+j6Ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="12198114"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Nov 2026 03:34:26 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="11939490"
+Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 26 Nov 2026 03:47:45 -0800
+Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWXk7-00000001Tz8-1c75;
-	Thu, 26 Nov 2026 11:34:23 +0000
-Date: Thu, 26 Nov 2026 19:33:31 +0800
+	id 1xWXwx-0000000002g-2kAU;
+	Thu, 26 Nov 2026 11:47:39 +0000
+Date: Thu, 26 Nov 2026 12:47:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Gal Pressman <gal@nvidia.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Mark Bloch <mbloch@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Saeed Mahameed <saeedm@nvidia.com>, Shay Drori <shayd@nvidia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
-Subject: Re: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched
- packets counter
-Message-ID: <20261126192651.xrb8kANY-lkp@intel.com>
-References: <20261125212344.243989-1-tariqt@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 3/3]
+ include/uapi/linux/bits.h:9:19: warning: right shift count is negative
+Message-ID: <20261126124106.ruSaURzZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,112 +79,88 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261125212344.243989-1-tariqt@nvidia.com>
 
-Hi Tariq,
+Hi Sebastian,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 612848d37e68b858e15815175f1c5e609e09d719]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-Expose-SW-RoCE-monitor-matched-packets-counter/20261125-232343
-base:   612848d37e68b858e15815175f1c5e609e09d719
-patch link:    https://lore.kernel.org/r/20261125212344.243989-1-tariqt%40nvidia.com
-patch subject: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched packets counter
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   062f50e2f6f1479285e1f7a82e3b30115d4f5ab0
+commit: 7aae9422d19a266194ce4db6f81bb23b686e1ed3 [3/3] BACKPORT: FROMLIST: irqchip/gic-v3-its: Prepare shadow structures for KVM host deprivilege
+config: arm-randconfig-2002-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126124106.ruSaURzZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126124106.ruSaURzZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126192651.xrb8kANY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126124106.ruSaURzZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c: In function 'mlx5_reporter_vnic_diagnose_counters':
->> drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c:133:1: warning: the frame size of 1344 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     133 | }
-         | ^
+   In file included from include/linux/bits.h:7,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from drivers/irqchip/irq-gic-v3-its.c:7:
+   drivers/irqchip/irq-gic-v3-its.c: In function 'its_switch_to_shadow_locked':
+>> include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:69:38: note: in expansion of macro '__GENMASK'
+      69 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/irqchip/irq-gic-v3-its.c:5317:40: note: in expansion of macro 'GENMASK'
+    5317 |                 its->tables[i].val &= ~GENMASK(47, 12);
+         |                                        ^~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
 
 
-vim +133 drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
+vim +9 include/uapi/linux/bits.h
 
-b820864335c8b3 Akiva Goldberger 2025-02-09   63  
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   64  void mlx5_reporter_vnic_diagnose_counters(struct mlx5_core_dev *dev,
-b0bc615df488ab Maher Sanalla    2023-03-21   65  					  struct devlink_fmsg *fmsg,
-b0bc615df488ab Maher Sanalla    2023-03-21   66  					  u16 vport_num, bool other_vport)
-b0bc615df488ab Maher Sanalla    2023-03-21   67  {
-b0bc615df488ab Maher Sanalla    2023-03-21   68  	u32 in[MLX5_ST_SZ_DW(query_vnic_env_in)] = {};
-2520766fb420da Moshe Shemesh    2026-11-25   69  	u32 cap_reg[MLX5_ST_SZ_DW(nic_cap_reg)] = {};
-b0bc615df488ab Maher Sanalla    2023-03-21   70  	struct mlx5_vnic_diag_stats vnic;
-2520766fb420da Moshe Shemesh    2026-11-25   71  	bool cap_reg_valid = false;
-b0bc615df488ab Maher Sanalla    2023-03-21   72  
-b0bc615df488ab Maher Sanalla    2023-03-21   73  	MLX5_SET(query_vnic_env_in, in, opcode, MLX5_CMD_OP_QUERY_VNIC_ENV);
-b0bc615df488ab Maher Sanalla    2023-03-21   74  	MLX5_SET(query_vnic_env_in, in, vport_number, vport_num);
-b0bc615df488ab Maher Sanalla    2023-03-21   75  	MLX5_SET(query_vnic_env_in, in, other_vport, !!other_vport);
-b0bc615df488ab Maher Sanalla    2023-03-21   76  
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   77  	mlx5_cmd_exec_inout(dev, query_vnic_env, in, &vnic.query_vnic_env_out);
-b0bc615df488ab Maher Sanalla    2023-03-21   78  
-2520766fb420da Moshe Shemesh    2026-11-25   79  	if (MLX5_CAP_GEN(dev, nic_cap_reg))
-2520766fb420da Moshe Shemesh    2026-11-25   80  		cap_reg_valid = !mlx5_reporter_vnic_query_nic_cap(dev, cap_reg);
-2520766fb420da Moshe Shemesh    2026-11-25   81  
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   82  	devlink_fmsg_pair_nest_start(fmsg, "vNIC env counters");
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   83  	devlink_fmsg_obj_nest_start(fmsg);
-b0bc615df488ab Maher Sanalla    2023-03-21   84  
-548ee049b19fb9 Lama Kayal       2023-06-11   85  	if (MLX5_CAP_GEN(dev, vnic_env_queue_counters)) {
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   86  		devlink_fmsg_u32_pair_put(fmsg, "total_error_queues",
-548ee049b19fb9 Lama Kayal       2023-06-11   87  					  VNIC_ENV_GET(&vnic, total_error_queues));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   88  		devlink_fmsg_u32_pair_put(fmsg, "send_queue_priority_update_flow",
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   89  					  VNIC_ENV_GET(&vnic, send_queue_priority_update_flow));
-548ee049b19fb9 Lama Kayal       2023-06-11   90  	}
-548ee049b19fb9 Lama Kayal       2023-06-11   91  	if (MLX5_CAP_GEN(dev, eq_overrun_count)) {
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   92  		devlink_fmsg_u32_pair_put(fmsg, "comp_eq_overrun",
-548ee049b19fb9 Lama Kayal       2023-06-11   93  					  VNIC_ENV_GET(&vnic, comp_eq_overrun));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   94  		devlink_fmsg_u32_pair_put(fmsg, "async_eq_overrun",
-548ee049b19fb9 Lama Kayal       2023-06-11   95  					  VNIC_ENV_GET(&vnic, async_eq_overrun));
-548ee049b19fb9 Lama Kayal       2023-06-11   96  	}
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   97  	if (MLX5_CAP_GEN(dev, vnic_env_cq_overrun))
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18   98  		devlink_fmsg_u32_pair_put(fmsg, "cq_overrun",
-548ee049b19fb9 Lama Kayal       2023-06-11   99  					  VNIC_ENV_GET(&vnic, cq_overrun));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  100  	if (MLX5_CAP_GEN(dev, invalid_command_count))
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  101  		devlink_fmsg_u32_pair_put(fmsg, "invalid_command",
-548ee049b19fb9 Lama Kayal       2023-06-11  102  					  VNIC_ENV_GET(&vnic, invalid_command));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  103  	if (MLX5_CAP_GEN(dev, quota_exceeded_count))
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  104  		devlink_fmsg_u32_pair_put(fmsg, "quota_exceeded_command",
-548ee049b19fb9 Lama Kayal       2023-06-11  105  					  VNIC_ENV_GET(&vnic, quota_exceeded_command));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  106  	if (MLX5_CAP_GEN(dev, nic_receive_steering_discard))
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  107  		devlink_fmsg_u64_pair_put(fmsg, "nic_receive_steering_discard",
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  108  					  VNIC_ENV_GET64(&vnic, nic_receive_steering_discard));
-548ee049b19fb9 Lama Kayal       2023-06-11  109  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_steering_fail)) {
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  110  		devlink_fmsg_u64_pair_put(fmsg, "generated_pkt_steering_fail",
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  111  					  VNIC_ENV_GET64(&vnic, generated_pkt_steering_fail));
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  112  		devlink_fmsg_u64_pair_put(fmsg, "handled_pkt_steering_fail",
-a33682e4e78e24 Lama Kayal       2023-06-06  113  					  VNIC_ENV_GET64(&vnic, handled_pkt_steering_fail));
-548ee049b19fb9 Lama Kayal       2023-06-11  114  	}
-2520766fb420da Moshe Shemesh    2026-11-25  115  	if (cap_reg_valid && MLX5_GET(nic_cap_reg, cap_reg, vhca_icm_ctrl))
-b820864335c8b3 Akiva Goldberger 2025-02-09  116  		mlx5_reporter_vnic_diagnose_counter_icm(dev, fmsg, vport_num, other_vport);
-e835faaed2f80e Akiva Goldberger 2025-09-25  117  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_bar_uar_access))
-e835faaed2f80e Akiva Goldberger 2025-09-25  118  		devlink_fmsg_u32_pair_put(fmsg, "bar_uar_access",
-e835faaed2f80e Akiva Goldberger 2025-09-25  119  					  VNIC_ENV_GET(&vnic, bar_uar_access));
-e835faaed2f80e Akiva Goldberger 2025-09-25  120  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_odp_page_fault)) {
-e835faaed2f80e Akiva Goldberger 2025-09-25  121  		devlink_fmsg_u32_pair_put(fmsg, "odp_local_triggered_page_fault",
-e835faaed2f80e Akiva Goldberger 2025-09-25  122  					  VNIC_ENV_GET(&vnic, odp_local_triggered_page_fault));
-e835faaed2f80e Akiva Goldberger 2025-09-25  123  		devlink_fmsg_u32_pair_put(fmsg, "odp_remote_triggered_page_fault",
-e835faaed2f80e Akiva Goldberger 2025-09-25  124  					  VNIC_ENV_GET(&vnic, odp_remote_triggered_page_fault));
-e835faaed2f80e Akiva Goldberger 2025-09-25  125  	}
-2520766fb420da Moshe Shemesh    2026-11-25  126  	if (cap_reg_valid &&
-2520766fb420da Moshe Shemesh    2026-11-25  127  	    MLX5_GET(nic_cap_reg, cap_reg, sw_roce_monitor_classifier))
-2520766fb420da Moshe Shemesh    2026-11-25  128  		devlink_fmsg_u32_pair_put(fmsg, "sw_roce_monitor_matched_packets",
-2520766fb420da Moshe Shemesh    2026-11-25  129  					  VNIC_ENV_GET(&vnic, sw_roce_monitor_matched_packets));
-a33682e4e78e24 Lama Kayal       2023-06-06  130  
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  131  	devlink_fmsg_obj_nest_end(fmsg);
-d17f98bf7cc9ed Przemek Kitszel  2023-10-18  132  	devlink_fmsg_pair_nest_end(fmsg);
-b0bc615df488ab Maher Sanalla    2023-03-21 @133  }
-b0bc615df488ab Maher Sanalla    2023-03-21  134  
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   6  
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   7  #define __GENMASK(h, l) \
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   8          (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+3c7a8e190bc580 Paolo Bonzini 2023-12-12  @9           (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+3c7a8e190bc580 Paolo Bonzini 2023-12-12  10  
+
+:::::: The code at line 9 was first introduced by commit
+:::::: 3c7a8e190bc580813ddd9259f62971c8d2a6b5ad uapi: introduce uapi-friendly macros for GENMASK
+
+:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
