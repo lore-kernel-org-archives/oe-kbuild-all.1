@@ -1,78 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795676828;
-	b=P+vwYeNRV6o4JnAEZw74geSQPd+qDDQipOd4SPjEVaxsLhck35xV9Sm59jwzw1nBg0mi
-	 Bhmgh0e4z4u889LKtnnLn4GRmAP4usBfIiBqtpf6wcj/7LxCjtPjbb9x9HaLYcO1W6svK
-	 GUoTEhGsNWVmmnqAb0VO4uMWEuXkk6ml3BReqaGbjiXKp2Yr9W+Sd8PE9BViMSimx8KKV
-	 kb6UJi0OFllHVA3Ank4JmMQuYY8+XSjUQcE4qSwEPB8FszpSSeEpzixX93zI7YnGd+tAb
-	 qZvE6AraD5jcVNA9zC43icWiaeTB8mForsSXPTC/Fptg2xdgNw4DkuUtmk1KnqERrxA==
+	t=1795677403;
+	b=d6KXq0+fGbfuY01alGGHrlZhUi85r8evGELacyji4qW52JVcXMqBcYmqkovr/n3YXnMF
+	 LKjfxt/W4klYTRID4GTVx0YlowN9Z45GEptXuekuLYuUVkfTulf03fhrNjLbYPdiEwJIu
+	 FlIn9uvxGaZHSArzjAsu8lsMAlnRfeYCTcRFnS8QF1e29SiakzzwagLLTf4MuEWtSL+Ev
+	 xigTh+SqkLdeMt56Wy77dj74kK9oyTL9agdZIGNlJnxN07dgQJmnfGfRn7ujGHtTUkJhw
+	 KuK3x3Y0OucQkwF2fF5e1cgdyVFD7+IgXtHqDAiCMDOL6IkvUCzAZ4mGte8K1YfPjpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676828;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=mvLiZfWWVhJ91aXYFf8fFPJ7+osEasLz6S2oxSW9sFI=;
-	b=SM5CDkiAxqk6RsOmadDyauj4srs03bAWJagh3CXnzzU1xud+3YOx/M3VincrdYDAn2Bd
-	 2kPvFkNtSQBcnN1vCMeUCnebFXTSRYqCpwUOJ6rlw1GEMIliFoO3aOBlKwFMHjNErt60c
-	 9VPH+JhS+ta4RqyyBEpbR2BH+5jRslYOn9aKah19Lhwtwfltg6JpTL6kTvOVkiwFN+3Gn
-	 heDOF7ajOcT66vT/h/Btaypo9mWlsiD0WJ6kGONPBP19H78fwpvevaFDC+WAItE2WvCvu
-	 oj4HWjOB3lynhZduZpBMTuV8OIBw9XSUKQzTSsHWm9dos7A0Sxxx5Egywq19kIlxHSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795677403;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=2B/4dI4VDUiuBLYef5Gi0z/nywGDePP/HCtFfonWUuI=;
+	b=e++LhvX6wflIqfZ2ga+t2SkuoMYKzWciB+jY+WIRc6r8GTwuJXjg5kx1VN30TjHOm/on
+	 waVOQbUeCDj/vZYranFaem5CNShf2n/7uOlBz2UMiVeS2uo4RbmMn6WjQEDNW+hP0lj6S
+	 +G7oViBQLNRjuBbsOdcyKOFyML1tFJRDFsNwUWhfQFeNItVrlap/FF0gIhcsihZIqDcCy
+	 B+L3kHyRN6SipjQA88y3XntYP1GgdZGye0PXEwMdsGSdg8y8d8FGlwEaoPELm3GJNCphl
+	 Wz+ZJwNZ54/JpB+Iv7q2N7smuuAnZTLtf2yzPFISWs+5BtKjOssKyLLN5i0A814hROQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TaJ6Q5YE;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="FeD6/V6B";
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B5606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 07:07:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 193B5606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15580606A32E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 07:16:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15580606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TaJ6Q5YE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795676827; x=1827212827;
-  h=date:from:to:cc:subject:message-id;
-  bh=6Oq/Yh39uxKqdC0vVsMLngXONSezbKTuOwa2mgX5+d8=;
-  b=TaJ6Q5YEnDE25rbqbspwH7vua4SXJXckp37SDmiUGErYhC0UVMrZ7lFn
-   ioGQRcakYSuafpxUfC9Uvw8c96lC1FJ54S380J2z9sLl75TBh7xd1T9cJ
-   TbqCz6tGHL/G/eo4jOFyPK3gOgSzBatSmY5dRmtcxkvj6PJJeNChIqXrF
-   IIDXxvGWIR0xjYQgIQO+ZMt33c7tKL1Oo8no3ivpQS9TozrfvUcagtN2W
-   2SX416zxUExDC8RVYYd2sIq4tILYZYIl1sB5hxGhpei6Hpz2bUvRx/hby
-   joNp16QtUWcEhxzfE+O+3WsDZPilKPgKIZcP7HlP34f3EBIzGVvW9NBJO
-   Q==;
-X-CSE-ConnectionGUID: SNhOFHS7RdGEc0t1E50OJg==
-X-CSE-MsgGUID: 1ffUGV7BTRas59kK0k/cuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4568568"
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4568568"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:07:06 -0800
-X-CSE-ConnectionGUID: PGfRwpynQV6ISiBEEk1ecw==
-X-CSE-MsgGUID: qR+YkfsARWmBMQzdqOWB2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="11995884"
-Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2026 23:07:04 -0800
-Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xWTZI-000000000Gl-24b2;
-	Thu, 26 Nov 2026 07:06:56 +0000
-Date: Thu, 26 Nov 2026 08:06:37 +0100
-From: kernel test robot <lkp@intel.com>
-To: Hawking Zhang <Hawking.Zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [drm-amdgpu:drm-amdgpu-next 175/243]
- drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to
- restricted __le32
-Message-ID: <20261126075914.E1KsyTLj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FeD6/V6B
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2f02f04a426so54839405ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 23:16:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795677402; x=1796282202; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2B/4dI4VDUiuBLYef5Gi0z/nywGDePP/HCtFfonWUuI=;
+        b=FeD6/V6BiuN8kq0CQy9JdfeBHxZacsPpA47jqIPrBZeMiQPoVk9Ame67KstVRJmq6N
+         TBfaU8eqHv3s83luS++UurOpJFPbAneSK77MXOAUZgeyAiZPQ8cDrW4q/iX1K6ms+igf
+         gaAhlIKjGYsBcpOaOgGCSkOVYaaMCThSJm+ZtTMfYweWPfY1ktg/xV4oopf7FHmhwobi
+         +IorCLWWjMSwWlheBiGsNg9aLDNeeTtzKGJdyopLxle88AGXcFVDA9mFjwBR2yYojM3R
+         ej6DsrVUZglQ4dOiocqbODbuyVU1cShuvOzssKXGeKSD1q89xTvf7+6E3YpfjjmXdc5D
+         NmiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795677402; x=1796282202;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2B/4dI4VDUiuBLYef5Gi0z/nywGDePP/HCtFfonWUuI=;
+        b=HVDSodznCjvr35f95RWbrTI9RNBjJVF01WuOXbWuLNJHjhP/+cfxcmNDM9PQRi/UMv
+         nN70Y6nu+ABBzI7WYuBE/iKMko4djOsR8Pl3XYQJb1O8Z5m7RBTdRRWTq2s69y3k70M7
+         zOgE5WHrj3F4+fm3l63GlfPsZUFr5EC39I28kvGDznsoVIPzFVuJVtfXyYj/APyxm4SZ
+         92zzme/H7q1sgP1lko9ZC8/lwZ+6l/vaxSwqbf0LKbmN9AVuU2t2LcexTSK+HitcnCCh
+         zljj/t8Li4gNK0pCTeQyjIPPStrr3GW1jtA6E9JrgJ8bRM9w1uvSDLOvrfu2wyGNG41W
+         Ieeg==
+X-Forwarded-Encrypted: i=1; AL+hErHCEV/3PPK/8pLVrrptm/dWdyiuHeJLVwgqFbh3kmQE4+zujTE/pAXAWOBn02sN274JQ/zzHqU3ZelBNqXg@lists.linux.dev
+X-Gm-Message-State: APuU4Z9e+hLQeVYrBI63b3lTeDWgCdrfkNy6JV2PPMHOvAmdqwEIa0E2
+	EfBnnKspF8PFXdYuKD3x6orQgr0wyDYT/3o2Jm54FIbcHARcnsIM5eG9
+X-Gm-Gg: AZFdTZdYFKwD7/4fu0YMUOaldG9QLWRiqm+rNiy6nlPPSteXeXralJOCSIoce8R7ZYI
+	A1Xr/cop9PsEjoH1Y2aMELH6Bjv3j2qvYaqOMgAWizA/zl3javSp3rvaeCzVrsQPGyTkUTZet+K
+	7bqMr8jbM3UnuVfRTgCEkmFwRe0/PE7BKeHlPtVtRv0UKaqbuQds1iSMxek4ZH5YGh+ebWUmU1e
+	ADZvyxHbXRsHbrqVcr4LoPYPLCvCxEQzxID9A/e2cwNzTl9sOyX6kkxmiYI01VPIgqw0MBo957b
+	H6nprfLjPqs32/uxh6qxHfXm1R+7IsoOoCy0bdsNKzjZ+Ue+NQ+pbwTrNjl8BqzMDTpQ6CESxhD
+	HcF/RINKHdsFgqPCLsufxfFVkizR6VajNA7DUIKXlcjl9waVSXIWBIRcygy7ezWNS09CkZr8eZW
+	neDnYY06NqnMTZFCpMQ4Ngv9pcITdmZaTZWd4ALwZHNTw5/GLtgaf42HjixjATwiQEliu3AYzwT
+	8MqtbP8iIWeZU4kV2p8av/aRyt9ttoakE452RpiNs2NafA/z+86FykytDjmjq5FyTPpIEbuNQhj
+	fubG2QG3tniFX4J4HUoeWuni4cnzOlfppv9tGAoT4CZkfI9cJ4Gh+VaRlec8ovP6EBNte0OAMHt
+	n7mb5XqPapzySgglrgMRMjgY2
+X-Received: by 2002:a17:902:d4c2:b0:2f0:8799:415f with SMTP id d9443c01a7336-2f087995606mr144752925ad.44.1795677402208;
+        Wed, 25 Nov 2026 23:16:42 -0800 (PST)
+Received: from [127.0.1.1] ([74.176.208.23])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c2091sm97624275ad.20.2026.11.25.23.16.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 23:16:41 -0800 (PST)
+From: Yaohan Li <shunsheng1218@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, oe-kbuild@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, lkp@intel.com
+Subject: Re: [broonie-regulator:for-7.5 6/6]
+ drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
+ warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
+Date: Thu, 26 Nov 2026 15:16:37 +0800
+Message-ID: <179567739729.2548149.711673218230357357@gmail.com>
+In-Reply-To: <20261125184601.R647t8Sj-lkp@intel.com>
+References: <20261125184601.R647t8Sj-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,107 +101,33 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
 
-tree:   https://gitlab.freedesktop.org/drm/amdgpu/kernel drm-amdgpu-next
-head:   a69db917063c539fa09325ea22f3ff7b0626b478
-commit: db93885e3c9f917b95959937ebbc8ca9ad592526 [175/243] drm/amdgpu: Add soc v2_0 support
-config: openrisc-randconfig-r2300-20261125 (https://download.01.org/0day-ci/archive/20261126/20261126075914.E1KsyTLj-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126075914.E1KsyTLj-lkp@intel.com/reproduce)
+Hi Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126075914.E1KsyTLj-lkp@intel.com/
+Thanks for the report.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
->> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
-   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+Keeping the IRQ registered if qcom_labibb_ocp_hw_enable() fails is
+intentional. The devm cleanup action, qcom_labibb_stop_works(), is
+registered before qcom_labibb_setup_ocp_irq() can request the IRQ. Once
+request_threaded_irq() succeeds, ocp_irq_done is set.
 
-vim +298 drivers/gpu/drm/amd/amdgpu/soc_v2_0.c
+If the failure happens during probe, devres runs the cleanup action and
+frees the IRQ. If it happens during a later set_ocp() call, keeping the
+IRQ registered allows a retry without requesting it again. The cleanup
+action still releases it on unbind.
 
-   279	
-   280	static void soc_v2_0_get_fw_reserved_info(struct amdgpu_device *adev,
-   281						  u64 *reserve_size,
-   282						  u64 *offset)
-   283	{
-   284		struct mem_reserved_info_table_v1_0 *table =
-   285			adev->discovery.mem_reserved_table;
-   286		u64 resv_start = U64_MAX, resv_end = 0;
-   287		u64 vram_base, vram_end, start, end, size;
-   288		u32 list_num, id, i;
-   289	
-   290		if (!table) {
-   291			dev_warn(adev->dev, "MEM_RESERVED_INFO table not available\n");
-   292			return;
-   293		}
-   294	
-   295		vram_base = adev->gmc.vram_start - adev->mmhub.funcs->get_fb_location(adev);
-   296		vram_end = vram_base + adev->gmc.real_vram_size;
-   297	
- > 298		list_num = min_t(u32, le32_to_cpu(table->list_num), MAX_MEM_REGION_NUM);
-   299		for (i = 0; i < list_num; i++) {
-   300			id = le32_to_cpu(table->list[i].reserved_region_id);
- > 301			size = le64_to_cpu(table->list[i].reserved_region_size);
-   302			start = le64_to_cpu(table->list[i].reserved_region_start);
-   303	
-   304			if (id == NO_RESERVED_REGION_ID ||
-   305			    id == SPECIFIC_PURPOSE_REGION_ID || !size)
-   306				continue;
-   307	
-   308			if (check_add_overflow(start, size, &end))
-   309				continue;
-   310	
-   311			if (end <= vram_base || start >= vram_end)
-   312				continue;
-   313	
-   314			resv_start = min(resv_start, max(start, vram_base));
-   315			resv_end = max(resv_end, min(end, vram_end));
-   316		}
-   317	
-   318		if (resv_start >= resv_end) {
-   319			dev_warn(adev->dev,
-   320				 "no MEM_RESERVED_INFO region inside VRAM [0x%llx, 0x%llx)\n",
-   321				 vram_base, vram_end);
-   322			return;
-   323		}
-   324	
-   325		*offset = resv_start - vram_base;
-   326		*reserve_size = resv_end - resv_start;
-   327	}
-   328	
+qcom_labibb_setup_ocp_irq() also runs under ocp_lock, while the cleanup
+action calls free_irq() after dropping that lock.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I agree that the hardware-enable error handling could be clearer. The
+helper clears the interrupt latch before writing INT_EN_SET, and the
+caller currently attempts to disable the source if either step fails.
+I'll check whether that cleanup would be better handled inside the
+helper, taking retries and the existing hardware state into account.
+
+Please let me know if I've missed a path where the cleanup action would
+not run.
+
+Thanks,
+Yaohan
