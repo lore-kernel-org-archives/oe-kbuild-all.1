@@ -1,67 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795673432;
-	b=ImC/W39PbPbHUkqYDkDtFbaSHFMfiRgvMEMlXEJ4fNJ7mcOti1geduAzRbS0WC7oqbkU
-	 nk44WphdAubZRzFT3wxD76ZZSZi4lKhZlKBxTDctjZWWFhgboHqsuUZT++RFo7BgtQUCW
-	 AWdrui6L2rzNmEEQl3sUJp8T5AD5Ima6cgqPMj5o4+KCQLFJ4OQBKHcQ9+FL9WudlIwUc
-	 w4K5JKHKhIz3e6Rld6JSD0G1CCfCf0sl98go2wcmN3zyjGb9CZoUtsejWmY6yPrOx27Ns
-	 6nTP25kwJlFVOn4FfshQ0X8NPyJq8I21ImnqvCku6ser7DSpylR5sKbH8hdwsU9+imw==
+	t=1795676828;
+	b=P+vwYeNRV6o4JnAEZw74geSQPd+qDDQipOd4SPjEVaxsLhck35xV9Sm59jwzw1nBg0mi
+	 Bhmgh0e4z4u889LKtnnLn4GRmAP4usBfIiBqtpf6wcj/7LxCjtPjbb9x9HaLYcO1W6svK
+	 GUoTEhGsNWVmmnqAb0VO4uMWEuXkk6ml3BReqaGbjiXKp2Yr9W+Sd8PE9BViMSimx8KKV
+	 kb6UJi0OFllHVA3Ank4JmMQuYY8+XSjUQcE4qSwEPB8FszpSSeEpzixX93zI7YnGd+tAb
+	 qZvE6AraD5jcVNA9zC43icWiaeTB8mForsSXPTC/Fptg2xdgNw4DkuUtmk1KnqERrxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795673432;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:
-	 References:CC:From:Message-ID:Date:User-Agent:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=IcetfdoRKNR8FtUGcW2x6r/UOCI+tBFsbCZVryMFgmg=;
-	b=fP/12X+/P1qOq1O8WH7Wvw3P+BWMymxu4Vdalz1QRFFjefshhL31aVO1KSn5ihIz8FyQ
-	 6Cs5uAkwhvl7CSsVxryiTtBCJ7ediXXMKO84y4mFST7ePkgmFzTcrJs2//mgK4GWMOe6F
-	 HK0Fq83fU6z72CKAL0eFAp21HVEtEa/wAsgZhc9m86OFr9ucjeaIaB23GgQkiSRNmJZ5a
-	 ECgNkmQt3Csael6gL9I7Z+ypmMpoHRltYfJxen4ns0lDEfIEAn6PfgmFyUCq8Chuzlo/n
-	 8VXvsjmO4Siouzin7YBtGMoE+mKN0W6xe5Gn2cFapneGJNbI8ychNATgruS1IvXAOzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795676828;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=mvLiZfWWVhJ91aXYFf8fFPJ7+osEasLz6S2oxSW9sFI=;
+	b=SM5CDkiAxqk6RsOmadDyauj4srs03bAWJagh3CXnzzU1xud+3YOx/M3VincrdYDAn2Bd
+	 2kPvFkNtSQBcnN1vCMeUCnebFXTSRYqCpwUOJ6rlw1GEMIliFoO3aOBlKwFMHjNErt60c
+	 9VPH+JhS+ta4RqyyBEpbR2BH+5jRslYOn9aKah19Lhwtwfltg6JpTL6kTvOVkiwFN+3Gn
+	 heDOF7ajOcT66vT/h/Btaypo9mWlsiD0WJ6kGONPBP19H78fwpvevaFDC+WAItE2WvCvu
+	 oj4HWjOB3lynhZduZpBMTuV8OIBw9XSUKQzTSsHWm9dos7A0Sxxx5Egywq19kIlxHSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=if94YbtC;
-	arc=none smtp.remote-ip=113.46.200.216
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TaJ6Q5YE;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B2C606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 06:10:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66B2C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B5606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 07:07:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 193B5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=if94YbtC
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=IcetfdoRKNR8FtUGcW2x6r/UOCI+tBFsbCZVryMFgmg=;
-	b=if94YbtCaLuvsWH2fPftRmt7hmV5YqGY11955FL/uPSWnw32Pwik/aA5XUrfnrj1dJ9zA64Um
-	oTjpybe8m59rB82LnFkkAzrh7vzWff0ZpTsemR3sFfJ9jZHDltUgRN6Ci9hT6fMoP7j6HspDnPS
-	P7ADo5Oe7lxTP9lTP+mFuos=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jZmN50G4wz1T4Ln;
-	Thu, 26 Nov 2026 14:09:25 +0800 (CST)
-Received: from kwepemk300010.china.huawei.com (unknown [7.202.195.128])
-	by mail.maildlp.com (Postfix) with ESMTPS id F2B094057F;
-	Thu, 26 Nov 2026 14:10:15 +0800 (CST)
-Received: from [10.174.178.185] (10.174.178.185) by
- kwepemk300010.china.huawei.com (7.202.195.128) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 26 Nov 2026 14:10:15 +0800
-Subject: Re: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-To: kernel test robot <lkp@intel.com>, Ye Bin <yebin@huaweicloud.com>,
-	<tytso@mit.edu>, <adilger.kernel@dilger.ca>, <linux-ext4@vger.kernel.org>
-References: <20261125111055.3672233-3-yebin@huaweicloud.com>
- <20261126015002.1lcIDaq1-lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <jack@suse.cz>
-From: "yebin (H)" <yebin10@huawei.com>
-Message-ID: <6B07CD46.8060109@huawei.com>
-Date: Thu, 26 Nov 2026 14:10:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.1.0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TaJ6Q5YE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795676827; x=1827212827;
+  h=date:from:to:cc:subject:message-id;
+  bh=6Oq/Yh39uxKqdC0vVsMLngXONSezbKTuOwa2mgX5+d8=;
+  b=TaJ6Q5YEnDE25rbqbspwH7vua4SXJXckp37SDmiUGErYhC0UVMrZ7lFn
+   ioGQRcakYSuafpxUfC9Uvw8c96lC1FJ54S380J2z9sLl75TBh7xd1T9cJ
+   TbqCz6tGHL/G/eo4jOFyPK3gOgSzBatSmY5dRmtcxkvj6PJJeNChIqXrF
+   IIDXxvGWIR0xjYQgIQO+ZMt33c7tKL1Oo8no3ivpQS9TozrfvUcagtN2W
+   2SX416zxUExDC8RVYYd2sIq4tILYZYIl1sB5hxGhpei6Hpz2bUvRx/hby
+   joNp16QtUWcEhxzfE+O+3WsDZPilKPgKIZcP7HlP34f3EBIzGVvW9NBJO
+   Q==;
+X-CSE-ConnectionGUID: SNhOFHS7RdGEc0t1E50OJg==
+X-CSE-MsgGUID: 1ffUGV7BTRas59kK0k/cuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4568568"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4568568"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:07:06 -0800
+X-CSE-ConnectionGUID: PGfRwpynQV6ISiBEEk1ecw==
+X-CSE-MsgGUID: qR+YkfsARWmBMQzdqOWB2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="11995884"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2026 23:07:04 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWTZI-000000000Gl-24b2;
+	Thu, 26 Nov 2026 07:06:56 +0000
+Date: Thu, 26 Nov 2026 08:06:37 +0100
+From: kernel test robot <lkp@intel.com>
+To: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [drm-amdgpu:drm-amdgpu-next 175/243]
+ drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to
+ restricted __le32
+Message-ID: <20261126075914.E1KsyTLj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -70,86 +81,107 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-In-Reply-To: <20261126015002.1lcIDaq1-lkp@intel.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk300010.china.huawei.com (7.202.195.128)
 
+tree:   https://gitlab.freedesktop.org/drm/amdgpu/kernel drm-amdgpu-next
+head:   a69db917063c539fa09325ea22f3ff7b0626b478
+commit: db93885e3c9f917b95959937ebbc8ca9ad592526 [175/243] drm/amdgpu: Add soc v2_0 support
+config: openrisc-randconfig-r2300-20261125 (https://download.01.org/0day-ci/archive/20261126/20261126075914.E1KsyTLj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126075914.E1KsyTLj-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126075914.E1KsyTLj-lkp@intel.com/
 
-On 2026/11/26 1:58, kernel test robot wrote:
-> Hi Ye,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on tytso-ext4/dev]
-> [also build test ERROR on linus/master v7.4-rc4]
-> [cannot apply to brauner-vfs/vfs.all next-20261124]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/quota-Forbid-Q_XGETQUOTA-and-Q_XGETNEXTQUOTA-for-frozen-filesystem/20261125-191054
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> patch link:    https://lore.kernel.org/r/20261125111055.3672233-3-yebin%40huaweicloud.com
-> patch subject: [PATCH v2 2/2] ext4: protect ext4_acquire_dquot against freezing
-> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126015002.1lcIDaq1-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/20261126015002.1lcIDaq1-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     fs/ext4/super.c: In function 'ext4_write_dquot':
->>> fs/ext4/super.c:7165:13: error: 'freeze_protected' undeclared (first use in this function); did you mean 'freeze_processes'?
->      7165 |         if (freeze_protected)
->           |             ^~~~~~~~~~~~~~~~
->           |             freeze_processes
->     fs/ext4/super.c:7165:13: note: each undeclared identifier is reported only once for each function it appears in
->
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:298:20: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:300:22: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+>> drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:301:24: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
+   drivers/gpu/drm/amd/amdgpu/soc_v2_0.c:302:25: sparse: sparse: cast to restricted __le64
 
-This is a bit strange. The ext4_write_dquot() function hasn't been modified at
-all, and the nearby functions don't seem to have been changed in the latest
-version either. It's possible that the patch wasn't generated based on the
-latest linux-next code, causing git to apply the patch incorrectly by matching
-only the context and line numbers, thus targeting the wrong function. I'll
-regenerate the patch and send a new version, and I'll also CC linux-fsdevel
-this time.
+vim +298 drivers/gpu/drm/amd/amdgpu/soc_v2_0.c
 
->
-> vim +7165 fs/ext4/super.c
->
->    7144	
->    7145	static int ext4_write_dquot(struct dquot *dquot)
->    7146	{
->    7147		int ret, err;
->    7148		handle_t *handle;
->    7149		struct inode *inode;
->    7150	
->    7151		inode = dquot_to_inode(dquot);
->    7152		handle = ext4_journal_start(inode, EXT4_HT_QUOTA,
->    7153					    EXT4_QUOTA_TRANS_BLOCKS(dquot->dq_sb));
->    7154		if (IS_ERR(handle))
->    7155			return PTR_ERR(handle);
->    7156		ret = dquot_commit(dquot);
->    7157		if (ret < 0)
->    7158			ext4_error_err(dquot->dq_sb, -ret,
->    7159				       "Failed to commit dquot type %d",
->    7160				       dquot->dq_id.type);
->    7161		err = ext4_journal_stop(handle);
->    7162		if (!ret)
->    7163			ret = err;
->    7164	
->> 7165		if (freeze_protected)
->    7166			sb_end_intwrite(dquot->dq_sb);
->    7167	
->    7168		return ret;
->    7169	}
->    7170	
->
+   279	
+   280	static void soc_v2_0_get_fw_reserved_info(struct amdgpu_device *adev,
+   281						  u64 *reserve_size,
+   282						  u64 *offset)
+   283	{
+   284		struct mem_reserved_info_table_v1_0 *table =
+   285			adev->discovery.mem_reserved_table;
+   286		u64 resv_start = U64_MAX, resv_end = 0;
+   287		u64 vram_base, vram_end, start, end, size;
+   288		u32 list_num, id, i;
+   289	
+   290		if (!table) {
+   291			dev_warn(adev->dev, "MEM_RESERVED_INFO table not available\n");
+   292			return;
+   293		}
+   294	
+   295		vram_base = adev->gmc.vram_start - adev->mmhub.funcs->get_fb_location(adev);
+   296		vram_end = vram_base + adev->gmc.real_vram_size;
+   297	
+ > 298		list_num = min_t(u32, le32_to_cpu(table->list_num), MAX_MEM_REGION_NUM);
+   299		for (i = 0; i < list_num; i++) {
+   300			id = le32_to_cpu(table->list[i].reserved_region_id);
+ > 301			size = le64_to_cpu(table->list[i].reserved_region_size);
+   302			start = le64_to_cpu(table->list[i].reserved_region_start);
+   303	
+   304			if (id == NO_RESERVED_REGION_ID ||
+   305			    id == SPECIFIC_PURPOSE_REGION_ID || !size)
+   306				continue;
+   307	
+   308			if (check_add_overflow(start, size, &end))
+   309				continue;
+   310	
+   311			if (end <= vram_base || start >= vram_end)
+   312				continue;
+   313	
+   314			resv_start = min(resv_start, max(start, vram_base));
+   315			resv_end = max(resv_end, min(end, vram_end));
+   316		}
+   317	
+   318		if (resv_start >= resv_end) {
+   319			dev_warn(adev->dev,
+   320				 "no MEM_RESERVED_INFO region inside VRAM [0x%llx, 0x%llx)\n",
+   321				 vram_base, vram_end);
+   322			return;
+   323		}
+   324	
+   325		*offset = resv_start - vram_base;
+   326		*reserve_size = resv_end - resv_start;
+   327	}
+   328	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
