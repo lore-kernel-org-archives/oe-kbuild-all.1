@@ -1,93 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795679833;
-	b=t9HG8/j/bMO0WjK8fDkq1PRZz+wxBX2/Su5HxptSVW2K7aHz/mHpdcFHOO5+W+UBGlQG
-	 brouglP1N0Uacd5O3NAvLmtkVlZQWHf5QyNC1ruomtcKvaAbwA1eH0xhIfSj2ahZkdUpe
-	 h9V41xQTnOxdMETcLWFqHyT7qiNOCJeTEnGJwOkBsxRpMcIrwvkrx4D7YUQlOy+S5bTjb
-	 eeAT0xc3qCnSF9N8+ZCh5cgVJyincQDeOrEw16u3OPBxLQdDkafwqDeIZGV1+HytuW23x
-	 qSK/ai7vfn6H88HmY6HUhzlw6nDn+pvH6WMQO+DZ2S27Q47ky5pcpEVO/ni0TZBilSg==
+	t=1795682372;
+	b=1RlTwi6zYaXftvDq9tKbBqs91qACiGm4LagLPlti6XqswmIYSX7GjgGsYGX3XGhIIpTB
+	 QQMa7U1nhqS2D3Vb5dPT1w8sMeD4a2xCCJX0K83+Vkm6CV6v+lmiByD3XrkH+f7vkkwgY
+	 9xdDzf6W9aznujXcPC1YSTaMMG19IxBGx4XuE8XTtlIISVldh21w4fEF9564wE92vdwWL
+	 41xMPr29vRg42aqDT73YARSqCH04/Mf7KdMP6gayD70ZAu8JuxmdOj6Rcib4jC3bbgJwd
+	 QHF7dDpOWYTsP/Yo9I4FdK55zuyRaWdmTyk7CUZziADlkBSP4nO5b+SwTD3j8VohTbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795679833;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795682372;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=kvqxuyKdqOZIctZ1RVDJiTTys7XqmGboeKGR0Mb/Lz0=;
-	b=jIeG3E6c42/fO8N/XgRY7h00OJCynukwwQiykRXXrZNqhG3sGxjJJKLoJ86i7w0cIIRp
-	 lFijadeVCEyTpZBOTQL+tLiRFgZh6LeHbJpR9zpY82yAgWd0uDEi4E5Mm6hbkCkbXOnuL
-	 AwY508zNiAwcZ4wrv9xGbSpbqbEQaWi1pdeY6kkZHqn0eXm9KrOGk22LSHBfKv67PzSEV
-	 G4FfqshWG6gXo4acwnlsPlDn3wufxI6aSIl2zpS3gsRu2JRcihVHabKQIVaL2b95T7Yb8
-	 yDEHJSGEC5yMhCzyZZaTGpqYMNJcX40jut+YSzsmUCLYuDTTUDVwWfqaJVMKHXK0Hlg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=DTiKVy3Fspg1yKn3Gawyb1gYz0TlSmoGwbdOATJslj8=;
+	b=m7+BnE1EO7NtU9Y2Q2mMgigs3JEcjQQgpxDAxDaphGTd8BniYJkUln4CeYRXRDgxA6Hk
+	 tgf3zzdkTpJCMhgdT09LuFT6WDvI5Zz9yZr3qZvW2pTNSpNHYVVKsouU+TPVI4YhqJitg
+	 7QN4X4xl2XGqCCeVmVvNtZ4/k5QeLzEpGo0wSzhiTkeVQt7yH+q1QAa+tIaU655FTHkuS
+	 8p7ejvAVE4xCfr9wZnI60EhFeEwsBNWp1fYAdwbfrofYmFacYwOuSltjAyDy5F+IK8Y47
+	 VAPYnsdUfg1XbqUk78iIVW2Zd6pOl/kagJ1umja51J/82l5JKufs1yxw+1zL9DYKRSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gqsv6s+K;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02723606A31C;
-	Thu, 26 Nov 2026 07:57:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02723606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34A4606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 08:39:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F34A4606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gqsv6s+K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795679832; x=1827215832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7gqO7mtbAkU5IaNVQpE0KYsTeEo00WqOION0Mo8l5RQ=;
-  b=GVKL0CWEFGDvI0s36/UX/xO8hKFVpwEIhE6S4vfUyI/75GmNN+rJRBq8
-   0wMZXHYKBq1dkDTUzLeTKUFGXoKBh8tyhy/dn96jJwQjZ0j8iH2r7K4yh
-   JMvZ5z5kX1XJ/7UtNulMh5ZXOEYLykCU1ZDk+69ezj+Q+0xCLDFuuXSQj
-   Qm0Kellht+VWiFXwk/FJ8nwPy+x+qqjDSnepuXoUuWGtyLpFMzzjji4Sz
-   7wDmnTR1cmPeXDmAwl09W0C0LrovZHZO53P+i8XdvBfv7eBDBSicfx1W0
-   t3SvxCwyomuU6rNFh4GE++dScWhfWqP2AoZ2lQGtJFWSnfaVEsFZGLmgi
-   g==;
-X-CSE-ConnectionGUID: 7X5HWC0wQ8+GpK6freeyDw==
-X-CSE-MsgGUID: BCeYRk6CSvqsEjt49/W5ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4567265"
+  t=1795682372; x=1827218372;
+  h=date:from:to:cc:subject:message-id;
+  bh=ecM2WU3V/f49jzAgIhBZke4g/tsuPj7LWJ5qnMYjdW4=;
+  b=gqsv6s+KgTUl8v1pNPRwUdlZVudR49uU01JqylXGxp+OCiDjxwzYe9XY
+   Cx6AcdIFe6WMYK9CobURf5ByOfxRMVtlXD94o5u2+oYkvT+5OTphBlsMV
+   RVjNg/OfvA0n0q/4j1RZXvSGWZ5aGytVDNg/He92p8rQxdBGCp4uCXu5t
+   LE0xgVPGsJ+iZAUt/T+xKOFQ4l6dE+xHIir9Fh/9qLGrbYdfo/COK6eMO
+   MRYP7kPUZZdN7f1z9DYy24ZIShQua1wTD+gywIhjCjJHLPdtGK9u2c7Tz
+   vobKYSMyHLhnmJUP5kl+lYJr6VMbEyt6kxEDPbA18Kq8VfPCaHjIwDH9c
+   A==;
+X-CSE-ConnectionGUID: Tvm+J+5XTBaxm8XgYwNttw==
+X-CSE-MsgGUID: fsLGsykBQQe6JbnNFXA0pQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4598096"
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4567265"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:57:11 -0800
-X-CSE-ConnectionGUID: itKbRMG2R9iWVRnaqlN10Q==
-X-CSE-MsgGUID: sN7xmylnSZSZMY9a4fnawA==
+   d="scan'208";a="4598096"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 00:39:31 -0800
+X-CSE-ConnectionGUID: uqBg7hftQ3SLe3PSZKLrHw==
+X-CSE-MsgGUID: 7yBBm31iQAWARQxRB/wrBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="12152074"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2026 23:57:06 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="12438200"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Nov 2026 00:39:30 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWULm-00000001TZw-2xrc;
-	Thu, 26 Nov 2026 07:57:02 +0000
-Date: Thu, 26 Nov 2026 15:56:28 +0800
+	id 1xWV0p-000000000Hr-3yLL;
+	Thu, 26 Nov 2026 08:39:27 +0000
+Date: Thu, 26 Nov 2026 09:39:09 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
-Message-ID: <20261126154348.RP9PjaYR-lkp@intel.com>
-References: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
+To: daichengrong <daichengrong@iscas.ac.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Cong Wang <cwang@multikernel.io>,
+ Andy Chiu <tchiu@tenstorrent.com>
+Subject: [congwang:riscv-vector-discard 3/5]
+ arch/riscv/kernel/signal.c:130:2: error: implicit declaration of function
+ '__riscv_v_vstate_clean'; did you mean 'riscv_v_vstate_query'?
+Message-ID: <20261126093124.Yfx10yZH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -96,65 +81,75 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
 
-Hi Alice,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on aebb7274476403040d582c61478df8f4a7bf9cd3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-workqueue-support-stack-allocated-work-items/20261119-141242
-base:   aebb7274476403040d582c61478df8f4a7bf9cd3
-patch link:    https://lore.kernel.org/r/20261119-rust-workqueue-v4-4-707c68994940%40google.com
-patch subject: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/reproduce)
+tree:   https://github.com/congwang/linux.git riscv-vector-discard
+head:   82089161ab902778cdd13a9cd126871c69aa4e87
+commit: 19973bf52f3795693ec7baaa5812d33009dbcd6e [3/5] riscv: clarify vector state semantics on syscall and context switch
+config: riscv-randconfig-2200-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126093124.Yfx10yZH-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126093124.Yfx10yZH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126154348.RP9PjaYR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126093124.Yfx10yZH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from rust/helpers/helpers.c:110:
->> rust/helpers/workqueue.c:27:9: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 4)' attribute to the declaration of 'rust_helper_alloc_workqueue' [-Wmissing-format-attribute]
-      23 | __rust_helper
-         | __attribute__((format(printf, 1, 4))) 
-      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-      25 |                                                      int max_active, const void *data)
-      26 | {
-      27 |         return alloc_workqueue(fmt, flags, max_active, data);
-         |                ^
-   include/linux/workqueue.h:519:76: note: expanded from macro 'alloc_workqueue'
-     519 | #define alloc_workqueue(...)    alloc_hooks(alloc_workqueue_noprof(__VA_ARGS__))
-         |                                                                               ^
-   include/linux/alloc_tag.h:270:31: note: expanded from macro 'alloc_hooks'
-     270 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
-         |                                      ^
-   include/linux/alloc_tag.h:256:9: note: expanded from macro 'alloc_hooks_tag'
-     256 |         typeof(_do_alloc) _res;                                         \
-         |                ^
-   rust/helpers/workqueue.c:24:26: note: 'rust_helper_alloc_workqueue' declared here
-      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-         |                          ^
-   1 warning generated.
+   arch/riscv/kernel/signal.c: In function '__restore_v_state':
+>> arch/riscv/kernel/signal.c:130:2: error: implicit declaration of function '__riscv_v_vstate_clean'; did you mean 'riscv_v_vstate_query'? [-Werror=implicit-function-declaration]
+     __riscv_v_vstate_clean(regs);
+     ^~~~~~~~~~~~~~~~~~~~~~
+     riscv_v_vstate_query
+   cc1: some warnings being treated as errors
 
 
-vim +27 rust/helpers/workqueue.c
+vim +130 arch/riscv/kernel/signal.c
 
-    22	
-    23	__rust_helper
-    24	struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-    25							     int max_active, const void *data)
-    26	{
-  > 27		return alloc_workqueue(fmt, flags, max_active, data);
+   107	
+   108	/*
+   109	 * Restore Vector extension context from the user's signal frame. This function
+   110	 * assumes a valid extension header. So magic and size checking must be done by
+   111	 * the caller.
+   112	 */
+   113	static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
+   114	{
+   115		long err;
+   116		struct __sc_riscv_v_state __user *state = sc_vec;
+   117		void __user *datap;
+   118	
+   119		/*
+   120		 * Mark the vstate as clean prior performing the actual copy,
+   121		 * to avoid getting the vstate incorrectly clobbered by the
+   122		 * discarded vector state.
+   123		 *
+   124		 * This also allows user to modify vregs through the signal
+   125		 * interface at a syscall stop. e.g. to support user space
+   126		 * context switching.
+   127		 */
+   128		preempt_disable();
+   129		riscv_v_vstate_set_restore(current, regs);
+ > 130		__riscv_v_vstate_clean(regs);
+   131		preempt_enable();
+   132	
+   133		/* Copy everything of __sc_riscv_v_state except datap. */
+   134		err = __copy_from_user(&current->thread.vstate, &state->v_state,
+   135				       offsetof(struct __riscv_v_ext_state, datap));
+   136		if (unlikely(err))
+   137			return err;
+   138	
+   139		/* Copy the pointer datap itself. */
+   140		err = __get_user(datap, &state->v_state.datap);
+   141		if (unlikely(err))
+   142			return err;
+   143		/*
+   144		 * Copy the whole vector content from user space datap. Use
+   145		 * copy_from_user to prevent information leak.
+   146		 */
+   147		return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
