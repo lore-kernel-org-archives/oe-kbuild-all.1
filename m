@@ -1,103 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795669980;
-	b=ZpLOxUIKRsxFS0n3w0eCvUb5sCLeVYzrr3lRfyTAZXy/37JzZe6+LA9dwskUa6Cuj2Rb
-	 dC/L/NApdMU6dsOdO4mPo5rRlU62xRDcOtXb1tC10V7b+YM9NhjGl95nfSd8aQGMxnPIL
-	 sbi5T5ffXAMTSsM16PqVQROFoikuxGapZFBki+8m1XYh8q0RBCe2BZc4LQq2tQIbYxc7u
-	 E+g+XcYunL1yhqz1XxhPjAHSNDcL4ias9axTHLkRUqRCW7MISqTUzf3nUZj7Cu1RBGNv9
-	 evIEgIIBM7deqXDcDVRjSzDNs1XSpq2iTXKh2jVwjerggcDX3zxmYG4vnzHIk4MX7iw==
+	t=1795672568;
+	b=CJbFqFS7jkXGM+ldiGnURSdxPHLh3WbSaO8o/NQo/fqHLatn/r0y34m9tXlFuOpThitw
+	 o5Qdqm54JjAM87e1a+WZxbCu7XGL+LxpPpa/igaHSE4nXLqJWohfFxp8eJmAXvJaMKLZ8
+	 Pm8s6srsN8MS7uodmOrKSBzqRw5rniRkZBDp0ipkKG8ndZdsooHegvootaaCwcMTPWubq
+	 J6zqi0P0DPFokktDANKmvlnQAQ6/5X0PPzTe6mrLp8+y0DNAJBeHDi2LcGftchonQHbha
+	 iTuggDAOPSjB9MFy0VYU23AIut3gvooIe7kKJvhWD5O95N4FHgutD4fug+21hYRxZ7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795669980;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=lFXxMh7eIhaB8OjUUwotZXqvl7Uz1yGZzQji6f4VZho=;
-	b=DNGz1wiaOBB1fCcG9wnfup58vAAFtPiY1aggySGWGf42SUxZBPtp/JpfrFfBDRxtXjOP
-	 Pc97LURsWp7gNbVvsGIdgEv6CBDUK35XGZWy46Sa0eVeq5QZY9q6ApJoy/3XNWgzpesWz
-	 y3ORA9n99snXT+RGJAw1qxic6v8/iu2/faDcaJUBDY63Y5ewWZvD0Yn17GRQ2Izt5aR70
-	 OSr1teL5gsSDYN1CU3uL5NVUkcSioUZw+jkg/2uhZE7DHZIeg2vYz/1hF2E0ZAMJoA2Jv
-	 RJqHCVBNtNaCn2mmtX2eT0h8bPLJV0SZHgkRGwtH+6BZKLleggfsVBgufgEcBEehSxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795672568;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=U2gCIt6Zdi/HC7EkK4V9lC6vrubY+ioEkE70QG4s7EI=;
+	b=JD8GvSxwbCDbaN2yiflfFihfxPSkd9PdUuUM95FX5X9AZDcXa1abls35/drgUc8sUumH
+	 xt///+Zki4ggLQAJNPJC2bRUH6JoYn/BMRBZ5Ti8088YFEaFbvJzFtkVRxZEBjZ23IjkU
+	 oSGWVZPP8H2KzDFO7XrLchyMExC7Gp2554uqeGsQPbOua7rIUT390+L8Yt3mJkGTRV623
+	 P9rGyn/WtO5Dx5VMzuEfhedup6IYELXF5rL+nmYtDXezrkaZdM2qmu/DH/ShYrN6awEmi
+	 Qwl0Gf1LQWv2FUYsNnQY7FrqTUqN7g411kkKzfqHC3FxS0V5FBy8msyCNrt6uuGDWKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FpemP8Ku;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JqPUITBa;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581B6606A321
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 05:13:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 581B6606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EA1606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 05:56:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59EA1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FpemP8Ku
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795669980; x=1827205980;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tFnAXjoyu6xvvKvqfz4pnz+erMB8nXx1rsV4XpMr9mo=;
-  b=FpemP8Ku978zb/cGO+9dUE0JpBy915/u1pB8Pm8hWosGBmU6nj41cL7D
-   Cx6tx65TW7w2n9uBiVt4PTC6rm1X14NYvT9z5f+0VBVbEZ822TDSghK06
-   Ecd0aH0SLPH2myynmeOerEdCfG1haPATOkQVH/TwlbBgnwVAfWU3QKz2S
-   aJKy/N9TBRB3wGsgdp0jP7JqazywDhNBnI0oZqT9N7mjha1Df4IF7Z30n
-   7JPXiUdM+tLmSSv/Qiom4/ACq147xHpT6UNAwfm+Sn6JC+kmeu01HOtZC
-   aUuEdNgf43omBjQxDtlhFIcR1Iv+yVzWKngKz44WMycS5X0Va2SCQkYIe
-   w==;
-X-CSE-ConnectionGUID: LFMhcN5HQgefACgc2wdUWA==
-X-CSE-MsgGUID: vZ7pkSelRkyYnCqHnWSmNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4632449"
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4632449"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 21:13:00 -0800
-X-CSE-ConnectionGUID: LW6fTMmRQ+WAbpO6kbVJxA==
-X-CSE-MsgGUID: ifldHr/pQ3iUjmkaQoTfcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="14112093"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 25 Nov 2026 21:12:53 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xWRmr-00000001TJk-3Mok;
-	Thu, 26 Nov 2026 05:12:49 +0000
-Date: Thu, 26 Nov 2026 13:12:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Hui Pu <Hui.Pu@gehealthcare.com>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 32/32] drm/mxsfb/lcdif: enable bridge hotplug
-Message-ID: <20261126130346.sISldSGf-lkp@intel.com>
-References: <20261125-drm-bridge-hotplug-v4-32-822722850492@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JqPUITBa
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so65932585e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Nov 2026 21:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795672567; x=1796277367; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=U2gCIt6Zdi/HC7EkK4V9lC6vrubY+ioEkE70QG4s7EI=;
+        b=JqPUITBaTGTp/E7COOQW96h5pOg7P+BuDpWMLkrLO5Wr+s8s5NBs6nZhSi1vIP9lvk
+         Z28tYxEjgePYbJvWaWTfef+WdO+8RETkAcZtLQLrlO7a1DnFAiBWOyPDEEIh1VSxByhp
+         kjEeB2Za85jdPejdNiHQh1qJ/JzLmEQxzcAwvgxgwT6CfVRPdPmuUjfoC0ErLAy1ckeK
+         4LLIb0p2mWCttKQUKwArgaMmuXtvYo36yuNUmt5R/LfzNukQzYzl17+MUdIEQCPLv14X
+         SFUr/1WF7soKYbJ40ZLIphZ1G6DBHzgi0A4n7R9eYj9+nve4mrlcultOndU9n7LV+Yz+
+         axFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795672567; x=1796277367;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U2gCIt6Zdi/HC7EkK4V9lC6vrubY+ioEkE70QG4s7EI=;
+        b=P6Q5zwh9tldlvr+lT0yBRdevJM7lV7zgymILWn3zlh9MzwadqaGuXjH1ujC+9yCol6
+         c5uKQCj7z3b4DHjXvgbXvEGfaYxHEv/BCHK487KYUYKaNyH+rUti7Jr+VBy9p/st+Jcg
+         /5UakciVJgk9GddHom6dS/urgZ3h0CRFdfZoE4lnsra/p4IDWoDUR69SEsd7H14t5xEu
+         pyWKCSlR6F3EIvsMv/Ap5bxfja368OnuWH67nI7H5nHO8SrhhxOLiE9mlyQ0slnq1oo4
+         Bw/DqSa7BzqJF3UghTe6ZYrx3x+DgaOOBbvFHtunDTCvyqm9rIfsJMF5ECdC/9BdDNur
+         OnZg==
+X-Forwarded-Encrypted: i=1; AL+hErHysSfN9PIlnKcAx34Pls+JX/o8NPgjNj8n8EJ9bsdUZKyminwW/nbKvN0Ps8bGKOIoWvjWircxGVSpMhr0@lists.linux.dev
+X-Gm-Message-State: APuU4Z+h0DlaMIo1kNR5n/n48e5lFL7ZKNnPVgq1dE5f8Gc7UMyzXmb2
+	H/BXUcqobyC0lSKKmBsz6WsK7N9pNSeA5AO8eGvAtcm/hl5xhETM+v2P
+X-Gm-Gg: AZFdTZcTfDh6yr09BVLfw9QoMSTOGUa/vvTLgyfd2DE42zopsNOL+E/9bPcZ8nm7i2R
+	RanjYXV2NtkP3bqgQ9ATXMkfh7hZnsPmcKpKDfGHZe86Zl9t3YcQnV7NahgG0diVKTA5NfKDQ+V
+	dqkqDzLyx6bgckaI+24jdfwsuRUIstGsSvl3kbi5OSNyJO+nFxuBqTXO5WGQppEbV11XF8bvQYX
+	xpz1dMKAtn6Vrg72z9QtjVCvduk7SFxSUUeoObIt2ve+6T37Z5zGiiX4OdL92Ui+tXWCx+dSMku
+	e8DFtxY6IMDD99a+IGEuPUiVf0fYigqSxVY5bfoHGYkQnuJD2E2CvBgLCDqxlXmKynFW57pnArX
+	YN+gqT73DLvhEyHGFAMMNYUUFK4npz3kv884WUYutj+WiEbI1B08o6Q/UUcyWNET4l/8XYZ3Xeu
+	7nA0LnpijutsiGimh92DsKM6R/c+pqxIG15mwx1yWmKSN/OppVKKPltx4wRFJxpqolEfRr7+Gyz
+	9jFh7id4kUIXoSgMxaia+JDhkwL0bdUqlMgbBB7HoQdLi0friamwzyovI9755NsozORVYlGaM0U
+	X2C2e/r4HsJ5/VoJIBXUTVDcoswYuKjvjlK4wXQKaebDaEPLP3vlz+k762JLlZVvx1C75+SzaxD
+	aCHuhqEpJdvCiDqSEVLe9B16t3DO55gxznr02y3jLxrmVLhcIrWd3sY0auFt63JJapMI=
+X-Received: by 2002:a05:600c:8906:b0:4bb:a60e:a316 with SMTP id 5b1f17b1804b1-4bba60ea355mr62162175e9.12.1795672566416;
+        Wed, 25 Nov 2026 21:56:06 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b2c5sm565134715e9.5.2026.11.25.21.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 21:56:05 -0800 (PST)
+Date: Thu, 26 Nov 2026 08:56:01 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Yaohan Li <shunsheng1218@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-regulator:for-7.5 6/6]
+ drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
+ warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines:
+ 444.
+Message-ID: <20261125184601.R647t8Sj-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -109,78 +100,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125-drm-bridge-hotplug-v4-32-822722850492@bootlin.com>
 
-Hi Luca,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 479e381e77dcde0dfcc9d51e89ff3273da199804]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-display-hdmi-cec-helper-use-drmm_-prefix-for-drmm-action/20261125-185014
-base:   479e381e77dcde0dfcc9d51e89ff3273da199804
-patch link:    https://lore.kernel.org/r/20261125-drm-bridge-hotplug-v4-32-822722850492%40bootlin.com
-patch subject: [PATCH v4 32/32] drm/mxsfb/lcdif: enable bridge hotplug
-config: arc-randconfig-1000-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126130346.sISldSGf-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126130346.sISldSGf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-7.5
+head:   d23ba232a8fefe909aeb9366e3905a95a429ebfc
+commit: d23ba232a8fefe909aeb9366e3905a95a429ebfc [6/6] regulator: qcom-labibb: stop the recovery workers on teardown
+config: openrisc-randconfig-2200-20261125 (https://download.01.org/0day-ci/archive/20261125/20261125184601.R647t8Sj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126130346.sISldSGf-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/20261125184601.R647t8Sj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq() warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
 
-   drivers/gpu/drm/display/drm_hotplug_helper.c: In function 'drm_hotplug_helper_handle_event':
->> drivers/gpu/drm/display/drm_hotplug_helper.c:234:2: error: label at end of compound statement
-     default:
-     ^~~~~~~
+vim +444 drivers/regulator/qcom-labibb-regulator.c
 
+d23ba232a8fefe9 Yaohan Li 2026-11-18  393  static int qcom_labibb_setup_ocp_irq(struct labibb_regulator *vreg)
+d23ba232a8fefe9 Yaohan Li 2026-11-18  394  {
+d23ba232a8fefe9 Yaohan Li 2026-11-18  395  	u32 irq_flags = IRQF_ONESHOT;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  396  	int ret;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  397  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  398  	lockdep_assert_held(&vreg->ocp_lock);
+d23ba232a8fefe9 Yaohan Li 2026-11-18  399  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  400  	if (vreg->shutting_down)
+d23ba232a8fefe9 Yaohan Li 2026-11-18  401  		return -ESHUTDOWN;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  402  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  403  	if (!vreg->ocp_requested)
+d23ba232a8fefe9 Yaohan Li 2026-11-18  404  		return 0;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  405  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  406  	if (!vreg->ocp_irq_done) {
+d23ba232a8fefe9 Yaohan Li 2026-11-18  407  		/* IRQ polarities - LAB: trigger-low, IBB: trigger-high */
+d23ba232a8fefe9 Yaohan Li 2026-11-18  408  		switch (vreg->type) {
+d23ba232a8fefe9 Yaohan Li 2026-11-18  409  		case QCOM_LAB_TYPE:
+d23ba232a8fefe9 Yaohan Li 2026-11-18  410  			irq_flags |= IRQF_TRIGGER_LOW;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  411  			break;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  412  		case QCOM_IBB_TYPE:
+d23ba232a8fefe9 Yaohan Li 2026-11-18  413  			irq_flags |= IRQF_TRIGGER_HIGH;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  414  			break;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  415  		default:
+d23ba232a8fefe9 Yaohan Li 2026-11-18  416  			return -EINVAL;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  417  		}
+d23ba232a8fefe9 Yaohan Li 2026-11-18  418  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  419  		/*
+d23ba232a8fefe9 Yaohan Li 2026-11-18  420  		 * The interrupt is owned and released by the cleanup
+d23ba232a8fefe9 Yaohan Li 2026-11-18  421  		 * action, so its name has to outlive the interrupt:
+d23ba232a8fefe9 Yaohan Li 2026-11-18  422  		 * devres would release a name allocated here before the
+d23ba232a8fefe9 Yaohan Li 2026-11-18  423  		 * action runs, while vreg->desc.name is owned by the
+d23ba232a8fefe9 Yaohan Li 2026-11-18  424  		 * driver data.
+d23ba232a8fefe9 Yaohan Li 2026-11-18  425  		 */
+d23ba232a8fefe9 Yaohan Li 2026-11-18  426  		ret = request_threaded_irq(vreg->ocp_irq, NULL,
+d23ba232a8fefe9 Yaohan Li 2026-11-18  427  					   qcom_labibb_ocp_isr, irq_flags,
+d23ba232a8fefe9 Yaohan Li 2026-11-18  428  					   vreg->desc.name, vreg);
+d23ba232a8fefe9 Yaohan Li 2026-11-18  429  		if (ret)
+d23ba232a8fefe9 Yaohan Li 2026-11-18  430  			return ret;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  431  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  432  		vreg->ocp_irq_done = true;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  433  	}
+d23ba232a8fefe9 Yaohan Li 2026-11-18  434  
+d23ba232a8fefe9 Yaohan Li 2026-11-18  435  	/*
+d23ba232a8fefe9 Yaohan Li 2026-11-18  436  	 * Enable the hardware source only once a handler exists, and turn
+d23ba232a8fefe9 Yaohan Li 2026-11-18  437  	 * it back off if that failed, so that a later attempt can retry
+d23ba232a8fefe9 Yaohan Li 2026-11-18  438  	 * without leaving the source enabled on its own.
+d23ba232a8fefe9 Yaohan Li 2026-11-18  439  	 */
+d23ba232a8fefe9 Yaohan Li 2026-11-18  440  	ret = qcom_labibb_ocp_hw_enable(vreg->rdev);
+d23ba232a8fefe9 Yaohan Li 2026-11-18  441  	if (ret)
+d23ba232a8fefe9 Yaohan Li 2026-11-18  442  		qcom_labibb_ocp_hw_disable(vreg->rdev);
 
-vim +234 drivers/gpu/drm/display/drm_hotplug_helper.c
+Ideally qcom_labibb_ocp_hw_enable() would clean up after its ownself on
+failure...
 
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  200  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  201  static int drm_hotplug_helper_handle_event(struct notifier_block *nb,
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  202  					   unsigned long event, void *data)
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  203  {
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  204  	struct drm_hotplug_helper *hotplug_helper =
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  205  		container_of(nb, struct drm_hotplug_helper, drm_event_nb);
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  206  	struct device *dev = hotplug_helper->encoder->dev->dev;
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  207  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  208  	guard(mutex)(&hotplug_helper->event_mutex);
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  209  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  210  	dev_dbg(dev, "received event %lu\n", event);
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  211  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  212  	switch (event) {
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  213  	case DRM_BRIDGE_ADDED:
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  214  	case DRM_MIPI_DSI_ATTACHED:
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  215  		/*
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  216  		 * A bridges hot-plugged, try adding the
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  217  		 * drm_bridge_connector
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  218  		 */
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  219  		drm_hotplug_helper_try_complete(hotplug_helper);
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  220  		break;
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  221  	case DRM_BRIDGE_DETACHED:
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  222  	{
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  223  		/*
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  224  		 * A bridge was unplugged, remove the drm_bridge_connector
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  225  		 * if it's part of the same pipeline
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  226  		 */
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  227  		struct drm_bridge *bridge = (struct drm_bridge *)data;
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  228  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  229  		if (hotplug_helper->connector &&
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  230  		    bridge->encoder == hotplug_helper->encoder)
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  231  			drm_hotplug_helper_connector_remove(hotplug_helper);
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  232  		break;
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  233  	}
-6ee877a9b7f826b Luca Ceresoli 2026-11-25 @234  	default:
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  235  	}
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  236  
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  237  	return NOTIFY_DONE;
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  238  }
-6ee877a9b7f826b Luca Ceresoli 2026-11-25  239  
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+Also request_threaded_irq() needs cleanup.
+
+d23ba232a8fefe9 Yaohan Li 2026-11-18  443  
+d23ba232a8fefe9 Yaohan Li 2026-11-18 @444  	return ret;
+d23ba232a8fefe9 Yaohan Li 2026-11-18  445  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
