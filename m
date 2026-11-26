@@ -1,81 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795712158;
-	b=gyHV+JhYt6/x/CRWvG8Lsn1I/5QyBBInfJtOsaftYcQLyPrylAfmp5vwCJgHcGsrCEeh
-	 OGa9SProRIXc3oDKShfHF6uZwMTOD1ggfX/QArh5mGrJ4YJhLsh12MWgw7P/JRLuRf5f/
-	 vWvVedQfMWZLCdgj0zS4UgQbKIdGxjeI4XbfObOYKt78rNsP8TOKWoPuMu/Kq4yQXUgw8
-	 jkd4wCVHR8Cne5F9RvsRQvgS1V2l+yVkq5nKbNBL/CFalUvzw2MCxRT5UxGeaROaHGIpE
-	 EAS/7IvN/I0ZQJkoeCRrlgxh5gq+JT9L227kVfw6KclSIgjcarrd+ok2LPiPW445K3g==
+	t=1795712838;
+	b=VADbEjY/EyNCfhd0FFSz/Rzwek2GvII6S1RsUCyegk4gL2Dv04YmtKsL1ISA2di1xnKw
+	 Q5XpnBrIbiN3PFvl9hTkwSAnPl/BO01CvoaTgq9bWa1FMLJIntk3wfjTiweX2mRn3IBGT
+	 oqjeT7gjKvj/s8DPCs/1ExQuFhZrV9tejcQlisOaObU8kM932tzS1PbBAgWJrbTm+2gGF
+	 S58WmAyKXfCNs2RN5ZOaCFwEIblwfePlxya//iBZ2dDbutZA+cK0lmm02TZWxbi/RtIqM
+	 8CY1ys3yWf68fD0qrc0amo13xWatCPbQccyf7zOkEusu60xZLzTokw6y84kcj8QVpEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795712158;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795712838;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=7UMJ5fq59vACu6YIC6Tb/A5NemhqR9H7sJxjwk062+A=;
-	b=LduqheRIPZUcgW4gD6dr0xsVlXYYUXPoABmRoutW04DrZVVXH5BmU7WJ3X/TyjbOZAnI
-	 FqyeDd8uJm5fgnNLItwLHGDFoqbVVyqGYXGo/CWIyovWtj6lFj2ltjhBbal/sUwtK2iSE
-	 f0l+kUHY00fIOe4813xcQDO5E9zGVlhKUOb4pOgxi4y9a4zJNZT5eHt4N7vSqmUjPwydN
-	 3yzPHjqycVOPwFSc+tM44+qLk/ooKPNdUZKEdGSRBSAGJzWBR+Q0/xZ+xjCRgtz+mMMwQ
-	 W/bH93WLrEPYu1ldiZ8CookFXyDQ6VNbesULTO2lnPSvLT7PCNIZ/gaY3CCVZyj825g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=2Ss6lG0u3KhmrW/sNtdDOTe+bYGe0twUZML83rrflOc=;
+	b=h4v9iChfIjk9rBo0uz++L5Rnc5PGc07ljsGJCa6JZfWByp2i95rr1GXOk1JEAVtPdvYc
+	 ce0lgyYtMlcpQnRvxq1OS3aben+FXBmgArdtugNuaXrUTRzLqvvZmtXPfkLDvsmPPGXcx
+	 rU/80sy83tr1QMJ+8oWYwCbp4D81wTPhMnlH44ziR4yUTxsHDAJF1iNINHmPe6nvbJsdt
+	 eqBLYUfcfUWaNYaAxSqBFQ58YzEgdnn1oEeRZJJz6uV32rsc6jshYjD9e6MlRCkPPV5Yn
+	 7IsmiZnDMamIXHQY/IyLuhL+9ejapz2XG/oop6XD4X0+gGYAJwTUpkQwshDp7fxp/nQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="QC2DL/P2";
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TuCD0mnM;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EB4606A31E;
-	Thu, 26 Nov 2026 16:55:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96EB4606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F66606A323;
+	Thu, 26 Nov 2026 17:07:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6F66606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QC2DL/P2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TuCD0mnM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795712158; x=1827248158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=37k69uxyRJzVO9uddzYhhEnx5L7zKQsrBkRXxwOZKbw=;
-  b=QC2DL/P2hcdzxwbJJSTnCrQ03QDs5lPS9vX2Gj93TZRGEpzZIkbJqwnn
-   aR/2es/ne9Dc80ggm+Q6ZH8XMj+3AYfb/E+jl7nkbc/er4nMsdNa8zUCN
-   lqaUvN507Y7HiY8lC8LZuz2xl4jGfTyPq9VbzSV2XHypJ2TXYfXeJJgOH
-   HLR/GljUVUIO1Cr2CbjywVMkIAMRa0gbM7no0JFhnplKP6MXFIK19GrBz
-   LNtgO9r2QKVoV4Fc0dZXlSebPsZFy5IyTmo9UOdw2WfN6b8UWD+98SpnG
-   ix7evuDS3ZqGBO+GAngK5wzkqLJdmmGv+MzMGJi+mlKHhMAYjdTy3ZaNx
-   w==;
-X-CSE-ConnectionGUID: 5px38YicS7imnizCBPyKzA==
-X-CSE-MsgGUID: e4+Sv2WvS6KqAtU8+xB7Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4596263"
+  t=1795712839; x=1827248839;
+  h=date:from:to:cc:subject:message-id;
+  bh=m6c/jqZysm3WN5nRCKT/Qz3Nbfpefgtye12NqAt7rUA=;
+  b=TuCD0mnMjNBPGSgzjsRfW4XcpGfYfYLzROGrzA81P6W3odsekKjnX+p7
+   axTbU/kY68Qti0vpoPFJXDUJekGmQH8m3voyDipUJA91UYMCFF45zXut9
+   l12LFvomP/jade7fMJMY68qYnFOGSHDd3Y6W9miADH2R6D4jfk1hrj0RX
+   gLtmDkUOqTnk1e+wJTw2nmgWu1gLeXbIUuSQPPF2mC3aZGZvIb5oQV2QN
+   MHx4C30ve/18YJ0Bek2fxXHGDgGVeFXa0gSrKH4Anv4xwgdoMRLlkf8GY
+   MAUosuzZBNLNTFsaooyF6WGkJwBB8XXTLjAfR5wHi1llD50ylv/WlZ6ls
+   A==;
+X-CSE-ConnectionGUID: mMXPNmKgTaCD1O6mVh77XQ==
+X-CSE-MsgGUID: hHwsED5RTGCpkJPZkaGhJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4536054"
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="4596263"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 08:55:57 -0800
-X-CSE-ConnectionGUID: p+r39IeoTeS/5WhFAxkNHQ==
-X-CSE-MsgGUID: 5FAT+iOpSeq7ciSi986WGg==
+   d="scan'208";a="4536054"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 09:07:18 -0800
+X-CSE-ConnectionGUID: ENOWcLY8Q9e4TXi0U2PbTA==
+X-CSE-MsgGUID: is+Cy8kqQCitpWybMddeiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
-   d="scan'208";a="12536476"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Nov 2026 08:55:56 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="13897901"
+Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 26 Nov 2026 09:07:14 -0800
+Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWclE-00000001UVe-2lJt;
-	Thu, 26 Nov 2026 16:55:52 +0000
-Date: Fri, 27 Nov 2026 00:55:23 +0800
+	id 1xWcwA-0000000008U-2nbK;
+	Thu, 26 Nov 2026 17:07:10 +0000
+Date: Thu, 26 Nov 2026 18:06:18 +0100
 From: kernel test robot <lkp@intel.com>
-To: Yingjie Wang <x-professor@outlook.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>
+To: daichengrong <daichengrong@iscas.ac.cn>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"dlemoal@kernel.org" <dlemoal@kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] null_blk: reject device size overflow
-Message-ID: <20261127004636.Zw6bu9Dk-lkp@intel.com>
-References: <20261126074748.1076774-2-x-professor@outlook.com>
+ Cong Wang <cwang@multikernel.io>, Andy Chiu <tchiu@tenstorrent.com>
+Subject: [congwang:riscv-vector-discard 3/5]
+ arch/riscv/kernel/signal.c:130:2: error: call to undeclared function
+ '__riscv_v_vstate_clean'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <20261126180329.cKNnHjkb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,89 +82,89 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261126074748.1076774-2-x-professor@outlook.com>
 
-Hi Yingjie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5a29cfaf51105039d156dd8a61d2783e8b653667]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yingjie-Wang/null_blk-reject-device-size-overflow/20261126-074752
-base:   5a29cfaf51105039d156dd8a61d2783e8b653667
-patch link:    https://lore.kernel.org/r/20261126074748.1076774-2-x-professor%40outlook.com
-patch subject: [PATCH v2 1/3] null_blk: reject device size overflow
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261127/20261127004636.Zw6bu9Dk-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fb29ca8163c3309160711e5a14eb46bc6d4fdad2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127004636.Zw6bu9Dk-lkp@intel.com/reproduce)
+tree:   https://github.com/congwang/linux.git riscv-vector-discard
+head:   82089161ab902778cdd13a9cd126871c69aa4e87
+commit: 19973bf52f3795693ec7baaa5812d33009dbcd6e [3/5] riscv: clarify vector state semantics on syscall and context switch
+config: riscv-randconfig-2005-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126180329.cKNnHjkb-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3a9f981aab0cc32f74ffac36a87891cda8889c37)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126180329.cKNnHjkb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261127004636.Zw6bu9Dk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126180329.cKNnHjkb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/block/null_blk/main.c:1896:16: warning: result of comparison of constant 8796093022207 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-    1896 |         if (dev->size > LLONG_MAX / SZ_1M) {
-         |             ~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from arch/riscv/kernel/signal.c:12:
+   In file included from include/linux/syscalls.h:96:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> arch/riscv/kernel/signal.c:130:2: error: call to undeclared function '__riscv_v_vstate_clean'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     130 |         __riscv_v_vstate_clean(regs);
+         |         ^
+   arch/riscv/kernel/signal.c:130:2: note: did you mean 'riscv_v_vstate_query'?
+   arch/riscv/include/asm/vector.h:429:20: note: 'riscv_v_vstate_query' declared here
+     429 | static inline bool riscv_v_vstate_query(struct pt_regs *regs) { return false; }
+         |                    ^
+   1 warning and 1 error generated.
 
 
-vim +1896 drivers/block/null_blk/main.c
+vim +/__riscv_v_vstate_clean +130 arch/riscv/kernel/signal.c
 
-  1893	
-  1894	static int null_validate_conf(struct nullb_device *dev)
-  1895	{
-> 1896		if (dev->size > LLONG_MAX / SZ_1M) {
-  1897			pr_err("Device size is too large\n");
-  1898			return -EINVAL;
-  1899		}
-  1900	
-  1901		if (dev->queue_mode == NULL_Q_RQ) {
-  1902			pr_err("legacy IO path is no longer available\n");
-  1903			return -EINVAL;
-  1904		}
-  1905		if (dev->queue_mode == NULL_Q_BIO) {
-  1906			pr_err("BIO-based IO path is no longer available, using blk-mq instead.\n");
-  1907			dev->queue_mode = NULL_Q_MQ;
-  1908		}
-  1909	
-  1910		if (dev->use_per_node_hctx) {
-  1911			if (dev->submit_queues != nr_online_nodes)
-  1912				dev->submit_queues = nr_online_nodes;
-  1913		} else if (dev->submit_queues > nr_cpu_ids)
-  1914			dev->submit_queues = nr_cpu_ids;
-  1915		else if (dev->submit_queues == 0)
-  1916			dev->submit_queues = 1;
-  1917		dev->prev_submit_queues = dev->submit_queues;
-  1918	
-  1919		if (dev->poll_queues > g_poll_queues)
-  1920			dev->poll_queues = g_poll_queues;
-  1921		dev->prev_poll_queues = dev->poll_queues;
-  1922		dev->irqmode = min_t(unsigned int, dev->irqmode, NULL_IRQ_TIMER);
-  1923	
-  1924		/* Do memory allocation, so set blocking */
-  1925		if (dev->memory_backed)
-  1926			dev->blocking = true;
-  1927		else /* cache is meaningless */
-  1928			dev->cache_size = 0;
-  1929		dev->cache_size = min_t(unsigned long, ULONG_MAX / 1024 / 1024,
-  1930							dev->cache_size);
-  1931		dev->mbps = min_t(unsigned int, 1024 * 40, dev->mbps);
-  1932	
-  1933		if (dev->zoned &&
-  1934		    (!dev->zone_size || !is_power_of_2(dev->zone_size))) {
-  1935			pr_err("zone_size must be power-of-two\n");
-  1936			return -EINVAL;
-  1937		}
-  1938	
-  1939		return 0;
-  1940	}
-  1941	
+   107	
+   108	/*
+   109	 * Restore Vector extension context from the user's signal frame. This function
+   110	 * assumes a valid extension header. So magic and size checking must be done by
+   111	 * the caller.
+   112	 */
+   113	static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
+   114	{
+   115		long err;
+   116		struct __sc_riscv_v_state __user *state = sc_vec;
+   117		void __user *datap;
+   118	
+   119		/*
+   120		 * Mark the vstate as clean prior performing the actual copy,
+   121		 * to avoid getting the vstate incorrectly clobbered by the
+   122		 * discarded vector state.
+   123		 *
+   124		 * This also allows user to modify vregs through the signal
+   125		 * interface at a syscall stop. e.g. to support user space
+   126		 * context switching.
+   127		 */
+   128		preempt_disable();
+   129		riscv_v_vstate_set_restore(current, regs);
+ > 130		__riscv_v_vstate_clean(regs);
+   131		preempt_enable();
+   132	
+   133		/* Copy everything of __sc_riscv_v_state except datap. */
+   134		err = __copy_from_user(&current->thread.vstate, &state->v_state,
+   135				       offsetof(struct __riscv_v_ext_state, datap));
+   136		if (unlikely(err))
+   137			return err;
+   138	
+   139		/* Copy the pointer datap itself. */
+   140		err = __get_user(datap, &state->v_state.datap);
+   141		if (unlikely(err))
+   142			return err;
+   143		/*
+   144		 * Copy the whole vector content from user space datap. Use
+   145		 * copy_from_user to prevent information leak.
+   146		 */
+   147		return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
