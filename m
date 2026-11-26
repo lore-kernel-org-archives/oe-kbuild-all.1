@@ -1,104 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795655797;
-	b=15jWj+6nyjA4kQqVker2sSfFZ5IAfodRbqPloTb0HCtTex/bYDjf4BF+0pRWT/LLYDAH
-	 egIjfcxX1x1Nqfa27g6MAmLBcy/8Xw0KJi4XdpqBV+ZroKdsKlMknFBLmtg0jBihT/KHB
-	 1TsUzyBhZhrqBO13ZdQ3DJUPbsq8FwR8H2XqA6Ve/5smLa3mfIQOXDkzk4S2BLX+jDYFE
-	 p72ulPOtEMN6h5Fa7LewM+9aVLa1c7bG1xvMTkjxiQCzH/14A4eHzTooeQdnMZyeNm2pf
-	 /WMuagSUgaUoOnoecxVQnXPSg137V6M/P15LNoU04VlmzEA17iPcr6XUbODblsT9dJA==
+	t=1795655961;
+	b=li59D5BCV27DwCU7o2Lcy8FRJ34Azr88TqXEW3prGWAvY1+aS2jJBoJmLh1MNgZlVR8D
+	 x5MIPirM3PBBXU8fxED+Xoo7N1qtBAJEsXAMT2PBJcHvHs56pqCjtmxycc9cZGz4Xc/mk
+	 m1fFAFTfYfsVNZxgwF6fDVy9EH3k+59z2s3Itx4kHrTBWNlBc1OLeH+Ffcf2vFI2+/agw
+	 dfDYp9F3HhKIfI69saAVg67JQXHfWBImwG2mMy2aNNWbN3dEDgjtIwGzCFp1gs4FuEaFA
+	 ej/PQLGAlrkjdHNdOQwRRLtEvlaCVN1rksikArNwsS6H9wwxWiTaFRhsOnmyjARTGhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795655797;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795655961;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=kGkpHSPUPV5CUyV1od9kzaCcYXVPJFOcarbWhABwVRI=;
-	b=F1MNsfoWcODHhc2uA3Yp8L5wMT3TdidcarU/UFRK714LsTygtMH69qS7n6hq1ULVK9XT
-	 0D8o3QFNx/MhACc5ga33cEQAxen3Zfzz5D5CKuzmpLpL70YsPXzQHXkF/2EHDYvdmXYQX
-	 RadVgN8HZrg9RCkjb7U7FR7diMzitpTwwHBbIpYyPVsLZRqxcLmQc9dDOva3JWFf5ujO4
-	 pOFAKoL3Q8YE9BzLUguAW7KjD8ZCSfS2YDDJcNTe51LOulpqooFi/ae17J+J0MWzK+OLp
-	 NAQAtw2u2wgmZhqY3ybGLK8cP1dCa3fI+xzuRzllgPJAkbTNveebTW76aZt2PIKaQnA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=EA9dVUc9xYNKDLzRfreF+3ori2uqyuHsVjWqcF5ZwVk=;
+	b=kqsf6QicAQmk31+hG1aONATwh8qZGqI3FIqvJVLTwBfogOrBsenxtPLUGFJ26T8quaBW
+	 5Ey0MYA9T535hN96KTp6M27qZxlewFw94cpc/zkE4x8+03rgK7JwoVNd9hcJ4iryA4Hbr
+	 dSRunBGAtKlvzi/TTzRmkR/IumfAeQXtoX1vEc4Gk/xOePneEEeqmaInbIaOYuK+ErnHS
+	 jFoS2rNP2W7tz36VC6absvycOtzqgdRlvXEga7Yi/3UnIbk2ew9Zu/xkV5ztKlhvL1ouJ
+	 82CF+0+bgS2jQcWWw6A3IcCxUZzze2rTJUFE8s90G0NDUhOGiKzuewWIVQZJZ9CdbPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FnsDG8pu;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dd6FTcTJ;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E405606A333
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 01:16:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E405606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DB9606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 01:19:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5DB9606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FnsDG8pu
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dd6FTcTJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795655796; x=1827191796;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XVFTqBo+CJwzxoZI7Biy1XZPco1nvpzQl5ITb3ynK6I=;
-  b=FnsDG8pu20D0AimuDbb1qnB4Uxo5+5m2sbfaYiw9O0oZgBQMg0mj5s7Y
-   zFoiNFN6wmJddOJtcbMPz6dcIOhqV0jRkLJgPXy0mrGWka3pZwli9GuRK
-   g/nZ35kizVLgHwaDJEckbFF7z7D3x096Ps10cWS3fUMgs0FF06Kbfb5fo
-   6pqtzabsz5WosPcA3NncfRFO5tU73RlqqsUZd9Z6cRKC5qKpYBOx+gGfs
-   neP4j/nLzk1oWm1e7QU9JwRbZ9kb2+Fox6OTLsDHRAh9osHWef/wBUjFm
-   l8X36rniRY1nNIfCtcepQJ3YWIf7n+2k1tMtsZviwBfoXQqOWU3wNIqwL
-   w==;
-X-CSE-ConnectionGUID: 4SguEAqlT46qpCwFxYS8Lg==
-X-CSE-MsgGUID: qs+gGnPJQmCPRf/aAZ+u6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4397881"
+  t=1795655960; x=1827191960;
+  h=date:from:to:cc:subject:message-id;
+  bh=CSMfPR9M3nkrpHp86kNg82KAr3Pz5RWUG4YaEBFKEus=;
+  b=dd6FTcTJ/C1yE4OB8WYTBguTqR0xqjdXQWif+96sAQNHWHme6MGK8qXi
+   d9lKA71pGxceQkwQ9yN3Kj9XiuLGGn6gSRluAcnuDQ5aeKf0Z5E/6AmOE
+   SU42MWqzdtDKqMkiBwetLPFS9NivD8R5dtiW4jgSm3sz0UWpkAcdw8baO
+   WJyvNXrlf7P/yUIZ6ogHxjMdBG1pLhSlsh3Qfw26FN0OOAf67pc5hTe0E
+   JPm6kLQAC+21Uift5GIjIwBpKFDz+MlgApSQlI8gUDdLsItZxAhs3YlOo
+   MCpq7cLL5OJpocOs8vyb+87k6YUAYnPNPUPnkuiXduIG0xdB/jZ5QuekJ
+   A==;
+X-CSE-ConnectionGUID: +L7xcOUpQ7Gx6oMggNDKjA==
+X-CSE-MsgGUID: uUXisZvTTouqXmYPWmkr0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4463821"
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4397881"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 17:16:35 -0800
-X-CSE-ConnectionGUID: LqTCoUBlQUOS/SHgfyex9g==
-X-CSE-MsgGUID: gZ8/MW6fTzuWPfQ5eMAQFQ==
+   d="scan'208";a="4463821"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 17:19:20 -0800
+X-CSE-ConnectionGUID: HzaTnaVgQ5e4xtsxyVytqA==
+X-CSE-MsgGUID: 4zOsVNFYST6Mll6sbF+liA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="12159304"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2026 17:16:27 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="12306108"
+Received: from igk-lkp-server01.igk.intel.com (HELO a03d4d989450) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Nov 2026 17:19:17 -0800
+Received: from kbuild by a03d4d989450 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWO63-00000001T2U-3AGp;
-	Thu, 26 Nov 2026 01:16:23 +0000
-Date: Thu, 26 Nov 2026 09:15:52 +0800
+	id 1xWO8o-000000000Bb-3OCe;
+	Thu, 26 Nov 2026 01:19:14 +0000
+Date: Thu, 26 Nov 2026 02:18:17 +0100
 From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
+To: Frank Min <Frank.Min@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Hui Pu <Hui.Pu@gehealthcare.com>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 09/32] drm/display: bridge-connector: use a dynamic
- connector
-Message-ID: <20261126090631.mLSCvuCb-lkp@intel.com>
-References: <20261125-drm-bridge-hotplug-v4-9-822722850492@bootlin.com>
+ Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: [drm-amdgpu:drm-amdgpu-next 242/243]
+ drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3042:73: sparse: sparse: incorrect
+ type in argument 2 (different address spaces)
+Message-ID: <20261126020759.1JlsyGHy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -107,34 +82,131 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261125-drm-bridge-hotplug-v4-9-822722850492@bootlin.com>
 
-Hi Luca,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 479e381e77dcde0dfcc9d51e89ff3273da199804]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-display-hdmi-cec-helper-use-drmm_-prefix-for-drmm-action/20261125-185014
-base:   479e381e77dcde0dfcc9d51e89ff3273da199804
-patch link:    https://lore.kernel.org/r/20261125-drm-bridge-hotplug-v4-9-822722850492%40bootlin.com
-patch subject: [PATCH v4 09/32] drm/display: bridge-connector: use a dynamic connector
-config: sh-randconfig-1001-20261126 (https://download.01.org/0day-ci/archive/20261126/20261126090631.mLSCvuCb-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126090631.mLSCvuCb-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/amdgpu/kernel drm-amdgpu-next
+head:   a69db917063c539fa09325ea22f3ff7b0626b478
+commit: bffef1cc5b3d97e503c87f51759a31249d4a3d1e [242/243] drm/amdgpu: Add gfx v13 ip block
+config: x86_64-randconfig-r2309-20261125 (https://download.01.org/0day-ci/archive/20261126/20261126020759.1JlsyGHy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126020759.1JlsyGHy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126090631.mLSCvuCb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126020759.1JlsyGHy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c: note: in included file:
+   drivers/gpu/drm/amd/amdgpu/clearstate_gfx13.h:113:7: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/amd/amdgpu/clearstate_gfx13.h:118:7: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:506:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:506:28: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:506:28: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:540:13: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:573:36: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:574:41: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:575:36: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:577:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:621:33: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:622:33: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:708:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:708:57: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:708:57: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1172:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1173:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1178:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1179:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1189:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1190:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1195:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1196:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1206:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1207:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1212:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1213:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1227:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1228:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1232:25: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1233:25: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1239:41: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1240:35: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1245:41: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1246:35: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1254:41: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1255:35: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1260:41: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1261:35: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1278:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1279:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1306:33: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1307:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1312:33: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:1313:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2014:28: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2015:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2036:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2037:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2050:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2051:19: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2080:25: sparse: sparse: cast to restricted __le16
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2423:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2424:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2427:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2428:24: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2564:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2565:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2568:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2569:24: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2795:33: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2796:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2799:33: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:2800:24: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3042:73: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got struct v13_gfx_mqd *mqd @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3042:73: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3042:73: sparse:     got struct v13_gfx_mqd *mqd
+>> drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3046:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got struct v13_gfx_mqd *mqd @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3046:37: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3046:37: sparse:     got struct v13_gfx_mqd *mqd
+>> drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3380:74: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got struct v13_compute_mqd *mqd @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3380:74: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3380:74: sparse:     got struct v13_compute_mqd *mqd
+>> drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3384:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got struct v13_compute_mqd *mqd @@
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3384:37: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:3384:37: sparse:     got struct v13_compute_mqd *mqd
+   drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c:4628:21: sparse: sparse: cast to restricted __le32
 
->> Warning: drivers/gpu/drm/display/drm_bridge_connector.c:138 struct member 'has_cec_notifier' not described in 'drm_bridge_connector'
->> Warning: drivers/gpu/drm/display/drm_bridge_connector.c:138 struct member 'has_cec_notifier' not described in 'drm_bridge_connector'
+vim +3042 drivers/gpu/drm/amd/amdgpu/gfx_v13_0.c
+
+  3027	
+  3028	static int gfx_v13_0_kgq_init_queue(struct amdgpu_ring *ring, bool reset)
+  3029	{
+  3030		struct amdgpu_device *adev = ring->adev;
+  3031		struct v13_gfx_mqd *mqd = ring->mqd_ptr;
+  3032		int mqd_idx = ring - &adev->gfx.gfx_ring[0];
+  3033	
+  3034		if (!reset && !amdgpu_in_reset(adev) && !adev->in_suspend) {
+  3035			memset((void *)mqd, 0, sizeof(*mqd));
+  3036			mutex_lock(&adev->srbm_mutex);
+  3037			soc_v2_0_grbm_select(adev, ring->me, ring->pipe, ring->queue, 0);
+  3038			amdgpu_ring_init_mqd(ring);
+  3039			soc_v2_0_grbm_select(adev, 0, 0, 0, 0);
+  3040			mutex_unlock(&adev->srbm_mutex);
+  3041			if (adev->gfx.me.mqd_backup[mqd_idx])
+> 3042				memcpy_fromio(adev->gfx.me.mqd_backup[mqd_idx], mqd, sizeof(*mqd));
+  3043		} else {
+  3044			/* restore mqd with the backup copy */
+  3045			if (adev->gfx.me.mqd_backup[mqd_idx])
+> 3046				memcpy_toio(mqd, adev->gfx.me.mqd_backup[mqd_idx], sizeof(*mqd));
+  3047			/* reset the ring */
+  3048			ring->wptr = 0;
+  3049			*(u64 *)ring->wptr_cpu_addr = 0;
+  3050			amdgpu_ring_clear_ring(ring);
+  3051		}
+  3052	
+  3053		return 0;
+  3054	}
+  3055	
 
 -- 
 0-DAY CI Kernel Test Service
