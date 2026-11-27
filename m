@@ -1,97 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795760103;
-	b=DCh7tzsvYgEcz5eT9QSsPQKEB6nkTzr+skj55RqFjO9Nj4pUZV1HuhKpL+lev2z8Qixz
-	 5VO6kAwUI3annIVGlei63xOMHwX3mnW3pePOSAVbecT3iRFZjn7rDcofoIJMQQhat4lq+
-	 z90JEZOKeMgdQBjYX774qt0dns9/08mA9psQgBAm0hLRKuMuwalaihpY64QcVLVMO8dKI
-	 1VIWJPXdg0TtHLSd6tJnz+kybGNSPtFVn8MbEIgRl0aYnmXLrg/jGmiEf9RR8DemAfz3X
-	 5PqcQhsgAYMRtmOFVO/c5KydLtNrV3aluvPuejTEZ3rw2VDJlOSUn5B1ITr2h3RvJGg==
+	t=1795760410;
+	b=i237Iui5xFVjcXYzXtfJtEc/cQtLsic/I2tFXwPU62fKXHWGWasZ2SVpk2DNmyuV97zL
+	 oyYcnMMxOvHTjvuN4VYE9Xos9IUFQyuZsk8m9QUvYyFhTw0LaT7PWJoyjrbc5sUqBNLCd
+	 tcgzKkQphRYtZu5/UIDVZwjhnB0qrkC17mApUUEFNebU/6WZz+8SbvVqqqgNIxzbA9OZ3
+	 ONC8fpOrhO3LyxegGeJrmKJhf0fnGhrZ7IwwIZAgM+aPPKlk1LKJgpHom9G/JcgQ2Fkry
+	 qTYBzt58PCkGsmYrq4Ru+Rdi1vygEXR3h7n4CTdSDo+RbSWtwxyyrI8cwHm6t90U6bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795760103;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=5VeSFAKw842mvl8PUGM5OyRSDHWV2W9U3+XW9s+w0GE=;
-	b=pzeAa5UFb6Q5P+AWTeuqnKucrqk0dNffLlfOsX5JcZXCMV5hBHHEf7NnOVKhoNwOcv4H
-	 yaTGINSg5m4SjyCS8I8klKGBZg+v5sEscYTy46ng2cuElWnRBFbA/OnioRqxAEu1IhL7a
-	 soTbUPs/V9hYbKuibkW9t8C3ogvXSCSKlIc41wNclNxceZ90cds3BrcKEu/Z19UHndXYd
-	 F+GajrKdSZNS5ZFyg0xsncY30q5/PBgI7QDb6unsqknvnfYxqyVcLDP71ysW+NKOK5WJZ
-	 Jtd8C2RntU6OnWCVG8Jqvc8PaRo/Ep3wyVDStenzy/EDhOpTvF2xR5MGMC+U2m5HFFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795760410;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=p2Nrgu6IH4PU7wr6jnYH03MOh7B08Su9SKDkV60ULiY=;
+	b=1rXUHN1L6jtS6+fCO7Vr4dwBltc9DPQACAdkcB+tObBti3w7sgLH6iwQ4ElRvQAMDQVm
+	 ia14pYKcFF0lblH5afBczWRZPY3SV2nB6NIUhOWz3MjhSGizh93vHjskq4xziGtjydyul
+	 1/AeOBJrMPKvHUTpa3mZ4fHl3RhHuafQVFRlcwoFSIOHQ0YDjUA7OHi1vFIRXGVUcQvo2
+	 z4kQd2kHLcQevJjlb8K5p3VbPR66ZRLQt5XBqkpbFkhm5DZv4q3S/YFErBw6Em9irOo+z
+	 HadKTk/DyRqt8PQpM0U5uCF/athpUo2Wh6lJVJGkIm6CZA2BvRE2rE2FL1fR2DLQQlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pereq.eu;
-	spf=pass smtp.mailfrom=cryspen.com;
-	dkim=pass header.d=pereq.eu header.i=@pereq.eu header.a=rsa-sha256 header.s=google header.b=g73JgnZU;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ebzWpFFw;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFA4606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 06:15:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CFA4606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pereq.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cryspen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B11606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 06:20:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32B11606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pereq.eu header.i=@pereq.eu header.a=rsa-sha256 header.s=google header.b=g73JgnZU
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bba5e17cbeso23571525e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 22:15:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pereq.eu; s=google; t=1795760101; x=1796364901; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5VeSFAKw842mvl8PUGM5OyRSDHWV2W9U3+XW9s+w0GE=;
-        b=g73JgnZULRI+EFn1x/b7AhgSv6Mk4iOnufKBO0xK4kvh+55aFK9IX8BaEwennnE81j
-         UX6hTLZjfMQhseniYrlOjD1hXvTU/PiyCrltLB9PdFlfxnfZed3cKqnqke8HsNpmgFCs
-         1zMOCOv38ABRxC6LUbQidbiGlPu9Nu94nNq02S7rIIoewKOtcwZSj7tA7li3opKLdIx6
-         5wjE9T9GxUmtPuQ9CJtKAgCe1ly7Sx1fwgWNn7oyOWRTrw3ixmLkMy4/MnsFRtZzMqYt
-         HITVfR84mONJ0VLsHxXA4ZmfS7G9+ajZ+dDoLx6WOY6vdREkC7gWA1/3tgeNHfZj1mv+
-         4K3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795760101; x=1796364901;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5VeSFAKw842mvl8PUGM5OyRSDHWV2W9U3+XW9s+w0GE=;
-        b=jk6D/B94INJCkCaeAbTYeEikgq8wm0Di978omgfc3tSVuZGHSdEOdOtg7vEyEglxpT
-         JpA8fbgypb4gHfztPtquWgeyPE0cIteMjGlvmb3lfI+Rc1i4gcsCGLGNwtaaV2Z6GeEo
-         RoER34Ysvpj2ZFb4xuUcXnLUKJrgYNM+MJein9rnZXeRWPPHiHeEZpmKeev5JZyCbO1X
-         zSzm0OR5DAgu3o+SKypvlWX0opx+nHKM97ct9BzpmGPiv7e+JHcPogkJy6yO3uh+kNUj
-         eEXprdCIZb17Aq2gjaEaHttjVGvwib12J/4VqW52W4KErPuDXqzhOFLpCq8qUfTD5zwQ
-         1axQ==
-X-Forwarded-Encrypted: i=1; AL+hErHZ6HiBsXMQlL+VhSu9dyIkKt4rGLqgFCvpiLG69rkUf1jPMA0zANM/vFMWSU7iDpWNjaZ6bvTMPXOVce0N@lists.linux.dev
-X-Gm-Message-State: APuU4Z9fTGLFsXC7ZM1+1kgdlcLPTCVMrg6vacqGgsjdpcHsfU/bSd4R
-	Io997a+XChp5yrVwCNcSiQxIrgbCPdNPlvYCPMKZazpQl9s+yZOBdYmQUHRLfRBAOgg=
-X-Gm-Gg: AZFdTZeRkSEo1v88xP5Ck4vw5n991kjn/Rw/sE1WRS2te4o3LQzJoq1k34xdztzD10K
-	zeGLcDoUMVre3re9M+HVZ8GS3qDcHLM9ZcpBEImWyYqTQnK3oqIbgHk0LwPci2WG+Y5V6O7cn0V
-	tqMSaZXCkqje2+JgWPA441LSHu44g2dBZhOhyCWGYQmi/8CgNBJEUNpNNz9he75rtoOu0TCB8JX
-	QVMX1EggX8nA7qdUHZCif8P/NrPjP0HhyFDCW4/m45w3orSxY9VRnDddsCVXO18NcAxeJykagOV
-	lJ/ZxLfBirfm/j8yv9O8YzMCkaDDPUG90w/61LUQoBf9xr9MQ4Pardc3ihsWBRSuwKO76GuHI1I
-	Cq49x1oK9awQErzS/YTGa//JAWMcEroOtm4Vn8+Lb7LHS9MM0llLewR9HimtaIvEYY8IqlH+WiL
-	cbfQxP+zKRWsj+cXTev9CpoQvyBHsM8N5eC7S9Nnal0x8INVlRHqXZU/U7M0G8Ac61h8r2lN9CV
-	J8m32qLi1snQmtTGFTSQjwjbC0bvIMO17C+WzfGIsEsXNahZmjA4cO9vrj1IaK2cnIa7U5pQHGo
-	OGHuA0zEyAWhzkwdDDE=
-X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr448194565e9.9.1795760100638;
-        Thu, 26 Nov 2026 22:15:00 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853b2437sm922527445e9.13.2026.11.26.22.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 22:15:00 -0800 (PST)
-Date: Fri, 27 Nov 2026 09:14:56 +0300
-From: Dan Carpenter <dan@pereq.eu>
-To: Yaohan Li <shunsheng1218@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, Mark Brown <broonie@kernel.org>,
-	oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lkp@intel.com
-Subject: Re: [broonie-regulator:for-7.5 6/6]
- drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
- warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines:
- 444.
-Message-ID: <awkf4CNhSPz-lcEk@stanley.mountain>
-References: <20261125184601.R647t8Sj-lkp@intel.com>
- <179567739729.2548149.711673218230357357@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ebzWpFFw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795760410; x=1827296410;
+  h=date:from:to:cc:subject:message-id;
+  bh=bVQ1MaMso6qxhvbolVtp1a0qHa9gIzDV59045V0xubI=;
+  b=ebzWpFFwKTdcsU5aLBBy5Bd2k4lDwxUf2nSJpEAC5LlOY9qMUWGJzn9v
+   nRHaqF9MbYucQeuNWuErh+CBshwWxKVFOWdGRbsJuAJXtYrpPPaC8YmQj
+   csNOPdKfRv1gv46xPVew7GIl7juFdXWLY/is8X3vE3Ij6usrVlnA8G/I7
+   morQcDBHGW72ayVALBGLSlwfl+/F468GTTWmC2QFHMIx4SfyVqpdsDsL1
+   hrdjopV5z1b8lUmvXPc3Q3AP7W5nzOOntHlF0m6/+zmYSPD4bQA3VOJzb
+   jxaUrrM4QsZ7SdMcxm3TAk7P5OZkeEzYTzTPy8r9jYuX0+WFV8/ZDmqap
+   g==;
+X-CSE-ConnectionGUID: VuKpHtcXQKC1YrhTMYmoBA==
+X-CSE-MsgGUID: eeJBfRTqRCaiGC+JldE0JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4522301"
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="4522301"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 22:20:10 -0800
+X-CSE-ConnectionGUID: ZQZBDa48QDCR70qSP92Fkw==
+X-CSE-MsgGUID: JA6KtdJuT466XFzEI8qU5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="14097603"
+Received: from igk-lkp-server01.igk.intel.com (HELO cbd2aa73d023) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 26 Nov 2026 22:20:02 -0800
+Received: from kbuild by cbd2aa73d023 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWpJG-0000000002R-41w6;
+	Fri, 27 Nov 2026 06:19:50 +0000
+Date: Fri, 27 Nov 2026 07:18:53 +0100
+From: kernel test robot <lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/n1d/enablement 11/11]
+ drivers/clk/renesas/r9a06g032-clocks.c:1338 r9a06g032_reset_set() warn:
+ inconsistent indenting
+Message-ID: <20261127055317.7uMk5YFT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -100,64 +80,46 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179567739729.2548149.711673218230357357@gmail.com>
 
-When I send these emails, the only context I have is what's in the
-email itself.  But I have now downloaded the git tree.  The init
-process is a mess if "->done_this = true" flags.  That's a nightmare.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+head:   6ffd02f2e68f76bced1f3ccf135ffadbc62b57a0
+commit: 6ffd02f2e68f76bced1f3ccf135ffadbc62b57a0 [11/11] DEBUG reset calls
+config: m68k-randconfig-2200-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127055317.7uMk5YFT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
-The better way is spelled out in my blog:
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127055317.7uMk5YFT-lkp@intel.com/
 
-In this way every function either succeeds or cleans up.  We only
-have to keep track of the last thing we have allocated so we don't
-need ->done_this flags to keep track of it all.  There is only just
-the last thing to keep track of.
+smatch warnings:
+drivers/clk/renesas/r9a06g032-clocks.c:1338 r9a06g032_reset_set() warn: inconsistent indenting
 
-Looking at qcom_labibb_ocp_hw_enable() now, can those regmap_update_bits()
-calls even fail?  It's not clear if we're undoing the "Clear irq latch
-status" or the "Enable OCP HW interrupt"...  If we did the clean up inside
-the qcom_labibb_ocp_hw_enable() instead of the caller, that would make
-it more clear.
+vim +1338 drivers/clk/renesas/r9a06g032-clocks.c
 
-There are two callers so this weird error handling is probably done
-deliberately,  that makes it even less clear what is failing and what
-we are trying to do.  I would prefer to have a normal function the cleaned
-up after itself and a weird-o qcom_labibb_ocp_hw_enable_no_cleanup()
-function that had comments explaining why we left it in an inconsistent
-state.
+  1322	
+  1323	static int r9a06g032_reset_set(struct reset_controller_dev *rcdev,
+  1324					bool set, unsigned long id)
+  1325	{
+  1326		struct r9a06g032_priv *priv = priv_from_rcdev(rcdev);
+  1327		unsigned long flags;
+  1328	
+  1329		spin_lock_irqsave(&priv->lock, flags);
+  1330		clk_rdesc_set(priv, r9a06g032_resets[id], set);
+  1331		spin_unlock_irqrestore(&priv->lock, flags);
+  1332	
+  1333		/*
+  1334		 * Figure 7.3 and 7.4 in the RZN1 Introduction Manual recommends
+  1335		 * a 5us delay for reset to propegate after assert or deassert
+  1336		 */
+  1337		udelay(5);
+> 1338	printk(KERN_INFO "****** wsa: %lu %u\n", id, set);
+  1339	
+  1340		return 0;
+  1341	}
+  1342	
 
-I asked Claude to review it without any context.  Here is the prompt:
-"Review qcom_labibb_set_ocp() from drivers/regulator/qcom-labibb-regulator.c
-to ensure that error handing and cleanup is correct.  The error handling
-ideally should undo all the things that were done so we can fix whatever
-caused the breakage and retry.  Ensure that we don't leave the driver in
-an usable state."
-
-I haven't looked at Claude's response carefully but it complained about
-the same code said that there were simpler ways to write this:
-
-  @@ static int qcom_labibb_setup_ocp_irq(struct labibb_regulator *vreg)
-          ret = qcom_labibb_ocp_hw_enable(vreg->rdev);
-  -       if (ret)
-  -               qcom_labibb_ocp_hw_disable(vreg->rdev);
-  +       if (ret) {
-  +               if (!vreg->ocp_hw_enabled)
-  +                       qcom_labibb_ocp_hw_disable(vreg->rdev);
-  +               return ret;
-  +       }
-  +       vreg->ocp_hw_enabled = true;
- 
-  -       return ret;
-  +       return 0;
-   }
-
-  A simpler alternative: return early from qcom_labibb_setup_ocp_irq()
-  when ocp_irq_done is already true and the source is known to be on.
-  Re-applying the constraints then never touches a working setup.
-
-regards,
-dan carpenter
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
