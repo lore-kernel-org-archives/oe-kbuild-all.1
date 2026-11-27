@@ -1,75 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793926;
-	b=amr6ngQgUXmgHVVY/IEp2ULphGb6Vbdu9SnmG5CC1mmgctKqTb3RhrW9Pd18P81573GH
-	 q6pylvmoHCXluwQKslkUyvaCG9Ywnp5IcdiKnNKsSTjyKYpRBokz8BFZq8tFBXFT/RD/z
-	 WMPvq5xJqKZdIE0P6WBc8burh69rR0n0c3Ja+x9u1ueAPlTimLZj4OQLDXsUo5flsIX4I
-	 ZP96nAk5iHKF9nRgGGf22V+wVgmPx4QFMery5VX3b+EG8oVYSpWewbKckyyMUwIsK8jAW
-	 SD0SD8VtJjY2kzB/L4KBJZ022ao0XCp2Z9achGPzTWkHSGRAWSPfe3JVxDf+Detj+Vw==
+	t=1795794582;
+	b=2iEySV8rA3JCMUTB036AoPGX1cIOYAVQAL0G4hTmOBHLsnhP+4PGPffOtTS3b4HBPPqd
+	 crr/h2wlUvC+3dNuxWceb5MRqMNyKWoFxV9AGTxpvD+HnPbFEhE0LRqWsN0+O7KE5ZRlo
+	 HwoRRS1aM2f54QRBAi6pmWFcMzq7+0uwmvFvNlyVGqoSsLBGfilqs2xqA1yQd/C8F0puT
+	 6RPQQlGD80Utbkc6iaA2GxG+njRTi3HQtkf0F41HNKp1A+5tzfLnjLmkEiXjxjMzWavhn
+	 se7ST6Ni0x37rJQqWHoH3CLGxYF0wI6fx9M4XqxDaY0pq7z3Vp2dR6+PU05SZ8AIHFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793926;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795794582;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=97dOnkvrxTJDDGXI2bjgoOzNNjW4n2O1mDB2f7Uxeuk=;
-	b=C1FekriUaG/urkbQIaNwe8TOx57ZUs33hGv3HUOTCpPEX//LcdS2xmmhHswAaCLI44w2
-	 rS19cXRXYoIZ0jz7bE53hMRqYWgKY1H123FxC5TeAGi8iQkgIh7QaOOJhwHCGglJKSYSS
-	 ubdVF/j8UZwfIS1np73Yd3P1hrg306WbOeJYb14J2+RiQGbzdmHTB36YGJjQiUsux+gdQ
-	 OO2DnHbnXtIlmClr9IaAAfThr9oTEjaklnkOWRAqQTvoe6AwfsVuDgXxqLJeQMd+i1NaS
-	 HrxFGUBa0jMUpqPrwBddH84B1QsyxMiJQ4fagmfd5Pd7Zsn4yv49KmxIts9oNkuHA0g==
+	bh=20AMYw8phH8e5sd5RqaJQ4BnSjzgWR/dkEbAXzQOCNY=;
+	b=Dh6tToUcUzhFEEy2vwSvgrzzW8EToAuNRKKYDnTxl+smStuYW4QapoJMJFvpSxz+tHHS
+	 sHktWa07abahqd0jILPkWSq1UE7v19ZRy6T6HHzZs4pN4U5oVYLEcSGR0JS1QtDpr1YsD
+	 XStsGPbxJhO01kfBalP+XZuV9qUjVM5dZOyI96htOJgobiIaJDr0+PEuMefJUj18+Gstp
+	 OTtOUk4HVbf9hC8rE2sPbXwZtSAlzlW9WNmMiIddb1SKGjw7StTcyB+BJQBKYxup3vXEo
+	 +YzJ0FEyjmrCAsuvYf/CU+VNXIJxc5tuOvqzq9BFxP3RlIGX0KVof0fo+W9HhF7tE8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="d/Dbrn4Y";
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iROMsjmN;
 	arc=none smtp.remote-ip=192.198.163.19
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6F0606A326
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 15:38:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D6F0606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4128E606A32F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 15:49:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4128E606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=d/Dbrn4Y
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iROMsjmN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795793925; x=1827329925;
+  t=1795794582; x=1827330582;
   h=date:from:to:cc:subject:message-id;
-  bh=KDceSHnlCggfVrA+3Mag/JdEOCQiWzHt9ajWa1aSCaA=;
-  b=d/Dbrn4YIFdqjdRWj9bdX8jczNGZhJm6F4Mj+eaPpm6c8uTXJC1vQWap
-   KZ2Fuhn7n2KoiqndhEduRyIvZWjpPz9u+rwm0cApwomu3U6I2pmyPqUj9
-   etu3CflpnKR+4HBSNuMsAi6vce945zqNG/jQHdTm/soLHNtc39GHG3byn
-   0tdkp99RIRnAcuyTUuORpEdgAa243iCAaLtxwDdkzykceNRbwS1FPAKtK
-   VDUUqYry7XK2HUOxDalaH5DoS/FFzrFxJOzdCPLqL8Xivb4siPVYv70WS
-   Ruo4ARWjhDAFCH5oYC0nt8kdSfWHMWQRtDPlWTrP21ZD0rSJ8Du1JFxil
-   A==;
-X-CSE-ConnectionGUID: ZCZ51RxHQ1CpurCjauTFzA==
-X-CSE-MsgGUID: 9xAcwkGBQzOQ+8mAvNgttA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4727053"
+  bh=W2g6yCLjQtdgrjNaLrQWL40j+CbY8Wg6/o6/kdhdlXQ=;
+  b=iROMsjmNPvOfLO4bjfbwLLUYC91Dpx4lx47SPKD/1iuwOtrEWBir2Inj
+   NE37nR6f7TMoKuh2Lnujy7YerXMvGw55KiE4d4vDYnA6l/EoVko/hHQ4L
+   u3PAnV936hlM+Iv9AKXuRkewcSd68Poe74Z0H1UW8lp+h4qlboDus0beT
+   x2angd2AWeEh4LN98kBvs1rAMNE3g0UsJkgxX2NmH+H912B/KtY6OcxVi
+   yq9efk0UAhPxYMAj7/8toGUlOSu/gjn5+c8niaImaFA5fwk/RH43Rbc3G
+   7JOz5cY++IFuIe4VBzWk5ngjfv/pH5lBEqeJbHnaBhKshlnphOWJHuMd2
+   w==;
+X-CSE-ConnectionGUID: L9P79p0ySuWpZpufc7LgvA==
+X-CSE-MsgGUID: B6H2sTejQE6oWlnFK2OeXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4727862"
 X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="4727053"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 07:38:45 -0800
-X-CSE-ConnectionGUID: DrFdi+LcRt+qFXBWhHhYMg==
-X-CSE-MsgGUID: DaqYa6c8SWmlYInyHqHhMw==
+   d="scan'208";a="4727862"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 07:49:41 -0800
+X-CSE-ConnectionGUID: fdITKMO6STq4HpoYfPO2JA==
+X-CSE-MsgGUID: /3Sy4l+PSg2lJ2hq45yvqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="12711930"
+   d="scan'208";a="14186784"
 Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Nov 2026 07:38:39 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 27 Nov 2026 07:49:40 -0800
 Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xWy21-000000000DT-1I98;
-	Fri, 27 Nov 2026 15:38:37 +0000
-Date: Fri, 27 Nov 2026 16:38:30 +0100
+	id 1xWyCf-000000000Dd-20Y1;
+	Fri, 27 Nov 2026 15:49:37 +0000
+Date: Fri, 27 Nov 2026 16:49:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jiri Kosina <jkosina@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org
-Subject: [hid:for-next 4/10] drivers/hid/hidraw.c:34:8: error:
- redefinition of 'hidraw'
-Message-ID: <20261127163239.RGvemhVL-lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:fermata 246/348] kernel/bpf/coro.c:342:18:
+ sparse: sparse: symbol 'bpf_coro_xdp_dtor' was not declared. Should it be
+ static?
+Message-ID: <20261127164453.3LMkeolJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,78 +81,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-head:   e61d3737e144924bc27c536a31da8147f1b55554
-commit: 3203bc9bc0795c44c25ce7b7762eeb35f73e82c4 [4/10] Merge branch 'for-7.4/upstream-fixes' into for-next
-config: hexagon-randconfig-2200-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127163239.RGvemhVL-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 578b1f2d6a9776b63cbb6b86f4cca6208d429f48)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127163239.RGvemhVL-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux fermata
+head:   1d98f92a7b37670e804415b13c1d5d039706d4ce
+commit: 98b9344cc99d4ef7244d6626ed4a8c92ce5a78b5 [246/348] bpf: Let a program park a coroutine frame and call its continuation
+config: riscv-randconfig-r2303-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127164453.3LMkeolJ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127164453.3LMkeolJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261127163239.RGvemhVL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127164453.3LMkeolJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/coro.c:342:18: sparse: sparse: symbol 'bpf_coro_xdp_dtor' was not declared. Should it be static?
+>> kernel/bpf/coro.c:348:18: sparse: sparse: symbol 'bpf_coro_syscall_dtor' was not declared. Should it be static?
 
->> drivers/hid/hidraw.c:34:8: error: redefinition of 'hidraw'
-      34 | struct hidraw {
-         |        ^
-   drivers/hid/hidraw.h:12:8: note: previous definition is here
-      12 | struct hidraw {
-         |        ^
->> drivers/hid/hidraw.c:45:8: error: redefinition of 'hidraw_report'
-      45 | struct hidraw_report {
-         |        ^
-   drivers/hid/hidraw.h:24:8: note: previous definition is here
-      24 | struct hidraw_report {
-         |        ^
->> drivers/hid/hidraw.c:50:8: error: redefinition of 'hidraw_list'
-      50 | struct hidraw_list {
-         |        ^
-   drivers/hid/hidraw.h:29:8: note: previous definition is here
-      29 | struct hidraw_list {
-         |        ^
-   3 errors generated.
+vim +/bpf_coro_xdp_dtor +342 kernel/bpf/coro.c
 
-
-vim +/hidraw +34 drivers/hid/hidraw.c
-
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  33  
-bed04b3b8a67df Dmitry Torokhov 2026-10-16 @34  struct hidraw {
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  35  	unsigned int minor;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  36  	int exist;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  37  	int open;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  38  	wait_queue_head_t wait;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  39  	struct hid_device *hid;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  40  	struct device *dev;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  41  	spinlock_t list_lock;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  42  	struct list_head list;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  43  };
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  44  
-bed04b3b8a67df Dmitry Torokhov 2026-10-16 @45  struct hidraw_report {
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  46  	__u8 *value;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  47  	int len;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  48  };
-86166b7bcda0bc Jiri Kosina     2007-05-14  49  
-bed04b3b8a67df Dmitry Torokhov 2026-10-16 @50  struct hidraw_list {
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  51  	struct hidraw_report buffer[HIDRAW_BUFFER_SIZE];
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  52  	int head;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  53  	int tail;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  54  	struct fasync_struct *fasync;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  55  	struct hidraw *hidraw;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  56  	struct list_head node;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  57  	struct mutex read_mutex;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  58  	bool revoked;
-bed04b3b8a67df Dmitry Torokhov 2026-10-16  59  };
-86166b7bcda0bc Jiri Kosina     2007-05-14  60  
-
-:::::: The code at line 34 was first introduced by commit
-:::::: bed04b3b8a67dff3fb9157bb92f1ae45343492f7 HID: hidraw: Make hidraw.h private to HID subsystem
-
-:::::: TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-:::::: CC: Jiri Kosina <jkosina@suse.com>
+   340	
+   341	/* The destructors of kptr fields that hold a parked frame */
+ > 342	__bpf_kfunc void bpf_coro_xdp_dtor(void *coro)
+   343	{
+   344		bpf_coro_drop(coro, this_cpu_ptr(&bpf_coro_drops_xdp));
+   345	}
+   346	CFI_NOSEAL(bpf_coro_xdp_dtor);
+   347	
+ > 348	__bpf_kfunc void bpf_coro_syscall_dtor(void *coro)
+   349	{
+   350		bpf_coro_drop(coro, this_cpu_ptr(&bpf_coro_drops_syscall));
+   351	}
+   352	CFI_NOSEAL(bpf_coro_syscall_dtor);
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
