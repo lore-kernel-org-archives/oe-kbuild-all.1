@@ -1,100 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795766176;
-	b=Cgujg0bGco/LkF2dr75DiOqwO+GgJvCaz+GseyRN4LU2sFw5B9nmJ9V5sMyVLJTUeaLn
-	 fKjsTjX7w0CduImj5PDWw7fjV9zPd9OaqxHZNCHm0qC/yrDv8/D8q806J3pTemBrggGcU
-	 9T+ONRizXCotG734CowNzsl0FikurFFta2JYPmS5WjIlrhrIxKfqWyTlwRl2SH+uMYmHF
-	 TtuSPfXE0NK6OoGvs07UdE7QvaDradcTSbBlaAtf7UHCXz72lm8A9Cen3OHP4vAlBndXs
-	 UKIMxoOI2m4a8PROGML/Z5gKbo/FyL8w97l+nWVXCjW6vpkXP2h1ErjcuWYY2SognIA==
+	t=1795768412;
+	b=2unPSXepTOyxrYI/PW4YIuzPrzAk5uInhgu2RB0MFTFWYV50kG5Cae8GXFokiXYpLHzL
+	 hEGgP7bmxrSeyRCEjm3/BZZzdYoliGBF+s6IBZUxkQ5gwzyFZ2Whzu/2SAvPCp/pi964P
+	 +ycGU4Y6w2y5HQVzdLFGoAKqa9tPxksyDd9AeKsT4j2E4HKE0A0WqUzftGhc+cRbRk9Jg
+	 5c0ww5VdvKo4XrIJ8ZUupkGE4oTpGr+aPM+gHDY3Zg5MAvRFZ3GQ141QgYcCaKJvwCELI
+	 zz9kSj52bE56v9iJ9utZtCPKZ1zU9PSJTXPFIfd6mnQwYKUjt3LycwPTFevrsJ2128A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795766176;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
-	b=vPKRMSpxOUPT+Vcp3Z6EZEIjGu9FSVK/wklVkq/2sPkkiIjHZvEmWFFNO+5/3z7BN/FL
-	 mVIIqcznHrGUbqFQBah8CVHT3d20p976Y1/t89yKT2PSM4elyrQpSPJIsgLXKRLJGI9NJ
-	 WitFSnROBKJE52XpPy08ru0XusXypDk8pwoONexihJFeNg4uy1sCFI7suztl4tESUDVYf
-	 oiY8HoaV6fvV+xbhvcEbcebtHxrOy71YTQRIm5F2+ynZxgkkgoCC5IgC74K5rcv8RqCOL
-	 asH6SPmv41WjGwPe6fu91GQy0Sno6+jfjnfU7HayLQlxxpVWP4TY0JGyMOwsFNrqMZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795768412;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=/h6ivogR65iO+inwU9QCiWi1gvByiI97sc5h6yHKLMM=;
+	b=VkPyflP8al3A7/9zo52RAzjisUvo0Rs0vOWoyPz3Xb0wKJj0PHof3PAmzJkCGxd4AFNE
+	 rZm3eFXe2DBj+U88EePdA6PrBygcfkzAzkAogboQUodRmurPrLSFD1efg9DsBMypRwy0W
+	 fReAKw4YyCgMTZoj92hf6bup4tLes1rCq45Ejq+C1z3kjTvBNl3ivw/AIM3Xaeib6P/9R
+	 +wX2Neuu/bDqKFYC5BOXNM1CGVhiv7Odm6GD0vWvgIjSxVyw787DfNGRZpMrsgQDtwtwM
+	 6gjaLsiq0ov5I2Ye+3c7qR0dvS9xZ8nmE6JLVV63cJExVoX6TbAYIdEJxJSgg1pRw7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FF2ZM7Xj;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fzx9f9eS;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF74606A337
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 07:56:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BF74606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF21606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 08:33:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF21606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FF2ZM7Xj
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f04e3bf46dso57512725ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 23:56:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795766176; x=1796370976; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
-        b=FF2ZM7Xjzdsp+zbwEh9YRtM5YHz9ba7KbliulwALAG+Iss/7bD3aD3vQETuqK+qoM0
-         gtXvnnltI+gD3Kp8e4Y1wZcwe/hq+suQoYyx+Za+neohTACcEbLQXhGsLoTSWzD9UUdE
-         oc/eUkjUf4z7g24QhzdssP69q3x21+PKOuCAO7M6wRhPWFxb9jfDFQutsDqSgyHbZq+I
-         6scEct2/rNI42VvkvmpbUPcdl37H9omzGxWRZ9PPrI24JSRYTgpMSsqe93OHPaC6f3l+
-         Lbnqo0wyaSsxY6PdBhCnIjbbQ72FGosRd09JKbnnzcRxZdLaRqYyJk2gmpBTX0TDS0XT
-         D+2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795766176; x=1796370976;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
-        b=xifuz8H7Im2nIJ7ZyafK5cNrniI7DXA0TKEDSTDAXIzK58Gc00DaJWd32LWjGgU9Pc
-         dDSlyb1JyyFgvllkdYEq7GGv5M+0QezBv6wCAjsb/vek88Lm2wuV8KU3d19qa6FNi6ac
-         Eix41A0BPBELHKRptFI76jGWhEDAc3ekAuz/8qDmmh0XJyDsOVuv/ZkzqTcWb7HrIxmR
-         mKVGsTkEzAHv68YaSN4/q5Fi6GHeNQ1OttHuGC7UIQ5N5jZTHfyb4RolyDHS+2jA1XdB
-         HAxkohb+AUuCAqnw6QUKwj2QWZzdUqx+S8nv/T64rPsfl7RnPhqs7BpQ/DoYwnmEgX4f
-         Hllg==
-X-Forwarded-Encrypted: i=1; AL+hErGJ/4yoH0cs413lESfMi2TveWMMx+8NaVwJDNYPHTI/XqLVPNCtXeHBIeYihg5wrabkf1E+EVtNkhiktI0S@lists.linux.dev
-X-Gm-Message-State: APuU4Z/M+dTDrVoFzp20qAaGmK0bOstNOs6RPdj49Z06PRtNwCCwrcgj
-	5de8SEvwdwZmJKaLdUKObrsYDW+RoO1kIZZi844jOHZMYrY4/0yMBBKG
-X-Gm-Gg: AZFdTZe8SSvDXEtkvGombjZB9+oKbjiP46jin38KInBRpjip7PwAc5bBm/1H6ExHYod
-	e8RzVuKU8NX0VKbTEK8jJnQglx1P55XOvpqLuA8kCIs0WOPfT2nGUp68z9o7/T3uN7cupEYXSWQ
-	zIp0U29rqCvJwqpfQtbBALllbBDTi2pEqU+j19DvgqYEsMM3aFUCxZ/37vaHDlMjTGysmemvGv9
-	HTEq9mtDQdYyOI9xdyJgdLcnNV+BH3GykiRjb07WqYis3xJYCtcZjOulhT7YFw+ia2dLc4nsGEJ
-	ys5ZMSHn46VzMDRbFXoZ1VI3mHty44nR+RxSBaGZM6EvaQ+xKMrij2vEj4CEgA5ZrSH2Gk4HnHg
-	Xdgno69FoNfjutv4LHVuLocgoUzu7P3KH6jydehS3qu/exdPJEdLCZWQH1w1AhrhO7POfT2M3wb
-	j7dLFxhK6YGkMdVOPhEAFE7i+kAplYW7YGS7RJ4Btq4to19V30PGidgFCt8+/GALxjVmY5HdWHx
-	uK45Q4gQBcSHqtmOlnJ+3LIJK9qnYapUwpXB9l2X2dyF0dnS1xR64bN7oGSOL8jUGypcGyTRQxF
-	pXAJQR3F9GLD+7ev4Z0asBi2sqXrrx5MOlc0r2mm1oPZ2A/hTA3pU316lrfU56L3ptdbuYs5VcQ
-	GMq/yBkAYvhG+EBoMcNZfjv6IB3OyeJXCxMyYvZH3zpNV
-X-Received: by 2002:a17:903:4586:b0:2ed:fd82:e905 with SMTP id d9443c01a7336-2f03f207db7mr255674895ad.31.1795766175642;
-        Thu, 26 Nov 2026 23:56:15 -0800 (PST)
-Received: from [127.0.1.1] ([74.176.208.23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0dc4f2sm118968555ad.30.2026.11.26.23.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 23:56:15 -0800 (PST)
-From: Yaohan Li <shunsheng1218@gmail.com>
-To: Dan Carpenter <dan@pereq.eu>
-Cc: Dan Carpenter <error27@gmail.com>, Mark Brown <broonie@kernel.org>,
- oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lkp@intel.com
-Subject: Re: [broonie-regulator:for-7.5 6/6]
- drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
- warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
-Date: Fri, 27 Nov 2026 15:56:10 +0800
-Message-ID: <179576617048.3953440.16752646728304372112@gmail.com>
-In-Reply-To: <awkf4CNhSPz-lcEk@stanley.mountain>
-References: <20261125184601.R647t8Sj-lkp@intel.com>
- <179567739729.2548149.711673218230357357@gmail.com>
- <awkf4CNhSPz-lcEk@stanley.mountain>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fzx9f9eS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795768411; x=1827304411;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3GpE+F+q7kE86t8MgkNfa5zzEw9Mo11gooWpH2jqaUU=;
+  b=fzx9f9eSmry8mnRAeFsIHVGDw0UC1U54sXgQ4ePV8ULPs5x+a/bGElx2
+   6/uEl06oZC1y60r3dOorTh0eP+n5TFIJm7yDv64gaxH8jZVExs2xF5zV3
+   E5O4dFATjACb4hktiZ+6es3k1bvhy5J5rIqZQYd0YCjpiD+Bm0Y8GotR3
+   KKhczQsH6Xka0a18x+P1FaS5KemT04gcfYVWr9ZLzciiQMcmrU+mFFOCH
+   eF4oYIUsu3LjT6IdU8Z2tmUHRv8pA9zcjDsrXehre+0TeyUwltKcbEmgc
+   +HyKysqdmC72pS0ROUzViItCmOG2ZGHe4eVnWAYFCnksE0kDo8eJlt+db
+   A==;
+X-CSE-ConnectionGUID: hfpCisF4SyadZaUEqIzYhA==
+X-CSE-MsgGUID: u8GNy70vQECsegW8EOec/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4583062"
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="4583062"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 00:33:30 -0800
+X-CSE-ConnectionGUID: ubG+/dVMQfmbcUC6lqY/Eg==
+X-CSE-MsgGUID: oqVoqhsbQCiER1kAgiDQvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="12237506"
+Received: from igk-lkp-server01.igk.intel.com (HELO e79648c3b81b) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 27 Nov 2026 00:33:18 -0800
+Received: from kbuild by e79648c3b81b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWrO4-0000000000p-1PQJ;
+	Fri, 27 Nov 2026 08:33:00 +0000
+Date: Fri, 27 Nov 2026 09:32:14 +0100
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Rupesh Majhi <zoone.rupert@gmail.com>
+Subject: Re: [PATCH v2 1/1] iio: core: Split debugfs routines
+Message-ID: <20261127090758.cpRe3Nuo-lkp@intel.com>
+References: <20261125140251.384361-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -104,24 +85,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125140251.384361-1-andriy.shevchenko@linux.intel.com>
 
-Hi Dan,
+Hi Andy,
 
-Thanks for pulling the tree and taking a closer look. You're right that
-the state flags and split error cleanup make this harder to follow.
+kernel test robot noticed the following build errors:
 
-One catch with tracking ocp_hw_enabled only in setup_ocp_irq(): the OCP
-ISR disables the hardware interrupt and ocp_recovery_work re-enables it
-later, so a flag maintained only there would go out of sync.
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v7.4-rc4 next-20261126]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The regmap writes can fail, and an error doesn't necessarily tell us
-what state the hardware was left in. I'll look at moving the failure
-cleanup into qcom_labibb_ocp_hw_enable() and whether IRQF_NO_AUTOEN
-would allow the initial IRQ setup to unwind locally, without breaking
-the recovery and retry paths.
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-core-Split-debugfs-routines/20261125-145940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20261125140251.384361-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 1/1] iio: core: Split debugfs routines
+config: powerpc-randconfig-r2309-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127090758.cpRe3Nuo-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3a9f981aab0cc32f74ffac36a87891cda8889c37)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127090758.cpRe3Nuo-lkp@intel.com/reproduce)
 
-If I can verify a simpler and safer error path, I'll send a focused
-follow-up patch rather than reworking all the state tracking at once.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127090758.cpRe3Nuo-lkp@intel.com/
 
-Thanks,
-Yaohan
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against local symbol; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/head_85xx.o)
+   >>> referenced by arch/powerpc/kernel/head_85xx.o:(.head.text+0x3ca) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_task'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/init_task.o)
+   >>> referenced by arch/powerpc/kernel/head_85xx.o:(.head.text+0x3ee) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'init_task'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/init_task.o)
+   >>> referenced by arch/powerpc/kernel/head_85xx.o:(.head.text+0x3f2) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_thread_union'; recompile with -fPIC
+   >>> defined in ./arch/powerpc/kernel/vmlinux.lds:145
+   >>> referenced by arch/powerpc/kernel/head_85xx.o:(.head.text+0x3fe) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
