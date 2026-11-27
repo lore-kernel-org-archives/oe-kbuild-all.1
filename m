@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795804548;
-	b=Uo/BXJzhzZPrdaxhNe0xu/ArrfyZfZZVOgs+91ktaEbv3ryjmyuRAGYa7iV7Qc31tgE8
-	 2n8c+HG4EDyApcfbNAgvjG4gEOAqbs96a9T///fmJH4vAjGjYBsVKAksvuVKRZ9O0ZqEP
-	 4me1FNq6o7dDuJSVZTRng9E6DXUv3vR8gZFJZdbGj+NEeaazb53qJGlzjVTHWrSjHkOjv
-	 T8xrkgPckyCpSuAoDExE5PXdMV7hKDjRIYl4BIPZwesAC1j71UxMNyyaLOZS460pcQhRH
-	 D8/2Q2klqzINNy9goxIrVzWw8i8LLP+LCSZ1c1rzUVjsQvgWlAWuuDfPbLfl7/1XITg==
+	t=1795807612;
+	b=XJkIlyQVrlnaSry2tajbDzhfRWCPJukYxYqhkDJRH/g24z43j6aESU3+ALyamXnvIynF
+	 O84WERPJyIc8rKTXuIVkVjt/s49beB0+wTb6WsOmsAOicXnx/bEpyq4CRLxOkfecBeSE+
+	 iMvrSPGR8q30wotyTP2uVlrLULGbYxl7Lb2rYWiDfRnUHmzRTXSJuch71NyZ87Gi0XWWM
+	 IrmHOg/ppHu6rX6XpzLktHNrk/HL9Bk8FQn85xJ+rj2QUpACmTBA1bIb6Pj7tu8T6VO8s
+	 O3KlMWce0VsKIfsobpSr76RklZgsM3NYFAvlq+pKVjkGV/EdMev0d66xomNlhRlwROA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795804548;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795807612;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=mCwUCKrfLvk4+7YggsUOqDVd31exrEjyEnffY56R1uo=;
-	b=ZwKhtxpfv4UIWikUpVL2lryER7X8Dp3YyYmayxmqr7emlcQ9viiTGbUjGHBGaedzZtkG
-	 M0uHRGyUAt/3TuX3OtFzLrAGsZb3+mPKS6v2yT7gpsDIV8Sn+SBsNZ12m9bYe8kN6HWDa
-	 IOqikgPIDS83alQ1iOk8fieRw6KqezWMb3ZVJ12k8nhB4NQWK27jePQIhOkZrYvTqA//1
-	 f3RvXw3wPxlztEWzmQqYaxAeE9Kr+gIqw7ffv6lHW4yjertooQqol349dD0D0IrA9nIku
-	 VENRloRSa12OuNoOvNbMcQ+XA8SRC6XQMkmYamXj7YL4IeVmMul89C9mjhjdT19rzFw==
+	bh=n95trsI9f4mBVr50GvDM1EM+XbJkNdgLoHYefwjGymA=;
+	b=qD0nZAVy6xn9LI4OFRTiweMEV2Nm+0DkhJ/TOI4Y+6yRcndANneuDO+1EspGWc4QECEd
+	 nJSMpdQsKQxjB7Pfi6bp9ZDaa23HCsVP1BneaOo1tfkMUWXQ/rU8i2jQyF05y4Sc8e5/U
+	 v956sdKcPf32uNHUXi+mxZa/9Dk/mintoAHajA1eDYfmpg0HifxdnPYvid0zHgqk1NFjP
+	 2W9k5IBSUBR1l5lkk4dAzyRKsUm3RNjpdzQeelIlZzB2UdzicUS7QbL6oMBU1HkIRwJyE
+	 4DXnJ9NqTXgQAnVdC8ajJF7BBiQFFsZPqH7IzZy5qQTDL3lB7J7lHKRefOJqa5DB/jA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FprVCZIw;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="d7gJ/nBL";
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E620D606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 18:35:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E620D606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C67E606A330
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 19:26:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C67E606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FprVCZIw
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=d7gJ/nBL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795804548; x=1827340548;
+  t=1795807611; x=1827343611;
   h=date:from:to:cc:subject:message-id;
-  bh=vtvJyVGaGY5qnH0K504AKCPcAm+amx5im4AwIGGPMGQ=;
-  b=FprVCZIwd7DbGFC/TynQ7xtcTfaM95LZa7L0CDgU1zon7HDA2xarUw25
-   /ivZGw3fJfOZEUZ2903ZomrsiZuh3Ib5ZUrqjLxbQWDhxbHElbwXGBVO/
-   Y3iGhsdzEdAPgKuMekp02yZXRqHNMXJWILlanXFvzmnVzADCpQHXJCjfS
-   0kxX9cYeQjF5sGKS2x0tqT8e4rVqZxZIPbQ7FDq72Kt2Yxp0y8/jV+7z6
-   6jGWSvN9uHWIoGFOfA1nZAmVLFydMuAMTFlmoYvOEThmziyfPNanfnKRD
-   WVVXes33W+FoQlPjkDnc9VLc+XGl9s/enR9Q1DVZoXE5IVaWpmbftDgF+
+  bh=HXaQwL5Ah2QPLsJi/G+XXhdXxUAUzTg3LAJDgEsAbqU=;
+  b=d7gJ/nBLKbXXIAm/Cs+VDAF8dp8NtOX4/WwAX0T6Nd8QSEIaPjeSEoLW
+   tO9/gQ8MRfRF+iAInb6YHw6zq6U+1nq0OhJBHYOLuXqPjbz2rXjJgLlzd
+   1Nj9hTAY/vf+40Hul16J3ppB9E1zaokaKzleCWZpj/gi7IZo8+O0D1t/R
+   k8wX56svL8koxxfJcVbBgnFbGyF8I5cKGmCPlFmEExkDendPEQXjFZKw6
+   6lY6Mh1UVsudSqlJbxmLUOtmJSCWGcM+pGLULg/Mw7fqx8nhRCDacoPSw
+   rsKWJNaXyjS8ZH0ZXtkm6Rz75mA6HDdKF07Gg0qIhOXS1Q/ON6GSa/Nax
    Q==;
-X-CSE-ConnectionGUID: UrvG7zg7RlOakZrHgelLrA==
-X-CSE-MsgGUID: hOA+2f1iQqu+C6vBbh0y5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4738566"
+X-CSE-ConnectionGUID: QwgIhOFORHaftkVMzx04lQ==
+X-CSE-MsgGUID: w2Us4KRVRou27yS9L2aafg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4566865"
 X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="4738566"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 10:35:47 -0800
-X-CSE-ConnectionGUID: fXTjsMiQSPmOZzPDxAzUew==
-X-CSE-MsgGUID: NCD0dhbHRr+1QnSrq+ETCw==
+   d="scan'208";a="4566865"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 11:26:50 -0800
+X-CSE-ConnectionGUID: dTelvbXCRb29qLMjXN6wcg==
+X-CSE-MsgGUID: 7DzPRTZpTtiA6b4ydZktzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="12859275"
+   d="scan'208";a="12472784"
 Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Nov 2026 10:35:46 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2026 11:26:48 -0800
 Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xX0nP-000000000IY-3W0m;
-	Fri, 27 Nov 2026 18:35:43 +0000
-Date: Fri, 27 Nov 2026 19:35:19 +0100
+	id 1xX1ao-000000000Ki-0I6b;
+	Fri, 27 Nov 2026 19:26:46 +0000
+Date: Fri, 27 Nov 2026 20:26:21 +0100
 From: kernel test robot <lkp@intel.com>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
  "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>
-Subject: [lee-mfd:for-mfd-next 66/72] drivers/mfd/cs42l43.c:557:2:
- error: call to undeclared function 'sdw_slave_signal_unattach'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <20261127192646.c6RszVzQ-lkp@intel.com>
+Subject: [lee-mfd:for-mfd-next 66/72] drivers/mfd/cs42l43.c:557:9:
+ error: implicit declaration of function 'sdw_slave_signal_unattach'
+Message-ID: <20261127202132.lWC2UNEW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,22 +84,21 @@ Precedence: list
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
 head:   5a9a62afea200df7189a9bfc4dd5794c178f407c
 commit: 54b3632c8ec08735d3f6235d80005aa0b648c7dd [66/72] mfd: cs42l43: Move to core detach helper
-config: sparc64-randconfig-2200-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127192646.c6RszVzQ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127192646.c6RszVzQ-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261127/20261127202132.lWC2UNEW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127202132.lWC2UNEW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261127192646.c6RszVzQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127202132.lWC2UNEW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mfd/cs42l43.c:557:2: error: call to undeclared function 'sdw_slave_signal_unattach'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/mfd/cs42l43.c: In function 'cs42l43_soft_reset':
+>> drivers/mfd/cs42l43.c:557:9: error: implicit declaration of function 'sdw_slave_signal_unattach' [-Wimplicit-function-declaration]
      557 |         sdw_slave_signal_unattach(cs42l43->sdw);
-         |         ^
-   1 error generated.
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/sdw_slave_signal_unattach +557 drivers/mfd/cs42l43.c
