@@ -1,91 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795762600;
-	b=WLRV2/0sTqZPosCOdXO8UjtBEeRVPa5FpKMK6md69GzzZGB8VfL8WjCy+1YyPDpbjJ/X
-	 EnAr/IEv248nz8dn065M/uPOmD97ttX4t3C02W2uWwSQvhJed6nGPJv5XkrkieEvLoqes
-	 VtS5laV7WRdmnZZSqmp4vcJ3T4pOLr5dQAfUdTaBAx7f4AHfYBzpieQ6KReZf0nnfB99D
-	 f32ujjHCtK9UIKaaBE2oYuJE+7sudT4AkT2NuKJIzAnRd4pgf0htQn9SI4xmiNwKmLvla
-	 zlTY7dcRHH09eqkJLQL2ATKsR+uE7iTqP/DYrM119jV/qbiebeB5SBFb+7G3sEoLNDQ==
+	t=1795766176;
+	b=Cgujg0bGco/LkF2dr75DiOqwO+GgJvCaz+GseyRN4LU2sFw5B9nmJ9V5sMyVLJTUeaLn
+	 fKjsTjX7w0CduImj5PDWw7fjV9zPd9OaqxHZNCHm0qC/yrDv8/D8q806J3pTemBrggGcU
+	 9T+ONRizXCotG734CowNzsl0FikurFFta2JYPmS5WjIlrhrIxKfqWyTlwRl2SH+uMYmHF
+	 TtuSPfXE0NK6OoGvs07UdE7QvaDradcTSbBlaAtf7UHCXz72lm8A9Cen3OHP4vAlBndXs
+	 UKIMxoOI2m4a8PROGML/Z5gKbo/FyL8w97l+nWVXCjW6vpkXP2h1ErjcuWYY2SognIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795762600;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=BNzlDlFPcvqkkSeMo4X8TCyh3TwwPWVSFa47pgzVUaM=;
-	b=JeuWnwkCknUoL+a3OgW7P8CDbIXNfCsADyyDng3h9xCGCTZIrPBnwn14pj6WDzJC8BA+
-	 fupy8BPgYOAEG1/VAve+I5sp/g1mXBo/q8cWWwYQ2q13PYpzJwme/0EPXcGR2whWcDV0q
-	 ZXR9zu61EyfO/xsAXxzTOy+VeadYtsnqXPjNJSryQGi52ij9p2O0vutDcfPCSthb8aI6N
-	 xTeSykv28/4Royl/4E+5unLE6uXbx/fAzBBWiTnP7bvjvOfyu4UypW+EXP5oauP3Augo+
-	 bLZ7fdo0IDtajty/YcoC6RIKvjQAjdLiXyypYVZyxXLokySaZy0cC6KZwLBwyroK2wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795766176;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
+	b=vPKRMSpxOUPT+Vcp3Z6EZEIjGu9FSVK/wklVkq/2sPkkiIjHZvEmWFFNO+5/3z7BN/FL
+	 mVIIqcznHrGUbqFQBah8CVHT3d20p976Y1/t89yKT2PSM4elyrQpSPJIsgLXKRLJGI9NJ
+	 WitFSnROBKJE52XpPy08ru0XusXypDk8pwoONexihJFeNg4uy1sCFI7suztl4tESUDVYf
+	 oiY8HoaV6fvV+xbhvcEbcebtHxrOy71YTQRIm5F2+ynZxgkkgoCC5IgC74K5rcv8RqCOL
+	 asH6SPmv41WjGwPe6fu91GQy0Sno6+jfjnfU7HayLQlxxpVWP4TY0JGyMOwsFNrqMZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lWmKQ5AA;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FF2ZM7Xj;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32CA606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 06:56:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E32CA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF74606A337
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Nov 2026 07:56:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BF74606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lWmKQ5AA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795762600; x=1827298600;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q4wWwKEJt+Fmd9rHF4mSHyulkd1InNpZ23yH0MiQ/MA=;
-  b=lWmKQ5AAGuH00Nnioqs+3w6ICfZLnFwGzf2tMdG6vrGURtVA4sryPegu
-   yq7T/vjaNaA8+1d6PtcTQqPeYB1f0jmhnMzt/kGpOAk7jJAboxlhruhXA
-   Nd2iAu/u5qRxuk7s6ZnLy4fFZjxLoC88tukwV4MydzERfa5pqAWWMgTHe
-   pJyWRSdNNBfaLreEKWX0UgU27PI89VJZmLYgxtOTk6BLJEOEoUDTmx3AA
-   tyZzMsSXyP2SV61/q5kK3FLH5bZ53yCLPhUBDAkalMxbN+3mn7vOmP970
-   IH/kG1+eZ3KkMXeN2jsUXEPVWcJfYmBde4KtjDkrZSMKcrVt3qlcEdxPT
-   w==;
-X-CSE-ConnectionGUID: WtroqZ1MSPOwX28z3vulwA==
-X-CSE-MsgGUID: iwsTqV9YTWyQyS1d/1z5wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4684794"
-X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="4684794"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 22:56:39 -0800
-X-CSE-ConnectionGUID: dtiZKUw9SDW9Na3YbDJATA==
-X-CSE-MsgGUID: GE1v8WysQyO0/HmhIUs1lA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
-   d="scan'208";a="12576530"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2026 22:56:35 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xWpsl-00000001VVi-2tw3;
-	Fri, 27 Nov 2026 06:56:31 +0000
-Date: Fri, 27 Nov 2026 14:56:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Akash Goel <akash.goel@arm.com>,
-	Karunika Choo <karunika.choo@arm.com>,
-	Chris Diamand <chris.diamand@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Mihail Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v8 1/3] drm/panthor: Add perf setup and session management
-Message-ID: <20261127145121.RsArEiu5-lkp@intel.com>
-References: <20261126-panthor-performance-counters-v8-1-6e7db0ec33f5@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FF2ZM7Xj
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f04e3bf46dso57512725ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Nov 2026 23:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795766176; x=1796370976; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
+        b=FF2ZM7Xjzdsp+zbwEh9YRtM5YHz9ba7KbliulwALAG+Iss/7bD3aD3vQETuqK+qoM0
+         gtXvnnltI+gD3Kp8e4Y1wZcwe/hq+suQoYyx+Za+neohTACcEbLQXhGsLoTSWzD9UUdE
+         oc/eUkjUf4z7g24QhzdssP69q3x21+PKOuCAO7M6wRhPWFxb9jfDFQutsDqSgyHbZq+I
+         6scEct2/rNI42VvkvmpbUPcdl37H9omzGxWRZ9PPrI24JSRYTgpMSsqe93OHPaC6f3l+
+         Lbnqo0wyaSsxY6PdBhCnIjbbQ72FGosRd09JKbnnzcRxZdLaRqYyJk2gmpBTX0TDS0XT
+         D+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795766176; x=1796370976;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+1moggd1iRJXchYi3IM1BXadcDP2xscjRLIrFEHuwYA=;
+        b=xifuz8H7Im2nIJ7ZyafK5cNrniI7DXA0TKEDSTDAXIzK58Gc00DaJWd32LWjGgU9Pc
+         dDSlyb1JyyFgvllkdYEq7GGv5M+0QezBv6wCAjsb/vek88Lm2wuV8KU3d19qa6FNi6ac
+         Eix41A0BPBELHKRptFI76jGWhEDAc3ekAuz/8qDmmh0XJyDsOVuv/ZkzqTcWb7HrIxmR
+         mKVGsTkEzAHv68YaSN4/q5Fi6GHeNQ1OttHuGC7UIQ5N5jZTHfyb4RolyDHS+2jA1XdB
+         HAxkohb+AUuCAqnw6QUKwj2QWZzdUqx+S8nv/T64rPsfl7RnPhqs7BpQ/DoYwnmEgX4f
+         Hllg==
+X-Forwarded-Encrypted: i=1; AL+hErGJ/4yoH0cs413lESfMi2TveWMMx+8NaVwJDNYPHTI/XqLVPNCtXeHBIeYihg5wrabkf1E+EVtNkhiktI0S@lists.linux.dev
+X-Gm-Message-State: APuU4Z/M+dTDrVoFzp20qAaGmK0bOstNOs6RPdj49Z06PRtNwCCwrcgj
+	5de8SEvwdwZmJKaLdUKObrsYDW+RoO1kIZZi844jOHZMYrY4/0yMBBKG
+X-Gm-Gg: AZFdTZe8SSvDXEtkvGombjZB9+oKbjiP46jin38KInBRpjip7PwAc5bBm/1H6ExHYod
+	e8RzVuKU8NX0VKbTEK8jJnQglx1P55XOvpqLuA8kCIs0WOPfT2nGUp68z9o7/T3uN7cupEYXSWQ
+	zIp0U29rqCvJwqpfQtbBALllbBDTi2pEqU+j19DvgqYEsMM3aFUCxZ/37vaHDlMjTGysmemvGv9
+	HTEq9mtDQdYyOI9xdyJgdLcnNV+BH3GykiRjb07WqYis3xJYCtcZjOulhT7YFw+ia2dLc4nsGEJ
+	ys5ZMSHn46VzMDRbFXoZ1VI3mHty44nR+RxSBaGZM6EvaQ+xKMrij2vEj4CEgA5ZrSH2Gk4HnHg
+	Xdgno69FoNfjutv4LHVuLocgoUzu7P3KH6jydehS3qu/exdPJEdLCZWQH1w1AhrhO7POfT2M3wb
+	j7dLFxhK6YGkMdVOPhEAFE7i+kAplYW7YGS7RJ4Btq4to19V30PGidgFCt8+/GALxjVmY5HdWHx
+	uK45Q4gQBcSHqtmOlnJ+3LIJK9qnYapUwpXB9l2X2dyF0dnS1xR64bN7oGSOL8jUGypcGyTRQxF
+	pXAJQR3F9GLD+7ev4Z0asBi2sqXrrx5MOlc0r2mm1oPZ2A/hTA3pU316lrfU56L3ptdbuYs5VcQ
+	GMq/yBkAYvhG+EBoMcNZfjv6IB3OyeJXCxMyYvZH3zpNV
+X-Received: by 2002:a17:903:4586:b0:2ed:fd82:e905 with SMTP id d9443c01a7336-2f03f207db7mr255674895ad.31.1795766175642;
+        Thu, 26 Nov 2026 23:56:15 -0800 (PST)
+Received: from [127.0.1.1] ([74.176.208.23])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0dc4f2sm118968555ad.30.2026.11.26.23.56.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 23:56:15 -0800 (PST)
+From: Yaohan Li <shunsheng1218@gmail.com>
+To: Dan Carpenter <dan@pereq.eu>
+Cc: Dan Carpenter <error27@gmail.com>, Mark Brown <broonie@kernel.org>,
+ oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lkp@intel.com
+Subject: Re: [broonie-regulator:for-7.5 6/6]
+ drivers/regulator/qcom-labibb-regulator.c:444 qcom_labibb_setup_ocp_irq()
+ warn: 'vreg->ocp_irq' from request_threaded_irq() not released on lines: 444.
+Date: Fri, 27 Nov 2026 15:56:10 +0800
+Message-ID: <179576617048.3953440.16752646728304372112@gmail.com>
+In-Reply-To: <awkf4CNhSPz-lcEk@stanley.mountain>
+References: <20261125184601.R647t8Sj-lkp@intel.com>
+ <179567739729.2548149.711673218230357357@gmail.com>
+ <awkf4CNhSPz-lcEk@stanley.mountain>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,107 +104,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261126-panthor-performance-counters-v8-1-6e7db0ec33f5@arm.com>
 
-Hi Lukas,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+Thanks for pulling the tree and taking a closer look. You're right that
+the state flags and split error cleanup make this harder to follow.
 
-[auto build test WARNING on 97429bac371273886238bfcf63d78e7405cacb46]
+One catch with tracking ocp_hw_enabled only in setup_ocp_irq(): the OCP
+ISR disables the hardware interrupt and ocp_recovery_work re-enables it
+later, so a flag maintained only there would go out of sync.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Add-perf-setup-and-session-management/20261126-205737
-base:   97429bac371273886238bfcf63d78e7405cacb46
-patch link:    https://lore.kernel.org/r/20261126-panthor-performance-counters-v8-1-6e7db0ec33f5%40arm.com
-patch subject: [PATCH v8 1/3] drm/panthor: Add perf setup and session management
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20261127/20261127145121.RsArEiu5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127145121.RsArEiu5-lkp@intel.com/reproduce)
+The regmap writes can fail, and an error doesn't necessarily tell us
+what state the hardware was left in. I'll look at moving the failure
+cleanup into qcom_labibb_ocp_hw_enable() and whether IRQF_NO_AUTOEN
+would allow the initial IRQ setup to unwind locally, without breaking
+the recovery and retry paths.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261127145121.RsArEiu5-lkp@intel.com/
+If I can verify a simpler and safer error path, I'll send a focused
+follow-up patch rather than reworking all the state tracking at once.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from include/linux/dma-buf.h:21,
-                    from include/drm/drm_gem.h:38,
-                    from drivers/gpu/drm/panthor/panthor_perf.c:6:
-   drivers/gpu/drm/panthor/panthor_perf.c: In function 'panthor_perf_bo_get':
->> include/drm/drm_print.h:615:46: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     615 |         dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
-         |                                              ^~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/drm/drm_print.h:615:9: note: in expansion of macro 'dev_err'
-     615 |         dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
-         |         ^~~~
-   include/drm/drm_print.h:628:9: note: in expansion of macro '__drm_printk'
-     628 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_perf.c:254:17: note: in expansion of macro 'drm_err'
-     254 |                 drm_err(ddev,
-         |                 ^~~~~~~
-   include/drm/drm_print.h:615:46: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     615 |         dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
-         |                                              ^~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/drm/drm_print.h:615:9: note: in expansion of macro 'dev_err'
-     615 |         dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
-         |         ^~~~
-   include/drm/drm_print.h:628:9: note: in expansion of macro '__drm_printk'
-     628 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_perf.c:254:17: note: in expansion of macro 'drm_err'
-     254 |                 drm_err(ddev,
-         |                 ^~~~~~~
-   In file included from <command-line>:
-   drivers/gpu/drm/panthor/panthor_perf.c: In function 'session_read_extract_idx.isra':
-   include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_559' declared with attribute error: Need native word sized stores/loads for atomicity.
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:705:9: note: in expansion of macro 'compiletime_assert'
-     705 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:69:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      69 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_perf.c:378:16: note: in expansion of macro 'smp_load_acquire'
-     378 |         return smp_load_acquire(&session->control->extract_idx);
-         |                ^~~~~~~~~~~~~~~~
-
-
-vim +615 include/drm/drm_print.h
-
-d05386a3fdf373 Jani Nikula 2025-01-23  612  
-fb6c7ab8718eb2 Jani Nikula 2019-12-10  613  /* Helper for struct drm_device based logging. */
-fb6c7ab8718eb2 Jani Nikula 2019-12-10  614  #define __drm_printk(drm, level, type, fmt, ...)			\
-d05386a3fdf373 Jani Nikula 2025-01-23 @615  	dev_##level##type(__drm_to_dev(drm), "[drm] " fmt, ##__VA_ARGS__)
-fb6c7ab8718eb2 Jani Nikula 2019-12-10  616  
-fb6c7ab8718eb2 Jani Nikula 2019-12-10  617  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yaohan
