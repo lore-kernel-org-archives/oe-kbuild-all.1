@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795845770;
-	b=17tYQcRFJAH5IemNCD26OX45Hldk8tC+9Or2Y7aApUrmoUfjGc6Jxz2p4W7FbplzNQip
-	 +KiGPf472cTEUeCylEflHkl2x3bnnQzywg4RYADsEoxf0MIdpoQY0EujLJzc2ETdQIeuF
-	 Gk2Gwn4y4kRtv/FvT52hk/X4T1q155Z1XhdHlDyzi3DkGQqsH4G/YSbc2cKri1yF3yoyN
-	 6RFYQrchkgXBwfB2uUDu7QKGfv/fuZrLby+gFkAN35OCQfmQIXSdDi9umn1Bwd4aLRn2R
-	 Xu+FcMvTQmtw5112ITjtVyK4maRtf8iIrSCYr5TNlnDOIgrM2BHAPTRbrsRfHU/c25Q==
+	t=1795849399;
+	b=ETfV9KXHIg6ITmY8+sm0hqGWgcD6pYQGFWrXlpt7M4PGHFUJv1lRrHonUrZ28fZWa2/v
+	 UI5gKhnmeIU4EHYVgsWjbmqJuSdgNOg3IQw3DrhIoEXLfoSC7qUDyGHZACJYFtrErdGm+
+	 Wfo/KRunoIi1qSQOT8uiSmyEVgMeC0zK36r+XhCu8DahX0uf3+W7ua/JWQzl3u8Fb6SV3
+	 bR/NXxiiUmLqcrmHHe32oYdXBzccg2+z361FrmR8ypELoddPYHSURCMtyGoTTrYbQiuxa
+	 KYulg0gjcob4GjMZccmD0Oq37Nv/wYCgJIXuGOG6FkbIWaPpCoc0thhMgltLyFRFgAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795845770;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=CM5OWNb3QTvEG8r8ViXRqm7Y/IbPeQkLzO87dm3PI6c=;
-	b=I6wm16TJ/XM1oCMs0reu0k0Hx3V7+jwp14UGk0kjNhHg6eSaA1Lx6/8b8qCmsqJ47LUp
-	 vHwGpYY60kQsUJBcBD2/IKDYk0Gde3tJ2+AeVybXUOhncMlo29XtiW3TUtschmVeCOm9O
-	 Z/jaUChyMHQTIYb02l0K+858zFFdNqLZOs7CPD/MFoU3tO5jy6aE+pHvqPnkSnIsxYFTR
-	 QdPgfCKtxlQu5kpG2ez5IHkH1+rPOzi1t1tsyItkFApHmM4kFy2cnntD+k0DWfK5CHkkn
-	 7bhQMBQPXQLzXQmiDM06UHzxOIGB3IIaLgoWumopVms9IyE3gLZouA2+zrYCcV5iWdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795849399;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=z0IcGwzBa58WN+mjvAtQPjYDCQTcIbXt8tudod22UVE=;
+	b=eE/UgSAYHrooQLRQs4/8cMqLjRKKatUDMncK9Alb3L96jY+E35/YMtmw/3mNgTet123z
+	 zhy081kSPYmsl0yG0EdJggNKjzQ/zQYvwiWsRGSX1etzI5z0Xi8yTtiaLBsD0kzaYdd22
+	 Src/eVQsnmpN2UzAd+pAXNktOJs4itBF5RAjJB1ebOQ7cQkmqZtByDZb8XkPQprRKcTPv
+	 RvYMccjwXtyosaomXSouFxSXuhhk/b2jpmfuaagsdzpuXGYCx5xE3jUZ+rbnLNUsn/wej
+	 XfSVfETvhPpZmbWz7padgpa+vmvUZ2UcDbpmEKJjUZk+TQsoigoF8kJaiwXKaIlmTtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YdI0FWzk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gt8p6AgP;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503A2606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Nov 2026 06:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B1B606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Nov 2026 07:03:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95B1B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YdI0FWzk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71601F00897;
-	Sat, 28 Nov 2026 06:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795845769;
-	bh=CM5OWNb3QTvEG8r8ViXRqm7Y/IbPeQkLzO87dm3PI6c=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=YdI0FWzk60IXnvN7A2LSy1jLJsGUQXgoKxblxmKiYOQXsI1ZAYnnKyKkBbKf7Q44O
-	 MKLH0NHGknYEt2ByW8kw35MmZvpaHMoILFsjXLxjKXbQyOieehRwR+vMLxu/5oNkHL
-	 umE78A3EEnccD3JU0vxqkq0KUglDMPZEhGuFsq8RSdxD61S9AubikYTGoVlRWprkhA
-	 sdklG58gQhvsntPI+BBE6faAeDdORy3TJ29jZgkXRkn45mqRWJrCvfqz2IAUx0pSsI
-	 bhs2FOhAqkUa5I2NCMUs+QBoIUYDHb6lt9L4nigzEuMVDH1B6JJnDdr+JXuz2uCCI2
-	 Ge77hoWKzzToA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 9383CCE15C8; Fri, 27 Nov 2026 22:02:44 -0800 (PST)
-Date: Fri, 27 Nov 2026 22:02:44 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Joel Fernandes <jfern@kernel.org>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev 27/38] kernel/rcu/rcutorture.c:1491:28: error:
- 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-Message-ID: <5eef3f67-9828-4f02-912f-16fc041aea9a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261128023258.zmFiYqU7-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gt8p6AgP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795849398; x=1827385398;
+  h=date:from:to:cc:subject:message-id;
+  bh=ixn0IF+vk+F+oXghOD708l+7cin97XCgY4WJ2+Vk6VU=;
+  b=Gt8p6AgPd+XgFdGK/uCtqha8CHeW2A5VyjDqR61XwEKR7SoaDDewHKti
+   okVnSlZon/rjyz/i1DSAW68xah+jAU3wMza2tiq/Iy4Az3e9eh/I5yZTF
+   WzDXCKVeDKz7JsByWT654gBY5JFEOv6ZfFz1fHXBUCaqmW/N2jr19+0bz
+   GXZ8DdZw8PEE5gcNssK0eTEZ7ZUMeskQ5FrUIMrzHQHFe1bOF4uzvfYT4
+   gQgwWMBUqvD4bMcc5LlcaaCPteNoRa2XDM0+f4wQf1U/bE4rhL+fw/9rF
+   quhJLTe6bsAX11Fvhe8TvcWXgQVlKMhZcvfKxhxzkpY/s45zGBFvQwZJA
+   A==;
+X-CSE-ConnectionGUID: 3TtKh8BuTi+kzGZltG3Gvg==
+X-CSE-MsgGUID: IyZ0yCqrRAm3Z9dvidY8Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4763029"
+X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
+   d="scan'208";a="4763029"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 23:03:17 -0800
+X-CSE-ConnectionGUID: m+m37q74RfuAKUj1ufpRCg==
+X-CSE-MsgGUID: 5kulUezPQh+c+4LLtuKydQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
+   d="scan'208";a="13066383"
+Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Nov 2026 23:03:15 -0800
+Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xXCSn-000000000X0-2Xjc;
+	Sat, 28 Nov 2026 07:03:13 +0000
+Date: Sat, 28 Nov 2026 08:03:12 +0100
+From: kernel test robot <lkp@intel.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-aes-gcm 52/60] lib/crypto/aes.c:1757:22:
+ warning: result of comparison of constant 2305843009213693951 with expression
+ of type 'size_t' (aka 'unsigned int') is always false
+Message-ID: <20261128080225.g1SlVxzq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -59,108 +80,66 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261128023258.zmFiYqU7-lkp@intel.com>
 
-On Sat, Nov 28, 2026 at 02:35:20AM +0100, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev
-> head:   68dcfb0e34ee3a9628f6b5ce7e06931b5248bb9e
-> commit: 8519baa09dfe01ca5dbeed4a80ca84bab7de2ab9 [27/38] rcutorture: Remove unused check_boost_failed hook
-> config: x86_64-randconfig-2002-20261127 (https://download.01.org/0day-ci/archive/20261128/20261128023258.zmFiYqU7-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261128/20261128023258.zmFiYqU7-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/20261128023258.zmFiYqU7-lkp@intel.com/
-> 
-> Note: the paulmckrcu/dev HEAD 68dcfb0e34ee3a9628f6b5ce7e06931b5248bb9e builds fine.
->       It only hurts bisectability.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes-gcm
+head:   582d64ea07ba0a2bebed6eee194d7328cbad617b
+commit: c3ffe11001b2e3af97b557bbbcaf54b8c08e51fe [52/60] lib/crypto: aes-gcm: Add one-shot AES-GCM arch hooks
+config: powerpc-randconfig-2200-20261128 (https://download.01.org/0day-ci/archive/20261128/20261128080225.g1SlVxzq-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 578b1f2d6a9776b63cbb6b86f4cca6208d429f48)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261128/20261128080225.g1SlVxzq-lkp@intel.com/reproduce)
 
-This should go away when I rebase onto your latest.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261128080225.g1SlVxzq-lkp@intel.com/
 
-							Thanx, Paul
+All warnings (new ones prefixed by >>):
 
-> All errors (new ones prefixed by >>):
-> 
->    kernel/rcu/rcutorture.c: In function 'rcu_torture_boost_failed':
-> >> kernel/rcu/rcutorture.c:1491:28: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
->     1491 |                 if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
->          |                            ^~
->    kernel/rcu/rcutorture.c:1491:60: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
->     1491 |                 if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
->          |                                                            ^~
->    kernel/rcu/rcutorture.c:1518:27: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
->     1518 |         } else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
->          |                           ^~
->    kernel/rcu/rcutorture.c:1518:59: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
->     1518 |         } else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
->          |                                                           ^~
-> 
-> 
-> vim +1491 kernel/rcu/rcutorture.c
-> 
-> 450efca7182a51 Joel Fernandes (Google  2018-06-10  1474) 
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1475  static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1476) {
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1477  	int cpu;
-> 5e59fba573e64c Paul E. McKenney        2021-01-15  1478  	static int dbg_done;
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1479  	unsigned long end = jiffies;
-> bcd4af44e2f173 Paul E. McKenney        2021-04-08  1480  	bool gp_done;
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1481  	unsigned long j;
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1482  	static unsigned long last_persist;
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1483  	unsigned long lp;
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1484  	unsigned long mininterval = test_boost_duration * HZ - HZ / 2;
-> 5e59fba573e64c Paul E. McKenney        2021-01-15  1485  
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1486  	if (end - *start > mininterval) {
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1487  		// Recheck after checking time to avoid false positives.
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1488  		smp_mb(); // Time check before grace-period check.
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1489  		if (cur_ops->poll_gp_state(gp_state))
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1490  			return false; // passed, though perhaps just barely
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08 @1491  		if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1492  			// At most one persisted message per boost test.
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1493  			j = jiffies;
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1494  			lp = READ_ONCE(last_persist);
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1495  			if (time_after(j, lp + mininterval) &&
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1496  			    cmpxchg(&last_persist, lp, j) == lp) {
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1497  				if (cpu < 0)
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1498  					pr_info("Boost inversion persisted: QS from all CPUs\n");
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1499  				else
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1500  					pr_info("Boost inversion persisted: No QS from CPU %d\n", cpu);
-> 80e935c8c154d8 Paul E. McKenney        2024-10-09  1501  			}
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1502  			return false; // passed on a technicality
-> 0260b92e1c3941 Paul E. McKenney        2021-04-08  1503  		}
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1504) 		VERBOSE_TOROUT_STRING("rcu_torture_boost boosting failed");
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1505) 		n_rcu_torture_boost_failure++;
-> ea6d962e80b619 Paul E. McKenney        2021-03-30  1506  		if (!xchg(&dbg_done, 1) && cur_ops->gp_kthread_dbg) {
-> ea6d962e80b619 Paul E. McKenney        2021-03-30  1507  			pr_info("Boost inversion thread ->rt_priority %u gp_state %lu jiffies %lu\n",
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1508  				current->rt_priority, gp_state, end - *start);
-> 5e59fba573e64c Paul E. McKenney        2021-01-15  1509  			cur_ops->gp_kthread_dbg();
-> bcd4af44e2f173 Paul E. McKenney        2021-04-08  1510  			// Recheck after print to flag grace period ending during splat.
-> bcd4af44e2f173 Paul E. McKenney        2021-04-08  1511  			gp_done = cur_ops->poll_gp_state(gp_state);
-> bcd4af44e2f173 Paul E. McKenney        2021-04-08  1512  			pr_info("Boost inversion: GP %lu %s.\n", gp_state,
-> bcd4af44e2f173 Paul E. McKenney        2021-04-08  1513  				gp_done ? "ended already" : "still pending");
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1514) 
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1515) 		}
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1516) 
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1517  		return true; // failed
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1518  	} else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
-> 063f5a4df99145 Paul E. McKenney        2021-04-14  1519  		*start = jiffies;
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1520) 	}
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1521) 
-> 7b9dad7abad707 Paul E. McKenney        2021-04-07  1522  	return false; // passed
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1523) }
-> 3b745c8969c752 Joel Fernandes (Google  2018-06-10  1524) 
-> 
-> :::::: The code at line 1491 was first introduced by commit
-> :::::: 0260b92e1c39412b1e345e202355c43169c16274 rcutorture: Forgive RCU boost failures when CPUs don't pass through QS
-> 
-> :::::: TO: Paul E. McKenney <paulmck@kernel.org>
-> :::::: CC: Paul E. McKenney <paulmck@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> lib/crypto/aes.c:1757:22: warning: result of comparison of constant 2305843009213693951 with expression of type 'size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+    1757 |         WARN_ON_ONCE(ad_len > AES_GCM_MAX_AD_LEN);
+         |                      ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   lib/crypto/aes.c:1758:24: warning: result of comparison of constant 68719476704 with expression of type 'size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+    1758 |         WARN_ON_ONCE(data_len > AES_GCM_MAX_DATA_LEN);
+         |                      ~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   lib/crypto/aes.c:1799:26: warning: result of comparison of constant 2305843009213693951 with expression of type 'size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+    1799 |         if (WARN_ON_ONCE(ad_len > AES_GCM_MAX_AD_LEN) ||
+         |                          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   lib/crypto/aes.c:1800:28: warning: result of comparison of constant 68719476704 with expression of type 'size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+    1800 |             WARN_ON_ONCE(data_len > AES_GCM_MAX_DATA_LEN)) {
+         |                          ~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   lib/crypto/aes.c:1513:13: warning: unused function 'aes_gcm_encrypt_arch' [-Wunused-function]
+    1513 | static bool aes_gcm_encrypt_arch(u8 *dst, const u8 *src, size_t data_len,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   lib/crypto/aes.c:1522:13: warning: unused function 'aes_gcm_decrypt_arch' [-Wunused-function]
+    1522 | static bool aes_gcm_decrypt_arch(u8 *dst, const u8 *src, size_t data_len,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
+
+
+vim +1757 lib/crypto/aes.c
+
+  1752	
+  1753	void aes_gcm_encrypt(u8 *dst, const u8 *src, size_t data_len, u8 *authtag,
+  1754			     const u8 *ad, size_t ad_len, const u8 nonce[12],
+  1755			     const struct aes_gcm_key *key)
+  1756	{
+> 1757		WARN_ON_ONCE(ad_len > AES_GCM_MAX_AD_LEN);
+  1758		WARN_ON_ONCE(data_len > AES_GCM_MAX_DATA_LEN);
+  1759	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
