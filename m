@@ -1,54 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795844941;
-	b=cdQqSzwHb8i+iJXlJP8DGmT4TbeBCnWZuJghRWhzylnlT37H+wlinoKrb2XANvno21ji
-	 Ih8ctDqhNuc1e9IX3zVxlz8TCd5DOa4mJRAe9hlFCIH+g1B3Vwe1NxtizAD5cMaNBIYS9
-	 6qHmQurjdn5PT6H8ZXhzvldoJUVD1TvCug/GSPeKZGf7BAMCKBEVrE/o/YnfCQwIfUqBI
-	 zpTazqdalMP4aMMwzMn8cm6pP1mzQLI87FO4Sw6/Xc5EOUc6zT2l0bAVuwXIqT6ekHi/a
-	 JesKnQ1FEl1A3opHX/BYJ3jAu7In6PTMr3NLDHs62cWrOcZRn871KPLUxP4n54F2pvg==
+	t=1795845137;
+	b=Ys/DUmyQSHPd60PTJhTJaMIhwuM5xEvT4rijqME5hjA+0TFiucJCdeIi1G1VPB2OQeRA
+	 OGfZUV19eVqIjYbB+D1cbyv6wrO+bzwBRhcNkSENxvyXbkMpKheogNmIy86uonEYWdIOU
+	 OEHqv62tKLQ8f9Fit2Qz6E09ThJlx7TqM2uSI9UivGx6ZLEVY/N6Q1XfvVHbi0PhsCmGd
+	 PIKbcfLvEhA7ISyTMyQ3d+pw4EtWNnrgPqgJf81PrOCnQAZm94IDKDEAgn93K4g8cXtVc
+	 j1GKUrt1Eq1Q/SzLrlWrEO9yYFf9K5A7C0QnPxTk+IDBSDYBNC+hbmUoA8wbgsf0pTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795844941;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=gYeJofYi9liYn6S4qO14pY4ChJw65r1Z1mgpE4pXETY=;
-	b=frRs2K/Faynr+Al8JKbdBpg1n9XWDTvXL59FLvzG3qY5fpN2T+pDpkv+NwlzFKqoR8+2
-	 5NREtgw1MwCXvXhIaHFqkuM10G4bN+brlVxV3zVuTVDbIwT3fFwnxSFlLv4u7bgiJ4MPo
-	 kM2P7k/iPlzoZz82KVzR54P7tLdWzy4mWqHw3opERtBmyCHdyz2vLVCvObim/obpPGbWr
-	 d4DmIECb7F+cvnhQ9ZGaUWGPCIFQ49iVOKrAi039cqTHiJFJU4+N/ZnirY1111RftOxBs
-	 lwkj91NwE6QmtTVjo3mwWk6QyyH19CV3WQZVs8l4iYf/RH5TFzzweokiFwDo6dmLKbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795845137;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=ab+lSdPJaU2a4nuLI1R1HyzlOGrxxkzdOiE4XIkUwes=;
+	b=L0deI6WfbGIkj9LH9JvGRj7dm+Zftfhn56pd2LZyXdaSg99OxpGSdBYi7Z8ElBsZi5vf
+	 nu1lFbXdZu8t8yG7eEWLLG4yVW9h5VVvDuCIYjfTX6/b04MK25rjpkj916zecO9NNKyp0
+	 LuBSgcR0fG6n4cq7Y4zAWM3ZLGS9A5RsXQ22Vk7anUrsxJuT/m2HznI9l2P+aBImHx9S3
+	 QL/y22tFgL4SiYnRLoBwpNyWWuaaOSxue7MU7J82yNyeUzralmhQ0NJ2eOIZiTGkrELK6
+	 2VkfLeOtsAtDJAqCNaOvvwiO03M1c6cUXrWM+IwxHgQPyyP9fEPR0u9OwZRzMkUk19Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=JktTvMfS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="BRy8Gr/g";
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8CC606A31C;
-	Sat, 28 Nov 2026 05:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FB2606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Nov 2026 05:52:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48FB2606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=JktTvMfS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038A71F00893;
-	Sat, 28 Nov 2026 05:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795844940;
-	bh=gYeJofYi9liYn6S4qO14pY4ChJw65r1Z1mgpE4pXETY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=JktTvMfS19fCnaznrdzb45dOpH8joUVYkIfnfNGRYCdYxm0Bxwyb85eLPLLYeZmk+
-	 zyKu1DHM1vTN7kgGZOdUOgUfSXxoOnvt9OrJtwrm2QZ2GCRaSGn5mHngdMHk7RzXwZ
-	 sIhENi3nRl9jpBRbRql3a1BC6vMAqLskpNA4teUU=
-Date: Fri, 27 Nov 2026 21:48:59 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, mm-commits@vger.kernel.org
-Subject: Re: [akpm-mm:mm-unstable 303/428] mm/huge_memory.c:2546:67: error:
- too few arguments to function call, expected 4, have 3
-Message-Id: <20261127214859.8f11ddcd5575f062253cd681@linux-foundation.org>
-In-Reply-To: <20261128060622.OMTGOfau-lkp@intel.com>
-References: <20261128060622.OMTGOfau-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BRy8Gr/g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795845136; x=1827381136;
+  h=date:from:to:cc:subject:message-id;
+  bh=/MeIyFIjjUYrlGHYXOz9kG56tnOateDy4/A4wCUYnO0=;
+  b=BRy8Gr/gvKfG4RSQQ7IG6ZxvXiwlIo8VBcgtGYlUtzPE59VxLUFgMyFi
+   RnlOxv7eyeFAqeC4Iy1XTtaXJ2ng/WyZkyBga/SY8hDe2IF4KmhKXPeJq
+   4cfpRKzdcJ/W2MVjnE3S/uwmtaR+7zpqVZ2ZCymthrcT6+bUtN7S1AAEc
+   Z5TSK7tYwimAAfRBxCympOxd99XDbDNkqp1/D5gWxgq/YVrCiT5u/ZimQ
+   m80TGY0jT4Teo75HaebOi+OJUp9Qh1X3mGesFy9+okUDwMT85ZoZn2Ljp
+   qdgJtVgZY/AZaIlCpiZgON9z22nKc8JVUPZnUf0EJesxdm0eBqnOGIyvZ
+   g==;
+X-CSE-ConnectionGUID: qLKxdSE0QZ6NnH6stUFWSg==
+X-CSE-MsgGUID: 0EQPBvJVSd2ax83ZcyjH2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4761308"
+X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
+   d="scan'208";a="4761308"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 21:52:16 -0800
+X-CSE-ConnectionGUID: BwOIQU14TH6r2+JfsC6IIA==
+X-CSE-MsgGUID: UAyH73qMTYy3xqEW1qmXeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,238,1787036400"; 
+   d="scan'208";a="12513993"
+Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Nov 2026 21:52:14 -0800
+Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xXBM3-000000000WQ-3toi;
+	Sat, 28 Nov 2026 05:52:11 +0000
+Date: Sat, 28 Nov 2026 06:52:07 +0100
+From: kernel test robot <lkp@intel.com>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
+ Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: [s390:for-next 2/3] arch/s390/kernel/machine_kexec.c:162:17:
+ warning: ignoring return value of 'set_memory_ro' declared with attribute
+ 'warn_unused_result'
+Message-ID: <20261128064234.Tufw6OTb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -57,35 +81,57 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sat, 28 Nov 2026 06:11:18 +0100 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git for-next
+head:   e8f20a7b5952e0d5f12f11af4966092242ce7f81
+commit: fd5d165900beb00e33763af707cb9be32367e217 [2/3] Merge branch 'features' into for-next
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261128/20261128064234.Tufw6OTb-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261128/20261128064234.Tufw6OTb-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   ac6a52aad42728ef45e6972c403072fba5c524f4
-> commit: 5a7c0c5e349b6b13c1689fedd1a82073b4679418 [303/428] mm/hugetlb: delay anon folio rmap removal until after the TLB flush
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261128/20261128060622.OMTGOfau-lkp@intel.com/config)
-> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261128/20261128060622.OMTGOfau-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/20261128060622.OMTGOfau-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> mm/huge_memory.c:2546:67: error: too few arguments to function call, expected 4, have 3
->     2546 |         else if (__tlb_remove_page_size(tlb, &folio->page, HPAGE_PMD_SIZE))
->          |                  ~~~~~~~~~~~~~~~~~~~~~~                                  ^
->    include/asm-generic/tlb.h:248:6: note: '__tlb_remove_page_size' declared here
->      248 | bool __tlb_remove_page_size(struct mmu_gather *tlb, struct page *page,
->          |      ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      249 |                 int page_size, bool delay_rmap);
->          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261128064234.Tufw6OTb-lkp@intel.com/
 
-Thanks.  I've fixed all that up so perhaps there's some timing skew
-happening here.
+All warnings (new ones prefixed by >>):
 
+   arch/s390/kernel/machine_kexec.c: In function 'crash_protect_pages':
+>> arch/s390/kernel/machine_kexec.c:162:17: warning: ignoring return value of 'set_memory_ro' declared with attribute 'warn_unused_result' [-Wunused-result]
+     162 |                 set_memory_ro(addr, size >> PAGE_SHIFT);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/s390/kernel/machine_kexec.c:164:17: warning: ignoring return value of 'set_memory_rw' declared with attribute 'warn_unused_result' [-Wunused-result]
+     164 |                 set_memory_rw(addr, size >> PAGE_SHIFT);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +162 arch/s390/kernel/machine_kexec.c
+
+2d0af2247906cf Heiko Carstens            2016-05-31  151  
+4e042af463f806 Heiko Carstens            2016-05-31  152  static void crash_protect_pages(int protect)
+dab7a7b1538fec Michael Holzheu           2011-10-30  153  {
+a07bc01bec2337 Mike Rapoport (Microsoft  2026-11-17  154) 	unsigned long addr, size;
+21f8d19ddeb3c0 Heiko Carstens            2026-11-18  155  	int rc;
+dab7a7b1538fec Michael Holzheu           2011-10-30  156  
+4e042af463f806 Heiko Carstens            2016-05-31  157  	if (!crashk_res.end)
+4e042af463f806 Heiko Carstens            2016-05-31  158  		return;
+a07bc01bec2337 Mike Rapoport (Microsoft  2026-11-17  159) 	addr = (unsigned long)__va(crashk_res.start);
+4e042af463f806 Heiko Carstens            2016-05-31  160  	size = resource_size(&crashk_res);
+4e042af463f806 Heiko Carstens            2016-05-31  161  	if (protect)
+a07bc01bec2337 Mike Rapoport (Microsoft  2026-11-17 @162) 		set_memory_ro(addr, size >> PAGE_SHIFT);
+a9fbf1a53836d4 Michael Holzheu           2012-05-18  163  	else
+a07bc01bec2337 Mike Rapoport (Microsoft  2026-11-17 @164) 		set_memory_rw(addr, size >> PAGE_SHIFT);
+21f8d19ddeb3c0 Heiko Carstens            2026-11-18  165  	if (rc)
+21f8d19ddeb3c0 Heiko Carstens            2026-11-18  166  		pr_warn("Failed to %sprotect crashkernel memory: %d\n",	protect ? "" : "un", rc);
+dab7a7b1538fec Michael Holzheu           2011-10-30  167  }
+dab7a7b1538fec Michael Holzheu           2011-10-30  168  
+
+:::::: The code at line 162 was first introduced by commit
+:::::: a07bc01bec2337151166442b15047b8861c4b23e s390/kdump: Write protect the crash kernel memory by its virtual address
+
+:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
+:::::: CC: Alexander Gordeev <agordeev@linux.ibm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
