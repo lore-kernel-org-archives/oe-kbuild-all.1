@@ -1,77 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795829773;
-	b=uuNt/oAUvfJrV+l0bV7RjeHP+3u7eEMeKbE4aKkViMiJWSDHXTDwGnnoQjwpliExpr0o
-	 qJeU5OsAtwKWvrIl0eSbwyc0HSYV2tiumNe69gQ/tdN8PnckvwWfxqC77REMJD295DQOV
-	 zMXHxijKTsOcaJpbTf7heMRvRqMD07ylNUaZMEXdtoDjILFLmuYA7RYYtUCFDvOeF8jtS
-	 /xWEQ9w2dsKfmkfeuNCab/mXqxpiJksa7WhBpCZVkMQx2YkuLThLQFpXWkUxKTxnIXbnK
-	 y4lZo92J9b1rUWjfkVcweCbEQ8XYlp9ETdWwLO7ebq6jGJZbMPb82AHdY2P0EjrJOeg==
+	t=1795830770;
+	b=zVeGUsXMsQHG5+JsMfruwczX5Z0OE1wXfPzcSUOSdQVTUowFS2k9JKKfG3wIP8wwj3ZR
+	 7xUakpyZhG8YGvpYuCifEW5fa+W7FV8gBbii3jo3sl2Za1tycpidWmI0ypWiLe/wpZCw0
+	 Uwich5zQ7lmh7WtFkKDtbRrQFLQJQumnhBQH9sbLXMjGuvWYcsa25wkDRP6o6q+Y0yMjF
+	 8sedio0fogIIy2Y3EoW1igLzeJczboCrKEjxTrYnATlp3oTew7V8E1+dVYh1XB955LT4m
+	 MJP7GNues2WNZreZZRFRw/LhG8AH8ZQVGpgTrC9b+YKUhXdtNEvSATA76vUStJo/SGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795829773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795830770;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=2DhVyIU7gNuPwwCLUHQhA7aeCJxNpv1+SsIpLN6Ivzc=;
-	b=xkBm8Zcm3roK7uDHiqmXvr/4XvYzBCj+BTcakrOSKJAqvkmmvVNNYBGkPCICO0rB1Tm1
-	 GlZL5H8tnr0ceaNE37UgG+ercv+8hOlcPfdEOKzVRGqVc/SvSKZ9jYt9Dd2E7/AyBBEF2
-	 ryfresHES+KqqDCN/av2CUrRbjYFF0wMg88C1xIbjOKZJzH5rnj66DaSPE9ShAIrGLFQp
-	 2FDiMmwOzK9b8XOWOkgOcTHi6PfaCQilDDH58tiIVNkWfuMacfSvVf02Ve3lLBVikgbos
-	 lb00zQZoob6KJX80xnhtA3IhDJ5P2LUI7Nlxh337ub2AB7hzN4A40+gzI+cCJ882g1A==
+	 X-IronPort-AV:Received:Date:From:To:cc:Subject:Message-ID:
+	 MIME-Version:Content-Type;
+	bh=ItpSYm3LDNGOHmZ8RzVdWkrksC2W3PRAR2OvtqthQhA=;
+	b=D0tX5GlB2HIwRWpWDhm2yCF9aaOf/k+dqTYymMljggeP+vbj4fCA/XWpG5wMb051I1t/
+	 D5qL0fZMvKtLFiXeN6CbNJfjjtY5N0Xo3dC/kAWuVWtoS0gabi5Y5aEn9MNd0Hm7nas0A
+	 1JntT0HXp3iNpxMTjtXF/IwDuswBgHEIc8flMIPoMbQr3vxEIHOShE+Z8IsnweURVqIT5
+	 F09lawMdbRc3ecXf/K8MlY6AGvOEPXHQTBZt5etlAbx1CwMh+pYKc/SRJYuVg9woyZeLK
+	 i8IlDwBP2JjoCwA9FzECNgG/UISjfdoLaew0Nq5u4LyBXSGsMEhHg83ZZPacE2IIjxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FKZrfw4M;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dmarc=pass header.from=inria.fr;
+	spf=pass smtp.mailfrom=inria.fr;
+	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=UY19EKkZ;
+	arc=none smtp.remote-ip=192.134.164.83
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF43E606A321
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Nov 2026 01:36:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF43E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235D9606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Nov 2026 01:52:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 235D9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FKZrfw4M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795829773; x=1827365773;
-  h=date:from:to:cc:subject:message-id;
-  bh=QJJO0tsU8sRQqB4a1oLJuzAP/93FebD9rh3kytKcR2U=;
-  b=FKZrfw4M1nttmbYYJ043zPw8JPRwnVHZWCKNkvS+MaKixqFBrn6A9G3M
-   Pt6X6EQWiVgpYz5ayVkFH7YV8qCA4EzbZIhlACI/9nrFuZWsr9SQdnkcx
-   fYR1+k3rprEmreNYIwZQXJXHDbfEIZRX6i7JRyeiZbXVkoLQbSYMZ9r9H
-   dYJawQCILj2ic3NM/V1183snVgb7srS10qpXGoI9iEXSb80Zp/D0aN/rs
-   lWQT6W96RUTREbcraARBuLMtXRpFBKw4ZNAdkC4af/bn3J+QPMGpVZh+A
-   iryy6n61Cpo7I53d88h3Nm+mHN29OV5OvYsmy+3qKnbOEk6U6+OG7Q4Ni
-   A==;
-X-CSE-ConnectionGUID: +k50CcOfSGqTVVTm0rXTEA==
-X-CSE-MsgGUID: UFeYxJNnS0ezvqMLibTr5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4700897"
-X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="4700897"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 17:36:12 -0800
-X-CSE-ConnectionGUID: up3YER5FTFe0gaw5I4OzCQ==
-X-CSE-MsgGUID: LZ5oQQIhTmeFN0QvRmDLbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="4017033"
-Received: from igk-lkp-server01.igk.intel.com (HELO 146cf1e082f1) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 27 Nov 2026 17:36:10 -0800
-Received: from kbuild by 146cf1e082f1 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xX7MG-000000000TU-1Ce6;
-	Sat, 28 Nov 2026 01:36:08 +0000
-Date: Sat, 28 Nov 2026 02:35:20 +0100
-From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <jfern@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmckrcu:dev 27/38] kernel/rcu/rcutorture.c:1491:28:
- error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-Message-ID: <20261128023258.zmFiYqU7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=UY19EKkZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ItpSYm3LDNGOHmZ8RzVdWkrksC2W3PRAR2OvtqthQhA=;
+  b=UY19EKkZ04ohjEbpq6JV0FXh/qH4XfSOFYoaZ4uO6ZSbQKQ9jlfA1jZA
+   yNEsEbdqrTmmF64eM/tEEat3HjXNT84oIu8s0m6LRScrS1+k8Eb+GkqyW
+   2wk+fUDNfiVvVhSQbhU5OEiXE9nuXUglFPfHZbFq81FJHwwwnB+e3MamC
+   c=;
+X-CSE-ConnectionGUID: g6jwhO/ASQK1UZYxJUF+Og==
+X-CSE-MsgGUID: xiSce6qcTLeajENAtDcr/g==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,237,1787004000"; 
+   d="scan'208";a="307803380"
+Received: from 122.11.163-183.unknown.starhub.net.sg (HELO hadrien) ([122.11.163.183])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2026 02:52:40 +0100
+Date: Sat, 28 Nov 2026 09:52:35 +0800 (+08)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+    Alex Deucher <alexander.deucher@amd.com>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING
+ opportunity for min() (fwd)
+Message-ID: <64fec5eb-9ac3-344-5cb4-37a39a48e64@inria.fr>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,98 +63,70 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   68dcfb0e34ee3a9628f6b5ce7e06931b5248bb9e
-commit: 8519baa09dfe01ca5dbeed4a80ca84bab7de2ab9 [27/38] rcutorture: Remove unused check_boost_failed hook
-config: x86_64-randconfig-2002-20261127 (https://download.01.org/0day-ci/archive/20261128/20261128023258.zmFiYqU7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261128/20261128023258.zmFiYqU7-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sat, 28 Nov 2026 02:24:38 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING
+    opportunity for min()
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f4585067150b85e33f60876149a6e742928da75e
+commit: 4bbba79a7f1d0c7296bf8c935d65a9ff633f6917 drm/amdgpu: move devcoredump generation to a worker
+date:   9 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 9 months ago
+config: arm64-randconfig-r2100-20261126 (https://download.01.org/0day-ci/archive/20261128/20261128022015.2gG87g2J-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a2bea097c8bf336f31f45e88e96f20d88e37ff5a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4bbba79a7f1d ("drm/amdgpu: move devcoredump generation to a worker")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261128023258.zmFiYqU7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/20261128022015.2gG87g2J-lkp@intel.com/
 
-Note: the paulmckrcu/dev HEAD 68dcfb0e34ee3a9628f6b5ce7e06931b5248bb9e builds fine.
-      It only hurts bisectability.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING opportunity for min()
 
-All errors (new ones prefixed by >>):
+vim +343 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
 
-   kernel/rcu/rcutorture.c: In function 'rcu_torture_boost_failed':
->> kernel/rcu/rcutorture.c:1491:28: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-    1491 |                 if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
-         |                            ^~
-   kernel/rcu/rcutorture.c:1491:60: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-    1491 |                 if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
-         |                                                            ^~
-   kernel/rcu/rcutorture.c:1518:27: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-    1518 |         } else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
-         |                           ^~
-   kernel/rcu/rcutorture.c:1518:59: error: 'struct rcu_torture_ops' has no member named 'check_boost_failed'
-    1518 |         } else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
-         |                                                           ^~
-
-
-vim +1491 kernel/rcu/rcutorture.c
-
-450efca7182a51 Joel Fernandes (Google  2018-06-10  1474) 
-063f5a4df99145 Paul E. McKenney        2021-04-14  1475  static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1476) {
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1477  	int cpu;
-5e59fba573e64c Paul E. McKenney        2021-01-15  1478  	static int dbg_done;
-063f5a4df99145 Paul E. McKenney        2021-04-14  1479  	unsigned long end = jiffies;
-bcd4af44e2f173 Paul E. McKenney        2021-04-08  1480  	bool gp_done;
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1481  	unsigned long j;
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1482  	static unsigned long last_persist;
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1483  	unsigned long lp;
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1484  	unsigned long mininterval = test_boost_duration * HZ - HZ / 2;
-5e59fba573e64c Paul E. McKenney        2021-01-15  1485  
-063f5a4df99145 Paul E. McKenney        2021-04-14  1486  	if (end - *start > mininterval) {
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1487  		// Recheck after checking time to avoid false positives.
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1488  		smp_mb(); // Time check before grace-period check.
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1489  		if (cur_ops->poll_gp_state(gp_state))
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1490  			return false; // passed, though perhaps just barely
-0260b92e1c3941 Paul E. McKenney        2021-04-08 @1491  		if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1492  			// At most one persisted message per boost test.
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1493  			j = jiffies;
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1494  			lp = READ_ONCE(last_persist);
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1495  			if (time_after(j, lp + mininterval) &&
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1496  			    cmpxchg(&last_persist, lp, j) == lp) {
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1497  				if (cpu < 0)
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1498  					pr_info("Boost inversion persisted: QS from all CPUs\n");
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1499  				else
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1500  					pr_info("Boost inversion persisted: No QS from CPU %d\n", cpu);
-80e935c8c154d8 Paul E. McKenney        2024-10-09  1501  			}
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1502  			return false; // passed on a technicality
-0260b92e1c3941 Paul E. McKenney        2021-04-08  1503  		}
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1504) 		VERBOSE_TOROUT_STRING("rcu_torture_boost boosting failed");
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1505) 		n_rcu_torture_boost_failure++;
-ea6d962e80b619 Paul E. McKenney        2021-03-30  1506  		if (!xchg(&dbg_done, 1) && cur_ops->gp_kthread_dbg) {
-ea6d962e80b619 Paul E. McKenney        2021-03-30  1507  			pr_info("Boost inversion thread ->rt_priority %u gp_state %lu jiffies %lu\n",
-063f5a4df99145 Paul E. McKenney        2021-04-14  1508  				current->rt_priority, gp_state, end - *start);
-5e59fba573e64c Paul E. McKenney        2021-01-15  1509  			cur_ops->gp_kthread_dbg();
-bcd4af44e2f173 Paul E. McKenney        2021-04-08  1510  			// Recheck after print to flag grace period ending during splat.
-bcd4af44e2f173 Paul E. McKenney        2021-04-08  1511  			gp_done = cur_ops->poll_gp_state(gp_state);
-bcd4af44e2f173 Paul E. McKenney        2021-04-08  1512  			pr_info("Boost inversion: GP %lu %s.\n", gp_state,
-bcd4af44e2f173 Paul E. McKenney        2021-04-08  1513  				gp_done ? "ended already" : "still pending");
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1514) 
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1515) 		}
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1516) 
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1517  		return true; // failed
-063f5a4df99145 Paul E. McKenney        2021-04-14  1518  	} else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
-063f5a4df99145 Paul E. McKenney        2021-04-14  1519  		*start = jiffies;
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1520) 	}
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1521) 
-7b9dad7abad707 Paul E. McKenney        2021-04-07  1522  	return false; // passed
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1523) }
-3b745c8969c752 Joel Fernandes (Google  2018-06-10  1524) 
-
-:::::: The code at line 1491 was first introduced by commit
-:::::: 0260b92e1c39412b1e345e202355c43169c16274 rcutorture: Forgive RCU boost failures when CPUs don't pass through QS
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+9022f01b970933 Sunil Khatri               2024-03-21  326
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  327  static ssize_t
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  328  amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  329  			void *data, size_t datalen)
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  330  {
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  331  	struct amdgpu_coredump_info *coredump = data;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  332  	ssize_t byte_copied;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  333
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  334  	if (!coredump)
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  335  		return -ENODEV;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  336
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  337  	if (!coredump->formatted)
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  338  		return -ENODEV;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  339
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  340  	if (offset >= coredump->formatted_size)
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  341  		return 0;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  342
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21 @343  	byte_copied = count < coredump->formatted_size - offset ? count :
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  344  		coredump->formatted_size - offset;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  345  	memcpy(buffer, coredump->formatted + offset, byte_copied);
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  346
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  347  	return byte_copied;
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  348  }
+4bbba79a7f1d0c Pierre-Eric Pelloux-Prayer 2025-02-21  349
 
 -- 
 0-DAY CI Kernel Test Service
